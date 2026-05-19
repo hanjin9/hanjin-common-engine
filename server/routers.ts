@@ -13,6 +13,8 @@ import copyRouter from './modules/copy/copyRouter';
 import { sleepRouter } from './modules/sleep/sleepRouter';
 import { paymentRouter } from './modules/payment/paymentRouter';
 import { healthAiRouter } from './modules/health-ai/healthAiRouter';
+import { missionRouter } from './modules/mission/missionRouter';
+import { eventRouter } from './modules/event/eventRouter';
 
 export const appRouter = router({
     // if you need to use socket.io, read and register route in server/_core/index.ts, all api should start with '/api/' so that the gateway can route correctly
@@ -58,6 +60,12 @@ export const appRouter = router({
 
   // 건강 AI 분석 라우터 (생체데이터 분석, 피드백, 관리자 현황)
   healthAi: healthAiRouter,
+
+  // 미션 관리 라우터 (GLWA 10단계 × 단계별 미션 + 슬롯머신 + 즉석발송)
+  mission: missionRouter,
+
+  // 이벤트 관리 라우터 (캘린더 연동 + 즉석발송 + 미션 연동)
+  event: eventRouter,
 });
 
 export type AppRouter = typeof appRouter;

@@ -1104,3 +1104,98 @@ export const stripePayments = mysqlTable("stripe_payments", {
 });
 export type StripePayment = typeof stripePayments.$inferSelect;
 export type InsertStripePayment = typeof stripePayments.$inferInsert;
+
+// ─── 미션 관리 시스템 ──────────────────────────────────────────────────────────
+
+// ─── 미션 관리 시스템 ──────────────────────────────────────────────────────────
+export const missions = mysqlTable("missions", {
+  id: int("id").autoincrement().primaryKey(),
+  projectSlug: varchar("project_slug", { length: 64 }).notNull().default("all"),
+  title: varchar("title", { length: 256 }).notNull(),
+  description: text("description"),
+  missionType: mysqlEnum("mission_type", ["scheduled", "optional"]).default("optional").notNull(),
+  category: mysqlEnum("category", ["breathing", "exercise", "sleep", "nutrition", "meditation", "quiz", "custom"]).default("custom").notNull(),
+  pointsReward: int("points_reward").default(10).notNull(),
+  scheduledTime: varchar("scheduled_time", { length: 8 }),
+  scheduledDays: varchar("scheduled_days", { length: 32 }),
+  durationMinutes: int("duration_minutes").default(10),
+  isActive: boolean("is_active").default(true).notNull(),
+  sortOrder: int("sort_order").default(99),
+  createdBy: varchar("created_by", { length: 100 }),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().onUpdateNow().notNull(),
+});
+export type Mission = typeof missions.$inferSelect;
+export type InsertMission = typeof missions.$inferInsert;
+
+export const missionCompletions = mysqlTable("mission_completions", {
+  id: int("id").autoincrement().primaryKey(),
+  missionId: int("mission_id").notNull(),
+  userId: varchar("user_id", { length: 100 }).notNull(),
+  projectSlug: varchar("project_slug", { length: 64 }).notNull().default("all"),
+  pointsAwarded: int("points_awarded").default(0).notNull(),
+  feedbackSent: boolean("feedback_sent").default(false).notNull(),
+  feedbackContent: text("feedback_content"),
+  completedAt: timestamp("completed_at").defaultNow().notNull(),
+});
+export type MissionCompletion = typeof missionCompletions.$inferSelect;
+export type InsertMissionCompletion = typeof missionCompletions.$inferInsert;
+
+// ─── 관리자 발송 이벤트 (스케줄/즉석 발송) ────────────────────────────────────
+export const adminEvents = mysqlTable("admin_events", {
+  id: int("id").autoincrement().primaryKey(),
+  projectSlug: varchar("project_slug", { length: 64 }).notNull().default("all"),
+  title: varchar("title", { length: 256 }).notNull(),
+  content: text("content").notNull(),
+  sendType: mysqlEnum("send_type", ["scheduled", "instant", "recurring"]).default("instant").notNull(),
+  targetAudience: mysqlEnum("target_audience", ["all", "top_1pct", "top_5pct", "top_10pct", "bottom_20pct", "inactive"]).default("all").notNull(),
+  scheduledAt: timestamp("scheduled_at"),
+  recurringCron: varchar("recurring_cron", { length: 64 }),
+  sendStatus: mysqlEnum("send_status", ["draft", "scheduled", "sending", "sent", "canceled"]).default("draft").notNull(),
+  sentAt: timestamp("sent_at"),
+  sentCount: int("sent_count").default(0),
+  openCount: int("open_count").default(0),
+  createdBy: varchar("created_by", { length: 100 }).notNull(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().onUpdateNow().notNull(),
+});
+export type AdminEvent = typeof adminEvents.$inferSelect;
+export type InsertAdminEvent = typeof adminEvents.$inferInsert;
+
+// ─── GLWA 건강 10단계 정의 ─────────────────────────────────────────────────────
+export const healthSteps = mysqlTable("health_steps", {
+  id: int("id").autoincrement().primaryKey(),
+  stepNumber: int("step_number").notNull(),
+  title: varchar("title", { length: 128 }).notNull(),
+  description: text("description"),
+  category: varchar("category", { length: 64 }).notNull(),
+  iconName: varchar("icon_name", { length: 64 }),
+  colorHex: varchar("color_hex", { length: 7 }).default("#3b82f6"),
+  isActive: boolean("is_active").default(true).notNull(),
+  sortOrder: int("sort_order").default(0),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+export type HealthStep = typeof healthSteps.$inferSelect;
+export type InsertHealthStep = typeof healthSteps.$inferInsert;
+
+// ─── 미션-건강단계 연결 ────────────────────────────────────────────────────────
+export const missionStepLinks = mysqlTable("mission_step_links", {
+  id: int("id").autoincrement().primaryKey(),
+  missionId: int("mission_id").notNull(),
+  healthStepId: int("health_step_id").notNull(),
+  sortOrder: int("sort_order").default(0),
+});
+export type MissionStepLink = typeof missionStepLinks.$inferSelect;
+
+// ─── 이벤트-미션 양방향 연동 ──────────────────────────────────────────────────
+export const eventMissionLinks = mysqlTable("event_mission_links", {
+  id: int("id").autoincrement().primaryKey(),
+  adminEventId: int("admin_event_id").notNull(),
+  missionId: int("mission_id").notNull(),
+  bonusPoints: int("bonus_points").default(0).notNull(),
+  requiredCompletions: int("required_completions").default(1).notNull(),
+  isRequired: boolean("is_required").default(false).notNull(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+export type EventMissionLink = typeof eventMissionLinks.$inferSelect;
+export type InsertEventMissionLink = typeof eventMissionLinks.$inferInsert;

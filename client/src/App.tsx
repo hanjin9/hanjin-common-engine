@@ -11,6 +11,8 @@ import CopyEditor from './pages/CopyEditor';
 import SleepSettings from './pages/SleepSettings';
 import PaymentDashboard from './pages/PaymentDashboard';
 import AiAnalyticsDashboard from './pages/AiAnalyticsDashboard';
+import MissionDashboard from './pages/MissionDashboard';
+import EventDashboard from './pages/EventDashboard';
 import DashboardLayout from "./components/DashboardLayout";
 
 function Router() {
@@ -37,6 +39,16 @@ function Router() {
       <Route path={"/admin/ai-analytics"} component={() => (
         <DashboardLayout>
           <AiAnalyticsDashboard />
+        </DashboardLayout>
+      )} />
+      <Route path={"/admin/missions"} component={() => (
+        <DashboardLayout>
+          <MissionDashboard />
+        </DashboardLayout>
+      )} />
+      <Route path={"/admin/events"} component={() => (
+        <DashboardLayout>
+          <EventDashboard />
         </DashboardLayout>
       )} />
       <Route path={"/404"} component={NotFound} />

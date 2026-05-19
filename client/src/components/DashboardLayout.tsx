@@ -21,7 +21,7 @@ import {
 } from "@/components/ui/sidebar";
 import { getLoginUrl } from "@/const";
 import { useIsMobile } from "@/hooks/useMobile";
-import { LayoutDashboard, LogOut, PanelLeft, Users, BarChart3, Settings, Activity, CreditCard, FolderKanban, Zap, FileText, Moon, Brain, DollarSign } from "lucide-react";
+import { LayoutDashboard, LogOut, PanelLeft, Users, BarChart3, Settings, Activity, CreditCard, FolderKanban, Zap, FileText, Moon, Brain, DollarSign, Target, Calendar } from "lucide-react";
 import { CSSProperties, useEffect, useRef, useState } from "react";
 import { useLocation } from "wouter";
 import { DashboardLayoutSkeleton } from './DashboardLayoutSkeleton';
@@ -36,6 +36,8 @@ const menuItems = [
   { icon: Brain, label: "AI 분석 현황", path: "/admin/ai-analytics" },
   { icon: Activity, label: "모니터링", path: "/admin/monitoring" },
   { icon: BarChart3, label: "통계", path: "/admin/stats" },
+  { icon: Target, label: "미션 관리", path: "/admin/missions" },
+  { icon: Calendar, label: "이벤트 관리", path: "/admin/events" },
   { icon: Zap, label: "AI 피드백", path: "/admin/ai" },
   { icon: Moon, label: "수면 자동 체크", path: "/sleep-settings" },
   { icon: FileText, label: "카피 문구 편집", path: "/copy-editor" },

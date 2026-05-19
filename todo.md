@@ -415,3 +415,27 @@
 - [x] App.tsx: /admin/payment + /admin/ai-analytics 라우트 등록
 - [x] routers.ts: paymentRouter + healthAiRouter 등록
 - [x] TypeScript 에러 0개 확인
+
+---
+## 🎯 미션 관리 + 이벤트 관리 (2026-05-20 추가)
+- [ ] missions 테이블 DB 마이그레이션 (정해진미션/선택미션, 시간지정, 포인트, 활성상태)
+- [ ] missionCompletions 테이블 DB 마이그레이션 (사용자별 완료 이력)
+- [ ] events 테이블 DB 마이그레이션 (스케줄/즉석, 발송상태, 대상자)
+- [ ] missionRouter 구현 (CRUD + 완료처리 + 통계 + 자동피드백 트리거)
+- [ ] eventRouter 구현 (CRUD + 즉석발송 + 스케줄 연동)
+- [ ] MissionDashboard 페이지 구현 (목록/생성/완료현황/포인트지급)
+- [ ] EventDashboard 페이지 구현 (스케줄이벤트 + 즉석이벤트 + 상태관리)
+- [ ] DashboardLayout 사이드바 메뉴 추가 (미션관리, 이벤트관리)
+- [ ] App.tsx 라우트 등록 (/admin/missions, /admin/events)
+- [ ] routers.ts에 missionRouter + eventRouter 등록
+- [ ] TypeScript 에러 0개 유지
+
+---
+## ✅ MissionDashboard + EventDashboard + TypeScript 에러 0개 (2026-05-20)
+- [x] missionRouter.ts: userId String 변환 + photoUrl→feedbackContent 수정
+- [x] eventRouter.ts: db import getDb() 패턴 수정
+- [x] EventDashboard.tsx: stats 기본값 필드명 수정 (sentToday, drafts, upcoming)
+- [x] MissionDashboard.tsx: handleSave category 타입 안전 캐스팅 추가
+- [x] TypeScript 에러 0개 최종 확인 (npx tsc --noEmit 결과: 에러 없음)
+- [x] 체크포인트 저장 완료
+- [x] GitHub push 완료

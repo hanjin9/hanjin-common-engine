@@ -14,7 +14,7 @@ import {
   Users, Activity, AlertTriangle, Zap,
   CreditCard, DollarSign, Brain, TrendingUp,
   ArrowRight, RefreshCw, CheckCircle2, AlertCircle,
-  ChevronRight, BarChart3, Moon, Shield
+  ChevronRight, BarChart3, Moon, Shield, CalendarDays, Target
 } from "lucide-react";
 import { useLocation } from "wouter";
 import { useMemo } from "react";
@@ -193,6 +193,91 @@ export default function AdminDashboard() {
           )}
         </div>
       </section>
+
+      {/* ══════════════════════════════════════════════════════════════════════
+          섹션 1-B: 이벤트 관리 + 미션 관리 (두 번째 줄)
+      ══════════════════════════════════════════════════════════════════════ */}
+      <div className="grid gap-4 grid-cols-1 md:grid-cols-2">
+        {/* 이벤트 관리 카드 (왼쪽) */}
+        <Card
+          className="border-purple-200 dark:border-purple-800 hover:shadow-md transition-shadow cursor-pointer"
+          onClick={() => setLocation('/admin/events')}
+        >
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium flex items-center gap-2">
+              <CalendarDays className="h-4 w-4 text-purple-500" />
+              이벤트 관리
+            </CardTitle>
+            <span className="text-xs bg-purple-100 dark:bg-purple-900 text-purple-700 dark:text-purple-300 px-2 py-0.5 rounded-full">캘린더 연동</span>
+          </CardHeader>
+          <CardContent>
+            <div className="flex items-center justify-between mb-3">
+              <div>
+                <div className="text-2xl font-bold text-purple-600">0</div>
+                <p className="text-xs text-muted-foreground">예약된 이벤트</p>
+              </div>
+              <div className="text-right">
+                <div className="text-lg font-semibold">0</div>
+                <p className="text-xs text-muted-foreground">오늘 발송</p>
+              </div>
+            </div>
+            <div className="flex gap-2">
+              <button
+                className="flex-1 text-xs bg-purple-600 hover:bg-purple-700 text-white py-1.5 px-3 rounded-md transition-colors"
+                onClick={(e) => { e.stopPropagation(); setLocation('/admin/events?action=instant'); }}
+              >
+                ⚡ 즉석 발송
+              </button>
+              <button
+                className="flex-1 text-xs border border-purple-300 hover:bg-purple-50 dark:hover:bg-purple-950 py-1.5 px-3 rounded-md transition-colors"
+                onClick={(e) => { e.stopPropagation(); setLocation('/admin/events?action=schedule'); }}
+              >
+                📅 예약 등록
+              </button>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* 미션 관리 카드 (오른쪽) */}
+        <Card
+          className="border-orange-200 dark:border-orange-800 hover:shadow-md transition-shadow cursor-pointer"
+          onClick={() => setLocation('/admin/missions')}
+        >
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium flex items-center gap-2">
+              <Target className="h-4 w-4 text-orange-500" />
+              미션 관리
+            </CardTitle>
+            <span className="text-xs bg-orange-100 dark:bg-orange-900 text-orange-700 dark:text-orange-300 px-2 py-0.5 rounded-full">슬롯 선택</span>
+          </CardHeader>
+          <CardContent>
+            <div className="flex items-center justify-between mb-3">
+              <div>
+                <div className="text-2xl font-bold text-orange-600">0</div>
+                <p className="text-xs text-muted-foreground">활성 미션</p>
+              </div>
+              <div className="text-right">
+                <div className="text-lg font-semibold">0</div>
+                <p className="text-xs text-muted-foreground">오늘 완료</p>
+              </div>
+            </div>
+            <div className="flex gap-2">
+              <button
+                className="flex-1 text-xs bg-orange-600 hover:bg-orange-700 text-white py-1.5 px-3 rounded-md transition-colors"
+                onClick={(e) => { e.stopPropagation(); setLocation('/admin/missions?action=send'); }}
+              >
+                🎯 즉석 발송
+              </button>
+              <button
+                className="flex-1 text-xs border border-orange-300 hover:bg-orange-50 dark:hover:bg-orange-950 py-1.5 px-3 rounded-md transition-colors"
+                onClick={(e) => { e.stopPropagation(); setLocation('/admin/missions?action=create'); }}
+              >
+                ➕ 미션 추가
+              </button>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
 
       <Separator />
 
