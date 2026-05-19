@@ -28,8 +28,11 @@ import DashboardLayout from "@/components/DashboardLayout";
 
 // ─── 프로젝트 탭 정의 ─────────────────────────────────────────────────────────
 const PROJECT_TABS = [
-  { slug: "glwa",          label: "GLWA VIP 멤버십",  type: "membership" as const },
-  { slug: "breathing-app", label: "숨호흡 구독 레벨", type: "subscription" as const },
+  { slug: "glwa",            label: "GLWA VIP 멤버십",   type: "membership" as const },
+  { slug: "breathing-app",  label: "숨호흡 구독 레벨", type: "subscription" as const },
+  { slug: "sports-recovery",label: "스포츠회복사 자격", type: "subscription" as const },
+  { slug: "bread-coach",    label: "장부관리사 자격", type: "subscription" as const },
+  { slug: "glwa-community", label: "GLWA 커뮤니티",   type: "membership" as const },
 ];
 
 // ─── 단계 정책 편집 모달 ──────────────────────────────────────────────────────

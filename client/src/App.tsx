@@ -13,6 +13,7 @@ import PaymentDashboard from './pages/PaymentDashboard';
 import AiAnalyticsDashboard from './pages/AiAnalyticsDashboard';
 import MissionDashboard from './pages/MissionDashboard';
 import EventDashboard from './pages/EventDashboard';
+import SchedulerDashboard from './pages/SchedulerDashboard';
 import DashboardLayout from "./components/DashboardLayout";
 
 function Router() {
@@ -36,11 +37,7 @@ function Router() {
           <PaymentDashboard />
         </DashboardLayout>
       )} />
-      <Route path={"/admin/ai-analytics"} component={() => (
-        <DashboardLayout>
-          <AiAnalyticsDashboard />
-        </DashboardLayout>
-      )} />
+      <Route path={"/admin/ai-analytics"} component={AiAnalyticsDashboard} />
       <Route path={"/admin/missions"} component={() => (
         <DashboardLayout>
           <MissionDashboard />
@@ -51,6 +48,7 @@ function Router() {
           <EventDashboard />
         </DashboardLayout>
       )} />
+      <Route path={"/admin/scheduler"} component={SchedulerDashboard} />
       <Route path={"/404"} component={NotFound} />
       {/* Final fallback route */}
       <Route component={NotFound} />

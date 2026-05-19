@@ -15,6 +15,8 @@ import { paymentRouter } from './modules/payment/paymentRouter';
 import { healthAiRouter } from './modules/health-ai/healthAiRouter';
 import { missionRouter } from './modules/mission/missionRouter';
 import { eventRouter } from './modules/event/eventRouter';
+import { rankingRouter } from './modules/health-ai/rankingRouter';
+import { schedulerRouter } from './modules/scheduler/schedulerRouter';
 
 export const appRouter = router({
     // if you need to use socket.io, read and register route in server/_core/index.ts, all api should start with '/api/' so that the gateway can route correctly
@@ -66,6 +68,12 @@ export const appRouter = router({
 
   // 이벤트 관리 라우터 (캘린더 연동 + 즉석발송 + 미션 연동)
   event: eventRouter,
+
+  // % 랭킹 시스템 라우터 (top1%/5%/10%/20% 분포 + 개인 백분위)
+  ranking: rankingRouter,
+
+  // Heartbeat 스케줄러 관리 라우터 (일일 미션 발송 + 주간 리포트)
+  scheduler: schedulerRouter,
 });
 
 export type AppRouter = typeof appRouter;

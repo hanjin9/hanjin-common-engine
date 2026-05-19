@@ -43,6 +43,19 @@ async function startServer() {
     }
   );
 
+  // ─── Heartbeat 스케줄러 엔드포인트 ───────────────────────────────────────────
+  // 일일 미션 자동 발송 (매일 KST 10:00)
+  app.post("/api/scheduled/daily-mission", async (req, res) => {
+    const { handleDailyMissionPush } = await import("../modules/scheduler/missionScheduler");
+    return handleDailyMissionPush(req, res);
+  });
+
+  // 주간 미션 리포트 (매주 월요일 KST 09:00)
+  app.post("/api/scheduled/weekly-mission-report", async (req, res) => {
+    const { handleWeeklyMissionReport } = await import("../modules/scheduler/missionScheduler");
+    return handleWeeklyMissionReport(req, res);
+  });
+
   // Configure body parser with larger size limit for file uploads
   app.use(express.json({ limit: "50mb" }));
   app.use(express.urlencoded({ limit: "50mb", extended: true }));
