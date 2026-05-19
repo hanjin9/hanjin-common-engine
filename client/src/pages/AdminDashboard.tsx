@@ -417,7 +417,7 @@ export default function AdminDashboard() {
           섹션 4: 멤버십 분포
       ══════════════════════════════════════════════════════════════════════ */}
       <section>
-        <SectionHeader title="멤버십 분포" desc="10단계 VIP 등급별 회원 현황" href="/membership" icon={Shield} />
+        <SectionHeader title="멤버십 관리" desc="10단계 VIP 등급별 회원 현황" href="/membership" icon={Shield} />
         <Card>
           <CardContent className="pt-4">
             {memberLoading ? (
