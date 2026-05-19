@@ -180,7 +180,7 @@ export async function scheduleAnalyticsAggregation(projectId: number) {
  */
 export const emailWorker = new Worker(
   "emails",
-  async (job) => {
+  async (job: any) => {
     const { email, subject, template, data } = job.data;
 
     try {
@@ -203,7 +203,7 @@ export const emailWorker = new Worker(
  */
 export const weeklyReportWorker = new Worker(
   "weekly-reports",
-  async (job) => {
+  async (job: any) => {
     const { projectId } = job.data;
 
     try {
@@ -227,7 +227,7 @@ export const weeklyReportWorker = new Worker(
  */
 export const subscriptionAlertWorker = new Worker(
   "subscription-alerts",
-  async (job) => {
+  async (job: any) => {
     const { subscriptionId, daysUntilExpiry } = job.data;
 
     try {
@@ -252,7 +252,7 @@ export const subscriptionAlertWorker = new Worker(
  */
 export const paymentRetryWorker = new Worker(
   "payment-retries",
-  async (job) => {
+  async (job: any) => {
     const { paymentId } = job.data;
 
     try {
@@ -275,7 +275,7 @@ export const paymentRetryWorker = new Worker(
  */
 export const analyticsWorker = new Worker(
   "analytics",
-  async (job) => {
+  async (job: any) => {
     const { projectId } = job.data;
 
     try {
@@ -299,10 +299,10 @@ export const analyticsWorker = new Worker(
 export function setupQueueEventListeners() {
   // 이메일 큐 이벤트
   const emailQueueEvents = new QueueEvents("emails", { connection: redis });
-  emailQueueEvents.on("completed", ({ jobId }) => {
+  emailQueueEvents.on("completed", ({ jobId }: any) => {
     console.log(`[Email Queue] Job ${jobId} completed`);
   });
-  emailQueueEvents.on("failed", ({ jobId, failedReason }) => {
+  emailQueueEvents.on("failed", ({ jobId, failedReason }: any) => {
     console.error(`[Email Queue] Job ${jobId} failed: ${failedReason}`);
   });
 
@@ -310,10 +310,10 @@ export function setupQueueEventListeners() {
   const reportQueueEvents = new QueueEvents("weekly-reports", {
     connection: redis,
   });
-  reportQueueEvents.on("completed", ({ jobId }) => {
+  reportQueueEvents.on("completed", ({ jobId }: any) => {
     console.log(`[Report Queue] Job ${jobId} completed`);
   });
-  reportQueueEvents.on("failed", ({ jobId, failedReason }) => {
+  reportQueueEvents.on("failed", ({ jobId, failedReason }: any) => {
     console.error(`[Report Queue] Job ${jobId} failed: ${failedReason}`);
   });
 
@@ -321,10 +321,10 @@ export function setupQueueEventListeners() {
   const alertQueueEvents = new QueueEvents("subscription-alerts", {
     connection: redis,
   });
-  alertQueueEvents.on("completed", ({ jobId }) => {
+  alertQueueEvents.on("completed", ({ jobId }: any) => {
     console.log(`[Alert Queue] Job ${jobId} completed`);
   });
-  alertQueueEvents.on("failed", ({ jobId, failedReason }) => {
+  alertQueueEvents.on("failed", ({ jobId, failedReason }: any) => {
     console.error(`[Alert Queue] Job ${jobId} failed: ${failedReason}`);
   });
 
@@ -332,10 +332,10 @@ export function setupQueueEventListeners() {
   const paymentQueueEvents = new QueueEvents("payment-retries", {
     connection: redis,
   });
-  paymentQueueEvents.on("completed", ({ jobId }) => {
+  paymentQueueEvents.on("completed", ({ jobId }: any) => {
     console.log(`[Payment Queue] Job ${jobId} completed`);
   });
-  paymentQueueEvents.on("failed", ({ jobId, failedReason }) => {
+  paymentQueueEvents.on("failed", ({ jobId, failedReason }: any) => {
     console.error(`[Payment Queue] Job ${jobId} failed: ${failedReason}`);
   });
 
@@ -343,10 +343,10 @@ export function setupQueueEventListeners() {
   const analyticsQueueEvents = new QueueEvents("analytics", {
     connection: redis,
   });
-  analyticsQueueEvents.on("completed", ({ jobId }) => {
+  analyticsQueueEvents.on("completed", ({ jobId }: any) => {
     console.log(`[Analytics Queue] Job ${jobId} completed`);
   });
-  analyticsQueueEvents.on("failed", ({ jobId, failedReason }) => {
+  analyticsQueueEvents.on("failed", ({ jobId, failedReason }: any) => {
     console.error(`[Analytics Queue] Job ${jobId} failed: ${failedReason}`);
   });
 }

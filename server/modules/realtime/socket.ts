@@ -1,1 +1,365 @@
-/**\n * Socket.io 실시간 통신 모듈\n * \n * 한진 공통 엔진의 실시간 알림 및 업데이트를 Socket.io를 통해 구현합니다.\n * - 실시간 알림 발송\n * - 구독 상태 업데이트 브로드캐스트\n * - 결제 완료 실시간 알림\n * - 사용자 온라인 상태 추적\n * \n * @author Hanjin Common Engine\n * @version 1.0.0\n */\n\nimport { Server as SocketIOServer, Socket } from \"socket.io\";\nimport { Server as HTTPServer } from \"http\";\nimport { verify } from \"jsonwebtoken\";\n\nlet io: SocketIOServer;\n\n/**\n * Socket.io 초기화\n * \n * @param httpServer HTTP 서버 인스턴스\n */\nexport function initializeSocket(httpServer: HTTPServer) {\n  io = new SocketIOServer(httpServer, {\n    cors: {\n      origin: process.env.CLIENT_URL || \"*\",\n      credentials: true,\n    },\n    transports: [\"websocket\", \"polling\"],\n  });\n\n  // 미들웨어: JWT 토큰 검증\n  io.use((socket, next) => {\n    const token = socket.handshake.auth.token;\n\n    if (!token) {\n      return next(new Error(\"Authentication error\"));\n    }\n\n    try {\n      const decoded = verify(token, process.env.JWT_SECRET!) as any;\n      socket.data.userId = decoded.id;\n      socket.data.userEmail = decoded.email;\n      next();\n    } catch (error) {\n      next(new Error(\"Authentication error\"));\n    }\n  });\n\n  // 연결 이벤트\n  io.on(\"connection\", (socket: Socket) => {\n    const userId = socket.data.userId;\n    const userEmail = socket.data.userEmail;\n\n    console.log(`[Socket.io] User ${userId} connected: ${socket.id}`);\n\n    // 사용자 룸에 조인\n    socket.join(`user:${userId}`);\n\n    // 연결 이벤트 브로드캐스트\n    io.emit(\"user:connected\", { userId, socketId: socket.id });\n\n    // 연결 해제 이벤트\n    socket.on(\"disconnect\", () => {\n      console.log(`[Socket.io] User ${userId} disconnected: ${socket.id}`);\n      io.emit(\"user:disconnected\", { userId });\n    });\n\n    // 핑 이벤트 (연결 상태 확인)\n    socket.on(\"ping\", () => {\n      socket.emit(\"pong\");\n    });\n  });\n\n  console.log(\"[Socket.io] Initialized successfully\");\n  return io;\n}\n\n/**\n * 특정 사용자에게 알림 발송\n * \n * @param userId 사용자 ID\n * @param type 알림 유형\n * @param data 알림 데이터\n */\nexport function notifyUser(\n  userId: number,\n  type: string,\n  data: Record<string, any>\n) {\n  if (!io) {\n    console.warn(\"[Socket.io] Not initialized\");\n    return;\n  }\n\n  io.to(`user:${userId}`).emit(\"notification\", {\n    type,\n    data,\n    timestamp: new Date(),\n  });\n\n  console.log(`[Socket.io] Notification sent to user ${userId}: ${type}`);\n}\n\n/**\n * 모든 사용자에게 브로드캐스트\n * \n * @param type 이벤트 유형\n * @param data 이벤트 데이터\n */\nexport function broadcastToAll(\n  type: string,\n  data: Record<string, any>\n) {\n  if (!io) {\n    console.warn(\"[Socket.io] Not initialized\");\n    return;\n  }\n\n  io.emit(type, {\n    data,\n    timestamp: new Date(),\n  });\n\n  console.log(`[Socket.io] Broadcast sent: ${type}`);\n}\n\n/**\n * 구독 상태 업데이트 브로드캐스트\n * \n * @param subscriptionId 구독 ID\n * @param status 구독 상태\n * @param userId 사용자 ID\n */\nexport function broadcastSubscriptionUpdate(\n  subscriptionId: number,\n  status: string,\n  userId: number\n) {\n  notifyUser(userId, \"subscription:updated\", {\n    subscriptionId,\n    status,\n  });\n}\n\n/**\n * 결제 완료 알림\n * \n * @param userId 사용자 ID\n * @param amount 결제 금액\n * @param currency 통화\n * @param planName 요금제명\n */\nexport function notifyPaymentSuccess(\n  userId: number,\n  amount: number,\n  currency: string,\n  planName: string\n) {\n  notifyUser(userId, \"payment:success\", {\n    amount,\n    currency,\n    planName,\n  });\n}\n\n/**\n * 결제 실패 알림\n * \n * @param userId 사용자 ID\n * @param reason 실패 사유\n * @param planName 요금제명\n */\nexport function notifyPaymentFailure(\n  userId: number,\n  reason: string,\n  planName: string\n) {\n  notifyUser(userId, \"payment:failure\", {\n    reason,\n    planName,\n  });\n}\n\n/**\n * 구독 만료 알림\n * \n * @param userId 사용자 ID\n * @param daysUntilExpiry 만료까지 남은 일수\n * @param planName 요금제명\n */\nexport function notifySubscriptionExpiring(\n  userId: number,\n  daysUntilExpiry: number,\n  planName: string\n) {\n  notifyUser(userId, \"subscription:expiring\", {\n    daysUntilExpiry,\n    planName,\n  });\n}\n\n/**\n * 관리자 알림\n * \n * @param type 알림 유형\n * @param data 알림 데이터\n */\nexport function notifyAdmins(\n  type: string,\n  data: Record<string, any>\n) {\n  if (!io) {\n    console.warn(\"[Socket.io] Not initialized\");\n    return;\n  }\n\n  io.to(\"admins\").emit(\"admin:notification\", {\n    type,\n    data,\n    timestamp: new Date(),\n  });\n\n  console.log(`[Socket.io] Admin notification sent: ${type}`);\n}\n\n/**\n * 신규 가입자 알림 (관리자용)\n * \n * @param userId 사용자 ID\n * @param email 이메일\n * @param name 이름\n */\nexport function notifyNewUserSignup(\n  userId: number,\n  email: string,\n  name: string\n) {\n  notifyAdmins(\"user:signup\", {\n    userId,\n    email,\n    name,\n  });\n}\n\n/**\n * 신규 결제 알림 (관리자용)\n * \n * @param paymentId 결제 ID\n * @param userId 사용자 ID\n * @param amount 결제 금액\n * @param currency 통화\n */\nexport function notifyNewPayment(\n  paymentId: number,\n  userId: number,\n  amount: number,\n  currency: string\n) {\n  notifyAdmins(\"payment:new\", {\n    paymentId,\n    userId,\n    amount,\n    currency,\n  });\n}\n\n/**\n * 결제 실패 알림 (관리자용)\n * \n * @param paymentId 결제 ID\n * @param userId 사용자 ID\n * @param reason 실패 사유\n */\nexport function notifyPaymentFailureAdmin(\n  paymentId: number,\n  userId: number,\n  reason: string\n) {\n  notifyAdmins(\"payment:failed\", {\n    paymentId,\n    userId,\n    reason,\n  });\n}\n\n/**\n * 온라인 사용자 목록 조회\n */\nexport function getOnlineUsers() {\n  if (!io) {\n    return [];\n  }\n\n  const sockets = io.sockets.sockets;\n  const onlineUsers: any[] = [];\n\n  sockets.forEach((socket) => {\n    if (socket.data.userId) {\n      onlineUsers.push({\n        userId: socket.data.userId,\n        socketId: socket.id,\n        connectedAt: socket.handshake.time,\n      });\n    }\n  });\n\n  return onlineUsers;\n}\n\n/**\n * 특정 사용자가 온라인인지 확인\n * \n * @param userId 사용자 ID\n */\nexport function isUserOnline(userId: number) {\n  if (!io) {\n    return false;\n  }\n\n  const sockets = io.sockets.sockets;\n  for (const socket of sockets.values()) {\n    if (socket.data.userId === userId) {\n      return true;\n    }\n  }\n\n  return false;\n}\n\n/**\n * 특정 사용자의 소켓 ID 조회\n * \n * @param userId 사용자 ID\n */\nexport function getUserSocketIds(userId: number) {\n  if (!io) {\n    return [];\n  }\n\n  const sockets = io.sockets.sockets;\n  const socketIds: string[] = [];\n\n  sockets.forEach((socket) => {\n    if (socket.data.userId === userId) {\n      socketIds.push(socket.id);\n    }\n  });\n\n  return socketIds;\n}\n\n/**\n * 소켓 서버 종료\n */\nexport async function closeSocket() {\n  if (io) {\n    await io.close();\n    console.log(\"[Socket.io] Closed\");\n  }\n}\n\nexport { SocketIOServer, Socket };\n"
+/**
+ * Socket.io 실시간 통신 모듈
+ * 
+ * 한진 공통 엔진의 실시간 알림 및 업데이트를 Socket.io를 통해 구현합니다.
+ * - 실시간 알림 발송
+ * - 구독 상태 업데이트 브로드캐스트
+ * - 결제 완료 실시간 알림
+ * - 사용자 온라인 상태 추적
+ * 
+ * @author Hanjin Common Engine
+ * @version 1.0.0
+ */
+
+import { Server as SocketIOServer, Socket } from "socket.io";
+import { Server as HTTPServer } from "http";
+import { verify } from "jsonwebtoken";
+
+let io: SocketIOServer;
+
+/**
+ * Socket.io 초기화
+ * 
+ * @param httpServer HTTP 서버 인스턴스
+ */
+export function initializeSocket(httpServer: HTTPServer) {
+  io = new SocketIOServer(httpServer, {
+    cors: {
+      origin: process.env.CLIENT_URL || "*",
+      credentials: true,
+    },
+    transports: ["websocket", "polling"],
+  });
+
+  // 미들웨어: JWT 토큰 검증
+  io.use((socket, next) => {
+    const token = socket.handshake.auth.token;
+
+    if (!token) {
+      return next(new Error("Authentication error"));
+    }
+
+    try {
+      const decoded = verify(token, process.env.JWT_SECRET!) as any;
+      socket.data.userId = decoded.id;
+      socket.data.userEmail = decoded.email;
+      next();
+    } catch (error) {
+      next(new Error("Authentication error"));
+    }
+  });
+
+  // 연결 이벤트
+  io.on("connection", (socket: Socket) => {
+    const userId = socket.data.userId;
+    const userEmail = socket.data.userEmail;
+
+    console.log(`[Socket.io] User ${userId} connected: ${socket.id}`);
+
+    // 사용자 룸에 조인
+    socket.join(`user:${userId}`);
+
+    // 연결 이벤트 브로드캐스트
+    io.emit("user:connected", { userId, socketId: socket.id });
+
+    // 연결 해제 이벤트
+    socket.on("disconnect", () => {
+      console.log(`[Socket.io] User ${userId} disconnected: ${socket.id}`);
+      io.emit("user:disconnected", { userId });
+    });
+
+    // 핑 이벤트 (연결 상태 확인)
+    socket.on("ping", () => {
+      socket.emit("pong");
+    });
+  });
+
+  console.log("[Socket.io] Initialized successfully");
+  return io;
+}
+
+/**
+ * 특정 사용자에게 알림 발송
+ * 
+ * @param userId 사용자 ID
+ * @param type 알림 유형
+ * @param data 알림 데이터
+ */
+export function notifyUser(
+  userId: number,
+  type: string,
+  data: Record<string, any>
+) {
+  if (!io) {
+    console.warn("[Socket.io] Not initialized");
+    return;
+  }
+
+  io.to(`user:${userId}`).emit("notification", {
+    type,
+    data,
+    timestamp: new Date(),
+  });
+
+  console.log(`[Socket.io] Notification sent to user ${userId}: ${type}`);
+}
+
+/**
+ * 모든 사용자에게 브로드캐스트
+ * 
+ * @param type 이벤트 유형
+ * @param data 이벤트 데이터
+ */
+export function broadcastToAll(
+  type: string,
+  data: Record<string, any>
+) {
+  if (!io) {
+    console.warn("[Socket.io] Not initialized");
+    return;
+  }
+
+  io.emit(type, {
+    data,
+    timestamp: new Date(),
+  });
+
+  console.log(`[Socket.io] Broadcast sent: ${type}`);
+}
+
+/**
+ * 구독 상태 업데이트 브로드캐스트
+ * 
+ * @param subscriptionId 구독 ID
+ * @param status 구독 상태
+ * @param userId 사용자 ID
+ */
+export function broadcastSubscriptionUpdate(
+  subscriptionId: number,
+  status: string,
+  userId: number
+) {
+  notifyUser(userId, "subscription:updated", {
+    subscriptionId,
+    status,
+  });
+}
+
+/**
+ * 결제 완료 알림
+ * 
+ * @param userId 사용자 ID
+ * @param amount 결제 금액
+ * @param currency 통화
+ * @param planName 요금제명
+ */
+export function notifyPaymentSuccess(
+  userId: number,
+  amount: number,
+  currency: string,
+  planName: string
+) {
+  notifyUser(userId, "payment:success", {
+    amount,
+    currency,
+    planName,
+  });
+}
+
+/**
+ * 결제 실패 알림
+ * 
+ * @param userId 사용자 ID
+ * @param reason 실패 사유
+ * @param planName 요금제명
+ */
+export function notifyPaymentFailure(
+  userId: number,
+  reason: string,
+  planName: string
+) {
+  notifyUser(userId, "payment:failure", {
+    reason,
+    planName,
+  });
+}
+
+/**
+ * 구독 만료 알림
+ * 
+ * @param userId 사용자 ID
+ * @param daysUntilExpiry 만료까지 남은 일수
+ * @param planName 요금제명
+ */
+export function notifySubscriptionExpiring(
+  userId: number,
+  daysUntilExpiry: number,
+  planName: string
+) {
+  notifyUser(userId, "subscription:expiring", {
+    daysUntilExpiry,
+    planName,
+  });
+}
+
+/**
+ * 관리자 알림
+ * 
+ * @param type 알림 유형
+ * @param data 알림 데이터
+ */
+export function notifyAdmins(
+  type: string,
+  data: Record<string, any>
+) {
+  if (!io) {
+    console.warn("[Socket.io] Not initialized");
+    return;
+  }
+
+  io.to("admins").emit("admin:notification", {
+    type,
+    data,
+    timestamp: new Date(),
+  });
+
+  console.log(`[Socket.io] Admin notification sent: ${type}`);
+}
+
+/**
+ * 신규 가입자 알림 (관리자용)
+ * 
+ * @param userId 사용자 ID
+ * @param email 이메일
+ * @param name 이름
+ */
+export function notifyNewUserSignup(
+  userId: number,
+  email: string,
+  name: string
+) {
+  notifyAdmins("user:signup", {
+    userId,
+    email,
+    name,
+  });
+}
+
+/**
+ * 신규 결제 알림 (관리자용)
+ * 
+ * @param paymentId 결제 ID
+ * @param userId 사용자 ID
+ * @param amount 결제 금액
+ * @param currency 통화
+ */
+export function notifyNewPayment(
+  paymentId: number,
+  userId: number,
+  amount: number,
+  currency: string
+) {
+  notifyAdmins("payment:new", {
+    paymentId,
+    userId,
+    amount,
+    currency,
+  });
+}
+
+/**
+ * 결제 실패 알림 (관리자용)
+ * 
+ * @param paymentId 결제 ID
+ * @param userId 사용자 ID
+ * @param reason 실패 사유
+ */
+export function notifyPaymentFailureAdmin(
+  paymentId: number,
+  userId: number,
+  reason: string
+) {
+  notifyAdmins("payment:failed", {
+    paymentId,
+    userId,
+    reason,
+  });
+}
+
+/**
+ * 온라인 사용자 목록 조회
+ */
+export function getOnlineUsers() {
+  if (!io) {
+    return [];
+  }
+
+  const sockets = io.sockets.sockets;
+  const onlineUsers: any[] = [];
+
+  sockets.forEach((socket) => {
+    if (socket.data.userId) {
+      onlineUsers.push({
+        userId: socket.data.userId,
+        socketId: socket.id,
+        connectedAt: socket.handshake.time,
+      });
+    }
+  });
+
+  return onlineUsers;
+}
+
+/**
+ * 특정 사용자가 온라인인지 확인
+ * 
+ * @param userId 사용자 ID
+ */
+export function isUserOnline(userId: number) {
+  if (!io) {
+    return false;
+  }
+
+  const sockets = io.sockets.sockets;
+  for (const socket of sockets.values()) {
+    if (socket.data.userId === userId) {
+      return true;
+    }
+  }
+
+  return false;
+}
+
+/**
+ * 특정 사용자의 소켓 ID 조회
+ * 
+ * @param userId 사용자 ID
+ */
+export function getUserSocketIds(userId: number) {
+  if (!io) {
+    return [];
+  }
+
+  const sockets = io.sockets.sockets;
+  const socketIds: string[] = [];
+
+  sockets.forEach((socket) => {
+    if (socket.data.userId === userId) {
+      socketIds.push(socket.id);
+    }
+  });
+
+  return socketIds;
+}
+
+/**
+ * 소켓 서버 종료
+ */
+export async function closeSocket() {
+  if (io) {
+    await io.close();
+    console.log("[Socket.io] Closed");
+  }
+}
+
+export { SocketIOServer, Socket };
