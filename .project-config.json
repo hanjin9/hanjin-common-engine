@@ -1,0 +1,43 @@
+{
+  "build_command": "pnpm run build",
+  "capabilities": [
+    "server",
+    "db",
+    "user"
+  ],
+  "dev_command": "pnpm run dev",
+  "env_vars": {
+    "DATABASE_URL": "mysql://2ov7UodCCzAj1bK.6e2d87c2f056:42fNP3PulgW9Cn81LxBE@gateway04.us-east-1.prod.aws.tidbcloud.com:4000/YzmqJPqMamhceWPgoLwsp5?ssl={\"rejectUnauthorized\":true}"
+  },
+  "experiments": [
+    "no_db_push"
+  ],
+  "git_remote": {
+    "repo_url": "s3://vida-prod-gitrepo/webdev-git/310519663351563633/YzmqJPqMamhceWPgoLwsp5",
+    "access_key_id": "ASIAZV3A2ECZPCQZAIWI",
+    "secret_access_key": "hUUqid9snABQb2eOggzQZapuFpYJQ+ZJLuCWkCYp",
+    "session_token": "IQoJb3JpZ2luX2VjEAsaCXVzLWVhc3QtMSJGMEQCIBZyHup1sj2UbADxqB44OZeKu8eav6sZ55wL17LyE4q/AiAQMGWJQz9JJP/jQwatOxLG9462LhDe5ZQ2/THOr9MkaSr+AwjU//////////8BEAQaDDY2NTM4NjA5ODg2NiIM6fA3pSKDUT9PFtuhKtIDXeHZbNM15r2KjD5/kQ56P4cOvDZbV6HxqD0RRKwG2n8m4ExwwsJ5H/P2ZcSjx88hQEe++pb4kuHmqZT6SasKxht8MRU/9yROUCpM4GpXB95tC/Zdj/xYdcMxsWrEm8ngadPqJSF3wt2ynxR8edJ2o9IMnLbLEikmFcRNXdUa8oGAN83wdFOCHYq96sMzdZdVNCBTJo6c/rkq57i3D1wgF9iRuMU3Ta1ewFK3ukbqfQwck6ZOHn/8EDwfnWrxRWFCxPp4O13d/u7GHYibYctDFJL9DLMGw4KjCBZoVrcYGlFE6eWW9NK/jxmI5Is5Y0vx1BT2cxbCU/MS9s88eE251O21TZ9MHdQOzcaEb/SbvBnDtj6ioSRvxNEUaH1I3TB2w0mmpi1Tecp5K+gb3xABV1NbkAwRTORYZZc4mdmy8ojYyuEGcQeHlXVflsgaVel61DOs+RIMx7A6iyZj6WDvy1auq/fZGRZON4WK7XOOAfJ4ZR83t+NMKI9zHu9oAjxh30U3dMA0XVgo1T5mV6IhihhjAugfy0dRs/xMSlPlqk572zaBqhTz+K87k9uokiHubSlMTWXjHwC719Wl3XkUjHcIqHqS0GXnSY3nFDdIjd4B1jD8/bDQBjqeAVhH4mHBwjRXiWVnxRU6Uw8euIPiDdJ+r0UK+u0fOcdL7QJOQA+fkCTS5wMelCKiNzztBWCDhf5SVTCQkKERrRC9HMS7+hYpp+NG5ordXgfTctR4hTxcJ16XAdqQu9O0ZuMNgsr5bgCqbOif9o+BWk7L5yAN3VzzgGTEElpO7oogxpON4z9z51zDKDL+npzLhAu8jFTUczjX+thfsWr9",
+    "expiration": "2026-05-19T22:44:12.000Z"
+  },
+  "name": "hanjin-common-engine",
+  "path": "/home/ubuntu/hanjin-common-engine",
+  "port": 3000,
+  "secrets": {
+    "BUILT_IN_FORGE_API_KEY": "LAs88vFTtUSCuNNRcHiBp3",
+    "BUILT_IN_FORGE_API_URL": "https://forge.manus.ai",
+    "JWT_SECRET": "7QNWxaoRMypFwRQ5pqP8hG",
+    "OAUTH_SERVER_URL": "https://api.manus.im",
+    "OWNER_NAME": "Han Jin. Kim  J  S",
+    "OWNER_OPEN_ID": "Q4judHNCoVwpq4mUUX4cHX",
+    "VITE_ANALYTICS_ENDPOINT": "https://manus-analytics.com",
+    "VITE_ANALYTICS_WEBSITE_ID": "98e70e84-438f-4e12-bb7f-7e4a3427064e",
+    "VITE_APP_ID": "YzmqJPqMamhceWPgoLwsp5",
+    "VITE_APP_LOGO": "",
+    "VITE_APP_TITLE": "한진 공통 엔진",
+    "VITE_FRONTEND_FORGE_API_KEY": "FUt87s8zEr5YMPZmiavbE2",
+    "VITE_FRONTEND_FORGE_API_URL": "https://forge.manus.ai",
+    "VITE_OAUTH_PORTAL_URL": "https://manus.im"
+  },
+  "template_id": "web-db-user",
+  "test_command": "pnpm test"
+}
