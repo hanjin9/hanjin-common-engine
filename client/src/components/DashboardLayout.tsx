@@ -21,7 +21,7 @@ import {
 } from "@/components/ui/sidebar";
 import { getLoginUrl } from "@/const";
 import { useIsMobile } from "@/hooks/useMobile";
-import { LayoutDashboard, LogOut, PanelLeft, Users, BarChart3, Settings, Activity, CreditCard, FolderKanban, Zap, FileText } from "lucide-react";
+import { LayoutDashboard, LogOut, PanelLeft, Users, BarChart3, Settings, Activity, CreditCard, FolderKanban, Zap, FileText, Moon } from "lucide-react";
 import { CSSProperties, useEffect, useRef, useState } from "react";
 import { useLocation } from "wouter";
 import { DashboardLayoutSkeleton } from './DashboardLayoutSkeleton';
@@ -35,6 +35,7 @@ const menuItems = [
   { icon: Activity, label: "모니터링", path: "/admin/monitoring" },
   { icon: BarChart3, label: "통계", path: "/admin/stats" },
   { icon: Zap, label: "AI 피드백", path: "/admin/ai" },
+  { icon: Moon, label: "수면 자동 체크", path: "/sleep-settings" },
   { icon: FileText, label: "카피 문구 편집", path: "/copy-editor" },
   { icon: Settings, label: "설정", path: "/admin/settings" },
 ];

@@ -359,3 +359,15 @@
 - [ ] MembershipDashboard: 단계별 정책 편집 모달 UI (인라인 편집)
 - [ ] MembershipDashboard: 정책 변경 이력 탭 UI
 - [ ] 럭셔리 벤치마크 기능 항목 GLWA 멤버십에 반영
+
+---
+
+## 😴 수면 자동 체크 기능 (2026-05-20)
+
+- [x] DB 스키마: sleepTrackingSettings 테이블 (기본값 enabled=true, optOut 지원)
+- [x] DB 마이그레이션 실행
+- [x] tRPC: getSleepSettings 프로시저 (사용자별 설정 조회)
+- [x] tRPC: updateSleepSettings 프로시저 (옵트아웃/재활성화)
+- [x] tRPC: recordSleepAuto 프로시저 (자동 수면 기록)
+- [x] 프론트엔드: 수면 체크 설정 UI (기본 ON 표시 + 거부 선택 토글)
+- [x] TypeScript 에러 0개 유지

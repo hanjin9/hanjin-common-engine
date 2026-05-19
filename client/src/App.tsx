@@ -8,6 +8,7 @@ import Home from "./pages/Home";
 import AdminDashboard from "./pages/AdminDashboard";
 import MembershipDashboard from './pages/MembershipDashboard';
 import CopyEditor from './pages/CopyEditor';
+import SleepSettings from './pages/SleepSettings';
 import DashboardLayout from "./components/DashboardLayout";
 
 function Router() {
@@ -22,6 +23,11 @@ function Router() {
       )} />
       <Route path={"/membership"} component={MembershipDashboard} />
       <Route path={"/copy-editor"} component={CopyEditor} />
+      <Route path={"/sleep-settings"} component={() => (
+        <DashboardLayout>
+          <SleepSettings />
+        </DashboardLayout>
+      )} />
       <Route path={"/404"} component={NotFound} />
       {/* Final fallback route */}
       <Route component={NotFound} />

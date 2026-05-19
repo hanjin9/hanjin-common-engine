@@ -996,3 +996,57 @@ export const membershipCopy = mysqlTable("membership_copy", {
   createdAt: timestamp("created_at").defaultNow(),
   updatedAt: timestamp("updated_at").defaultNow().onUpdateNow(),
 });
+
+
+// ─── 수면 추적 설정 테이블 ──────────────────────────────────────────────────
+// 기본값: enabled=true (자동 체크 ON), 사용자가 원하면 optOut 가능
+export const sleepTrackingSettings = mysqlTable("sleep_tracking_settings", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: varchar("user_id", { length: 100 }).notNull().unique(),
+  // 자동 수면 체크 활성화 여부 (기본값 true = 자동 ON)
+  autoTrackEnabled: boolean("auto_track_enabled").default(true).notNull(),
+  // 옵트아웃 여부 (true = 사용자가 명시적으로 거부)
+  optedOut: boolean("opted_out").default(false).notNull(),
+  // 옵트아웃 일시
+  optedOutAt: timestamp("opted_out_at"),
+  // 수면 감지 시작 시간 (기본 22:00)
+  sleepStartHour: int("sleep_start_hour").default(22).notNull(),
+  // 수면 감지 종료 시간 (기본 08:00)
+  sleepEndHour: int("sleep_end_hour").default(8).notNull(),
+  // 최소 수면 시간 (분 단위, 기본 30분)
+  minSleepMinutes: int("min_sleep_minutes").default(30).notNull(),
+  // 알림 허용 여부
+  notificationsEnabled: boolean("notifications_enabled").default(true).notNull(),
+  // 마지막 자동 수면 기록 일시
+  lastAutoRecordedAt: timestamp("last_auto_recorded_at"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().onUpdateNow().notNull(),
+});
+export type SleepTrackingSettings = typeof sleepTrackingSettings.$inferSelect;
+export type InsertSleepTrackingSettings = typeof sleepTrackingSettings.$inferInsert;
+
+// ─── 수면 기록 테이블 ────────────────────────────────────────────────────────
+// 자동/수동 수면 기록 저장
+export const sleepRecords = mysqlTable("sleep_records", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: varchar("user_id", { length: 100 }).notNull(),
+  // 수면 시작 시간
+  sleepStart: timestamp("sleep_start").notNull(),
+  // 수면 종료 시간
+  sleepEnd: timestamp("sleep_end"),
+  // 수면 시간 (분)
+  durationMinutes: int("duration_minutes"),
+  // 기록 방식: 'auto' = 자동 감지, 'manual' = 사용자 직접 입력
+  recordType: mysqlEnum("record_type", ["auto", "manual"]).default("auto").notNull(),
+  // 수면 품질 점수 (1~10, null = 미평가)
+  qualityScore: int("quality_score"),
+  // 수면 메모
+  notes: text("notes"),
+  // 연동 앱 ('self' | 'apple_health' | 'samsung_health' | 'google_fit')
+  dataSource: varchar("data_source", { length: 50 }).default("self").notNull(),
+  // 포인트 적립 여부
+  pointsAwarded: int("points_awarded").default(0),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+export type SleepRecord = typeof sleepRecords.$inferSelect;
+export type InsertSleepRecord = typeof sleepRecords.$inferInsert;
