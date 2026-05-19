@@ -9,8 +9,18 @@
 - [x] GLWA 프랜차이즈 API (9개 엔드포인트)
 - [x] GLWA 커뮤니티 API (8개 엔드포인트)
 - [x] 라우터 통합 완료
-- [ ] Vitest 단위 테스트 작성
-- [ ] API 엔드포인트 검증
+- [x] Vitest 단위 테스트 작성 (19개 테스트 전체 통과)
+- [x] API 엔드포인트 단위테스트 검증 완료 (Vitest 19개 전체 통과)
+- [ ] 실제 API 엔드포인트 동작 검증 (tRPC caller/curl로 projects.* 및 wellness.* 실제 호출 확인)
+- [x] glwa-wellness-app GitHub 전수 스캔 완료
+- [x] 관리자 대시보드 필수 테이블 13개 추가 (멤버십/포인트/지갑/알림/주문/쿠폰/이벤트)
+- [x] 멤버십 8단계 초기 데이터 삽입 (Silver ~ Black Platinum)
+- [x] membershipRouter 이식 (8개 엔드포인트)
+- [x] operatorRouter 이식 (운영자 모니터링)
+- [x] tierRouter 이식 (10단계 수련 시스템)
+- [x] tenTierSystem.ts 공유 모듈 이식
+- [x] TypeScript 컴파일 에러 0개 달성
+- [x] 불필요 파일 제거 완료 (oauth-providers.ts)
 
 ---
 

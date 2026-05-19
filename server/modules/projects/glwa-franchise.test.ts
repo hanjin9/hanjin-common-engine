@@ -1,6 +1,7 @@
 import { describe, it, expect, beforeEach, vi } from 'vitest';
 import { glwaFranchiseRouter } from './glwa-franchise';
 import { getDb } from '../../db';
+import { TRPCError } from '@trpc/server';
 
 // Mock getDb
 vi.mock('../../db', () => ({
@@ -62,7 +63,6 @@ describe('GLWA Franchise Router', () => {
       });
 
       const result = await caller.getProject({ projectId: 1 });
-
       expect(result).toEqual(mockProject);
     });
 
@@ -75,7 +75,9 @@ describe('GLWA Franchise Router', () => {
         res: {} as any,
       });
 
-      await expect(caller.getProject({ projectId: 999 })).rejects.toThrow('NOT_FOUND');
+      await expect(caller.getProject({ projectId: 999 })).rejects.toMatchObject({
+        code: 'NOT_FOUND',
+      });
     });
 
     it('should throw FORBIDDEN error when user is not a member', async () => {
@@ -96,7 +98,9 @@ describe('GLWA Franchise Router', () => {
         res: {} as any,
       });
 
-      await expect(caller.getProject({ projectId: 1 })).rejects.toThrow('FORBIDDEN');
+      await expect(caller.getProject({ projectId: 1 })).rejects.toMatchObject({
+        code: 'FORBIDDEN',
+      });
     });
   });
 
@@ -132,7 +136,6 @@ describe('GLWA Franchise Router', () => {
       });
 
       const result = await caller.listMembers({ projectId: 1 });
-
       expect(result).toEqual(mockMembers);
       expect(result.length).toBe(2);
     });
@@ -146,7 +149,9 @@ describe('GLWA Franchise Router', () => {
         res: {} as any,
       });
 
-      await expect(caller.listMembers({ projectId: 1 })).rejects.toThrow('FORBIDDEN');
+      await expect(caller.listMembers({ projectId: 1 })).rejects.toMatchObject({
+        code: 'FORBIDDEN',
+      });
     });
   });
 
@@ -178,7 +183,6 @@ describe('GLWA Franchise Router', () => {
       });
 
       const result = await caller.getStatistics({ projectId: 1 });
-
       expect(result).toEqual(mockStats);
     });
 
@@ -204,7 +208,6 @@ describe('GLWA Franchise Router', () => {
       });
 
       const result = await caller.getStatistics({ projectId: 1 });
-
       expect(result.projectId).toBe(1);
       expect(result.totalUsers).toBe(0);
       expect(result.activeSubscriptions).toBe(0);

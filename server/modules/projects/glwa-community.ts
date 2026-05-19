@@ -151,7 +151,7 @@ export const glwaCommunityRouter = router({
           });
         }
 
-        let whereCondition = eq(projectMembers.projectId, input.projectId);
+        let whereCondition: any = eq(projectMembers.projectId, input.projectId);
 
         if (input.role) {
           whereCondition = and(

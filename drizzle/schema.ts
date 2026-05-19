@@ -202,10 +202,10 @@ export const projectStatistics = mysqlTable("project_statistics", {
   projectId: int("project_id").notNull().unique(),
   totalUsers: int("total_users").default(0),
   activeSubscriptions: int("active_subscriptions").default(0),
-  totalRevenue: decimal("total_revenue", { precision: 12, scale: 2 }).default(0),
-  monthlyRevenue: decimal("monthly_revenue", { precision: 12, scale: 2 }).default(0),
-  churnRate: decimal("churn_rate", { precision: 5, scale: 2 }).default(0),
-  avgSubscriptionValue: decimal("avg_subscription_value", { precision: 10, scale: 2 }).default(0),
+  totalRevenue: decimal("total_revenue", { precision: 12, scale: 2 }).default('0'),
+  monthlyRevenue: decimal("monthly_revenue", { precision: 12, scale: 2 }).default('0'),
+  churnRate: decimal("churn_rate", { precision: 5, scale: 2 }).default('0'),
+  avgSubscriptionValue: decimal("avg_subscription_value", { precision: 10, scale: 2 }).default('0'),
   updatedAt: timestamp("updated_at").defaultNow().onUpdateNow().notNull(),
 });
 
@@ -400,3 +400,230 @@ export const projectNotificationSettingsRelations = relations(
     }),
   })
 );
+
+// ============================================================================
+// GLWA 웰니스 앱 - 관리자 대시보드 필수 테이블 (glwa-wellness-app에서 이식)
+// ============================================================================
+
+// ─── 멤버십 등급 정의 테이블 (8단계) ────────────────────────────────────
+export const membershipTiers = mysqlTable("membership_tiers", {
+  id: int("id").autoincrement().primaryKey(),
+  tier: mysqlEnum("tier", [
+    "silver", "gold", "blue_sapphire", "green_emerald",
+    "diamond", "blue_diamond", "platinum", "black_platinum",
+  ]).notNull().unique(),
+  nameKo: varchar("name_ko", { length: 100 }).notNull(),
+  nameEn: varchar("name_en", { length: 100 }).notNull(),
+  pointThreshold: int("point_threshold").notNull(),
+  monthlyFee: int("monthly_fee").default(0),
+  annualFee: int("annual_fee").default(0),
+  benefits: json("benefits"),
+  badgeIcon: varchar("badge_icon", { length: 255 }),
+  colorCode: varchar("color_code", { length: 20 }),
+  isActive: boolean("is_active").default(true),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().onUpdateNow().notNull(),
+});
+export type MembershipTier = typeof membershipTiers.$inferSelect;
+export type InsertMembershipTier = typeof membershipTiers.$inferInsert;
+
+// ─── 사용자 멤버십 현황 테이블 ──────────────────────────────────────────
+export const userMemberships = mysqlTable("user_memberships", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("user_id").notNull().unique(),
+  projectId: int("project_id"),
+  tier: mysqlEnum("tier", [
+    "silver", "gold", "blue_sapphire", "green_emerald",
+    "diamond", "blue_diamond", "platinum", "black_platinum",
+  ]).default("silver").notNull(),
+  currentPoints: int("current_points").default(0).notNull(),
+  totalPointsEarned: int("total_points_earned").default(0).notNull(),
+  totalPointsUsed: int("total_points_used").default(0).notNull(),
+  isActive: boolean("is_active").default(true),
+  upgradedAt: timestamp("upgraded_at"),
+  expiresAt: timestamp("expires_at"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().onUpdateNow().notNull(),
+});
+export type UserMembership = typeof userMemberships.$inferSelect;
+export type InsertUserMembership = typeof userMemberships.$inferInsert;
+
+// ─── 포인트 거래 내역 테이블 ────────────────────────────────────────────
+export const pointsTransactions = mysqlTable("points_transactions", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("user_id").notNull(),
+  projectId: int("project_id"),
+  type: mysqlEnum("type", ["earn", "use", "expire", "admin_adjust"]).notNull(),
+  points: int("points").notNull(),
+  balanceAfter: int("balance_after").notNull(),
+  reason: varchar("reason", { length: 255 }),
+  referenceType: varchar("reference_type", { length: 50 }),
+  referenceId: int("reference_id"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+export type PointsTransaction = typeof pointsTransactions.$inferSelect;
+export type InsertPointsTransaction = typeof pointsTransactions.$inferInsert;
+
+// ─── 사용자 지갑 테이블 ─────────────────────────────────────────────────
+export const userWallets = mysqlTable("user_wallets", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("user_id").notNull().unique(),
+  projectId: int("project_id"),
+  balance: int("balance").default(0).notNull(),
+  currency: varchar("currency", { length: 10 }).default("KRW").notNull(),
+  totalDeposited: int("total_deposited").default(0).notNull(),
+  totalWithdrawn: int("total_withdrawn").default(0).notNull(),
+  isActive: boolean("is_active").default(true),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().onUpdateNow().notNull(),
+});
+export type UserWallet = typeof userWallets.$inferSelect;
+export type InsertUserWallet = typeof userWallets.$inferInsert;
+
+// ─── 지갑 거래 내역 테이블 ──────────────────────────────────────────────
+export const walletTransactions = mysqlTable("wallet_transactions", {
+  id: int("id").autoincrement().primaryKey(),
+  walletId: int("wallet_id").notNull(),
+  userId: int("user_id").notNull(),
+  type: mysqlEnum("type", ["deposit", "withdraw", "transfer_in", "transfer_out", "refund"]).notNull(),
+  amount: int("amount").notNull(),
+  balanceAfter: int("balance_after").notNull(),
+  paymentMethod: varchar("payment_method", { length: 50 }),
+  externalTxId: varchar("external_tx_id", { length: 255 }),
+  status: mysqlEnum("wallet_tx_status", ["pending", "completed", "failed", "cancelled"]).default("pending").notNull(),
+  note: text("note"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+export type WalletTransaction = typeof walletTransactions.$inferSelect;
+export type InsertWalletTransaction = typeof walletTransactions.$inferInsert;
+
+// ─── 관리자 알림 설정 테이블 ────────────────────────────────────────────
+export const adminNotificationSettings = mysqlTable("admin_notification_settings", {
+  id: int("id").autoincrement().primaryKey(),
+  adminUserId: int("admin_user_id").notNull(),
+  category: mysqlEnum("notif_category", ["urgent", "important", "normal", "low"]).notNull(),
+  enabled: boolean("enabled").default(true).notNull(),
+  pipeline: mysqlEnum("pipeline", ["instant", "batch_6h", "daily", "weekly"]).default("instant").notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().onUpdateNow().notNull(),
+});
+export type AdminNotificationSetting = typeof adminNotificationSettings.$inferSelect;
+export type InsertAdminNotificationSetting = typeof adminNotificationSettings.$inferInsert;
+
+// ─── 관리자 알림 로그 테이블 ────────────────────────────────────────────
+export const adminNotifications = mysqlTable("admin_notifications", {
+  id: int("id").autoincrement().primaryKey(),
+  category: mysqlEnum("notif_log_category", ["urgent", "important", "normal", "low"]).notNull(),
+  type: varchar("type", { length: 100 }).notNull(),
+  title: varchar("title", { length: 300 }).notNull(),
+  content: text("content"),
+  metadata: json("metadata"),
+  isRead: boolean("is_read").default(false).notNull(),
+  isArchived: boolean("is_archived").default(false).notNull(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+export type AdminNotification = typeof adminNotifications.$inferSelect;
+export type InsertAdminNotification = typeof adminNotifications.$inferInsert;
+
+// ─── 관리자 활동 로그 테이블 ────────────────────────────────────────────
+export const adminActivityLog = mysqlTable("admin_activity_log", {
+  id: int("id").autoincrement().primaryKey(),
+  adminUserId: int("admin_user_id").notNull(),
+  action: varchar("action", { length: 100 }).notNull(),
+  targetType: varchar("target_type", { length: 50 }),
+  targetId: int("target_id"),
+  details: text("details"),
+  ipAddress: varchar("ip_address", { length: 45 }),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+export type AdminActivityLogEntry = typeof adminActivityLog.$inferSelect;
+export type InsertAdminActivityLogEntry = typeof adminActivityLog.$inferInsert;
+
+// ─── 운영자 모니터링 테이블 (이상 감지/알림) ────────────────────────────
+export const operatorMonitoring = mysqlTable("operator_monitoring", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("user_id").notNull(),
+  projectId: int("project_id"),
+  alertType: mysqlEnum("alert_type", ["warning", "info", "recommendation"]).notNull(),
+  title: varchar("title", { length: 200 }).notNull(),
+  message: text("message").notNull(),
+  severity: mysqlEnum("severity", ["low", "medium", "high"]).notNull(),
+  actionRequired: boolean("action_required").default(false).notNull(),
+  resolved: boolean("resolved").default(false).notNull(),
+  resolvedBy: int("resolved_by"),
+  resolvedAt: timestamp("resolved_at"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+export type OperatorMonitoringEntry = typeof operatorMonitoring.$inferSelect;
+export type InsertOperatorMonitoringEntry = typeof operatorMonitoring.$inferInsert;
+
+// ─── 회원 진행 단계 테이블 (수련 단계 추적) ─────────────────────────────
+export const tieredProgress = mysqlTable("tiered_progress", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("user_id").notNull().unique(),
+  projectId: int("project_id"),
+  currentStage: int("current_stage").default(1),
+  daysCompleted: int("days_completed").default(0),
+  hanJinLevel: int("han_jin_level").default(0),
+  sleepQuality: int("sleep_quality").default(50),
+  nutritionBalance: int("nutrition_balance").default(50),
+  activityLevel: int("activity_level").default(50),
+  heartHealth: int("heart_health").default(50),
+  stressLevel: int("stress_level").default(50),
+  overallWellness: int("overall_wellness").default(50),
+  lastUpdated: timestamp("last_updated").defaultNow().onUpdateNow().notNull(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+export type TieredProgress = typeof tieredProgress.$inferSelect;
+export type InsertTieredProgress = typeof tieredProgress.$inferInsert;
+
+// ─── 쿠폰 테이블 ────────────────────────────────────────────────────────
+export const coupons = mysqlTable("coupons", {
+  id: int("id").autoincrement().primaryKey(),
+  projectId: int("project_id"),
+  code: varchar("code", { length: 50 }).notNull().unique(),
+  name: varchar("name", { length: 200 }).notNull(),
+  discountType: mysqlEnum("discount_type", ["percentage", "fixed"]).notNull(),
+  discountValue: int("discount_value").notNull(),
+  minOrderAmount: int("min_order_amount").default(0),
+  maxDiscountAmount: int("max_discount_amount"),
+  usageLimit: int("usage_limit"),
+  usedCount: int("used_count").default(0),
+  isActive: boolean("is_active").default(true),
+  startsAt: timestamp("starts_at"),
+  expiresAt: timestamp("expires_at"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+export type Coupon = typeof coupons.$inferSelect;
+export type InsertCoupon = typeof coupons.$inferInsert;
+
+// ─── 이벤트 테이블 ──────────────────────────────────────────────────────
+export const events = mysqlTable("events", {
+  id: int("id").autoincrement().primaryKey(),
+  projectId: int("project_id"),
+  title: varchar("title", { length: 300 }).notNull(),
+  description: text("description"),
+  eventType: mysqlEnum("event_type", ["challenge", "promotion", "webinar", "offline", "online"]).notNull(),
+  status: mysqlEnum("event_status", ["draft", "active", "ended", "cancelled"]).default("draft").notNull(),
+  maxParticipants: int("max_participants"),
+  currentParticipants: int("current_participants").default(0),
+  rewardPoints: int("reward_points").default(0),
+  startsAt: timestamp("starts_at"),
+  endsAt: timestamp("ends_at"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().onUpdateNow().notNull(),
+});
+export type Event = typeof events.$inferSelect;
+export type InsertEvent = typeof events.$inferInsert;
+
+// ─── 이벤트 참여 테이블 ─────────────────────────────────────────────────
+export const eventParticipations = mysqlTable("event_participations", {
+  id: int("id").autoincrement().primaryKey(),
+  eventId: int("event_id").notNull(),
+  userId: int("user_id").notNull(),
+  status: mysqlEnum("participation_status", ["joined", "completed", "cancelled"]).default("joined").notNull(),
+  rewardClaimed: boolean("reward_claimed").default(false),
+  joinedAt: timestamp("joined_at").defaultNow().notNull(),
+  completedAt: timestamp("completed_at"),
+});
+export type EventParticipation = typeof eventParticipations.$inferSelect;
+export type InsertEventParticipation = typeof eventParticipations.$inferInsert;
