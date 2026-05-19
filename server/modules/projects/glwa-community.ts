@@ -262,7 +262,7 @@ export const glwaCommunityRouter = router({
           }),
         });
 
-        return { success: true, memberId: result.insertId };
+        return { success: true, memberId: input.userId };
       } catch (error) {
         console.error('[GLWA Community] addMember error:', error);
         throw error;

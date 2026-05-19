@@ -252,7 +252,7 @@ export const glwaFranchiseRouter = router({
           }),
         });
 
-        return { success: true, memberId: result.insertId };
+        return { success: true, memberId: input.userId };
       } catch (error) {
         console.error('[GLWA Franchise] addMember error:', error);
         throw error;
@@ -462,7 +462,7 @@ export const glwaFranchiseRouter = router({
           });
 
           return {
-            id: result.insertId,
+            id: 0,
             projectId: input.projectId,
             authProvider: 'manus',
             emailProvider: 'resend',
@@ -473,7 +473,7 @@ export const glwaFranchiseRouter = router({
           };
         }
 
-        return config as any;
+        return config;
       } catch (error) {
         console.error('[GLWA Franchise] getAuthConfig error:', error);
         throw error;
