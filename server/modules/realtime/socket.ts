@@ -321,7 +321,7 @@ export function isUserOnline(userId: number) {
   }
 
   const sockets = io.sockets.sockets;
-  for (const socket of sockets.values()) {
+  for (const socket of Array.from(sockets.values())) {
     if (socket.data.userId === userId) {
       return true;
     }

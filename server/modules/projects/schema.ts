@@ -44,7 +44,7 @@ export const projects = mysqlTable("projects", {
   // 통계
   totalUsers: int("totalUsers").default(0),
   activeSubscriptions: int("activeSubscriptions").default(0),
-  monthlyRevenue: decimal("monthlyRevenue", { precision: 12, scale: 2 }).default(0),
+  monthlyRevenue: decimal("monthlyRevenue", { precision: 12, scale: 2 }).default("0"),
   
   // 메타데이터
   logo: varchar("logo", { length: 512 }), // 로고 URL
@@ -176,7 +176,7 @@ export const payments = mysqlTable("payments", {
   ]).notNull(),
   
   // 환불 정보
-  refundedAmount: decimal("refundedAmount", { precision: 12, scale: 2 }).default(0),
+  refundedAmount: decimal("refundedAmount", { precision: 12, scale: 2 }).default("0"),
   refundReason: varchar("refundReason", { length: 255 }),
   
   // 실패 정보
@@ -212,14 +212,14 @@ export const projectStats = mysqlTable("project_stats", {
   expiredSubscriptions: int("expiredSubscriptions").default(0),
   
   // 매출 통계
-  monthlyRevenue: decimal("monthlyRevenue", { precision: 12, scale: 2 }).default(0),
-  yearlyRevenue: decimal("yearlyRevenue", { precision: 12, scale: 2 }).default(0),
-  totalRevenue: decimal("totalRevenue", { precision: 12, scale: 2 }).default(0),
+  monthlyRevenue: decimal("monthlyRevenue", { precision: 12, scale: 2 }).default("0"),
+  yearlyRevenue: decimal("yearlyRevenue", { precision: 12, scale: 2 }).default("0"),
+  totalRevenue: decimal("totalRevenue", { precision: 12, scale: 2 }).default("0"),
   
   // 전환율
-  conversionRate: decimal("conversionRate", { precision: 5, scale: 2 }).default(0),
-  retentionRate: decimal("retentionRate", { precision: 5, scale: 2 }).default(0),
-  churnRate: decimal("churnRate", { precision: 5, scale: 2 }).default(0),
+  conversionRate: decimal("conversionRate", { precision: 5, scale: 2 }).default("0"),
+  retentionRate: decimal("retentionRate", { precision: 5, scale: 2 }).default("0"),
+  churnRate: decimal("churnRate", { precision: 5, scale: 2 }).default("0"),
   
   updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
 });

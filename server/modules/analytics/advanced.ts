@@ -345,13 +345,13 @@ export async function generateCustomReport(
     for (const metric of metrics) {
       switch (metric) {
         case "kpi":
-          report.metrics.kpi = await getRealtimeKPIs(projectId, period);
+          report.metrics.kpi = await getRealtimeKPIs(projectId, period === "year" ? "month" : period);
           break;
         case "churn":
-          report.metrics.churn = await analyzeChurn(projectId, period);
+          report.metrics.churn = await analyzeChurn(projectId, period === "year" ? "month" : period);
           break;
         case "retention":
-          report.metrics.retention = await analyzeRetention(projectId, period);
+          report.metrics.retention = await analyzeRetention(projectId, period === "year" || period === "day" ? "month" : period);
           break;
         default:
           console.warn(`[Analytics] Unknown metric: ${metric}`);

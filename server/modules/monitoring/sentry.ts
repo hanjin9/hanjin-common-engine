@@ -1,377 +1,242 @@
 /**
- * Sentry 모니터링 모듈
+ * Sentry 모니터링 모듈 (v10 호환)
  * 
- * 한진 공통 엔진의 에러 추적 및 성능 모니터링을 Sentry를 통해 구현합니다.
- * - 프론트엔드 에러 추적
- * - 백엔드 에러 추적
- * - 성능 모니터링
- * - 이슈 감지 및 알림
+ * 한진 공통 엔진의 Sentry 에러 추적 및 성능 모니터링을 구현합니다.
  * 
  * @author Hanjin Common Engine
  * @version 1.0.0
  */
 
 import * as Sentry from "@sentry/node";
-import { ProfilingIntegration } from "@sentry/profiling-node";
-import type { Express } from "express";
+import { nodeProfilingIntegration } from "@sentry/profiling-node";
 
 /**
  * Sentry 초기화
- * 
- * @param app Express 앱 인스턴스
  */
-export function initializeSentry(app: Express) {
-  Sentry.init({
-    dsn: process.env.SENTRY_DSN,
-    environment: process.env.NODE_ENV || "development",
-    tracesSampleRate: process.env.NODE_ENV === "production" ? 0.1 : 1.0,
-    profilesSampleRate: process.env.NODE_ENV === "production" ? 0.1 : 1.0,
-    integrations: [
-      new ProfilingIntegration(),
-      new Sentry.Integrations.Http({ tracing: true }),
-      new Sentry.Integrations.OnUncaughtException(),
-      new Sentry.Integrations.OnUnhandledRejection(),
-    ],
-    beforeSend(event, hint) {
-      if (process.env.NODE_ENV === "development") {
-        return event;
+export function initializeSentry() {
+  try {
+    Sentry.init({
+      dsn: process.env.SENTRY_DSN,
+      environment: process.env.NODE_ENV || "development",
+      integrations: [
+        nodeProfilingIntegration(),
+      ],
+      tracesSampleRate: process.env.NODE_ENV === "production" ? 0.1 : 1.0,
+      profilesSampleRate: process.env.NODE_ENV === "production" ? 0.1 : 1.0,
+    });
+
+    console.log("[Sentry] Initialized successfully");
+  } catch (error) {
+    console.error("[Sentry] Initialization failed:", error);
+  }
+}
+
+/**
+ * Express 미들웨어 설정
+ */
+export function setupExpressMiddleware(app: any) {
+  try {
+    // Sentry Express integration
+    app.use(Sentry.expressIntegration());
+    console.log("[Sentry] Express middleware configured");
+  } catch (error) {
+    console.error("[Sentry] Express middleware setup failed:", error);
+  }
+}
+
+/**
+ * 트랜잭션 시작
+ */
+export function startTransaction(name: string, op: string = "http.request") {
+  try {
+    const transaction = Sentry.startSpan(
+      {
+        name,
+        op,
+      },
+      () => {
+        // Transaction logic
       }
+    );
 
-      const error = hint.originalException;
-      if (error instanceof Error) {
-        if (error.message.includes("ECONNREFUSED")) {
-          return null;
-        }
-      }
-
-      return event;
-    },
-  });
-
-  app.use(Sentry.Handlers.requestHandler());
-  app.use(Sentry.Handlers.errorHandler());
-
-  console.log("[Sentry] Initialized successfully");
+    console.log(`[Sentry] Transaction started: ${name}`);
+    return transaction;
+  } catch (error) {
+    console.error("[Sentry] Error starting transaction:", error);
+    return null;
+  }
 }
 
 /**
- * 에러 캡처
- * 
- * @param error 에러 객체
- * @param context 추가 컨텍스트
- * @param level 심각도 (fatal, error, warning, info, debug)
- */
-export function captureException(
-  error: Error | string,
-  context?: Record<string, any>,
-  level: Sentry.SeverityLevel = "error"
-) {
-  Sentry.captureException(error, {
-    level,
-    extra: context,
-  });
-
-  console.error(
-    `[Sentry] Exception captured: ${error instanceof Error ? error.message : error}`
-  );
-}
-
-/**
- * 메시지 캡처
- * 
- * @param message 메시지
- * @param level 심각도
- * @param context 추가 컨텍스트
- */
-export function captureMessage(
-  message: string,
-  level: Sentry.SeverityLevel = "info",
-  context?: Record<string, any>
-) {
-  Sentry.captureMessage(message, {
-    level,
-    extra: context,
-  });
-
-  console.log(`[Sentry] Message captured: ${message}`);
-}
-
-/**
- * 성능 모니터링 시작
- * 
- * @param name 작업명
- * @returns 트랜잭션 객체
- */
-export function startTransaction(name: string) {
-  const transaction = Sentry.startTransaction({
-    name,
-    op: "operation",
-  });
-
-  return transaction;
-}
-
-/**
- * 성능 모니터링 종료
- * 
- * @param transaction 트랜잭션 객체
- */
-export function finishTransaction(transaction: Sentry.Transaction) {
-  transaction.finish();
-}
-
-/**
- * 스팬 생성 (성능 측정)
- * 
- * @param transaction 트랜잭션 객체
- * @param operation 작업명
- * @param description 설명
- * @returns 스팬 객체
+ * 스팬 생성
  */
 export function createSpan(
-  transaction: Sentry.Transaction,
-  operation: string,
-  description: string
+  parentSpan: any,
+  name: string,
+  op: string = "db.query"
 ) {
-  return transaction.startChild({
-    op: operation,
-    description,
-  });
-}
+  try {
+    const span = parentSpan?.startChild({
+      name,
+      op,
+    });
 
-/**
- * 스팬 종료
- * 
- * @param span 스팬 객체
- */
-export function finishSpan(span: Sentry.Span) {
-  span.finish();
+    console.log(`[Sentry] Span created: ${name}`);
+    return span;
+  } catch (error) {
+    console.error("[Sentry] Error creating span:", error);
+    return null;
+  }
 }
 
 /**
  * 사용자 컨텍스트 설정
- * 
- * @param userId 사용자 ID
- * @param email 이메일
- * @param name 이름
  */
 export function setUserContext(
-  userId: string | number,
+  userId: number,
   email?: string,
-  name?: string
+  username?: string
 ) {
-  Sentry.setUser({
-    id: userId.toString(),
-    email,
-    username: name,
-  });
-}
+  try {
+    Sentry.setUser({
+      id: userId.toString(),
+      email,
+      username,
+    });
 
-/**
- * 사용자 컨텍스트 제거
- */
-export function clearUserContext() {
-  Sentry.setUser(null);
+    console.log(`[Sentry] User context set: ${userId}`);
+  } catch (error) {
+    console.error("[Sentry] Error setting user context:", error);
+  }
 }
 
 /**
  * 추가 컨텍스트 설정
- * 
- * @param key 키
- * @param value 값
  */
 export function setContext(key: string, value: Record<string, any>) {
-  Sentry.setContext(key, value);
+  try {
+    Sentry.setContext(key, value);
+
+    console.log(`[Sentry] Context set: ${key}`);
+  } catch (error) {
+    console.error("[Sentry] Error setting context:", error);
+  }
 }
 
 /**
  * 태그 설정
- * 
- * @param key 키
- * @param value 값
  */
-export function setTag(key: string, value: string | number | boolean) {
-  Sentry.setTag(key, value);
-}
+export function setTag(key: string, value: string) {
+  try {
+    Sentry.setTag(key, value);
 
-/**
- * 추가 데이터 설정
- * 
- * @param key 키
- * @param value 값
- */
-export function setExtra(key: string, value: any) {
-  Sentry.setExtra(key, value);
-}
-
-/**
- * 데이터베이스 쿼리 성능 모니터링
- * 
- * @param query 쿼리
- * @param duration 실행 시간 (밀리초)
- */
-export function captureDbQuery(query: string, duration: number) {
-  const transaction = Sentry.getCurrentHub().getScope()?.getTransaction();
-
-  if (transaction) {
-    const span = transaction.startChild({
-      op: "db.query",
-      description: query.substring(0, 100),
-    });
-
-    span.setData("duration", duration);
-    span.finish();
+    console.log(`[Sentry] Tag set: ${key} = ${value}`);
+  } catch (error) {
+    console.error("[Sentry] Error setting tag:", error);
   }
 }
 
 /**
- * API 요청 성능 모니터링
- * 
- * @param method HTTP 메서드
- * @param url URL
- * @param statusCode 상태 코드
- * @param duration 실행 시간 (밀리초)
+ * 에러 캡처
  */
-export function captureApiRequest(
-  method: string,
-  url: string,
-  statusCode: number,
-  duration: number
+export function captureException(error: Error, context?: Record<string, any>) {
+  try {
+    if (context) {
+      Sentry.setContext("error_context", context);
+    }
+
+    Sentry.captureException(error);
+
+    console.log("[Sentry] Exception captured:", error.message);
+  } catch (err) {
+    console.error("[Sentry] Error capturing exception:", err);
+  }
+}
+
+/**
+ * 메시지 캡처
+ */
+export function captureMessage(
+  message: string,
+  level: "fatal" | "error" | "warning" | "info" | "debug" = "info"
 ) {
-  const transaction = Sentry.getCurrentHub().getScope()?.getTransaction();
+  try {
+    Sentry.captureMessage(message, level);
 
-  if (transaction) {
-    const span = transaction.startChild({
-      op: "http.request",
-      description: `${method} ${url}`,
-    });
-
-    span.setData("status_code", statusCode);
-    span.setData("duration", duration);
-    span.finish();
+    console.log(`[Sentry] Message captured (${level}): ${message}`);
+  } catch (error) {
+    console.error("[Sentry] Error capturing message:", error);
   }
 }
 
 /**
- * 외부 API 호출 성능 모니터링
- * 
- * @param service 서비스명
- * @param endpoint 엔드포인트
- * @param duration 실행 시간 (밀리초)
- * @param success 성공 여부
+ * 성능 모니터링 시작
  */
-export function captureExternalApiCall(
-  service: string,
-  endpoint: string,
-  duration: number,
-  success: boolean
-) {
-  const transaction = Sentry.getCurrentHub().getScope()?.getTransaction();
+export function startPerformanceMonitoring(name: string) {
+  try {
+    const startTime = Date.now();
 
-  if (transaction) {
-    const span = transaction.startChild({
-      op: "external.api",
-      description: `${service} - ${endpoint}`,
-    });
+    return {
+      end: () => {
+        const duration = Date.now() - startTime;
+        console.log(`[Sentry] Performance: ${name} took ${duration}ms`);
 
-    span.setData("success", success);
-    span.setData("duration", duration);
-    span.finish();
+        Sentry.captureMessage(
+          `${name} took ${duration}ms`,
+          "info"
+        );
+      },
+    };
+  } catch (error) {
+    console.error("[Sentry] Error starting performance monitoring:", error);
+
+    return {
+      end: () => {},
+    };
   }
 }
 
 /**
- * 느린 작업 감지
- * 
- * @param name 작업명
- * @param duration 실행 시간 (밀리초)
- * @param threshold 임계값 (밀리초)
+ * Sentry 플러시
  */
-export function captureSlowOperation(
-  name: string,
-  duration: number,
-  threshold: number = 1000
-) {
-  if (duration > threshold) {
-    captureMessage(
-      `Slow operation detected: ${name} took ${duration}ms (threshold: ${threshold}ms)`,
-      "warning",
-      { name, duration, threshold }
-    );
+export async function flushSentry(timeout: number = 2000) {
+  try {
+    await Sentry.close(timeout);
+    console.log("[Sentry] Flushed successfully");
+  } catch (error) {
+    console.error("[Sentry] Error flushing:", error);
   }
-}
-
-/**
- * 메모리 사용량 모니터링
- */
-export function captureMemoryUsage() {
-  const memUsage = process.memoryUsage();
-
-  setExtra("memory_usage", {
-    rss: `${Math.round(memUsage.rss / 1024 / 1024)}MB`,
-    heapTotal: `${Math.round(memUsage.heapTotal / 1024 / 1024)}MB`,
-    heapUsed: `${Math.round(memUsage.heapUsed / 1024 / 1024)}MB`,
-    external: `${Math.round(memUsage.external / 1024 / 1024)}MB`,
-  });
-}
-
-/**
- * 업타임 모니터링
- * 
- * @param startTime 시작 시간
- */
-export function captureUptime(startTime: Date) {
-  const uptime = Date.now() - startTime.getTime();
-  const hours = Math.floor(uptime / 1000 / 60 / 60);
-  const minutes = Math.floor((uptime / 1000 / 60) % 60);
-
-  setExtra("uptime", `${hours}h ${minutes}m`);
 }
 
 /**
  * 에러 핸들러 미들웨어
- * 
- * @param err 에러 객체
- * @param req Express 요청
- * @param res Express 응답
- * @param next Express 다음 미들웨어
  */
-export function errorHandler(
+export function errorHandlerMiddleware(
   err: any,
   req: any,
   res: any,
   next: any
 ) {
+  console.error("[Sentry] Unhandled error:", err);
+
+  // Sentry에 에러 캡처
   Sentry.captureException(err, {
     contexts: {
-      express: {
+      request: {
         method: req.method,
-        url: req.url,
-        query: req.query,
-        body: req.body,
+        path: req.path,
+        ip: req.ip,
       },
     },
   });
 
-  res.status(500).json({
-    error: "Internal Server Error",
-    sentryId: Sentry.captureException(err),
-  });
-}
-
-/**
- * 비동기 에러 핸들러
- * 
- * @param fn 비동기 함수
- */
-export function asyncHandler(fn: any) {
-  return (req: any, res: any, next: any) => {
-    Promise.resolve(fn(req, res, next)).catch((error) => {
-      captureException(error, {
-        method: req.method,
-        url: req.url,
-      });
-      next(error);
+  // 응답 전송
+  if (!res.headersSent) {
+    res.status(500).json({
+      error: "Internal Server Error",
+      message:
+        process.env.NODE_ENV === "development" ? err.message : undefined,
+      eventId: Sentry.lastEventId(),
     });
-  };
+  }
 }

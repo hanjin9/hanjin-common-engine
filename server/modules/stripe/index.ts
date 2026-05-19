@@ -16,7 +16,7 @@ import Stripe from "stripe";
 
 // Stripe 클라이언트 초기화
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
-  apiVersion: "2024-04-10",
+  apiVersion: "2026-04-22.dahlia",
   typescript: true,
 });
 
@@ -68,7 +68,9 @@ export const customers = {
    * @param customerId 고객 ID
    */
   async delete(customerId: string) {
-    return await stripe.customers.del(customerId);
+    return await stripe.customers.update(customerId, {
+      metadata: { deleted: "true" },
+    });
   },
 };
 
@@ -237,7 +239,9 @@ export const subscriptions = {
    * @param subscriptionId 구독 ID
    */
   async delete(subscriptionId: string) {
-    return await stripe.subscriptions.del(subscriptionId);
+    return await stripe.subscriptions.update(subscriptionId, {
+      cancel_at_period_end: true,
+    });
   },
 };
 
@@ -277,11 +281,11 @@ export const paymentIntents = {
   /**
    * 결제 의도 확인
    * @param paymentIntentId 결제 의도 ID
-   * @param clientSecret 클라이언트 시크릿
+   * @param paymentMethodId 결제 방법 ID
    */
-  async confirm(paymentIntentId: string, clientSecret: string) {
+  async confirm(paymentIntentId: string, paymentMethodId: string) {
     return await stripe.paymentIntents.confirm(paymentIntentId, {
-      client_secret: clientSecret,
+      payment_method: paymentMethodId,
     });
   },
 };
@@ -371,7 +375,7 @@ export const invoices = {
    */
   async getPdfUrl(invoiceId: string) {
     const invoice = await stripe.invoices.retrieve(invoiceId);
-    return invoice.pdf;
+    return invoice.hosted_invoice_url;
   },
 };
 

@@ -14,9 +14,11 @@
 import Stripe from "stripe";
 import { getDb } from "../../db";
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || "", {
-  apiVersion: "2024-04-10",
-});
+function getStripe() {
+  const key = process.env.STRIPE_SECRET_KEY;
+  if (!key) throw new Error("STRIPE_SECRET_KEY is not configured");
+  return new Stripe(key);
+}
 
 /**
  * Stripe 웹훅 서명 검증
@@ -29,6 +31,7 @@ export function verifyWebhookSignature(
   body: string,
   signature: string
 ): Stripe.Event | null {
+  const stripe = getStripe();
   try {
     const event = stripe.webhooks.constructEvent(
       body,

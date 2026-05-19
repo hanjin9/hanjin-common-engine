@@ -258,7 +258,7 @@ export const projectsRouter = router({
         currency: z.string().default("USD"),
         billingPeriod: z.enum(["monthly", "yearly", "one-time"]),
         stripePriceId: z.string(),
-        features: z.record(z.any()).optional(),
+        features: z.record(z.string(), z.any()).optional(),
       })
     )
     .mutation(async ({ input, ctx }) => {

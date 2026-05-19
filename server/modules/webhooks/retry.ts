@@ -160,7 +160,7 @@ export async function executeWebhookRetry(
         "X-Retry-Count": retryCount.toString(),
       },
       body: JSON.stringify(payload),
-      timeout: WEBHOOK_RETRY_CONFIG.TIMEOUT,
+      signal: AbortSignal.timeout(WEBHOOK_RETRY_CONFIG.TIMEOUT),
     });
 
     if (!response.ok) {
