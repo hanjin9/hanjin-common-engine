@@ -304,3 +304,33 @@
 - 각 Phase 완료 시 Google Drive에 자동 백업합니다.
 - 주간 리포트는 매주 월요일 오전 9시에 자동 발송됩니다.
 - 모든 문서는 영문/국문 이중 언어로 작성됩니다.
+
+---
+
+## 🧠 2차 배치: AI 피드백 엔진 완전 재구현 (진행 중)
+
+- [ ] 피드백 엔진 DB 스키마 (biodataRecords, feedbackLogs, conversationHistory, dailyMissions, userFeedbackProfile)
+- [ ] DB 마이그레이션 실행
+- [ ] feedbackEngine.ts - 3단계 피드백 (즉시/심화/VIP)
+- [ ] realtimeCoachingEngine.ts - 실시간 코칭 (7가지 활동, 5개 언어, 포인트 연동)
+- [ ] personalMemoryEngine.ts - 개인 메모리 (DB 기반, 패턴 인식, 인사이트)
+- [ ] conversationAI.ts - 대화형 AI (감정 인식, 성격 학습, 문맥 이해)
+- [ ] mobileBiodataCollector.ts - 모바일 생체 데이터 수집 (카메라 심박수, 마이크 호흡, 얼굴 안색)
+- [ ] dailyMissionDirector.ts - AI 일일 지시 + 알림 시스템
+- [ ] feedbackNeuralNetwork.ts - 신경망 연결 레이어 (모든 모듈 완전 통합)
+- [ ] tRPC 라우터 통합 (feedback.*)
+- [ ] Vitest 테스트 작성
+- [ ] 체크포인트 저장
+
+---
+
+## 📱 헬스 데이터 연동 설계 (플랫폼별 분리)
+
+- [ ] DB 스키마에 dataSource 필드 추가 ('self' / 'google_fit' / 'apple_health' / 'samsung_health')
+- [ ] 헬스 데이터 연동 인터페이스 설계 (HealthDataProvider 추상 클래스)
+- [ ] Android/Samsung Health Connect 연동 준비 (Capacitor 앱 전환 시 사용)
+- [ ] Apple HealthKit 연동 준비 (Capacitor 앱 전환 시 사용)
+- [ ] 자체 수집 모듈 구현 (Web Audio API + DeviceMotion API)
+- [ ] 수면 감지 알고리즘 (밤 10시 이후 + 30분 이상 정지)
+- [ ] 수면 중 호흡 분석 (마이크 100-400Hz 대역 분석)
+- [ ] 낮 컨디션 분석 (목소리 에너지/리듬/스트레스 추정)

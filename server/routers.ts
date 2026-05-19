@@ -7,6 +7,7 @@ import { glwaCommunityRouter } from "./modules/projects/glwa-community";
 import { membershipRouter } from "./modules/wellness/membershipRouter";
 import { operatorRouter } from "./modules/wellness/operatorRouter";
 import { tierRouter } from "./modules/wellness/tierRouter";
+import { aiRouter } from "./modules/ai/aiRouter";
 
 export const appRouter = router({
     // if you need to use socket.io, read and register route in server/_core/index.ts, all api should start with '/api/' so that the gateway can route correctly
@@ -34,6 +35,9 @@ export const appRouter = router({
     operator: operatorRouter,
     tier: tierRouter,
   }),
+
+  // AI 피드백 엔진 라우터 (3단계 피드백 + 실시간 코칭 + 개인 메모리 + 생체 데이터)
+  ai: aiRouter,
 });
 
 export type AppRouter = typeof appRouter;

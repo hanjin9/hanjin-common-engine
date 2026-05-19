@@ -627,3 +627,251 @@ export const eventParticipations = mysqlTable("event_participations", {
 });
 export type EventParticipation = typeof eventParticipations.$inferSelect;
 export type InsertEventParticipation = typeof eventParticipations.$inferInsert;
+
+
+// ============================================================================
+// AI 피드백 엔진 + 생체 데이터 수집 테이블
+// ============================================================================
+
+/**
+ * 사용자 피드백 프로필 (개인 메모리 엔진 기반)
+ */
+export const userFeedbackProfiles = mysqlTable("user_feedback_profiles", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("user_id").notNull().unique(),
+  projectId: int("project_id"),
+  // 성격 유형
+  personalityType: mysqlEnum("personality_type", [
+    "active", "careful", "social", "independent", "balanced"
+  ]).default("balanced"),
+  // 동기 유발 요소
+  motivationFactors: text("motivation_factors"), // JSON array
+  // 강점/개선점
+  strengths: text("strengths"), // JSON array
+  improvements: text("improvements"), // JSON array
+  // 선호 언어
+  preferredLanguage: varchar("preferred_language", { length: 8 }).default("ko"),
+  // 피드백 수신 등급 (1=기본, 2=프리미엄, 3=VIP)
+  feedbackTier: int("feedback_tier").default(1),
+  // 총 피드백 수신 횟수
+  totalFeedbackCount: int("total_feedback_count").default(0),
+  // 마지막 AI 분석 시각
+  lastAnalyzedAt: timestamp("last_analyzed_at"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().onUpdateNow().notNull(),
+});
+export type UserFeedbackProfile = typeof userFeedbackProfiles.$inferSelect;
+export type InsertUserFeedbackProfile = typeof userFeedbackProfiles.$inferInsert;
+
+/**
+ * 생체 데이터 기록 테이블
+ * dataSource: 'self'=자체수집(마이크/가속도계), 'google_fit', 'apple_health', 'samsung_health', 'manual'
+ */
+export const biodataRecords = mysqlTable("biodata_records", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("user_id").notNull(),
+  projectId: int("project_id"),
+  // 데이터 출처 (플랫폼 구분)
+  dataSource: mysqlEnum("data_source", [
+    "self", "google_fit", "apple_health", "samsung_health", "manual"
+  ]).default("self").notNull(),
+  // 측정 유형
+  dataType: mysqlEnum("data_type", [
+    "heart_rate",       // 심박수 (카메라 rPPG)
+    "breathing_rate",   // 호흡수 (마이크)
+    "breathing_quality",// 호흡 질 (마이크 패턴 분석)
+    "sleep_duration",   // 수면 시간 (가속도계)
+    "sleep_quality",    // 수면 질 (마이크 수면 중 분석)
+    "sleep_start",      // 수면 시작 시각
+    "sleep_end",        // 수면 종료 시각
+    "snoring_detected", // 코골이 감지
+    "steps",            // 걸음 수
+    "voice_energy",     // 목소리 에너지 (컨디션)
+    "voice_stress",     // 목소리 스트레스 지수
+    "stress_level",     // 스트레스 지수 (종합)
+    "body_temperature", // 체온 (사용자 입력)
+    "weight",           // 체중 (사용자 입력)
+    "mood",             // 기분 (사용자 입력 1-10)
+    "energy_level"      // 에너지 레벨 (종합)
+  ]).notNull(),
+  // 수치 값
+  value: varchar("value", { length: 64 }).notNull(), // 숫자 또는 JSON
+  unit: varchar("unit", { length: 32 }), // bpm, /min, hours, steps, score 등
+  // 정확도 (0-100)
+  accuracy: int("accuracy").default(70),
+  // 측정 시각
+  measuredAt: timestamp("measured_at").defaultNow().notNull(),
+  // 측정 기간 (수면 등 장시간 측정 시)
+  durationSeconds: int("duration_seconds"),
+  // 원본 데이터 (분석용)
+  rawData: text("raw_data"), // JSON
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+export type BiodataRecord = typeof biodataRecords.$inferSelect;
+export type InsertBiodataRecord = typeof biodataRecords.$inferInsert;
+
+/**
+ * 피드백 로그 테이블 (3단계 피드백 기록)
+ */
+export const feedbackLogs = mysqlTable("feedback_logs", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("user_id").notNull(),
+  projectId: int("project_id"),
+  // 피드백 단계 (1=즉시, 2=심화/프리미엄, 3=VIP)
+  feedbackTier: int("feedback_tier").default(1).notNull(),
+  // 피드백 유형
+  feedbackType: mysqlEnum("feedback_type", [
+    "activity",    // 활동 완료 피드백
+    "daily",       // 일일 건강 피드백
+    "sleep",       // 수면 분석 피드백
+    "breathing",   // 호흡 분석 피드백
+    "mission",     // 미션 완료 피드백
+    "weekly",      // 주간 리포트 피드백
+    "vip_coaching" // VIP 1:1 코칭
+  ]).notNull(),
+  // 트리거 (어떤 데이터로 피드백 생성됐는지)
+  triggerType: varchar("trigger_type", { length: 64 }),
+  triggerData: text("trigger_data"), // JSON
+  // AI 생성 피드백 내용
+  feedbackContent: text("feedback_content").notNull(),
+  feedbackSummary: varchar("feedback_summary", { length: 500 }),
+  // 다국어 피드백
+  language: varchar("language", { length: 8 }).default("ko"),
+  // 포인트 지급 여부
+  pointsAwarded: int("points_awarded").default(0),
+  // 사용자 반응 (읽음/좋아요/싫어요)
+  userReaction: mysqlEnum("user_reaction", ["none", "liked", "disliked", "read"]).default("none"),
+  // TTS 음성 URL (생성된 경우)
+  ttsAudioUrl: text("tts_audio_url"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+export type FeedbackLog = typeof feedbackLogs.$inferSelect;
+export type InsertFeedbackLog = typeof feedbackLogs.$inferInsert;
+
+/**
+ * 대화 히스토리 테이블 (AI 채팅 기록)
+ */
+export const conversationHistory = mysqlTable("conversation_history", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("user_id").notNull(),
+  projectId: int("project_id"),
+  // 세션 ID (대화 묶음)
+  sessionId: varchar("session_id", { length: 64 }).notNull(),
+  // 역할 (user/assistant)
+  role: mysqlEnum("role", ["user", "assistant", "system"]).notNull(),
+  content: text("content").notNull(),
+  // 감정 분석 결과
+  detectedEmotion: mysqlEnum("detected_emotion", [
+    "positive", "negative", "tired", "neutral", "excited", "anxious"
+  ]).default("neutral"),
+  // 언어
+  language: varchar("language", { length: 8 }).default("ko"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+export type ConversationHistory = typeof conversationHistory.$inferSelect;
+export type InsertConversationHistory = typeof conversationHistory.$inferInsert;
+
+/**
+ * 일일 미션 테이블 (AI 지시 + 추적)
+ */
+export const dailyMissions = mysqlTable("daily_missions", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("user_id").notNull(),
+  projectId: int("project_id"),
+  // 미션 날짜
+  missionDate: varchar("mission_date", { length: 10 }).notNull(), // YYYY-MM-DD
+  // 미션 유형
+  missionType: mysqlEnum("mission_type", [
+    "breathing",   // 호흡 운동
+    "exercise",    // 신체 운동
+    "meditation",  // 명상
+    "nutrition",   // 영양/식단
+    "sleep",       // 수면 준비
+    "quiz",        // 건강 퀴즈
+    "measurement"  // 건강 측정
+  ]).notNull(),
+  // AI 생성 미션 내용
+  title: varchar("title", { length: 300 }).notNull(),
+  description: text("description"),
+  instructions: text("instructions"), // JSON 단계별 지시사항
+  // 난이도 (1=쉬움, 2=보통, 3=어려움)
+  difficulty: int("difficulty").default(1),
+  // 예상 소요 시간 (분)
+  estimatedMinutes: int("estimated_minutes").default(10),
+  // 완료 여부
+  status: mysqlEnum("mission_status", ["pending", "in_progress", "completed", "skipped"]).default("pending"),
+  completedAt: timestamp("completed_at"),
+  // 완료 데이터 (측정값 등)
+  completionData: text("completion_data"), // JSON
+  // 포인트 보상
+  rewardPoints: int("reward_points").default(10),
+  pointsEarned: int("points_earned").default(0),
+  // 알림 발송 여부
+  notificationSent: boolean("notification_sent").default(false),
+  notificationSentAt: timestamp("notification_sent_at"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().onUpdateNow().notNull(),
+});
+export type DailyMission = typeof dailyMissions.$inferSelect;
+export type InsertDailyMission = typeof dailyMissions.$inferInsert;
+
+/**
+ * 수면 세션 테이블 (수면 감지 + 분석 결과)
+ */
+export const sleepSessions = mysqlTable("sleep_sessions", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("user_id").notNull(),
+  projectId: int("project_id"),
+  // 수면 시작/종료
+  sleepStart: timestamp("sleep_start").notNull(),
+  sleepEnd: timestamp("sleep_end"),
+  // 총 수면 시간 (분)
+  totalMinutes: int("total_minutes"),
+  // 수면 질 점수 (0-100)
+  qualityScore: int("quality_score"),
+  // 호흡 분석 결과
+  avgBreathingRate: varchar("avg_breathing_rate", { length: 16 }), // 회/분
+  breathingRegularity: int("breathing_regularity"), // 0-100
+  snoringDetected: boolean("snoring_detected").default(false),
+  snoringMinutes: int("snoring_minutes").default(0),
+  // 움직임 분석
+  movementCount: int("movement_count").default(0),
+  // 수면 단계 추정 (JSON)
+  sleepStages: text("sleep_stages"), // [{stage: 'light'|'deep'|'rem', startMin: 0, endMin: 30}]
+  // 감지 방법
+  detectionMethod: mysqlEnum("detection_method", [
+    "accelerometer", "microphone", "both", "manual"
+  ]).default("both"),
+  // AI 피드백 생성 여부
+  feedbackGenerated: boolean("feedback_generated").default(false),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+export type SleepSession = typeof sleepSessions.$inferSelect;
+export type InsertSleepSession = typeof sleepSessions.$inferInsert;
+
+/**
+ * 헬스 플랫폼 연동 설정 테이블
+ */
+export const healthPlatformConnections = mysqlTable("health_platform_connections", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("user_id").notNull(),
+  // 플랫폼
+  platform: mysqlEnum("platform", [
+    "google_fit", "apple_health", "samsung_health", "garmin", "fitbit"
+  ]).notNull(),
+  // 연동 상태
+  status: mysqlEnum("connection_status", ["connected", "disconnected", "pending"]).default("pending"),
+  // 접근 토큰 (암호화 저장)
+  accessToken: text("access_token"),
+  refreshToken: text("refresh_token"),
+  tokenExpiresAt: timestamp("token_expires_at"),
+  // 동기화 설정
+  syncEnabled: boolean("sync_enabled").default(true),
+  lastSyncAt: timestamp("last_sync_at"),
+  // 동기화할 데이터 유형
+  syncDataTypes: text("sync_data_types"), // JSON array: ['steps', 'sleep', 'heart_rate']
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().onUpdateNow().notNull(),
+});
+export type HealthPlatformConnection = typeof healthPlatformConnections.$inferSelect;
+export type InsertHealthPlatformConnection = typeof healthPlatformConnections.$inferInsert;
