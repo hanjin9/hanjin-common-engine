@@ -21,7 +21,7 @@ import {
 } from "@/components/ui/sidebar";
 import { getLoginUrl } from "@/const";
 import { useIsMobile } from "@/hooks/useMobile";
-import { LayoutDashboard, LogOut, PanelLeft, Users, BarChart3, Settings } from "lucide-react";
+import { LayoutDashboard, LogOut, PanelLeft, Users, BarChart3, Settings, Activity, CreditCard, FolderKanban, Zap, FileText } from "lucide-react";
 import { CSSProperties, useEffect, useRef, useState } from "react";
 import { useLocation } from "wouter";
 import { DashboardLayoutSkeleton } from './DashboardLayoutSkeleton';
@@ -29,7 +29,14 @@ import { Button } from "./ui/button";
 
 const menuItems = [
   { icon: LayoutDashboard, label: "대시보드", path: "/admin" },
+  { icon: FolderKanban, label: "프로젝트 관리", path: "/admin/projects" },
   { icon: Users, label: "사용자 관리", path: "/admin/users" },
+  { icon: CreditCard, label: "멤버십 관리", path: "/membership" },
+  { icon: Activity, label: "모니터링", path: "/admin/monitoring" },
+  { icon: BarChart3, label: "통계", path: "/admin/stats" },
+  { icon: Zap, label: "AI 피드백", path: "/admin/ai" },
+  { icon: FileText, label: "카피 문구 편집", path: "/copy-editor" },
+  { icon: Settings, label: "설정", path: "/admin/settings" },
 ];
 
 const SIDEBAR_WIDTH_KEY = "sidebar-width";
@@ -171,7 +178,7 @@ function DashboardLayoutContent({
               {!isCollapsed ? (
                 <div className="flex items-center gap-2 min-w-0">
                   <span className="font-semibold tracking-tight truncate">
-                    Navigation
+                    한진 공통 엔진
                   </span>
                 </div>
               ) : null}

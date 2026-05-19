@@ -6,6 +6,8 @@ import ErrorBoundary from "./components/ErrorBoundary";
 import { ThemeProvider } from "./contexts/ThemeContext";
 import Home from "./pages/Home";
 import AdminDashboard from "./pages/AdminDashboard";
+import MembershipDashboard from './pages/MembershipDashboard';
+import CopyEditor from './pages/CopyEditor';
 import DashboardLayout from "./components/DashboardLayout";
 
 function Router() {
@@ -18,6 +20,8 @@ function Router() {
           <AdminDashboard />
         </DashboardLayout>
       )} />
+      <Route path={"/membership"} component={MembershipDashboard} />
+      <Route path={"/copy-editor"} component={CopyEditor} />
       <Route path={"/404"} component={NotFound} />
       {/* Final fallback route */}
       <Route component={NotFound} />

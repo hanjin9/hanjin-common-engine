@@ -334,3 +334,28 @@
 - [ ] 수면 감지 알고리즘 (밤 10시 이후 + 30분 이상 정지)
 - [ ] 수면 중 호흡 분석 (마이크 100-400Hz 대역 분석)
 - [ ] 낮 컨디션 분석 (목소리 에너지/리듬/스트레스 추정)
+
+---
+
+## 🏆 멤버십 유연 구조 재설계 (2026-05-20)
+
+- [ ] GLWA 멤버십 최대 10단계 확장 가능 구조 (DB 스키마 projectMembershipTiers 테이블 신설)
+- [ ] 멤버십 단계 수를 프로젝트별로 동적 설정 (2~10단계 자유 설정)
+- [ ] 숨호흡 앱 4단계 독립 멤버십 (Silver/Gold/Platinum/VIP - 결제 연결 없음)
+- [ ] 프로젝트별 멤버십 팩토리 완전 분리 구조 완성
+- [ ] AdminDashboard 멤버십 탭 프로젝트별 분리 UI
+- [ ] TypeScript 에러 0개 유지
+- [ ] Vitest 테스트 추가
+
+- [ ] GitHub glwa-wellness-app: vipTierSystem.ts 10단계 확정본 반영 (bronze/emerald/sapphire 추가)
+- [ ] GitHub glwa-wellness-app: schema.ts membershipTiers enum 10단계로 확장
+- [ ] GitHub glwa-wellness-app: membershipRouter.ts 10단계 포인트 임계값 업데이트
+- [ ] hanjin-common-engine 팩토리 시드 데이터 GitHub 원본 수치로 동기화
+- [ ] 두 레포 모두 커밋/푸시 완료
+
+- [ ] 글로벌 럭셔리 멤버십 벤치마크 조사 (BMW, 아메스 블랙, 호텔 VIP 등)
+- [ ] DB 스키마: membership_policy_history 테이블 추가 (정책 변경 이력)
+- [ ] tRPC: adminUpdateTierPolicy 프로시저 (혜택/연회비/포인트/색상 수정)
+- [ ] MembershipDashboard: 단계별 정책 편집 모달 UI (인라인 편집)
+- [ ] MembershipDashboard: 정책 변경 이력 탭 UI
+- [ ] 럭셔리 벤치마크 기능 항목 GLWA 멤버십에 반영

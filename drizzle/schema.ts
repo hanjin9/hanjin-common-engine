@@ -875,3 +875,124 @@ export const healthPlatformConnections = mysqlTable("health_platform_connections
 });
 export type HealthPlatformConnection = typeof healthPlatformConnections.$inferSelect;
 export type InsertHealthPlatformConnection = typeof healthPlatformConnections.$inferInsert;
+
+// ============================================================================
+// 프로젝트별 멤버십 단계 테이블 (동적 확장 가능 구조)
+// - GLWA: 최대 10단계 (현재 8단계, 언제든 확장 가능)
+// - 숨호흡 MVP: 4단계 독립 멤버십 (GLWA 자식 앱, 나중에 연동 가능)
+// - 기타 프로젝트: 각자 독립 단계 설정
+// ============================================================================
+
+/**
+ * 프로젝트별 멤버십 단계 정의 테이블
+ * - 각 프로젝트가 독립적으로 2~10단계 멤버십을 정의할 수 있음
+ * - GLWA는 현재 8단계이지만 최대 10단계까지 row 추가만으로 확장 가능
+ * - 숨호흡 앱은 parentProjectSlug = 'glwa' 로 연결 관계 명시
+ */
+export const projectMembershipTiers = mysqlTable("project_membership_tiers", {
+  id: int("id").autoincrement().primaryKey(),
+  // 어느 프로젝트의 멤버십 단계인지
+  projectSlug: varchar("project_slug", { length: 64 }).notNull(),
+  // 단계 순서 (1부터 시작, 최대 10)
+  tierOrder: int("tier_order").notNull(),
+  // 단계 키 (코드에서 사용)
+  tierKey: varchar("tier_key", { length: 64 }).notNull(),
+  // 단계 표시 이름 (한국어/영어 혼용 가능)
+  tierLabel: varchar("tier_label", { length: 128 }).notNull(),
+  // 단계 색상 (HEX)
+  tierColor: varchar("tier_color", { length: 16 }).default("#94a3b8"),
+  // 포인트 임계값 (자동 승급 기준)
+  pointThreshold: int("point_threshold").default(0).notNull(),
+  // 연회비 (원, 0이면 무료)
+  annualFeeKrw: int("annual_fee_krw").default(0),
+  // 혜택 목록 (JSON 배열)
+  benefits: text("benefits"), // JSON: ["혜택1", "혜택2"]
+  // 자동 승급 여부 (false = 관리자 수동 승급)
+  autoUpgrade: boolean("auto_upgrade").default(false),
+  // 활성화 여부 (비활성화 시 해당 단계 숨김)
+  isActive: boolean("is_active").default(true),
+  // 부모 프로젝트 연결 (숨호흡 → glwa 등)
+  parentProjectSlug: varchar("parent_project_slug", { length: 64 }),
+  // 부모 프로젝트 단계 매핑 (나중에 통합 시 사용)
+  parentTierKey: varchar("parent_tier_key", { length: 64 }),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().onUpdateNow().notNull(),
+});
+export type ProjectMembershipTier = typeof projectMembershipTiers.$inferSelect;
+export type InsertProjectMembershipTier = typeof projectMembershipTiers.$inferInsert;
+
+/**
+ * 프로젝트별 사용자 멤버십 테이블
+ * - 사용자가 여러 프로젝트에 각각 다른 멤버십 단계를 가질 수 있음
+ * - 숨호흡 앱에서 gold 단계 → GLWA에서 silver 단계 (별개)
+ */
+export const projectUserMemberships = mysqlTable("project_user_memberships", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("user_id").notNull(),
+  projectSlug: varchar("project_slug", { length: 64 }).notNull(),
+  // 현재 단계 키
+  currentTierKey: varchar("current_tier_key", { length: 64 }).notNull(),
+  // 현재 포인트 (해당 프로젝트 내 포인트)
+  currentPoints: int("current_points").default(0),
+  // 누적 획득 포인트
+  totalPointsEarned: int("total_points_earned").default(0),
+  // 누적 사용 포인트
+  totalPointsUsed: int("total_points_used").default(0),
+  // 연회비 납부 여부
+  annualFeePaid: boolean("annual_fee_paid").default(false),
+  // 연회비 납부일
+  annualFeePaidAt: timestamp("annual_fee_paid_at"),
+  // 단계 변경일
+  tierChangedAt: timestamp("tier_changed_at").defaultNow(),
+  // 단계 변경 사유 (관리자 메모)
+  tierChangeReason: text("tier_change_reason"),
+  // 활성 여부
+  isActive: boolean("is_active").default(true),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().onUpdateNow().notNull(),
+});
+export type ProjectUserMembership = typeof projectUserMemberships.$inferSelect;
+export type InsertProjectUserMembership = typeof projectUserMemberships.$inferInsert;
+
+// ─── Membership Policy History (멤버십 정책 변경 이력) ────────────────────────
+// 관리자가 단계별 정책(혜택/연회비/포인트 임계값/색상 등)을 수정할 때마다 이력 기록
+export const membershipPolicyHistory = mysqlTable("membership_policy_history", {
+  id: int("id").autoincrement().primaryKey(),
+  projectSlug: varchar("project_slug", { length: 100 }).notNull(),
+  tierKey: varchar("tier_key", { length: 50 }).notNull(),
+  tierLabel: varchar("tier_label", { length: 100 }).notNull(),
+  changedBy: varchar("changed_by", { length: 255 }).notNull(), // 관리자 userId
+  changedByName: varchar("changed_by_name", { length: 255 }),  // 관리자 이름
+  changeType: mysqlEnum("change_type", [
+    "benefits_update",    // 혜택 목록 수정
+    "fee_update",         // 연회비/구독료 수정
+    "point_threshold",    // 포인트 임계값 수정
+    "color_update",       // 단계 색상 수정
+    "label_update",       // 단계명 수정
+    "status_toggle",      // 활성/비활성 전환
+    "policy_note",        // 정책 메모 추가
+    "full_update",        // 전체 업데이트
+  ]).notNull(),
+  previousValue: text("previous_value"),  // 변경 전 값 (JSON)
+  newValue: text("new_value").notNull(),  // 변경 후 값 (JSON)
+  changeNote: text("change_note"),        // 변경 사유/메모
+  effectiveDate: timestamp("effective_date"),  // 적용 일자 (null=즉시 적용)
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+export type MembershipPolicyHistory = typeof membershipPolicyHistory.$inferSelect;
+export type InsertMembershipPolicyHistory = typeof membershipPolicyHistory.$inferInsert;
+
+// ─── 멤버십 카피라이팅 문구 테이블 ──────────────────────────────────────────
+// 관리자가 앱/웹 멤버십 소개 페이지의 문구를 직접 편집
+export const membershipCopy = mysqlTable("membership_copy", {
+  id: int("id").autoincrement().primaryKey(),
+  projectSlug: varchar("project_slug", { length: 50 }).notNull(), // 'glwa' | 'breathing-app' | 'global'
+  copyKey: varchar("copy_key", { length: 100 }).notNull(),        // 'main_slogan' | 'sub_slogan' | 'intro_text' | 'tier_{key}_tagline'
+  copyText: text("copy_text").notNull(),                          // 실제 문구
+  copyType: varchar("copy_type", { length: 30 }).default("text"), // 'text' | 'html' | 'markdown'
+  isActive: boolean("is_active").default(true),
+  sortOrder: int("sort_order").default(0),
+  updatedBy: varchar("updated_by", { length: 100 }),
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow().onUpdateNow(),
+});
