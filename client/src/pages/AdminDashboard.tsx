@@ -38,12 +38,15 @@ const ALL_PROJECTS = [
 
 const PROJECTS_PER_PAGE = 6;
 
-// ─── 멤버십 8단계 색상 ─────────────────────────────────────────────────────────
+// ─── 멤버십 10단계 색상 ─────────────────────────────────────────────────────────
 const TIER_COLORS: Record<string, string> = {
+  bronze: "#cd7f32",
   silver: "#c0c0c0",
   gold: "#ffd700",
+  emerald: "#50c878",
+  green_emerald: "#2ecc71",
+  sapphire: "#4f86f7",
   blue_sapphire: "#0f52ba",
-  green_emerald: "#50c878",
   diamond: "#b9f2ff",
   blue_diamond: "#0047ab",
   platinum: "#e5e4e2",
@@ -51,14 +54,17 @@ const TIER_COLORS: Record<string, string> = {
 };
 
 const TIER_LABELS: Record<string, string> = {
+  bronze: "Bronze",
   silver: "Silver",
   gold: "Gold",
-  blue_sapphire: "Blue Sapphire",
+  emerald: "Emerald",
   green_emerald: "Green Emerald",
+  sapphire: "Sapphire",
+  blue_sapphire: "Blue Sapphire",
   diamond: "Diamond",
   blue_diamond: "Blue Diamond",
   platinum: "Platinum",
-  black_platinum: "Black Platinum",
+  black_platinum: "Black Platinum (예약)",
 };
 
 // ─── 샘플 월별 통계 (추후 실제 API로 교체) ───────────────────────────────────
@@ -428,17 +434,22 @@ export default function AdminDashboard() {
           [...Array(4)].map((_, i) => <KPICardSkeleton key={i} />)
         ) : (
           <>
-            <Card>
+            {/* 1위: 실시간 접속자 */}
+            <Card className="border-blue-200 dark:border-blue-800">
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium">총 수련자</CardTitle>
-                <Users className="h-4 w-4 text-muted-foreground" />
+                <CardTitle className="text-sm font-medium">실시간 접속자</CardTitle>
+                <Zap className="h-4 w-4 text-blue-500" />
               </CardHeader>
               <CardContent>
-                <div className="text-2xl font-bold">{(dashStats?.totalUsers ?? 0).toLocaleString()}</div>
-                <p className="text-xs text-muted-foreground">전체 등록 사용자</p>
+                <div className="text-2xl font-bold text-blue-600 flex items-center gap-1">
+                  <span className="inline-block w-2 h-2 rounded-full bg-green-500 animate-pulse" />
+                  {(dashStats?.totalUsers ?? 0) > 0 ? 1 : 0}
+                </div>
+                <p className="text-xs text-muted-foreground">현재 접속 중인 사용자</p>
               </CardContent>
             </Card>
 
+            {/* 2위: 긴급 알림 */}
             <Card>
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                 <CardTitle className="text-sm font-medium">긴급 알림</CardTitle>
@@ -452,19 +463,7 @@ export default function AdminDashboard() {
               </CardContent>
             </Card>
 
-            <Card>
-              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium">조치 대기</CardTitle>
-                <AlertCircle className="h-4 w-4 text-yellow-500" />
-              </CardHeader>
-              <CardContent>
-                <div className={`text-2xl font-bold ${(dashStats?.actionRequiredAlerts ?? 0) > 0 ? "text-yellow-600" : "text-green-600"}`}>
-                  {dashStats?.actionRequiredAlerts ?? 0}
-                </div>
-                <p className="text-xs text-muted-foreground">검토 대기 중</p>
-              </CardContent>
-            </Card>
-
+            {/* 3위: 평균 웰니스 */}
             <Card>
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                 <CardTitle className="text-sm font-medium">평균 웰니스</CardTitle>
@@ -473,6 +472,18 @@ export default function AdminDashboard() {
               <CardContent>
                 <div className="text-2xl font-bold text-green-600">{dashStats?.averageWellness ?? 0}</div>
                 <p className="text-xs text-muted-foreground">수련자 평균 점수</p>
+              </CardContent>
+            </Card>
+
+            {/* 4위: 총 수련자 (맨 뒤) */}
+            <Card>
+              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                <CardTitle className="text-sm font-medium">총 수련자</CardTitle>
+                <Users className="h-4 w-4 text-muted-foreground" />
+              </CardHeader>
+              <CardContent>
+                <div className="text-2xl font-bold">{(dashStats?.totalUsers ?? 0).toLocaleString()}</div>
+                <p className="text-xs text-muted-foreground">전체 등록 사용자</p>
               </CardContent>
             </Card>
           </>
@@ -574,7 +585,7 @@ export default function AdminDashboard() {
           <Card>
             <CardHeader>
               <CardTitle>멤버십 분포</CardTitle>
-              <CardDescription>8단계 멤버십 등급별 회원 수 (실시간 DB 연동)</CardDescription>
+              <CardDescription>10단계 멤버십 등급별 회원 수 (실시간 DB 연동)</CardDescription>
             </CardHeader>
             <CardContent>
               <MembershipDistribution />
