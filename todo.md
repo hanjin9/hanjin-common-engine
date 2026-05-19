@@ -1,5 +1,19 @@
 # 한진 공통 엔진(Hanjin Common Engine) - 개발 체크리스트
 
+## 🎯 1차 배치: 멀티테넌트 프로젝트 관리 시스템 (진행 중)
+
+### 1.0 멀티테넌트 핵심 기능
+- [x] 10개 멀티테넌트 테이블 생성 (projects, projectMembers, projectAuthConfig, projectSubscriptionPlans, projectSubscriptions, projectPayments, projectStatistics, projectAuditLogs, projectWebhookEvents, projectNotificationSettings)
+- [x] Drizzle ORM 스키마 정의 완료
+- [x] 관계(Relations) 정의 완료
+- [x] GLWA 프랜차이즈 API (9개 엔드포인트)
+- [x] GLWA 커뮤니티 API (8개 엔드포인트)
+- [x] 라우터 통합 완료
+- [ ] Vitest 단위 테스트 작성
+- [ ] API 엔드포인트 검증
+
+---
+
 ## Phase 1: 기초 구조 설계 및 DB 스키마 (1주차)
 
 ### 1.1 프로젝트 구조 및 문서화
