@@ -18,8 +18,9 @@ import {
 import {
   Users, TrendingUp, DollarSign, Activity, AlertCircle,
   ChevronLeft, ChevronRight, RefreshCw, CheckCircle2,
-  AlertTriangle, Info, Zap
+  AlertTriangle, Info, Zap, CreditCard, Brain, ArrowRight
 } from "lucide-react";
+import { Link } from "wouter";
 import { useState, useMemo } from "react";
 
 // ─── 10개 프로젝트 정의 (확장 가능 구조) ─────────────────────────────────────
@@ -281,42 +282,38 @@ function MonitoringPanel() {
 
   return (
     <div className="space-y-4">
-      {/* 운영 통계 카드 */}
+      {/* 운영 통계 카드 — 순서: 실시간접속자 / 총수련자 / 평균웰니스 / 긴급알림 */}
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
         {statsLoading ? (
           [...Array(4)].map((_, i) => <KPICardSkeleton key={i} />)
         ) : (
           <>
+            {/* 1위: 실시간 접속자 */}
+            <Card className="border-blue-200 dark:border-blue-800">
+              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                <CardTitle className="text-sm font-medium">실시간 접속자</CardTitle>
+                <Zap className="h-4 w-4 text-blue-500" />
+              </CardHeader>
+              <CardContent>
+                <div className="text-2xl font-bold text-blue-600 flex items-center gap-1">
+                  <span className="inline-block w-2 h-2 rounded-full bg-green-500 animate-pulse" />
+                  {(dashStats?.totalUsers ?? 0) > 0 ? 1 : 0}
+                </div>
+                <p className="text-xs text-muted-foreground">현재 접속 중인 사용자</p>
+              </CardContent>
+            </Card>
+            {/* 2위: 총 수련자 */}
             <Card>
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                 <CardTitle className="text-sm font-medium">총 수련자</CardTitle>
                 <Users className="h-4 w-4 text-muted-foreground" />
               </CardHeader>
               <CardContent>
-                <div className="text-2xl font-bold">{dashStats?.totalUsers ?? 0}</div>
+                <div className="text-2xl font-bold">{(dashStats?.totalUsers ?? 0).toLocaleString()}</div>
                 <p className="text-xs text-muted-foreground">전체 등록 사용자</p>
               </CardContent>
             </Card>
-            <Card>
-              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium">긴급 알림</CardTitle>
-                <AlertTriangle className="h-4 w-4 text-red-500" />
-              </CardHeader>
-              <CardContent>
-                <div className="text-2xl font-bold text-red-600">{dashStats?.highSeverityAlerts ?? 0}</div>
-                <p className="text-xs text-muted-foreground">즉시 조치 필요</p>
-              </CardContent>
-            </Card>
-            <Card>
-              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium">조치 필요</CardTitle>
-                <AlertCircle className="h-4 w-4 text-yellow-500" />
-              </CardHeader>
-              <CardContent>
-                <div className="text-2xl font-bold text-yellow-600">{dashStats?.actionRequiredAlerts ?? 0}</div>
-                <p className="text-xs text-muted-foreground">검토 대기 중</p>
-              </CardContent>
-            </Card>
+            {/* 3위: 평균 웰니스 */}
             <Card>
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                 <CardTitle className="text-sm font-medium">평균 웰니스</CardTitle>
@@ -325,6 +322,19 @@ function MonitoringPanel() {
               <CardContent>
                 <div className="text-2xl font-bold text-green-600">{dashStats?.averageWellness ?? 0}</div>
                 <p className="text-xs text-muted-foreground">전체 수련자 평균</p>
+              </CardContent>
+            </Card>
+            {/* 4위: 긴급 알림 */}
+            <Card>
+              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                <CardTitle className="text-sm font-medium">긴급 알림</CardTitle>
+                <AlertTriangle className="h-4 w-4 text-red-500" />
+              </CardHeader>
+              <CardContent>
+                <div className={`text-2xl font-bold ${(dashStats?.highSeverityAlerts ?? 0) > 0 ? "text-red-600" : "text-green-600"}`}>
+                  {dashStats?.highSeverityAlerts ?? 0}
+                </div>
+                <p className="text-xs text-muted-foreground">즉시 조치 필요</p>
               </CardContent>
             </Card>
           </>
@@ -501,6 +511,44 @@ export default function AdminDashboard() {
 
         {/* ── 개요 탭 ── */}
         <TabsContent value="overview" className="space-y-4">
+
+          {/* 빠른 접근 카드 — 결제/정산 + AI 분석 */}
+          <div className="grid gap-4 grid-cols-1 md:grid-cols-2">
+            <Card className="border-emerald-200 dark:border-emerald-800 hover:shadow-md transition-shadow">
+              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                <div>
+                  <CardTitle className="text-base">결제 / 정산</CardTitle>
+                  <CardDescription className="text-xs mt-0.5">입금명단 · 환불 · 구독갱신 · CSV</CardDescription>
+                </div>
+                <CreditCard className="h-5 w-5 text-emerald-500" />
+              </CardHeader>
+              <CardContent className="pt-0">
+                <Link href="/admin/payment">
+                  <button className="flex items-center gap-1 text-sm text-emerald-600 hover:text-emerald-700 font-medium mt-1">
+                    결제 대시보드 열기 <ArrowRight className="h-3.5 w-3.5" />
+                  </button>
+                </Link>
+              </CardContent>
+            </Card>
+
+            <Card className="border-purple-200 dark:border-purple-800 hover:shadow-md transition-shadow">
+              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                <div>
+                  <CardTitle className="text-base">AI 분석 현황</CardTitle>
+                  <CardDescription className="text-xs mt-0.5">피드백 로그 · 통계 · 이상 감지</CardDescription>
+                </div>
+                <Brain className="h-5 w-5 text-purple-500" />
+              </CardHeader>
+              <CardContent className="pt-0">
+                <Link href="/admin/ai-analytics">
+                  <button className="flex items-center gap-1 text-sm text-purple-600 hover:text-purple-700 font-medium mt-1">
+                    AI 분석 대시보드 열기 <ArrowRight className="h-3.5 w-3.5" />
+                  </button>
+                </Link>
+              </CardContent>
+            </Card>
+          </div>
+
           <div className="grid gap-4 md:grid-cols-2">
             <Card className="md:col-span-2">
               <CardHeader>
