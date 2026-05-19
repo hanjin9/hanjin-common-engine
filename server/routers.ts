@@ -11,6 +11,8 @@ import { aiRouter } from "./modules/ai/aiRouter";
 import { projectMembershipRouter } from './modules/membership/projectMembershipFactory';
 import copyRouter from './modules/copy/copyRouter';
 import { sleepRouter } from './modules/sleep/sleepRouter';
+import { paymentRouter } from './modules/payment/paymentRouter';
+import { healthAiRouter } from './modules/health-ai/healthAiRouter';
 
 export const appRouter = router({
     // if you need to use socket.io, read and register route in server/_core/index.ts, all api should start with '/api/' so that the gateway can route correctly
@@ -50,6 +52,12 @@ export const appRouter = router({
 
   // AI 피드백 엔진 라우터 (3단계 피드백 + 실시간 코칭 + 개인 메모리 + 생체 데이터)
   ai: aiRouter,
+
+  // 결제/정산 관리자 라우터 (입금명단, 환불, 구독갱신, 정산, CSV)
+  payment: paymentRouter,
+
+  // 건강 AI 분석 라우터 (생체데이터 분석, 피드백, 관리자 현황)
+  healthAi: healthAiRouter,
 });
 
 export type AppRouter = typeof appRouter;

@@ -371,3 +371,47 @@
 - [x] tRPC: recordSleepAuto 프로시저 (자동 수면 기록)
 - [x] 프론트엔드: 수면 체크 설정 UI (기본 ON 표시 + 거부 선택 토글)
 - [x] TypeScript 에러 0개 유지
+
+---
+
+## 💳 Stripe 결제 관리자 모듈 + 멤버십 5개 탭 (2026-05-20)
+
+- [ ] DB 시드: GLWA 11단계(Bronze~Platinum + Black Platinum Special) 삽입
+- [ ] DB 시드: 숨호흡 4단계 구독 삽입 (Free/Silver/Gold/Premium)
+- [ ] DB 시드: 스포츠회복사 3단계 구독 삽입 (Basic/Professional/Master - GitHub 원본)
+- [ ] DB 시드: 장부관리사 4단계 구독 삽입 (Silver/Gold/Platinum/Diamond - GitHub 원본)
+- [ ] DB 시드: GLWA 커뮤니티 3단계 삽입
+- [ ] DB 시드: 예약 슬롯 5개 (6~10번) 비활성 상태로 삽입
+- [ ] MembershipDashboard.tsx: 5개 카테고리 탭 구조 (최대 10개 확장 가능)
+- [ ] 각 탭: 단계별 카드 + 정책 편집 모달 + 이미지 슬롯
+- [ ] Stripe 결제 관리자 모듈: stripeAdminRouter.ts (GitHub 원본 이식)
+- [ ] 결제 현황 대시보드: PaymentDashboard.tsx (구독 목록/취소/환불)
+- [ ] Stripe 웹훅 처리 라우터 이식
+- [ ] TypeScript 에러 0개 유지
+
+---
+
+## 🧠 AI 생체 분석 관리자 대시보드 + Stripe 결제 (2026-05-20)
+
+- [ ] AI 생체 분석 관리자 대시보드: HealthAnalyticsDashboard.tsx (고객별 건강 데이터 분류/분석)
+- [ ] 고객별 심박수/호흡/수면/안색 데이터 현황 테이블
+- [ ] AI 분석 결과 분류 (정상/주의/위험) 필터 + 차트
+- [ ] 실시간 분석 중인 사용자 목록
+- [ ] Stripe 관리자 라우터: stripeAdminRouter.ts 이식 (GitHub 원본 기준)
+- [ ] 결제 현황 대시보드: PaymentDashboard.tsx (구독 목록/취소/환불)
+- [ ] Stripe 웹훅 처리 라우터 이식
+- [ ] DashboardLayout 사이드바에 결제관리/건강분석 메뉴 추가
+
+---
+
+## ✅ 결제/정산 + AI 분석 현황 대시보드 완성 (2026-05-20)
+- [x] GitHub 전수 조사: jangbu-quantum-assoc, glwa-wellness-check 핵심 코드 복사 이식
+- [x] stripeWebhook.ts: Stripe 웹훅 핸들러 (결제완료/구독갱신/환불) 복사 + 이식
+- [x] paymentRouter.ts: 결제/정산 관리자 tRPC 라우터 (입금명단, 환불, 구독갱신, 정산)
+- [x] healthAiRouter.ts: AI 피드백 엔진 복사 + getFeedbackList + getFeedbackStats 추가
+- [x] PaymentDashboard.tsx: 엑셀형 결제/정산 화면 (입금명단, 환불, 구독갱신, 금액정산, CSV)
+- [x] AiAnalyticsDashboard.tsx: AI 분석 현황 최소 탭 (통계 카드 + 피드백 로그 테이블)
+- [x] DashboardLayout 사이드바: 결제/정산 + AI 분석 현황 메뉴 추가
+- [x] App.tsx: /admin/payment + /admin/ai-analytics 라우트 등록
+- [x] routers.ts: paymentRouter + healthAiRouter 등록
+- [x] TypeScript 에러 0개 확인

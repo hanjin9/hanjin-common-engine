@@ -1050,3 +1050,57 @@ export const sleepRecords = mysqlTable("sleep_records", {
 });
 export type SleepRecord = typeof sleepRecords.$inferSelect;
 export type InsertSleepRecord = typeof sleepRecords.$inferInsert;
+
+// project_registry, stripe_subscriptions, stripe_payments
+export const projectRegistry = mysqlTable("project_registry", {
+  id: int("id").autoincrement().primaryKey(),
+  slug: varchar("slug", { length: 64 }).notNull().unique(),
+  name: varchar("name", { length: 128 }).notNull(),
+  description: text("description"),
+  projectType: mysqlEnum("project_type", ["membership", "subscription", "community"]).default("subscription").notNull(),
+  parentSlug: varchar("parent_slug", { length: 64 }),
+  maxTiers: int("max_tiers").default(10),
+  bioTrackingEnabled: boolean("bio_tracking_enabled").default(false),
+  aiFeedbackLevel: mysqlEnum("ai_feedback_level", ["none", "basic", "full"]).default("none"),
+  stripeProductId: varchar("stripe_product_id", { length: 128 }),
+  icon: varchar("icon", { length: 256 }),
+  themeColor: varchar("theme_color", { length: 16 }).default("#6366f1"),
+  sortOrder: int("sort_order").default(99),
+  isActive: boolean("is_active").default(true),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().onUpdateNow().notNull(),
+});
+export type ProjectRegistry = typeof projectRegistry.$inferSelect;
+export type InsertProjectRegistry = typeof projectRegistry.$inferInsert;
+
+export const stripeSubscriptions = mysqlTable("stripe_subscriptions", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: varchar("user_id", { length: 100 }).notNull(),
+  projectSlug: varchar("project_slug", { length: 64 }).notNull(),
+  stripeCustomerId: varchar("stripe_customer_id", { length: 128 }),
+  stripeSubscriptionId: varchar("stripe_subscription_id", { length: 128 }),
+  stripePriceId: varchar("stripe_price_id", { length: 128 }),
+  status: mysqlEnum("status", ["active", "canceled", "past_due", "trialing", "incomplete"]).default("incomplete"),
+  tierKey: varchar("tier_key", { length: 64 }),
+  currentPeriodStart: timestamp("current_period_start"),
+  currentPeriodEnd: timestamp("current_period_end"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().onUpdateNow().notNull(),
+});
+export type StripeSubscription = typeof stripeSubscriptions.$inferSelect;
+export type InsertStripeSubscription = typeof stripeSubscriptions.$inferInsert;
+
+export const stripePayments = mysqlTable("stripe_payments", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: varchar("user_id", { length: 100 }).notNull(),
+  projectSlug: varchar("project_slug", { length: 64 }).notNull(),
+  stripePaymentIntentId: varchar("stripe_payment_intent_id", { length: 128 }),
+  stripeInvoiceId: varchar("stripe_invoice_id", { length: 128 }),
+  amountKrw: int("amount_krw"),
+  currency: varchar("currency", { length: 8 }).default("krw"),
+  status: mysqlEnum("status", ["succeeded", "pending", "failed", "refunded"]).default("pending"),
+  description: varchar("description", { length: 256 }),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+export type StripePayment = typeof stripePayments.$inferSelect;
+export type InsertStripePayment = typeof stripePayments.$inferInsert;
