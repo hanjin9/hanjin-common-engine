@@ -455,3 +455,30 @@
 - [x] DashboardLayout.tsx — 스케줄러/AI분석&랭킹 메뉴 추가
 - [x] routers.ts — rankingRouter, schedulerRouter 등록
 - [x] TypeScript 에러 0개 검증 완료
+
+---
+
+## ✅ A/B/C 3안 병렬 완성 + Heartbeat + 시드 데이터 + API 테스트 (2026-05-20)
+
+### A안: Heartbeat 크론 등록 + 스케줄러 테스트
+- [x] daily-mission-push 크론 등록 (매일 KST 10:00)
+- [x] weekly-mission-report 크론 등록 (매주 월요일 KST 09:00)
+- [x] /api/scheduled/daily-mission 엔드포인트 정상 등록 확인
+- [x] /api/scheduled/weekly-mission-report 엔드포인트 정상 등록 확인
+
+### B안: glwa-wellness-check MissionDashboard/EventDashboard UI 이식
+- [x] MissionDashboard.tsx 이식 (missionType enum 교체, trpc 경로 수정)
+- [x] EventDashboard.tsx 이식 (import 경로 수정)
+- [x] MissionSlotMachine.tsx / RequiredMissions.tsx 컴포넌트 이식
+- [x] App.tsx 라우트 등록 (/admin/missions, /admin/events)
+- [x] AdminDashboard.tsx에 바로가기 버튼 추가
+- [x] glwa TypeScript 에러 0개 확인
+- [x] glwa GitHub push 완료 (c979e9a)
+
+### C안: % 랭킹 시드 데이터 + API 연결 테스트
+- [x] 가상 사용자 20명 삽입 (김건강~송바이탈)
+- [x] feedback_logs 60건 삽입 (차등 분포: 상위1% 10건 ~ 하위20% 1건)
+- [x] mission_completions 32건 삽입 (차등 분포)
+- [x] ranking.getRankingStats API 테스트 통과 (totalUsers:20, distribution 6단계 정상)
+- [x] ranking.getTopUsers API 테스트 통과 (1위 김건강 10건, 2위 이활력 8건)
+- [x] hanjin-common-engine GitHub 최신 상태 확인 (313a0a35)
