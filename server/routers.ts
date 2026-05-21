@@ -1,7 +1,7 @@
 import { COOKIE_NAME } from "@shared/const";
 import { getSessionCookieOptions } from "./_core/cookies";
 import { systemRouter } from "./_core/systemRouter";
-import { publicProcedure, router } from "./_core/trpc";
+import { publicProcedure, protectedProcedure, router } from "./_core/trpc";
 import { glwaFranchiseRouter } from "./modules/projects/glwa-franchise";
 import { glwaCommunityRouter } from "./modules/projects/glwa-community";
 import { membershipRouter } from "./modules/wellness/membershipRouter";
@@ -17,6 +17,8 @@ import { missionRouter } from './modules/mission/missionRouter';
 import { eventRouter } from './modules/event/eventRouter';
 import { rankingRouter } from './modules/health-ai/rankingRouter';
 import { schedulerRouter } from './modules/scheduler/schedulerRouter';
+import { adminRouter } from './modules/admin/adminRouter';
+import { z } from 'zod';
 
 export const appRouter = router({
     // if you need to use socket.io, read and register route in server/_core/index.ts, all api should start with '/api/' so that the gateway can route correctly
@@ -36,6 +38,21 @@ export const appRouter = router({
   projects: router({
     glwaFranchise: glwaFranchiseRouter,
     glwaCommunity: glwaCommunityRouter,
+    list: protectedProcedure.query(async () => {
+      return [
+        { id: 1, name: 'GLWA 프랜차이즈', description: '프랜차이즈 관리 시스템', status: 'active' },
+        { id: 2, name: 'GLWA 커뮤니티', description: '커뮤니티 협회 관리', status: 'active' },
+        { id: 3, name: '웰니스 체크', description: '건강 체크 시스템', status: 'active' },
+        { id: 4, name: '미션 시스템', description: '일일 미션 관리', status: 'active' },
+        { id: 5, name: '이벤트 관리', description: '이벤트 캘린더', status: 'active' },
+        { id: 6, name: '결제 시스템', description: '결제 및 정산', status: 'active' },
+      ];
+    }),
+    update: protectedProcedure
+      .input(z.object({ id: z.number(), status: z.enum(['active', 'inactive']) }))
+      .mutation(async ({ input }) => {
+        return { success: true, projectId: input.id, newStatus: input.status };
+      }),
   }),
 
   // 웰니스/멤버십 관리 라우터 (glwa-wellness-app에서 이식)
@@ -74,6 +91,9 @@ export const appRouter = router({
 
   // Heartbeat 스케줄러 관리 라우터 (일일 미션 발송 + 주간 리포트)
   scheduler: schedulerRouter,
+
+  // 관리자 라우터 (사용자 관리, 시스템 통계, 설정)
+  admin: adminRouter,
 });
 
 export type AppRouter = typeof appRouter;

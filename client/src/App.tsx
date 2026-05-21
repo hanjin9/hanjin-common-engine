@@ -15,6 +15,11 @@ import MissionDashboard from './pages/MissionDashboard';
 import EventDashboard from './pages/EventDashboard';
 import SchedulerDashboard from './pages/SchedulerDashboard';
 import DashboardLayout from "./components/DashboardLayout";
+import UsersManagement from './pages/UsersManagement';
+import ProjectsManagement from './pages/ProjectsManagement';
+import MonitoringDashboard from './pages/MonitoringDashboard';
+import StatsDashboard from './pages/StatsDashboard';
+import SettingsPage from './pages/SettingsPage';
 
 function Router() {
   return (
@@ -48,7 +53,41 @@ function Router() {
           <EventDashboard />
         </DashboardLayout>
       )} />
-      <Route path={"/admin/scheduler"} component={SchedulerDashboard} />
+      <Route path={"/admin/scheduler"} component={() => (
+        <DashboardLayout>
+          <SchedulerDashboard />
+        </DashboardLayout>
+      )} />
+      <Route path={"/admin/users"} component={() => (
+        <DashboardLayout>
+          <UsersManagement />
+        </DashboardLayout>
+      )} />
+      <Route path={"/admin/projects"} component={() => (
+        <DashboardLayout>
+          <ProjectsManagement />
+        </DashboardLayout>
+      )} />
+      <Route path={"/admin/monitoring"} component={() => (
+        <DashboardLayout>
+          <MonitoringDashboard />
+        </DashboardLayout>
+      )} />
+      <Route path={"/admin/stats"} component={() => (
+        <DashboardLayout>
+          <StatsDashboard />
+        </DashboardLayout>
+      )} />
+      <Route path={"/admin/ai"} component={() => (
+        <DashboardLayout>
+          <AiAnalyticsDashboard />
+        </DashboardLayout>
+      )} />
+      <Route path={"/admin/settings"} component={() => (
+        <DashboardLayout>
+          <SettingsPage />
+        </DashboardLayout>
+      )} />
       <Route path={"/404"} component={NotFound} />
       {/* Final fallback route */}
       <Route component={NotFound} />
