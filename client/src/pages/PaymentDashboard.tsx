@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useLocation } from 'wouter';
 import { trpc } from '../lib/trpc';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -9,6 +10,7 @@ import { CreditCard, DollarSign, TrendingUp, AlertCircle, RefreshCw, Download } 
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 
 export default function PaymentDashboard() {
+  const [, setLocation] = useLocation();
   const [isRefreshing, setIsRefreshing] = useState(false);
   const { data: payments, isLoading, refetch } = trpc.admin.getAnalytics.useQuery();
 
@@ -81,7 +83,10 @@ export default function PaymentDashboard() {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-        <Card className="hover:shadow-lg hover:scale-105 transition-all cursor-pointer">
+        <Card 
+          className="hover:shadow-lg hover:scale-105 transition-all cursor-pointer"
+          onClick={() => setLocation('/admin/payment/revenue')}
+        >
           <CardHeader className="pb-2">
             <CardTitle className="text-sm font-medium text-gray-600 flex items-center gap-2">
               <DollarSign className="h-4 w-4 text-green-500" />
@@ -95,7 +100,10 @@ export default function PaymentDashboard() {
           </CardContent>
         </Card>
 
-        <Card className="hover:shadow-lg hover:scale-105 transition-all cursor-pointer">
+        <Card 
+          className="hover:shadow-lg hover:scale-105 transition-all cursor-pointer"
+          onClick={() => setLocation('/admin/payment/settlement')}
+        >
           <CardHeader className="pb-2">
             <CardTitle className="text-sm font-medium text-gray-600 flex items-center gap-2">
               <TrendingUp className="h-4 w-4 text-blue-500" />
@@ -109,7 +117,10 @@ export default function PaymentDashboard() {
           </CardContent>
         </Card>
 
-        <Card className="hover:shadow-lg hover:scale-105 transition-all cursor-pointer">
+        <Card 
+          className="hover:shadow-lg hover:scale-105 transition-all cursor-pointer"
+          onClick={() => setLocation('/admin/payment/refund')}
+        >
           <CardHeader className="pb-2">
             <CardTitle className="text-sm font-medium text-gray-600 flex items-center gap-2">
               <AlertCircle className="h-4 w-4 text-orange-500" />
@@ -123,7 +134,10 @@ export default function PaymentDashboard() {
           </CardContent>
         </Card>
 
-        <Card className="hover:shadow-lg hover:scale-105 transition-all cursor-pointer">
+        <Card 
+          className="hover:shadow-lg hover:scale-105 transition-all cursor-pointer"
+          onClick={() => setLocation('/admin/payment/transaction')}
+        >
           <CardHeader className="pb-2">
             <CardTitle className="text-sm font-medium text-gray-600 flex items-center gap-2">
               <CreditCard className="h-4 w-4 text-purple-500" />

@@ -19,6 +19,10 @@ import ProjectsManagement from './pages/ProjectsManagement';
 import MonitoringDashboard from './pages/MonitoringDashboard';
 import StatsDashboard from './pages/StatsDashboard';
 import PaymentDashboard from './pages/PaymentDashboard';
+import RevenueDetailsPage from './pages/Payment/RevenueDetailsPage';
+import SettlementDetailsPage from './pages/Payment/SettlementDetailsPage';
+import RefundDetailsPage from './pages/Payment/RefundDetailsPage';
+import TransactionDetailsPage from './pages/Payment/TransactionDetailsPage';
 import MissionDashboardPage from './pages/MissionDashboard';
 import LoginPage from './pages/LoginPage';
 import SettingsPage from './pages/SettingsPage';
@@ -47,6 +51,26 @@ function Router() {
       <Route path={"/admin/payment"} component={() => (
         <DashboardLayout>
           <PaymentDashboard />
+        </DashboardLayout>
+      )} />
+      <Route path={"/admin/payment/revenue"} component={() => (
+        <DashboardLayout>
+          <RevenueDetailsPage />
+        </DashboardLayout>
+      )} />
+      <Route path={"/admin/payment/settlement"} component={() => (
+        <DashboardLayout>
+          <SettlementDetailsPage />
+        </DashboardLayout>
+      )} />
+      <Route path={"/admin/payment/refund"} component={() => (
+        <DashboardLayout>
+          <RefundDetailsPage />
+        </DashboardLayout>
+      )} />
+      <Route path={"/admin/payment/transaction"} component={() => (
+        <DashboardLayout>
+          <TransactionDetailsPage />
         </DashboardLayout>
       )} />
       <Route path={"/admin/ai-analytics"} component={AiAnalyticsDashboard} />
