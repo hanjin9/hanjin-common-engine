@@ -87,6 +87,11 @@ function Router() {
       )} />
       
       {/* Group A: AI 피드백 (독립 페이지) */}
+      <Route path={"/admin/ai"} component={() => (
+        <DashboardLayout>
+          <AiFeedbackDashboard />
+        </DashboardLayout>
+      )} />
       <Route path={"/admin/ai-feedback"} component={() => (
         <DashboardLayout>
           <AiFeedbackDashboard />
