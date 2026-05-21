@@ -227,7 +227,7 @@ export const feedbackRouter = router({
         tier: z.enum(["상위10%", "상위20%", "중위", "하위20%", "하위10%"]),
         stage: z.enum(["encouragement", "warning", "premium"]),
         language: z.enum(["ko", "en", "ja", "zh", "es"]).default("ko"),
-        variables: z.record(z.union([z.string(), z.number()])),
+        variables: z.record(z.string(), z.union([z.string(), z.number()])).optional(),
       })
     )
     .query(({ input }) => {
@@ -246,7 +246,7 @@ export const feedbackRouter = router({
 
       const interpolated = feedbackTemplateManager.interpolateTemplate(
         template,
-        input.variables
+        (input.variables as Record<string, string | number>) || {}
       );
 
       return {
