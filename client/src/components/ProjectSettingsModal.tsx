@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { trpc } from '../lib/trpc';
 import {
   Dialog,
   DialogContent,
@@ -8,7 +9,6 @@ import {
   DialogFooter,
 } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import {
@@ -18,6 +18,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+import { Spinner } from '@/components/ui/spinner';
 import { toast } from 'sonner';
 
 interface Project {
@@ -44,10 +45,13 @@ export function ProjectSettingsModal({
     project || { id: 0, name: '', description: '', status: 'active' }
   );
   const [isSaving, setIsSaving] = useState(false);
+  
+  // DB에서 프로젝트 목록 조회
+  const { data: projectList, isLoading: isLoadingProjects } = trpc.admin.getProjects.useQuery();
 
   const handleSave = async () => {
     if (!formData.name.trim()) {
-      toast.error('프로젝트 이름을 입력해주세요');
+      toast.error('프로젝트를 선택해주세요');
       return;
     }
     setIsSaving(true);
@@ -74,15 +78,46 @@ export function ProjectSettingsModal({
         </DialogHeader>
         <div className="grid gap-4 py-4">
           <div className="grid gap-2">
-            <Label htmlFor="name">프로젝트 이름</Label>
-            <Input
-              id="name"
-              placeholder="예: GLWA 프랜차이즈"
-              value={formData.name}
-              onChange={(e) =>
-                setFormData({ ...formData, name: e.target.value })
-              }
-            />
+            <Label htmlFor="name">프로젝트 선택</Label>
+            {isLoadingProjects ? (
+              <div className="flex items-center justify-center h-10 border rounded-md bg-muted">
+                <Spinner className="h-4 w-4" />
+              </div>
+            ) : (
+              <Select
+                value={formData.name}
+                onValueChange={(value) =>
+                  setFormData({ ...formData, name: value })
+                }
+              >
+                <SelectTrigger id="name">
+                  <SelectValue placeholder="프로젝트를 선택하세요" />
+                </SelectTrigger>
+                <SelectContent>
+                  {projectList && projectList.length > 0 ? (
+                    projectList.map((proj: any) => (
+                      <SelectItem key={proj.id} value={proj.name}>
+                        <div className="flex items-center gap-2">
+                          <span>{proj.name}</span>
+                          {proj.isActive ? (
+                            <span className="text-xs text-green-600">✓</span>
+                          ) : (
+                            <span className="text-xs text-gray-400">○</span>
+                          )}
+                        </div>
+                      </SelectItem>
+                    ))
+                  ) : (
+                    <SelectItem value="" disabled>
+                      프로젝트가 없습니다
+                    </SelectItem>
+                  )}
+                </SelectContent>
+              </Select>
+            )}
+            <p className="text-xs text-muted-foreground mt-1">
+              현재 운영 중인 프로젝트 목록에서 선택합니다.
+            </p>
           </div>
           <div className="grid gap-2">
             <Label htmlFor="description">설명</Label>
@@ -131,7 +166,7 @@ export function ProjectSettingsModal({
           >
             취소
           </Button>
-          <Button onClick={handleSave} disabled={isSaving}>
+          <Button onClick={handleSave} disabled={isSaving || isLoadingProjects}>
             {isSaving ? '저장 중...' : '저장'}
           </Button>
         </DialogFooter>

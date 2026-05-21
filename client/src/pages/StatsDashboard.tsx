@@ -29,13 +29,8 @@ export default function StatsDashboard() {
     );
   }
 
-  const membershipData = [
-    { name: '실버', value: 45, color: '#c0c0c0' },
-    { name: '골드', value: 78, color: '#ffd700' },
-    { name: '블루사파이어', value: 56, color: '#0f52ba' },
-    { name: '그린에메랄드', value: 34, color: '#2ecc71' },
-    { name: '다이아몬드', value: 23, color: '#b9f2ff' },
-  ];
+  // API에서 동적으로 조회한 11단계 멤버십 분포
+  const membershipData = stats?.membershipDistribution || [];
 
   const revenueData = [
     { month: '1월', revenue: 45000, users: 120 },
@@ -129,28 +124,34 @@ export default function StatsDashboard() {
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <PieChartIcon className="h-5 w-5" />
-              멤버십 분포
+              멤버십 분포 (11단계)
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <ResponsiveContainer width="100%" height={300}>
-              <PieChart>
-                <Pie
-                  data={membershipData}
-                  cx="50%"
-                  cy="50%"
-                  labelLine={false}
-                  label={({ name, value }) => `${name}: ${value}`}
-                  outerRadius={80}
-                  dataKey="value"
-                >
-                  {membershipData.map((entry, index) => (
-                    <Cell key={`cell-${index}`} fill={entry.color} />
-                  ))}
-                </Pie>
-                <Tooltip />
-              </PieChart>
-            </ResponsiveContainer>
+            {membershipData.length > 0 ? (
+              <ResponsiveContainer width="100%" height={300}>
+                <PieChart>
+                  <Pie
+                    data={membershipData}
+                    cx="50%"
+                    cy="50%"
+                    labelLine={false}
+                    label={({ name, value }) => `${name}: ${value}`}
+                    outerRadius={80}
+                    dataKey="value"
+                  >
+                    {membershipData.map((entry, index) => (
+                      <Cell key={`cell-${index}`} fill={entry.color} />
+                    ))}
+                  </Pie>
+                  <Tooltip />
+                </PieChart>
+              </ResponsiveContainer>
+            ) : (
+              <div className="flex items-center justify-center h-[300px] text-muted-foreground">
+                멤버십 데이터가 없습니다
+              </div>
+            )}
           </CardContent>
         </Card>
 
@@ -180,31 +181,41 @@ export default function StatsDashboard() {
       {/* 멤버십 상세 정보 */}
       <Card className="hover:shadow-md transition-shadow">
         <CardHeader>
-          <CardTitle>멤버십 상세</CardTitle>
+          <CardTitle>멤버십 상세 (11단계)</CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="space-y-3">
-            {membershipData.map((tier, i) => (
-              <div 
-                key={i}
-                className="p-3 border rounded-lg hover:shadow-md transition-all hover:scale-102 cursor-pointer"
-              >
-                <div className="flex items-center justify-between mb-2">
-                  <div className="flex items-center gap-2">
-                    <div className="w-3 h-3 rounded-full" style={{ backgroundColor: tier.color }} />
-                    <span className="font-medium text-sm">{tier.name}</span>
+          {membershipData.length > 0 ? (
+            <div className="space-y-3">
+              {membershipData.map((tier, i) => {
+                const maxValue = Math.max(...membershipData.map(t => t.value), 1);
+                const percentage = (tier.value / maxValue) * 100;
+                return (
+                  <div 
+                    key={i}
+                    className="p-3 border rounded-lg hover:shadow-md transition-all hover:scale-102 cursor-pointer"
+                  >
+                    <div className="flex items-center justify-between mb-2">
+                      <div className="flex items-center gap-2">
+                        <div className="w-3 h-3 rounded-full" style={{ backgroundColor: tier.color }} />
+                        <span className="font-medium text-sm">{tier.name}</span>
+                      </div>
+                      <Badge variant="outline">{tier.value}명</Badge>
+                    </div>
+                    <div className="w-full bg-gray-200 rounded-full h-2">
+                      <div
+                        className="h-2 rounded-full transition-all"
+                        style={{ width: `${percentage}%`, backgroundColor: tier.color }}
+                      />
+                    </div>
                   </div>
-                  <Badge variant="outline">{tier.value}명</Badge>
-                </div>
-                <div className="w-full bg-gray-200 rounded-full h-2">
-                  <div
-                    className="h-2 rounded-full transition-all"
-                    style={{ width: `${(tier.value / 100) * 100}%`, backgroundColor: tier.color }}
-                  />
-                </div>
-              </div>
-            ))}
-          </div>
+                );
+              })}
+            </div>
+          ) : (
+            <div className="flex items-center justify-center h-20 text-muted-foreground">
+              멤버십 데이터가 없습니다
+            </div>
+          )}
         </CardContent>
       </Card>
 

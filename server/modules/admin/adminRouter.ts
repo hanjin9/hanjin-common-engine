@@ -1,8 +1,8 @@
 import { router, protectedProcedure } from "../../_core/trpc";
 import { z } from "zod";
 import { getDb } from "../../db";
-import { users } from "../../../drizzle/schema";
-import { eq } from "drizzle-orm";
+import { users, userMemberships, membershipTiers, projects } from "../../../drizzle/schema";
+import { eq, count } from "drizzle-orm";
 import { TRPCError } from "@trpc/server";
 
 export const adminRouter = router({
@@ -47,12 +47,60 @@ export const adminRouter = router({
     if (ctx.user?.role !== "admin") {
       throw new TRPCError({ code: "FORBIDDEN", message: "관리자 권한이 필요합니다." });
     }
+    const db = await getDb();
+    if (!db) {
+      throw new TRPCError({ code: "INTERNAL_SERVER_ERROR", message: "데이터베이스 연결 실패" });
+    }
+
+    // 11단계 멤버십 분포 조회
+    const tiers = await db.select().from(membershipTiers).orderBy(membershipTiers.pointThreshold);
+    const membershipDistribution = await Promise.all(
+      tiers.map(async (tier) => {
+        const result = await db
+          .select({ count: count() })
+          .from(userMemberships)
+          .where(eq(userMemberships.tier, tier.tier));
+        return {
+          name: tier.nameKo,
+          tier: tier.tier,
+          value: result[0]?.count || 0,
+          color: tier.colorCode || "#999999",
+        };
+      })
+    );
+
     return {
       totalMembers: 1234,
       monthlyRevenue: 5600000,
       activeRate: 68,
       avgScore: 78.5,
+      membershipDistribution,
     };
+  }),
+
+  // 프로젝트 목록 조회 (드롭다운용)
+  getProjects: protectedProcedure.query(async ({ ctx }) => {
+    if (ctx.user?.role !== "admin") {
+      throw new TRPCError({ code: "FORBIDDEN", message: "관리자 권한이 필요합니다." });
+    }
+    const db = await getDb();
+    if (!db) {
+      throw new TRPCError({ code: "INTERNAL_SERVER_ERROR", message: "데이터베이스 연결 실패" });
+    }
+
+    const projectList = await db
+      .select({
+        id: projects.id,
+        slug: projects.slug,
+        name: projects.name,
+        description: projects.description,
+        projectType: projects.projectType,
+        isActive: projects.isActive,
+      })
+      .from(projects)
+      .orderBy(projects.name);
+
+    return projectList;
   }),
 
   // 설정 업데이트
