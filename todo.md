@@ -534,3 +534,31 @@
 - [x] 최종 커밋 + 체크포인트 저장
 
 **완료 상태**: ✅ B안 완벽 완료 (TypeScript 0개 에러 + 모든 기능 연결 + UI 개선)
+
+
+---
+
+## 🚀 필수 구현 순서 (병렬 + 순차) - 2026-05-22
+
+### 1순위: PaymentDashboard + Stripe 결제 통합
+- [ ] PaymentDashboard.tsx 페이지 구현 (결제/정산 카드 기능 연결)
+- [ ] Stripe API 통합 (결제 프로시저 + 웹훅)
+- [ ] 결제 이력 조회 API
+- [ ] 환불 처리 로직
+- [ ] 결제 상태 추적 UI
+
+### 2순위: MissionDashboard + Supabase OAuth 통합
+- [ ] MissionDashboard.tsx 페이지 구현 (미션 카드 기능 연결)
+- [ ] Supabase OAuth 통합 (Google/Kakao 소셜 로그인)
+- [ ] 미션 생성/편집/삭제 API
+- [ ] 미션 완료 상태 추적
+- [ ] 미션 보상 정산 로직
+
+### 3순위: AIAnalyticsDashboard + 이메일 알림 시스템
+- [ ] AIAnalyticsDashboard.tsx 페이지 구현 (AI 분석 카드 기능 연결)
+- [ ] Resend 이메일 통합 (템플릿 + 자동 발송)
+- [ ] 결제 완료 이메일 템플릿
+- [ ] 수료증 발급 이메일 템플릿
+- [ ] 알림 스케줄링 (Heartbeat 크론)
+
+**진행 방식**: 각 순위마다 3개 병렬 작업 → 검증 → 체크포인트 저장

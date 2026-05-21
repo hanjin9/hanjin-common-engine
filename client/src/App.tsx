@@ -9,7 +9,6 @@ import AdminDashboard from "./pages/AdminDashboard";
 import MembershipDashboard from './pages/MembershipDashboard';
 import CopyEditor from './pages/CopyEditor';
 import SleepSettings from './pages/SleepSettings';
-import PaymentDashboard from './pages/PaymentDashboard';
 import AiAnalyticsDashboard from './pages/AiAnalyticsDashboard';
 import MissionDashboard from './pages/MissionDashboard';
 import EventDashboard from './pages/EventDashboard';
@@ -19,6 +18,9 @@ import UsersManagement from './pages/UsersManagement';
 import ProjectsManagement from './pages/ProjectsManagement';
 import MonitoringDashboard from './pages/MonitoringDashboard';
 import StatsDashboard from './pages/StatsDashboard';
+import PaymentDashboard from './pages/PaymentDashboard';
+import MissionDashboardPage from './pages/MissionDashboard';
+
 import SettingsPage from './pages/SettingsPage';
 
 function Router() {
@@ -76,6 +78,16 @@ function Router() {
       <Route path={"/admin/stats"} component={() => (
         <DashboardLayout>
           <StatsDashboard />
+        </DashboardLayout>
+      )} />
+      <Route path={"/admin/payment"} component={() => (
+        <DashboardLayout>
+          <PaymentDashboard />
+        </DashboardLayout>
+      )} />
+      <Route path={"/admin/mission"} component={() => (
+        <DashboardLayout>
+          <MissionDashboardPage />
         </DashboardLayout>
       )} />
       <Route path={"/admin/ai"} component={() => (
