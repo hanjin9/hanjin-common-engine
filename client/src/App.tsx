@@ -20,16 +20,16 @@ import MonitoringDashboard from './pages/MonitoringDashboard';
 import StatsDashboard from './pages/StatsDashboard';
 import PaymentDashboard from './pages/PaymentDashboard';
 import MissionDashboardPage from './pages/MissionDashboard';
-
+import LoginPage from './pages/LoginPage';
 import SettingsPage from './pages/SettingsPage';
 
 function Router() {
   return (
     <Switch>
-      <Route path={"/"} component={Home} />
-      <Route path={"/admin"} component={() => (
+      <Route path={"/login"} component={() => <LoginPage />} />
+      <Route path={"/"} component={() => (
         <DashboardLayout>
-          <AdminDashboard />
+          <Home />
         </DashboardLayout>
       )} />
       <Route path={"/membership"} component={MembershipDashboard} />
@@ -78,11 +78,6 @@ function Router() {
       <Route path={"/admin/stats"} component={() => (
         <DashboardLayout>
           <StatsDashboard />
-        </DashboardLayout>
-      )} />
-      <Route path={"/admin/payment"} component={() => (
-        <DashboardLayout>
-          <PaymentDashboard />
         </DashboardLayout>
       )} />
       <Route path={"/admin/mission"} component={() => (
