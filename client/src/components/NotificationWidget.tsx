@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 import {
   AlertCircle, AlertTriangle, CheckCircle, Bell, X, ChevronRight
 } from 'lucide-react';
-import { useRouter } from 'wouter';
+import { useLocation } from 'wouter';
 
 interface Notification {
   id: string;
@@ -70,7 +70,7 @@ const MOCK_NOTIFICATIONS: Notification[] = [
 export function NotificationWidget() {
   const [notifications, setNotifications] = useState<Notification[]>(MOCK_NOTIFICATIONS);
   const [isExpanded, setIsExpanded] = useState(false);
-  const [, navigate] = useRouter();
+  const [, navigate] = useLocation();
 
   const unreadCount = notifications.filter(n => !n.read).length;
 
