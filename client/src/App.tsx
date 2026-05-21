@@ -14,7 +14,6 @@ import MissionDashboard from './pages/MissionDashboard';
 import EventDashboard from './pages/EventDashboard';
 import SchedulerDashboard from './pages/SchedulerDashboard';
 import DashboardLayout from "./components/DashboardLayout";
-import UsersManagement from './pages/UsersManagement';
 import ProjectsManagement from './pages/ProjectsManagement';
 import MonitoringDashboard from './pages/MonitoringDashboard';
 import StatsDashboard from './pages/StatsDashboard';
@@ -23,9 +22,18 @@ import RevenueDetailsPage from './pages/Payment/RevenueDetailsPage';
 import SettlementDetailsPage from './pages/Payment/SettlementDetailsPage';
 import RefundDetailsPage from './pages/Payment/RefundDetailsPage';
 import TransactionDetailsPage from './pages/Payment/TransactionDetailsPage';
-import MissionDashboardPage from './pages/MissionDashboard';
 import LoginPage from './pages/LoginPage';
 import SettingsPage from './pages/SettingsPage';
+
+// Group A: AI 피드백 페이지
+import AiFeedbackDashboard from './pages/AiFeedbackDashboard';
+
+// Group C: 이벤트/스케줄 페이지
+import EventManagement from './pages/EventManagement';
+import TargetAudienceManager from './pages/TargetAudienceManager';
+import ScheduledMissionManager from './pages/ScheduledMissionManager';
+import SleepDetectionSettings from './pages/SleepDetectionSettings';
+import FeedbackTemplateManager from './pages/FeedbackTemplateManager';
 
 function Router() {
   return (
@@ -43,11 +51,8 @@ function Router() {
       )} />
       <Route path={"/membership"} component={MembershipDashboard} />
       <Route path={"/copy-editor"} component={CopyEditor} />
-      <Route path={"/sleep-settings"} component={() => (
-        <DashboardLayout>
-          <SleepSettings />
-        </DashboardLayout>
-      )} />
+      
+      {/* 결제 관리 */}
       <Route path={"/admin/payment"} component={() => (
         <DashboardLayout>
           <PaymentDashboard />
@@ -73,59 +78,93 @@ function Router() {
           <TransactionDetailsPage />
         </DashboardLayout>
       )} />
-      <Route path={"/admin/ai-analytics"} component={AiAnalyticsDashboard} />
+      
+      {/* AI 분석 & 랭킹 */}
+      <Route path={"/admin/ai-analytics"} component={() => (
+        <DashboardLayout>
+          <AiAnalyticsDashboard />
+        </DashboardLayout>
+      )} />
+      
+      {/* Group A: AI 피드백 (독립 페이지) */}
+      <Route path={"/admin/ai-feedback"} component={() => (
+        <DashboardLayout>
+          <AiFeedbackDashboard />
+        </DashboardLayout>
+      )} />
+      
+      {/* 미션 관리 */}
       <Route path={"/admin/missions"} component={() => (
         <DashboardLayout>
           <MissionDashboard />
         </DashboardLayout>
       )} />
+      
+      {/* Group C: 이벤트 관리 (활성화) */}
       <Route path={"/admin/events"} component={() => (
         <DashboardLayout>
-          <EventDashboard />
+          <EventManagement />
         </DashboardLayout>
       )} />
+      
+      {/* Group C: 타겟 발송 */}
+      <Route path={"/admin/target-audience"} component={() => (
+        <DashboardLayout>
+          <TargetAudienceManager />
+        </DashboardLayout>
+      )} />
+      
+      {/* Group C: 스케줄러 (미션 자동 발송) */}
       <Route path={"/admin/scheduler"} component={() => (
         <DashboardLayout>
-          <SchedulerDashboard />
+          <ScheduledMissionManager />
         </DashboardLayout>
       )} />
-      <Route path={"/admin/users"} component={() => (
-        <DashboardLayout>
-          <UsersManagement />
-        </DashboardLayout>
-      )} />
+      
+      {/* 프로젝트 관리 */}
       <Route path={"/admin/projects"} component={() => (
         <DashboardLayout>
           <ProjectsManagement />
         </DashboardLayout>
       )} />
+      
+      {/* 모니터링 */}
       <Route path={"/admin/monitoring"} component={() => (
         <DashboardLayout>
           <MonitoringDashboard />
         </DashboardLayout>
       )} />
+      
+      {/* 통계 */}
       <Route path={"/admin/stats"} component={() => (
         <DashboardLayout>
           <StatsDashboard />
         </DashboardLayout>
       )} />
-      <Route path={"/admin/mission"} component={() => (
+      
+      {/* Group C: 수면 감지 전체 시스템 설정 */}
+      <Route path={"/sleep-settings"} component={() => (
         <DashboardLayout>
-          <MissionDashboardPage />
+          <SleepDetectionSettings />
         </DashboardLayout>
       )} />
-      <Route path={"/admin/ai"} component={() => (
+      
+      {/* Group B: 피드백 템플릿 관리 */}
+      <Route path={"/admin/feedback-templates"} component={() => (
         <DashboardLayout>
-          <AiAnalyticsDashboard />
+          <FeedbackTemplateManager />
         </DashboardLayout>
       )} />
+      
+      {/* 설정 */}
       <Route path={"/admin/settings"} component={() => (
         <DashboardLayout>
           <SettingsPage />
         </DashboardLayout>
       )} />
+      
+      {/* 404 */}
       <Route path={"/404"} component={NotFound} />
-      {/* Final fallback route */}
       <Route component={NotFound} />
     </Switch>
   );

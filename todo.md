@@ -587,3 +587,186 @@
 ### Step 4: TypeScript 0개 + 체크포인트
 - [ ] TypeScript 에러 0개 검증
 - [ ] 최종 체크포인트 저장
+
+
+---
+
+## 🔴 Phase 4: AI 피드백 시스템 & 이벤트 관리 통합 (우선순위 1)
+
+### 4.1 데이터베이스 스키마 재설계
+- [ ] aiFeedbacks 테이블 설계 (1차/2차 자동, 3차 수동 피드백)
+  - id, userId, analysisId, feedbackType (1st/2nd/3rd), content, status (pending/approved/rejected), createdAt, updatedAt, approvedBy
+- [ ] feedbackTemplates 테이블 설계 (피드백 템플릿)
+  - id, name, tier (상위10%, 상위20%, 중위, 하위20%, 하위10%), content, variables (JSON)
+- [ ] targetAudiences 테이블 설계 (타겟 발송 대상)
+  - id, name, criteria (JSON: tier, score, activityLevel), createdAt
+- [ ] campaignEvents 테이블 설계 (캠페인/이벤트)
+  - id, name, type (feedback/mission/reward), targetAudienceId, status, startDate, endDate, createdAt
+- [ ] campaignMessages 테이블 설계 (발송 메시지)
+  - id, campaignId, userId, messageType (push/email/in-app), content, status (pending/sent/failed), sentAt
+- [ ] scheduledMissions 테이블 설계 (스케줄된 미션)
+  - id, missionId, scheduleType (daily/weekly/monthly), targetAudienceId, status, nextSendAt
+- [ ] sleepSettings 테이블 설계 (수면 감지 전체 시스템 설정)
+  - id, projectId, autoDetectionEnabled, detectionThreshold, notificationEnabled, notificationTime, createdAt, updatedAt
+- [ ] DB 마이그레이션 SQL 생성 및 적용
+
+### 4.2 API 엔드포인트 정의
+- [ ] feedbackRouter 생성 (AI 피드백 관련)
+  - generateFeedback (AI 1차 피드백 자동 생성)
+  - approveFeedback (2차 피드백 자동 승인)
+  - rejectFeedback (피드백 거절)
+  - updateFeedback (3차 수동 수정)
+  - getFeedbackHistory (피드백 이력 조회)
+- [ ] feedbackTemplateRouter 생성 (피드백 템플릿 관리)
+  - createTemplate (템플릿 생성)
+  - updateTemplate (템플릿 수정)
+  - deleteTemplate (템플릿 삭제)
+  - getTemplates (템플릿 목록 조회)
+- [ ] campaignRouter 생성 (캠페인/이벤트 관리)
+  - createCampaign (캠페인 생성)
+  - updateCampaign (캠페인 수정)
+  - deleteCampaign (캠페인 삭제)
+  - getCampaigns (캠페인 목록 조회)
+  - launchCampaign (캠페인 시작)
+  - getCampaignStats (캠페인 통계)
+- [ ] targetAudienceRouter 생성 (타겟 발송 대상 관리)
+  - createTargetAudience (타겟 생성)
+  - updateTargetAudience (타겟 수정)
+  - deleteTargetAudience (타겟 삭제)
+  - getTargetAudiences (타겟 목록 조회)
+  - getTargetAudienceMembers (타겟 멤버 조회)
+- [ ] scheduledMissionRouter 생성 (스케줄된 미션 관리)
+  - createScheduledMission (스케줄 생성)
+  - updateScheduledMission (스케줄 수정)
+  - deleteScheduledMission (스케줄 삭제)
+  - getScheduledMissions (스케줄 목록 조회)
+  - sendScheduledMission (스케줄 미션 발송)
+- [ ] sleepSettingsRouter 생성 (수면 감지 설정)
+  - updateSleepSettings (설정 수정)
+  - getSleepSettings (설정 조회)
+  - enableAutoDetection (자동 감지 활성화)
+  - disableAutoDetection (자동 감지 비활성화)
+
+### 4.3 AI 피드백 모듈 구현
+- [ ] server/modules/feedback/feedbackGenerator.ts (1차 피드백 자동 생성)
+  - invokeLLM을 사용한 AI 분석 기반 피드백 생성
+  - 사용자 분석 데이터 → AI → 피드백 텍스트
+- [ ] server/modules/feedback/feedbackApprover.ts (2차 자동 승인)
+  - 1차 피드백 자동 검증 및 승인
+  - 품질 체크 로직
+- [ ] server/modules/feedback/feedbackValidator.ts (3차 수동 검증)
+  - 매니저/코치 수동 승인 로직
+  - 피드백 수정 기능
+- [ ] server/modules/feedback/feedbackTemplateManager.ts (템플릿 관리)
+  - 템플릿 CRUD
+  - 변수 치환 로직 ({{userName}}, {{score}}, {{tier}} 등)
+
+### 4.4 캠페인/이벤트 관리 모듈
+- [ ] server/modules/campaign/campaignManager.ts (캠페인 생성/관리)
+  - 캠페인 생성, 수정, 삭제
+  - 타겟 오디언스 선택
+  - 메시지 템플릿 선택
+- [ ] server/modules/campaign/targetAudienceManager.ts (타겟 발송 대상 관리)
+  - 조건 기반 타겟 오디언스 생성 (tier, score, activityLevel 등)
+  - 타겟 멤버 동적 조회
+- [ ] server/modules/campaign/messageDispatcher.ts (메시지 발송)
+  - Push 알림 발송
+  - 이메일 발송
+  - 인앱 메시지 발송
+  - 발송 상태 추적
+
+### 4.5 스케줄러 미션 자동 발송 모듈
+- [ ] server/modules/scheduler/missionScheduler.ts (미션 스케줄 관리)
+  - 일일/주간/월간 미션 스케줄 생성
+  - 타겟 오디언스별 미션 발송
+  - 스케줄 실행 로직 (Heartbeat 연동)
+- [ ] server/modules/scheduler/missionDispatcher.ts (미션 발송)
+  - 스케줄된 미션 발송
+  - 사용자별 맞춤 미션 선택
+
+### 4.6 수면 감지 전체 시스템 설정 모듈
+- [ ] server/modules/sleep/sleepSettingsManager.ts (수면 설정 관리)
+  - 프로젝트 전체 수면 감지 설정
+  - 자동 감지 활성화/비활성화
+  - 감지 임계값 설정
+  - 알림 설정 (시간, 빈도 등)
+
+---
+
+## 🟠 Phase 5: UI/UX 구현
+
+### 5.1 피드백 대시보드 UI
+- [ ] AiFeedbackDashboard.tsx (AI 피드백 대시보드)
+  - 1차 피드백 자동 생성 현황
+  - 2차 자동 승인 현황
+  - 3차 수동 검증 대기 목록
+  - 피드백 상세 보기 및 수정
+- [ ] FeedbackTemplateManager.tsx (피드백 템플릿 관리)
+  - 템플릿 목록 조회
+  - 템플릿 생성/수정/삭제
+  - 변수 미리보기
+
+### 5.2 이벤트 관리 UI
+- [ ] EventManagement.tsx (이벤트 관리 페이지)
+  - 이벤트 목록 조회
+  - 이벤트 생성/수정/삭제
+  - 이벤트 상태 관리 (활성화/비활성화)
+- [ ] CampaignBuilder.tsx (캠페인 빌더)
+  - 캠페인 생성 마법사
+  - 타겟 오디언스 선택
+  - 메시지 템플릿 선택
+  - 발송 시간 설정
+
+### 5.3 타겟 발송 UI
+- [ ] TargetAudienceManager.tsx (타겟 발송 대상 관리)
+  - 타겟 목록 조회
+  - 타겟 생성/수정/삭제
+  - 타겟 멤버 조회
+  - 조건 기반 필터링 (tier, score 등)
+- [ ] MessageDispatcher.tsx (메시지 발송)
+  - 캠페인 메시지 발송
+  - 발송 상태 추적
+  - 발송 이력 조회
+
+### 5.4 스케줄러 미션 UI
+- [ ] ScheduledMissionManager.tsx (스케줄된 미션 관리)
+  - 스케줄 목록 조회
+  - 스케줄 생성/수정/삭제
+  - 스케줄 실행 현황
+  - 미션 선택 UI
+
+### 5.5 수면 감지 설정 UI
+- [ ] SleepDetectionSettings.tsx (수면 감지 전체 시스템 설정)
+  - 자동 감지 활성화/비활성화
+  - 감지 임계값 설정
+  - 알림 설정 (시간, 빈도)
+  - 프로젝트 전체 적용
+
+---
+
+## 🟡 Phase 6: 통합 테스트 및 검증
+
+### 6.1 단위 테스트
+- [ ] feedbackGenerator.test.ts (AI 피드백 생성 테스트)
+- [ ] campaignManager.test.ts (캠페인 관리 테스트)
+- [ ] targetAudienceManager.test.ts (타겟 오디언스 테스트)
+- [ ] missionScheduler.test.ts (미션 스케줄 테스트)
+- [ ] sleepSettingsManager.test.ts (수면 설정 테스트)
+
+### 6.2 통합 테스트
+- [ ] AI 분석 → 피드백 생성 → 승인 → 발송 전체 플로우 테스트
+- [ ] 캠페인 생성 → 타겟 선택 → 메시지 발송 전체 플로우 테스트
+- [ ] 스케줄 생성 → 미션 발송 전체 플로우 테스트
+
+### 6.3 성능 테스트
+- [ ] 대량 피드백 생성 성능 테스트 (1000+ 사용자)
+- [ ] 대량 메시지 발송 성능 테스트
+- [ ] 스케줄 실행 성능 테스트
+
+---
+
+## ✅ 완료된 항목
+
+- [x] 11단계 멤버십 UI 적용 (StatsDashboard)
+- [x] 프로젝트 드롭다운 선택 기능 추가
+- [x] 결제 관리 4개 카드 클릭 시 상세 페이지 이동
