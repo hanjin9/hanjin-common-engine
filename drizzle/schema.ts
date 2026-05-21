@@ -405,12 +405,12 @@ export const projectNotificationSettingsRelations = relations(
 // GLWA 웰니스 앱 - 관리자 대시보드 필수 테이블 (glwa-wellness-app에서 이식)
 // ============================================================================
 
-// ─── 멤버십 등급 정의 테이블 (8단계) ────────────────────────────────────
+// ─── 멤버십 등급 정의 테이블 (11단계) ────────────────────────────────────
 export const membershipTiers = mysqlTable("membership_tiers", {
   id: int("id").autoincrement().primaryKey(),
   tier: mysqlEnum("tier", [
-    "silver", "gold", "blue_sapphire", "green_emerald",
-    "diamond", "blue_diamond", "platinum", "black_platinum",
+    "bronze", "silver", "gold", "emerald", "green_emerald",
+    "sapphire", "blue_sapphire", "diamond", "blue_diamond", "platinum", "black_platinum",
   ]).notNull().unique(),
   nameKo: varchar("name_ko", { length: 100 }).notNull(),
   nameEn: varchar("name_en", { length: 100 }).notNull(),
@@ -433,9 +433,9 @@ export const userMemberships = mysqlTable("user_memberships", {
   userId: int("user_id").notNull().unique(),
   projectId: int("project_id"),
   tier: mysqlEnum("tier", [
-    "silver", "gold", "blue_sapphire", "green_emerald",
-    "diamond", "blue_diamond", "platinum", "black_platinum",
-  ]).default("silver").notNull(),
+    "bronze", "silver", "gold", "emerald", "green_emerald",
+    "sapphire", "blue_sapphire", "diamond", "blue_diamond", "platinum", "black_platinum",
+  ]).default("bronze").notNull(),
   currentPoints: int("current_points").default(0).notNull(),
   totalPointsEarned: int("total_points_earned").default(0).notNull(),
   totalPointsUsed: int("total_points_used").default(0).notNull(),

@@ -70,7 +70,7 @@ interface AIMetrics {
 interface PredictionData {
   date: string;
   predicted: number;
-  actual: number;
+  actual: number | null;
   confidence: number;
 }
 

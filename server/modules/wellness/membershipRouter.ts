@@ -5,19 +5,22 @@ import { membershipTiers, userMemberships, pointsTransactions } from "../../../d
 import { eq, desc } from "drizzle-orm";
 
 /**
- * 멤버십 8단계 시스템 라우터 (중앙 관리자 대시보드용)
- * Silver / Gold / Blue Sapphire / Green Emerald / Diamond / Blue Diamond / Platinum / Black Platinum
+ * 멤버십 11단계 시스템 라우터 (중앙 관리자 대시보드용)
+ * Bronze / Silver / Gold / Emerald / Green Emerald / Sapphire / Blue Sapphire / Diamond / Blue Diamond / Platinum / Black Platinum
  */
 
 const TIER_POINT_THRESHOLDS = {
-  silver: 0,
-  gold: 10000,
-  blue_sapphire: 50000,
-  green_emerald: 100000,
-  diamond: 250000,
+  bronze: 0,
+  silver: 1000,
+  gold: 5000,
+  emerald: 15000,
+  green_emerald: 30000,
+  sapphire: 60000,
+  blue_sapphire: 100000,
+  diamond: 200000,
   blue_diamond: 500000,
   platinum: 1000000,
-  black_platinum: 2500000,
+  black_platinum: 9999999,
 };
 
 type TierKey = keyof typeof TIER_POINT_THRESHOLDS;
@@ -38,7 +41,7 @@ export const membershipRouter = router({
 
     if (userMembership.length === 0) {
       return {
-        tier: "silver" as TierKey,
+        tier: "bronze" as TierKey,
         currentPoints: 0,
         totalPointsEarned: 0,
         totalPointsUsed: 0,
@@ -92,7 +95,7 @@ export const membershipRouter = router({
       if (userMembership.length === 0) {
         await db.insert(userMemberships).values({
           userId: ctx.user.id,
-          tier: "silver",
+          tier: "bronze",
           currentPoints: input.amount,
           totalPointsEarned: input.amount,
         });
@@ -190,11 +193,11 @@ export const membershipRouter = router({
 
     if (userMembership.length === 0) {
       return {
-        currentTier: "silver" as TierKey,
+        currentTier: "bronze" as TierKey,
         currentPoints: 0,
-        nextTier: "gold" as TierKey,
-        nextTierThreshold: TIER_POINT_THRESHOLDS.gold,
-        pointsNeeded: TIER_POINT_THRESHOLDS.gold,
+        nextTier: "silver" as TierKey,
+        nextTierThreshold: TIER_POINT_THRESHOLDS.silver,
+        pointsNeeded: TIER_POINT_THRESHOLDS.silver,
         progressPercentage: 0,
       };
     }
@@ -256,7 +259,7 @@ export const membershipRouter = router({
    * 관리자용: 멤버십 등급 수동 변경
    */
   adminUpdateTier: adminProcedure
-    .input(z.object({ userId: z.number(), tier: z.enum(["silver","gold","blue_sapphire","green_emerald","diamond","blue_diamond","platinum","black_platinum"]) }))
+    .input(z.object({ userId: z.number(), tier: z.enum(["bronze","silver","gold","emerald","green_emerald","sapphire","blue_sapphire","diamond","blue_diamond","platinum","black_platinum"]) }))
     .mutation(async ({ input }) => {
       const db = await getDb();
       if (!db) throw new Error("Database connection failed");
