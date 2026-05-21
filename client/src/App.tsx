@@ -27,6 +27,11 @@ function Router() {
   return (
     <Switch>
       <Route path={"/login"} component={() => <LoginPage />} />
+      <Route path={"/admin"} component={() => (
+        <DashboardLayout>
+          <AdminDashboard />
+        </DashboardLayout>
+      )} />
       <Route path={"/"} component={() => (
         <DashboardLayout>
           <Home />
