@@ -1,20 +1,40 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { trpc } from '../lib/trpc';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
 import { Spinner } from '@/components/ui/spinner';
+import { toast } from 'sonner';
+import { BarChart3, TrendingUp, Users, DollarSign, RefreshCw, PieChart as PieChartIcon } from 'lucide-react';
 import { BarChart, Bar, PieChart, Pie, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 
 export default function StatsDashboard() {
-  const { data: stats, isLoading } = trpc.admin.getAnalytics.useQuery();
+  const [isRefreshing, setIsRefreshing] = useState(false);
+  const { data: stats, isLoading, refetch } = trpc.admin.getAnalytics.useQuery();
 
-  if (isLoading) return <div className="flex justify-center p-8"><Spinner /></div>;
+  const handleRefresh = async () => {
+    setIsRefreshing(true);
+    toast.loading('통계 데이터를 새로고침 중...');
+    await refetch();
+    setIsRefreshing(false);
+    toast.success('통계 데이터가 업데이트되었습니다');
+  };
+
+  if (isLoading) {
+    return (
+      <div className="flex flex-col items-center justify-center h-full space-y-4">
+        <Spinner className="h-8 w-8" />
+        <p className="text-muted-foreground">통계 데이터를 불러오는 중...</p>
+      </div>
+    );
+  }
 
   const membershipData = [
-    { name: '실버', value: 45 },
-    { name: '골드', value: 78 },
-    { name: '블루사파이어', value: 56 },
-    { name: '그린에메랄드', value: 34 },
-    { name: '다이아몬드', value: 23 },
+    { name: '실버', value: 45, color: '#c0c0c0' },
+    { name: '골드', value: 78, color: '#ffd700' },
+    { name: '블루사파이어', value: 56, color: '#0f52ba' },
+    { name: '그린에메랄드', value: 34, color: '#2ecc71' },
+    { name: '다이아몬드', value: 23, color: '#b9f2ff' },
   ];
 
   const revenueData = [
@@ -25,61 +45,92 @@ export default function StatsDashboard() {
     { month: '5월', revenue: 55000, users: 152 },
   ];
 
-  const COLORS = ['#8884d8', '#82ca9d', '#ffc658', '#ff7c7c', '#a4de6c'];
-
   return (
-    <div className="space-y-6">
-      <div>
-        <h1 className="text-3xl font-bold">통계 분석</h1>
-        <p className="text-gray-600 mt-2">전체 통계 및 분석 현황</p>
+    <div className="space-y-6 p-4 md:p-6">
+      {/* 헤더 */}
+      <div className="flex items-center justify-between">
+        <div>
+          <h1 className="text-3xl font-bold">통계 분석</h1>
+          <p className="text-gray-600 mt-2">사용자 · 매출 · 멤버십 분석</p>
+        </div>
+        <Button 
+          variant="outline" 
+          onClick={handleRefresh}
+          disabled={isRefreshing}
+          className="gap-2"
+        >
+          <RefreshCw className={`h-4 w-4 ${isRefreshing ? 'animate-spin' : ''}`} />
+          새로고침
+        </Button>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-        <Card>
+      {/* KPI 카드 4개 */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+        <Card className="hover:shadow-lg hover:scale-105 transition-all cursor-pointer">
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-gray-600">총 회원</CardTitle>
+            <CardTitle className="text-sm font-medium text-gray-600 flex items-center gap-2">
+              <Users className="h-4 w-4 text-blue-500" />
+              총 회원
+            </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{stats?.totalMembers || 0}</div>
-            <p className="text-xs text-green-600 mt-1">+12% 증가</p>
+            <div className="text-2xl font-bold text-blue-600">{stats?.totalMembers || 0}</div>
+            <p className="text-xs text-gray-500 mt-1">누적 가입자</p>
+            <Badge className="mt-2 bg-blue-100 text-blue-700">↑ 12% 증가</Badge>
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className="hover:shadow-lg hover:scale-105 transition-all cursor-pointer">
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-gray-600">월 매출</CardTitle>
+            <CardTitle className="text-sm font-medium text-gray-600 flex items-center gap-2">
+              <DollarSign className="h-4 w-4 text-green-500" />
+              월 매출
+            </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">₩{(stats?.monthlyRevenue || 0).toLocaleString()}</div>
-            <p className="text-xs text-green-600 mt-1">+8% 증가</p>
+            <div className="text-2xl font-bold text-green-600">₩{(stats?.monthlyRevenue || 0).toLocaleString()}</div>
+            <p className="text-xs text-gray-500 mt-1">이번 달 매출</p>
+            <Badge className="mt-2 bg-green-100 text-green-700">↑ 8% 증가</Badge>
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className="hover:shadow-lg hover:scale-105 transition-all cursor-pointer">
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-gray-600">활성률</CardTitle>
+            <CardTitle className="text-sm font-medium text-gray-600 flex items-center gap-2">
+              <TrendingUp className="h-4 w-4 text-purple-500" />
+              활성률
+            </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{stats?.activeRate || 0}%</div>
+            <div className="text-2xl font-bold text-purple-600">{stats?.activeRate || 0}%</div>
             <p className="text-xs text-gray-500 mt-1">지난 30일</p>
+            <Badge className="mt-2 bg-purple-100 text-purple-700">→ 안정적</Badge>
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className="hover:shadow-lg hover:scale-105 transition-all cursor-pointer">
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-gray-600">평균 점수</CardTitle>
+            <CardTitle className="text-sm font-medium text-gray-600 flex items-center gap-2">
+              <BarChart3 className="h-4 w-4 text-orange-500" />
+              평균 점수
+            </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{stats?.avgScore || 0}</div>
+            <div className="text-2xl font-bold text-orange-600">{stats?.avgScore || 0}</div>
             <p className="text-xs text-gray-500 mt-1">웰니스 점수</p>
+            <Badge className="mt-2 bg-orange-100 text-orange-700">⭐ 우수</Badge>
           </CardContent>
         </Card>
       </div>
 
+      {/* 멤버십 분포 + 월별 매출 */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-        <Card>
+        <Card className="hover:shadow-md transition-shadow">
           <CardHeader>
-            <CardTitle>멤버십 분포</CardTitle>
+            <CardTitle className="flex items-center gap-2">
+              <PieChartIcon className="h-5 w-5" />
+              멤버십 분포
+            </CardTitle>
           </CardHeader>
           <CardContent>
             <ResponsiveContainer width="100%" height={300}>
@@ -91,11 +142,10 @@ export default function StatsDashboard() {
                   labelLine={false}
                   label={({ name, value }) => `${name}: ${value}`}
                   outerRadius={80}
-                  fill="#8884d8"
                   dataKey="value"
                 >
                   {membershipData.map((entry, index) => (
-                    <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                    <Cell key={`cell-${index}`} fill={entry.color} />
                   ))}
                 </Pie>
                 <Tooltip />
@@ -104,9 +154,12 @@ export default function StatsDashboard() {
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className="hover:shadow-md transition-shadow">
           <CardHeader>
-            <CardTitle>월별 매출 추이</CardTitle>
+            <CardTitle className="flex items-center gap-2">
+              <TrendingUp className="h-5 w-5" />
+              월별 매출 추이
+            </CardTitle>
           </CardHeader>
           <CardContent>
             <ResponsiveContainer width="100%" height={300}>
@@ -116,32 +169,68 @@ export default function StatsDashboard() {
                 <YAxis />
                 <Tooltip />
                 <Legend />
-                <Bar dataKey="revenue" fill="#8884d8" name="매출" />
-                <Bar dataKey="users" fill="#82ca9d" name="신규 회원" />
+                <Bar dataKey="revenue" fill="#3b82f6" name="매출" />
+                <Bar dataKey="users" fill="#10b981" name="신규 회원" />
               </BarChart>
             </ResponsiveContainer>
           </CardContent>
         </Card>
       </div>
 
-      <Card>
+      {/* 멤버십 상세 정보 */}
+      <Card className="hover:shadow-md transition-shadow">
+        <CardHeader>
+          <CardTitle>멤버십 상세</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="space-y-3">
+            {membershipData.map((tier, i) => (
+              <div 
+                key={i}
+                className="p-3 border rounded-lg hover:shadow-md transition-all hover:scale-102 cursor-pointer"
+              >
+                <div className="flex items-center justify-between mb-2">
+                  <div className="flex items-center gap-2">
+                    <div className="w-3 h-3 rounded-full" style={{ backgroundColor: tier.color }} />
+                    <span className="font-medium text-sm">{tier.name}</span>
+                  </div>
+                  <Badge variant="outline">{tier.value}명</Badge>
+                </div>
+                <div className="w-full bg-gray-200 rounded-full h-2">
+                  <div
+                    className="h-2 rounded-full transition-all"
+                    style={{ width: `${(tier.value / 100) * 100}%`, backgroundColor: tier.color }}
+                  />
+                </div>
+              </div>
+            ))}
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* 주요 지표 */}
+      <Card className="hover:shadow-md transition-shadow">
         <CardHeader>
           <CardTitle>주요 지표</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div>
-              <p className="text-sm text-gray-600">평균 세션 시간</p>
-              <p className="text-lg font-semibold mt-1">24분 30초</p>
-            </div>
-            <div>
-              <p className="text-sm text-gray-600">재방문율</p>
-              <p className="text-lg font-semibold mt-1">68%</p>
-            </div>
-            <div>
-              <p className="text-sm text-gray-600">전환율</p>
-              <p className="text-lg font-semibold mt-1">12.5%</p>
-            </div>
+            {[
+              { label: '평균 세션 시간', value: '24분 30초', trend: '↑ 2분 증가' },
+              { label: '재방문율', value: '68%', trend: '↑ 5% 증가' },
+              { label: '전환율', value: '12.5%', trend: '→ 안정적' },
+            ].map((metric, i) => (
+              <div 
+                key={i}
+                className="p-4 border rounded-lg hover:shadow-md transition-all hover:scale-102 cursor-pointer bg-gradient-to-br from-blue-50 to-purple-50 dark:from-blue-950 dark:to-purple-950"
+              >
+                <p className="text-sm text-muted-foreground mb-1">{metric.label}</p>
+                <div className="flex items-center justify-between">
+                  <p className="text-2xl font-bold">{metric.value}</p>
+                  <Badge variant="outline" className="text-xs">{metric.trend}</Badge>
+                </div>
+              </div>
+            ))}
           </div>
         </CardContent>
       </Card>

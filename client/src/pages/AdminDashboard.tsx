@@ -17,7 +17,8 @@ import {
   ChevronRight, BarChart3, Moon, Shield, CalendarDays, Target
 } from "lucide-react";
 import { useLocation } from "wouter";
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
+import { toast } from "sonner";
 import {
   LineChart, Line, XAxis, YAxis, CartesianGrid,
   Tooltip, Legend, ResponsiveContainer, PieChart, Pie, Cell
@@ -78,7 +79,7 @@ function SectionHeader({ title, desc, href, icon: Icon }: { title: string; desc:
           <p className="text-xs text-muted-foreground">{desc}</p>
         </div>
       </div>
-      <Button variant="ghost" size="sm" onClick={() => setLocation(href)} className="text-xs gap-1">
+      <Button variant="ghost" size="sm" onClick={() => { setLocation(href); toast.success(`${title} 페이지로 이동합니다`); }} className="text-xs gap-1">
         자세히 보기 <ChevronRight className="h-3.5 w-3.5" />
       </Button>
     </div>
@@ -88,6 +89,7 @@ function SectionHeader({ title, desc, href, icon: Icon }: { title: string; desc:
 export default function AdminDashboard() {
   const { user } = useAuth();
   const [, setLocation] = useLocation();
+  const [loadingState, setLoadingState] = useState<Record<string, boolean>>({});
 
   // ── API 호출 ──────────────────────────────────────────────────────────────
   const { data: dashStats, isLoading: statsLoading, refetch } = trpc.wellness.operator.getDashboardStats.useQuery(undefined);
@@ -123,6 +125,15 @@ export default function AdminDashboard() {
 
   const fmtKrw = (v: number) => v >= 10000 ? `₩${(v / 10000).toFixed(1)}만` : `₩${v.toLocaleString()}`;
 
+  const handleNavigation = (path: string, label: string) => {
+    setLoadingState(prev => ({ ...prev, [path]: true }));
+    setTimeout(() => {
+      setLocation(path);
+      toast.success(`${label} 페이지로 이동합니다`);
+      setLoadingState(prev => ({ ...prev, [path]: false }));
+    }, 300);
+  };
+
   return (
     <div className="flex-1 space-y-8 p-4 md:p-6 pb-16">
 
@@ -132,7 +143,7 @@ export default function AdminDashboard() {
           <h1 className="text-2xl md:text-3xl font-bold tracking-tight">관리자 대시보드</h1>
           <p className="text-sm text-muted-foreground">한진 공통 엔진 — {ALL_PROJECTS.length}개 프로젝트 통합 관제탑</p>
         </div>
-        <Button variant="outline" size="sm" onClick={() => refetch()}>
+        <Button variant="outline" size="sm" onClick={() => { refetch(); toast.success('대시보드를 새로고침했습니다'); }}>
           <RefreshCw className="h-3.5 w-3.5 mr-1" /> 새로고침
         </Button>
       </div>
@@ -144,7 +155,10 @@ export default function AdminDashboard() {
         <div className="grid gap-4 grid-cols-2 lg:grid-cols-4">
           {statsLoading ? [...Array(4)].map((_, i) => <KPISkeleton key={i} />) : (
             <>
-              <Card className="border-blue-200 dark:border-blue-800">
+              <Card 
+                className="border-blue-200 dark:border-blue-800 hover:shadow-lg hover:scale-105 transition-all cursor-pointer"
+                onClick={() => handleNavigation('/admin/monitoring', '모니터링')}
+              >
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                   <CardTitle className="text-sm font-medium">실시간 접속자</CardTitle>
                   <Zap className="h-4 w-4 text-blue-500" />
@@ -157,7 +171,10 @@ export default function AdminDashboard() {
                   <p className="text-xs text-muted-foreground">현재 접속 중</p>
                 </CardContent>
               </Card>
-              <Card>
+              <Card 
+                className="hover:shadow-lg hover:scale-105 transition-all cursor-pointer"
+                onClick={() => handleNavigation('/admin/users', '사용자 관리')}
+              >
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                   <CardTitle className="text-sm font-medium">총 수련자</CardTitle>
                   <Users className="h-4 w-4 text-muted-foreground" />
@@ -167,7 +184,10 @@ export default function AdminDashboard() {
                   <p className="text-xs text-muted-foreground">전체 등록 사용자</p>
                 </CardContent>
               </Card>
-              <Card>
+              <Card 
+                className="hover:shadow-lg hover:scale-105 transition-all cursor-pointer"
+                onClick={() => handleNavigation('/admin/stats', '통계')}
+              >
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                   <CardTitle className="text-sm font-medium">평균 웰니스</CardTitle>
                   <Activity className="h-4 w-4 text-green-500" />
@@ -177,7 +197,10 @@ export default function AdminDashboard() {
                   <p className="text-xs text-muted-foreground">수련자 평균 점수</p>
                 </CardContent>
               </Card>
-              <Card>
+              <Card 
+                className="hover:shadow-lg hover:scale-105 transition-all cursor-pointer"
+                onClick={() => handleNavigation('/admin/monitoring', '모니터링')}
+              >
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                   <CardTitle className="text-sm font-medium">긴급 알림</CardTitle>
                   <AlertTriangle className="h-4 w-4 text-red-500" />
@@ -200,8 +223,8 @@ export default function AdminDashboard() {
       <div className="grid gap-4 grid-cols-1 md:grid-cols-2">
         {/* 이벤트 관리 카드 (왼쪽) */}
         <Card
-          className="border-purple-200 dark:border-purple-800 hover:shadow-md transition-shadow cursor-pointer"
-          onClick={() => setLocation('/admin/events')}
+          className="border-purple-200 dark:border-purple-800 hover:shadow-md transition-shadow cursor-pointer hover:scale-102"
+          onClick={() => handleNavigation('/admin/events', '이벤트 관리')}
         >
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium flex items-center gap-2">
@@ -223,14 +246,14 @@ export default function AdminDashboard() {
             </div>
             <div className="flex gap-2">
               <button
-                className="flex-1 text-xs bg-purple-600 hover:bg-purple-700 text-white py-1.5 px-3 rounded-md transition-colors"
-                onClick={(e) => { e.stopPropagation(); setLocation('/admin/events?action=instant'); }}
+                className="flex-1 text-xs bg-purple-600 hover:bg-purple-700 text-white py-1.5 px-3 rounded-md transition-colors active:scale-95"
+                onClick={(e) => { e.stopPropagation(); handleNavigation('/admin/events?action=instant', '즉석 발송'); }}
               >
                 ⚡ 즉석 발송
               </button>
               <button
-                className="flex-1 text-xs border border-purple-300 hover:bg-purple-50 dark:hover:bg-purple-950 py-1.5 px-3 rounded-md transition-colors"
-                onClick={(e) => { e.stopPropagation(); setLocation('/admin/events?action=schedule'); }}
+                className="flex-1 text-xs border border-purple-300 hover:bg-purple-50 dark:hover:bg-purple-950 py-1.5 px-3 rounded-md transition-colors active:scale-95"
+                onClick={(e) => { e.stopPropagation(); handleNavigation('/admin/events?action=schedule', '예약 등록'); }}
               >
                 📅 예약 등록
               </button>
@@ -240,8 +263,8 @@ export default function AdminDashboard() {
 
         {/* 미션 관리 카드 (오른쪽) */}
         <Card
-          className="border-orange-200 dark:border-orange-800 hover:shadow-md transition-shadow cursor-pointer"
-          onClick={() => setLocation('/admin/missions')}
+          className="border-orange-200 dark:border-orange-800 hover:shadow-md transition-shadow cursor-pointer hover:scale-102"
+          onClick={() => handleNavigation('/admin/missions', '미션 관리')}
         >
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium flex items-center gap-2">
@@ -263,14 +286,14 @@ export default function AdminDashboard() {
             </div>
             <div className="flex gap-2">
               <button
-                className="flex-1 text-xs bg-orange-600 hover:bg-orange-700 text-white py-1.5 px-3 rounded-md transition-colors"
-                onClick={(e) => { e.stopPropagation(); setLocation('/admin/missions?action=send'); }}
+                className="flex-1 text-xs bg-orange-600 hover:bg-orange-700 text-white py-1.5 px-3 rounded-md transition-colors active:scale-95"
+                onClick={(e) => { e.stopPropagation(); handleNavigation('/admin/missions?action=send', '즉석 발송'); }}
               >
                 🎯 즉석 발송
               </button>
               <button
-                className="flex-1 text-xs border border-orange-300 hover:bg-orange-50 dark:hover:bg-orange-950 py-1.5 px-3 rounded-md transition-colors"
-                onClick={(e) => { e.stopPropagation(); setLocation('/admin/missions?action=create'); }}
+                className="flex-1 text-xs border border-orange-300 hover:bg-orange-50 dark:hover:bg-orange-950 py-1.5 px-3 rounded-md transition-colors active:scale-95"
+                onClick={(e) => { e.stopPropagation(); handleNavigation('/admin/missions?action=create', '미션 추가'); }}
               >
                 ➕ 미션 추가
               </button>
@@ -291,7 +314,10 @@ export default function AdminDashboard() {
         <div className="grid gap-3 grid-cols-2 lg:grid-cols-4 mb-4">
           {settlementLoading ? [...Array(4)].map((_, i) => <KPISkeleton key={i} />) : (
             <>
-              <Card className="bg-emerald-50 dark:bg-emerald-950 border-emerald-200 dark:border-emerald-800">
+              <Card 
+                className="bg-emerald-50 dark:bg-emerald-950 border-emerald-200 dark:border-emerald-800 hover:shadow-md transition-all cursor-pointer hover:scale-102"
+                onClick={() => handleNavigation('/admin/payment', '결제 상세')}
+              >
                 <CardHeader className="pb-1 pt-3 px-4">
                   <CardTitle className="text-xs text-emerald-700 dark:text-emerald-300">총 매출</CardTitle>
                 </CardHeader>
@@ -300,7 +326,10 @@ export default function AdminDashboard() {
                   <p className="text-xs text-muted-foreground">{settlement?.succeededCount ?? 0}건 결제</p>
                 </CardContent>
               </Card>
-              <Card className="bg-blue-50 dark:bg-blue-950 border-blue-200 dark:border-blue-800">
+              <Card 
+                className="bg-blue-50 dark:bg-blue-950 border-blue-200 dark:border-blue-800 hover:shadow-md transition-all cursor-pointer hover:scale-102"
+                onClick={() => handleNavigation('/admin/payment', '결제 상세')}
+              >
                 <CardHeader className="pb-1 pt-3 px-4">
                   <CardTitle className="text-xs text-blue-700 dark:text-blue-300">순 매출</CardTitle>
                 </CardHeader>
@@ -309,7 +338,10 @@ export default function AdminDashboard() {
                   <p className="text-xs text-muted-foreground">환불 차감 후</p>
                 </CardContent>
               </Card>
-              <Card className="bg-red-50 dark:bg-red-950 border-red-200 dark:border-red-800">
+              <Card 
+                className="bg-red-50 dark:bg-red-950 border-red-200 dark:border-red-800 hover:shadow-md transition-all cursor-pointer hover:scale-102"
+                onClick={() => handleNavigation('/admin/payment', '결제 상세')}
+              >
                 <CardHeader className="pb-1 pt-3 px-4">
                   <CardTitle className="text-xs text-red-700 dark:text-red-300">환불액</CardTitle>
                 </CardHeader>
@@ -318,7 +350,10 @@ export default function AdminDashboard() {
                   <p className="text-xs text-muted-foreground">{settlement?.refundCount ?? 0}건 환불</p>
                 </CardContent>
               </Card>
-              <Card className="bg-purple-50 dark:bg-purple-950 border-purple-200 dark:border-purple-800">
+              <Card 
+                className="bg-purple-50 dark:bg-purple-950 border-purple-200 dark:border-purple-800 hover:shadow-md transition-all cursor-pointer hover:scale-102"
+                onClick={() => handleNavigation('/admin/payment', '결제 상세')}
+              >
                 <CardHeader className="pb-1 pt-3 px-4">
                   <CardTitle className="text-xs text-purple-700 dark:text-purple-300">활성 구독</CardTitle>
                 </CardHeader>
@@ -332,7 +367,7 @@ export default function AdminDashboard() {
         </div>
 
         {/* 최근 입금 5건 */}
-        <Card>
+        <Card className="hover:shadow-md transition-shadow">
           <CardHeader className="pb-2 pt-3 px-4">
             <CardTitle className="text-sm">최근 입금 내역</CardTitle>
           </CardHeader>
@@ -348,70 +383,17 @@ export default function AdminDashboard() {
                     <tr className="border-b text-xs text-muted-foreground">
                       <th className="text-left py-1.5 pr-3">이름</th>
                       <th className="text-left py-1.5 pr-3">프로젝트</th>
-                      <th className="text-right py-1.5 pr-3">금액</th>
-                      <th className="text-center py-1.5 pr-3">상태</th>
-                      <th className="text-right py-1.5">일시</th>
+                      <th className="text-left py-1.5 pr-3">금액</th>
+                      <th className="text-left py-1.5 pr-3">상태</th>
                     </tr>
                   </thead>
                   <tbody>
-                    {recentPayments.items.map((p: any) => (
-                      <tr key={p.id} className="border-b last:border-0 hover:bg-muted/40">
-                        <td className="py-2 pr-3 font-medium">{p.userName ?? p.userId}</td>
-                        <td className="py-2 pr-3 text-muted-foreground">{p.projectSlug}</td>
-                        <td className="py-2 pr-3 text-right font-semibold">{fmtKrw(p.amountKrw ?? 0)}</td>
-                        <td className="py-2 pr-3 text-center">
-                          <Badge variant={p.status === "succeeded" ? "default" : p.status === "refunded" ? "destructive" : "secondary"} className="text-xs">
-                            {p.status === "succeeded" ? "완료" : p.status === "refunded" ? "환불" : p.status}
-                          </Badge>
-                        </td>
-                        <td className="py-2 text-right text-xs text-muted-foreground">
-                          {new Date(p.createdAt).toLocaleDateString("ko-KR")}
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            )}
-          </CardContent>
-        </Card>
-
-        {/* 최근 구독 5건 */}
-        <Card className="mt-3">
-          <CardHeader className="pb-2 pt-3 px-4">
-            <CardTitle className="text-sm">최근 구독 현황</CardTitle>
-          </CardHeader>
-          <CardContent className="px-4 pb-3">
-            {subsLoading ? (
-              <div className="space-y-2">{[...Array(3)].map((_, i) => <Skeleton key={i} className="h-8 w-full" />)}</div>
-            ) : !recentSubs?.items?.length ? (
-              <p className="text-sm text-muted-foreground py-4 text-center">구독 내역이 없습니다</p>
-            ) : (
-              <div className="overflow-x-auto">
-                <table className="w-full text-sm">
-                  <thead>
-                    <tr className="border-b text-xs text-muted-foreground">
-                      <th className="text-left py-1.5 pr-3">이름</th>
-                      <th className="text-left py-1.5 pr-3">프로젝트</th>
-                      <th className="text-left py-1.5 pr-3">등급</th>
-                      <th className="text-center py-1.5 pr-3">상태</th>
-                      <th className="text-right py-1.5">갱신일</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {recentSubs.items.map((s: any) => (
-                      <tr key={s.id} className="border-b last:border-0 hover:bg-muted/40">
-                        <td className="py-2 pr-3 font-medium">{s.userName ?? s.userId}</td>
-                        <td className="py-2 pr-3 text-muted-foreground">{s.projectSlug}</td>
-                        <td className="py-2 pr-3">{s.tierKey ?? "-"}</td>
-                        <td className="py-2 pr-3 text-center">
-                          <Badge variant={s.status === "active" ? "default" : "secondary"} className="text-xs">
-                            {s.status === "active" ? "활성" : s.status === "canceled" ? "취소" : s.status}
-                          </Badge>
-                        </td>
-                        <td className="py-2 text-right text-xs text-muted-foreground">
-                          {s.currentPeriodEnd ? new Date(s.currentPeriodEnd).toLocaleDateString("ko-KR") : "-"}
-                        </td>
+                    {recentPayments?.items?.slice(0, 5).map((p: any, i: number) => (
+                      <tr key={i} className="border-b hover:bg-muted/50 transition-colors">
+                        <td className="py-2 pr-3 text-xs">{p.customerName || '미정'}</td>
+                        <td className="py-2 pr-3 text-xs">{p.projectName || '미정'}</td>
+                        <td className="py-2 pr-3 text-xs font-semibold">{fmtKrw(p.amount)}</td>
+                        <td className="py-2 pr-3"><Badge variant="outline" className="text-xs">{p.status}</Badge></td>
                       </tr>
                     ))}
                   </tbody>
@@ -425,162 +407,94 @@ export default function AdminDashboard() {
       <Separator />
 
       {/* ══════════════════════════════════════════════════════════════════════
-          섹션 3: AI 건강 분석 / 피드백
+          섹션 3: AI 피드백 / 건강 분석
       ══════════════════════════════════════════════════════════════════════ */}
       <section>
-        <SectionHeader title="AI 건강 분석 / 피드백" desc="자동 AI 피드백 발송 현황 · 이상 감지 · 분석 통계" href="/admin/ai-analytics" icon={Brain} />
-
-        <div className="grid gap-3 grid-cols-2 lg:grid-cols-4 mb-4">
-          {aiLoading ? [...Array(4)].map((_, i) => <KPISkeleton key={i} />) : (
-            <>
-              <Card>
-                <CardHeader className="pb-1 pt-3 px-4"><CardTitle className="text-xs text-muted-foreground">총 피드백</CardTitle></CardHeader>
-                <CardContent className="px-4 pb-3">
-                  <p className="text-xl font-bold">{aiStats?.total ?? 0}</p>
-                  <p className="text-xs text-muted-foreground">누적 발송</p>
-                </CardContent>
-              </Card>
-              <Card>
-                <CardHeader className="pb-1 pt-3 px-4"><CardTitle className="text-xs text-muted-foreground">오늘 피드백</CardTitle></CardHeader>
-                <CardContent className="px-4 pb-3">
-                  <p className="text-xl font-bold text-blue-600">{aiStats?.uniqueUsers ?? 0}</p>
-                  <p className="text-xs text-muted-foreground">분석 사용자</p>
-                </CardContent>
-              </Card>
-              <Card>
-                <CardHeader className="pb-1 pt-3 px-4"><CardTitle className="text-xs text-muted-foreground">이상 감지</CardTitle></CardHeader>
-                <CardContent className="px-4 pb-3">
-                  <p className={`text-xl font-bold ${(aiStats?.criticalCount ?? 0) > 0 ? "text-red-600" : "text-green-600"}`}>
-                    {aiStats?.criticalCount ?? 0}
-                  </p>
-                  <p className="text-xs text-muted-foreground">긴급 피드백</p>
-                </CardContent>
-              </Card>
-              <Card>
-                <CardHeader className="pb-1 pt-3 px-4"><CardTitle className="text-xs text-muted-foreground">평균 점수</CardTitle></CardHeader>
-                <CardContent className="px-4 pb-3">
-                  <p className="text-xl font-bold text-green-600">{aiStats?.avgResponseMs ?? "-"}</p>
-                  <p className="text-xs text-muted-foreground">평균 응답(ms)</p>
-                </CardContent>
-              </Card>
-            </>
-          )}
-        </div>
-
-        <Card>
-          <CardHeader className="pb-2 pt-3 px-4"><CardTitle className="text-sm">최근 AI 피드백 내역</CardTitle></CardHeader>
-          <CardContent className="px-4 pb-3">
-            {feedbackLoading ? (
-              <div className="space-y-2">{[...Array(3)].map((_, i) => <Skeleton key={i} className="h-8 w-full" />)}</div>
-            ) : !recentFeedbacks?.length ? (
-              <p className="text-sm text-muted-foreground py-4 text-center">AI 피드백 데이터가 없습니다</p>
-            ) : (
-              <div className="space-y-2">
-                {recentFeedbacks.map((f: any) => (
-                  <div key={f.id} className="flex items-start justify-between py-2 border-b last:border-0">
-                    <div className="flex-1 min-w-0">
-                      <p className="text-sm font-medium truncate">{f.userName ?? f.userId}</p>
-                      <p className="text-xs text-muted-foreground truncate">{f.feedbackText ?? f.summary ?? "-"}</p>
-                    </div>
-                    <div className="ml-3 text-right shrink-0">
-                      <Badge variant={f.level === "high" ? "destructive" : f.level === "medium" ? "secondary" : "outline"} className="text-xs mb-1">
-                        {f.level === "high" ? "긴급" : f.level === "medium" ? "주의" : "정상"}
-                      </Badge>
-                      <p className="text-xs text-muted-foreground">{new Date(f.createdAt).toLocaleDateString("ko-KR")}</p>
-                    </div>
-                  </div>
-                ))}
+        <SectionHeader title="AI 피드백 / 건강 분석" desc="주간 피드백 · 사용자 인사이트 · 개선 제안" href="/admin/ai" icon={Brain} />
+        
+        <div className="grid gap-4 grid-cols-1 md:grid-cols-2">
+          {/* AI 통계 카드 */}
+          <Card className="hover:shadow-md transition-shadow">
+            <CardHeader className="pb-2">
+              <CardTitle className="text-sm flex items-center gap-2">
+                <Brain className="h-4 w-4 text-blue-500" />
+                AI 분석 통계
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-2">
+              <div className="flex justify-between items-center py-1">
+                <span className="text-xs text-muted-foreground">이주 피드백</span>
+                <span className="font-semibold">{aiStats?.total ?? 0}건</span>
               </div>
-            )}
-          </CardContent>
-        </Card>
-      </section>
+              <div className="flex justify-between items-center py-1">
+                <span className="text-xs text-muted-foreground">평균 응답시간</span>
+                <span className="font-semibold text-green-600">{aiStats?.avgResponseMs ?? 0}ms</span>
+              </div>
+              <div className="flex justify-between items-center py-1">
+                <span className="text-xs text-muted-foreground">긴급 알림</span>
+                <span className="font-semibold text-orange-600">{aiStats?.criticalCount ?? 0}건</span>
+              </div>
+              <Button size="sm" variant="outline" className="w-full mt-2" onClick={() => handleNavigation('/admin/ai', 'AI 분석')}>
+                상세 분석 보기
+              </Button>
+            </CardContent>
+          </Card>
 
-      <Separator />
-
-      {/* ══════════════════════════════════════════════════════════════════════
-          섹션 4: 멤버십 분포
-      ══════════════════════════════════════════════════════════════════════ */}
-      <section>
-        <SectionHeader title="멤버십 관리" desc="10단계 VIP 등급별 회원 현황" href="/membership" icon={Shield} />
-        <Card>
-          <CardContent className="pt-4">
-            {memberLoading ? (
-              <div className="space-y-2">{[...Array(5)].map((_, i) => <Skeleton key={i} className="h-6 w-full" />)}</div>
-            ) : memberDistribution.length === 0 ? (
-              <p className="text-sm text-muted-foreground py-4 text-center">멤버십 데이터가 없습니다</p>
-            ) : (
-              <div className="grid gap-4 md:grid-cols-2">
-                <ResponsiveContainer width="100%" height={220}>
+          {/* 멤버십 분포 차트 */}
+          <Card className="hover:shadow-md transition-shadow">
+            <CardHeader className="pb-2">
+              <CardTitle className="text-sm">멤버십 분포</CardTitle>
+            </CardHeader>
+            <CardContent>
+              {memberLoading ? (
+                <Skeleton className="h-32 w-full" />
+              ) : memberDistribution.length > 0 ? (
+                <ResponsiveContainer width="100%" height={150}>
                   <PieChart>
-                    <Pie data={memberDistribution} cx="50%" cy="50%" outerRadius={80} dataKey="value" labelLine={false}>
-                      {memberDistribution.map((entry) => (
-                        <Cell key={entry.key} fill={entry.color} />
+                    <Pie data={memberDistribution} cx="50%" cy="50%" innerRadius={40} outerRadius={60} dataKey="value">
+                      {memberDistribution.map((entry: any, index: number) => (
+                        <Cell key={`cell-${index}`} fill={entry.color} />
                       ))}
                     </Pie>
-                    <Tooltip formatter={(val) => [`${val}명`, ""]} />
                   </PieChart>
                 </ResponsiveContainer>
-                <div className="space-y-1.5">
-                  {memberDistribution.map((tier) => (
-                    <div key={tier.key} className="flex items-center justify-between">
-                      <div className="flex items-center gap-2">
-                        <div className="w-3 h-3 rounded-full border border-border" style={{ backgroundColor: tier.color }} />
-                        <span className="text-sm">{tier.name}</span>
-                      </div>
-                      <span className="text-sm font-semibold">{tier.value}명</span>
-                    </div>
-                  ))}
-                  <div className="border-t pt-1.5 flex justify-between">
-                    <span className="text-sm font-semibold">합계</span>
-                    <span className="text-sm font-semibold">{memberDistribution.reduce((s, d) => s + d.value, 0)}명</span>
-                  </div>
+              ) : (
+                <p className="text-xs text-muted-foreground text-center py-8">멤버십 데이터 없음</p>
+              )}
+            </CardContent>
+          </Card>
+        </div>
+      </section>
+
+      <Separator />
+
+      {/* ══════════════════════════════════════════════════════════════════════
+          섹션 4: 프로젝트 관리
+      ══════════════════════════════════════════════════════════════════════ */}
+      <section>
+        <SectionHeader title="프로젝트 관리" desc="6개 활성 프로젝트 · 4개 계획 중" href="/admin/projects" icon={BarChart3} />
+        
+        <div className="grid gap-3 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+          {ALL_PROJECTS.map(project => (
+            <Card 
+              key={project.id}
+              className="hover:shadow-md transition-all cursor-pointer hover:scale-102"
+              onClick={() => handleNavigation('/admin/projects', `${project.name} 관리`)}
+              style={{ borderLeftColor: project.color, borderLeftWidth: '4px' }}
+            >
+              <CardHeader className="pb-2">
+                <div className="flex items-center justify-between">
+                  <CardTitle className="text-sm">{project.name}</CardTitle>
+                  <Badge variant={project.status === 'active' ? 'default' : 'secondary'} className="text-xs">
+                    {project.status === 'active' ? '활성' : '계획'}
+                  </Badge>
                 </div>
-              </div>
-            )}
-          </CardContent>
-        </Card>
-      </section>
-
-      <Separator />
-
-      {/* ══════════════════════════════════════════════════════════════════════
-          섹션 5: 매출 추이 차트
-      ══════════════════════════════════════════════════════════════════════ */}
-      <section>
-        <SectionHeader title="매출 / 사용자 추이" desc="최근 5개월 통계 (실제 데이터 연동 예정)" href="/admin/payment" icon={TrendingUp} />
-        <Card>
-          <CardContent className="pt-4">
-            <ResponsiveContainer width="100%" height={220}>
-              <LineChart data={MONTHLY_STATS}>
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="month" tick={{ fontSize: 12 }} />
-                <YAxis tick={{ fontSize: 12 }} />
-                <Tooltip />
-                <Legend />
-                <Line type="monotone" dataKey="users" stroke="#3b82f6" name="사용자" strokeWidth={2} dot={false} />
-                <Line type="monotone" dataKey="revenue" stroke="#10b981" name="매출($100)" strokeWidth={2} dot={false} />
-              </LineChart>
-            </ResponsiveContainer>
-          </CardContent>
-        </Card>
-      </section>
-
-      <Separator />
-
-      {/* ══════════════════════════════════════════════════════════════════════
-          섹션 6: 프로젝트 현황
-      ══════════════════════════════════════════════════════════════════════ */}
-      <section>
-        <SectionHeader title="프로젝트 현황" desc="10개 프로젝트 활성 상태" href="/admin" icon={BarChart3} />
-        <div className="grid gap-3 grid-cols-2 md:grid-cols-3 lg:grid-cols-5">
-          {ALL_PROJECTS.map((p) => (
-            <Card key={p.id} className="hover:shadow-md transition-shadow cursor-pointer border-l-4" style={{ borderLeftColor: p.color }}>
-              <CardContent className="pt-3 pb-3 px-3">
-                <p className="text-sm font-semibold truncate">{p.name}</p>
-                <Badge variant={p.status === "active" ? "default" : "secondary"} className="text-xs mt-1">
-                  {p.status === "active" ? "활성" : "예정"}
-                </Badge>
+              </CardHeader>
+              <CardContent>
+                <p className="text-xs text-muted-foreground mb-2">{project.slug}</p>
+                <Button size="sm" variant="outline" className="w-full" onClick={(e) => { e.stopPropagation(); handleNavigation('/admin/projects', `${project.name} 설정`); }}>
+                  설정 →
+                </Button>
               </CardContent>
             </Card>
           ))}
@@ -590,44 +504,24 @@ export default function AdminDashboard() {
       <Separator />
 
       {/* ══════════════════════════════════════════════════════════════════════
-          섹션 7: 긴급 알림 / 모니터링
+          섹션 5: 월별 통계
       ══════════════════════════════════════════════════════════════════════ */}
       <section>
-        <SectionHeader title="긴급 알림 / 모니터링" desc="미해결 알림 · 즉시 조치 필요 항목" href="/admin" icon={AlertTriangle} />
-        <Card>
-          <CardContent className="pt-4 pb-3">
-            {alertsLoading ? (
-              <div className="space-y-2">{[...Array(3)].map((_, i) => <Skeleton key={i} className="h-10 w-full" />)}</div>
-            ) : !alerts?.length ? (
-              <div className="flex items-center gap-2 py-4 justify-center text-green-600">
-                <CheckCircle2 className="h-5 w-5" />
-                <p className="text-sm font-medium">미해결 알림 없음 — 정상 운영 중</p>
-              </div>
-            ) : (
-              <div className="space-y-2">
-                {alerts.map((alert: any) => (
-                  <div key={alert.id} className="flex items-start justify-between p-3 rounded-lg border bg-muted/30">
-                    <div className="flex items-start gap-2 flex-1 min-w-0">
-                      {alert.severity === "high"
-                        ? <AlertTriangle className="h-4 w-4 text-red-500 mt-0.5 shrink-0" />
-                        : <AlertCircle className="h-4 w-4 text-yellow-500 mt-0.5 shrink-0" />}
-                      <div className="min-w-0">
-                        <p className="text-sm font-medium truncate">{alert.title ?? alert.message}</p>
-                        <p className="text-xs text-muted-foreground">{new Date(alert.createdAt).toLocaleString("ko-KR")}</p>
-                      </div>
-                    </div>
-                    <Button
-                      size="sm"
-                      variant="outline"
-                      className="ml-2 shrink-0 text-xs h-7"
-                      onClick={() => resolveAlert.mutate({ alertId: alert.id })}
-                    >
-                      해결
-                    </Button>
-                  </div>
-                ))}
-              </div>
-            )}
+        <SectionHeader title="월별 통계" desc="사용자 증가 · 매출 추이" href="/admin/stats" icon={TrendingUp} />
+        
+        <Card className="hover:shadow-md transition-shadow">
+          <CardContent className="pt-6">
+            <ResponsiveContainer width="100%" height={300}>
+              <LineChart data={MONTHLY_STATS}>
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="month" />
+                <YAxis />
+                <Tooltip />
+                <Legend />
+                <Line type="monotone" dataKey="users" stroke="#3b82f6" name="사용자 수" />
+                <Line type="monotone" dataKey="revenue" stroke="#10b981" name="매출 (만원)" />
+              </LineChart>
+            </ResponsiveContainer>
           </CardContent>
         </Card>
       </section>
