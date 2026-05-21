@@ -125,7 +125,7 @@ export default function UsersManagement() {
         open={isModalOpen}
         user={selectedUser}
         onOpenChange={setIsModalOpen}
-        onSave={handleRoleChange}
+        onSave={(userId: number, newRole: 'admin' | 'user') => handleRoleChange(userId, newRole)}
       />
     </div>
   );
