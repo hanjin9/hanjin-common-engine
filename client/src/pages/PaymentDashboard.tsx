@@ -1,292 +1,294 @@
-import React, { useState } from 'react';
+/**
+ * PaymentDashboard.tsx — 실제 Stripe DB 연동
+ * 하드코딩 더미 데이터 완전 제거
+ * stripePayments + stripeSubscriptions 테이블 실시간 조회
+ */
+import { useState } from 'react';
 import { useLocation } from 'wouter';
-import { trpc } from '../lib/trpc';
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
+import { trpc } from '@/lib/trpc';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { Spinner } from '@/components/ui/spinner';
+import { Skeleton } from '@/components/ui/skeleton';
 import { toast } from 'sonner';
-import { CreditCard, DollarSign, TrendingUp, AlertCircle, RefreshCw, Download } from 'lucide-react';
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import {
+  CreditCard, DollarSign, TrendingUp, AlertCircle,
+  RefreshCw, Download, ExternalLink, Receipt, RotateCcw,
+} from 'lucide-react';
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+
+type Period = 'week' | 'month' | 'all';
+const PERIOD_OPTIONS: { value: Period; label: string }[] = [
+  { value: 'week', label: '7일' },
+  { value: 'month', label: '30일' },
+  { value: 'all', label: '전체' },
+];
+const STATUS_STYLE: Record<string, string> = {
+  succeeded: 'bg-green-100 text-green-700',
+  pending:   'bg-yellow-100 text-yellow-700',
+  failed:    'bg-red-100 text-red-700',
+  refunded:  'bg-purple-100 text-purple-700',
+  canceled:  'bg-gray-100 text-gray-600',
+};
+const STATUS_LABEL: Record<string, string> = {
+  succeeded: '성공', pending: '대기', failed: '실패', refunded: '환불', canceled: '취소',
+};
 
 export default function PaymentDashboard() {
   const [, setLocation] = useLocation();
-  const [isRefreshing, setIsRefreshing] = useState(false);
-  const { data: payments, isLoading, refetch } = trpc.admin.getAnalytics.useQuery();
+  const [period, setPeriod] = useState<Period>('month');
+  const [page, setPage] = useState(1);
+  const PAGE_SIZE = 15;
+
+  // ── 실제 DB 데이터 ─────────────────────────────────────────────
+  const { data: settlement, isLoading: stlLoading, refetch: refetchAll } =
+    trpc.payment.getSettlementSummary.useQuery({ period }, { retry: false });
+
+  const { data: paymentList, isLoading: pmtLoading, refetch: refetchPayments } =
+    trpc.payment.getPaymentList.useQuery(
+      { period, status: 'all', page, pageSize: PAGE_SIZE }, { retry: false }
+    );
+
+  const { data: revenueChart } =
+    trpc.payment.getRevenueChart.useQuery({ period: period === 'all' ? 'month' : period as 'week' | 'month' }, { retry: false });
+
+  const { refetch: doExportCsv, isFetching: isExporting } = trpc.payment.exportPaymentsCsv.useQuery({ period: period as any }, { enabled: false });
+
+  const refundPayment = trpc.payment.refundPayment.useMutation({
+    onSuccess: () => { toast.success('환불 처리 완료'); refetchPayments(); },
+    onError: (e) => toast.error(`환불 실패: ${e.message}`),
+  });
 
   const handleRefresh = async () => {
-    setIsRefreshing(true);
-    toast.loading('결제 데이터를 새로고침 중...');
-    await refetch();
-    setIsRefreshing(false);
-    toast.success('결제 데이터가 업데이트되었습니다');
+    toast.loading('새로고침 중...');
+    await refetchAll();
+    await refetchPayments();
+    toast.success('업데이트 완료');
   };
 
-  const handleExport = () => {
-    toast.success('결제 이력이 다운로드되었습니다');
-  };
+  const payments = (paymentList as any)?.payments ?? (paymentList as any)?.items ?? [];
+  const totalPayments = (paymentList as any)?.total ?? payments.length;
+  const totalPages = Math.ceil(totalPayments / PAGE_SIZE);
 
-  if (isLoading) {
-    return (
-      <div className="flex flex-col items-center justify-center h-full space-y-4">
-        <Spinner className="h-8 w-8" />
-        <p className="text-muted-foreground">결제 데이터를 불러오는 중...</p>
-      </div>
-    );
-  }
+  const fmtKrw = (v?: number | null) =>
+    v ? `₩${Math.round(Number(v)).toLocaleString('ko-KR')}` : '₩0';
 
-  const paymentData = [
-    { date: '5월 18일', amount: 450000, count: 12 },
-    { date: '5월 19일', amount: 520000, count: 15 },
-    { date: '5월 20일', amount: 480000, count: 14 },
-    { date: '5월 21일', amount: 610000, count: 18 },
-    { date: '5월 22일', amount: 550000, count: 16 },
-  ];
+  // 차트 데이터 변환
+  const chartData = (() => {
+    if (!revenueChart?.data?.length) return [];
+    const byDate: Record<string, { date: string; revenue: number }> = {};
+    revenueChart.data.forEach((r: any) => {
+      const d = String(r.date ?? '').slice(5);
+      if (!byDate[d]) byDate[d] = { date: d, revenue: 0 };
+      byDate[d].revenue += Number(r.total ?? 0);
+    });
+    return Object.values(byDate).slice(-14);
+  })();
 
-  const paymentHistory = [
-    { id: 1, date: '2026-05-22', amount: 99000, status: 'completed', customer: 'Kim Min-jun', method: 'Card' },
-    { id: 2, date: '2026-05-22', amount: 49000, status: 'completed', customer: 'Lee Ji-won', method: 'Mobile' },
-    { id: 3, date: '2026-05-21', amount: 199000, status: 'completed', customer: 'Park Sung-ho', method: 'Card' },
-    { id: 4, date: '2026-05-21', amount: 149000, status: 'pending', customer: 'Choi Min-seo', method: 'Bank' },
-    { id: 5, date: '2026-05-20', amount: 99000, status: 'failed', customer: 'Jung Ho-sung', method: 'Card' },
-  ];
+  const loading = stlLoading || pmtLoading;
 
   return (
     <div className="space-y-6 p-4 md:p-6">
-      <div className="flex items-center justify-between">
+      {/* 헤더 */}
+      <div className="flex items-center justify-between flex-wrap gap-3">
         <div>
           <h1 className="text-3xl font-bold flex items-center gap-2">
-            <CreditCard className="h-8 w-8" />
-            결제 관리
+            <CreditCard className="h-8 w-8" />결제 관리
           </h1>
-          <p className="text-gray-600 mt-2">결제 이력 · 정산 현황 · 환불 관리</p>
+          <p className="text-gray-600 mt-1 text-sm">Stripe 실시간 · stripePayments 테이블 직접 조회</p>
         </div>
-        <div className="flex gap-2">
-          <Button 
-            variant="outline" 
-            onClick={handleRefresh}
-            disabled={isRefreshing}
-            className="gap-2"
-          >
-            <RefreshCw className={`h-4 w-4 ${isRefreshing ? 'animate-spin' : ''}`} />
-            새로고침
+        <div className="flex gap-2 flex-wrap">
+          {PERIOD_OPTIONS.map(o => (
+            <Button
+              key={o.value}
+              variant={period === o.value ? 'default' : 'outline'}
+              size="sm"
+              onClick={() => { setPeriod(o.value); setPage(1); }}
+            >{o.label}</Button>
+          ))}
+          <Button variant="outline" size="sm" onClick={handleRefresh} className="gap-1">
+            <RefreshCw className="h-4 w-4" />새로고침
           </Button>
-          <Button 
-            variant="outline" 
-            onClick={handleExport}
-            className="gap-2"
+          <Button
+            variant="outline" size="sm"
+            onClick={() => doExportCsv().then(() => toast.success('CSV 준비 완료'))}
+            disabled={isExporting}
+            className="gap-1"
           >
-            <Download className="h-4 w-4" />
-            다운로드
+            <Download className="h-4 w-4" />CSV
+          </Button>
+          <Button size="sm" onClick={() => setLocation('/admin/membership/checkout')} className="gap-1">
+            <ExternalLink className="h-4 w-4" />결제 시작
           </Button>
         </div>
       </div>
 
+      {/* KPI 카드 — 실제 DB */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-        <Card 
-          className="hover:shadow-lg hover:scale-105 transition-all cursor-pointer"
-          onClick={() => setLocation('/admin/payment/revenue')}
-        >
-          <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-gray-600 flex items-center gap-2">
-              <DollarSign className="h-4 w-4 text-green-500" />
-              이달 매출
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold text-green-600">₩2,610,000</div>
-            <p className="text-xs text-gray-500 mt-1">75건 결제</p>
-            <Badge className="mt-2 bg-green-100 text-green-700">증가 18%</Badge>
-          </CardContent>
-        </Card>
+        {loading ? (
+          Array.from({ length: 4 }).map((_, i) => <Skeleton key={i} className="h-28 w-full rounded-lg" />)
+        ) : (
+          <>
+            <Card className="hover:shadow-lg hover:scale-105 transition-all cursor-pointer"
+              onClick={() => setLocation('/admin/payment/revenue')}>
+              <CardHeader className="pb-2">
+                <CardTitle className="text-sm font-medium text-gray-600 flex items-center gap-2">
+                  <DollarSign className="h-4 w-4 text-green-500" />이달 매출
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="text-2xl font-bold text-green-600">{fmtKrw(Number(settlement?.totalRevenue))}</div>
+                <p className="text-xs text-gray-500 mt-1">{totalPayments}건 결제</p>
+                <Badge className="mt-2 bg-green-100 text-green-700">실시간 DB</Badge>
+              </CardContent>
+            </Card>
 
-        <Card 
-          className="hover:shadow-lg hover:scale-105 transition-all cursor-pointer"
-          onClick={() => setLocation('/admin/payment/settlement')}
-        >
-          <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-gray-600 flex items-center gap-2">
-              <TrendingUp className="h-4 w-4 text-blue-500" />
-              정산 예정액
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold text-blue-600">₩2,480,500</div>
-            <p className="text-xs text-gray-500 mt-1">수수료 제외</p>
-            <Badge className="mt-2 bg-blue-100 text-blue-700">5월 30일 정산</Badge>
-          </CardContent>
-        </Card>
+            <Card className="hover:shadow-lg hover:scale-105 transition-all cursor-pointer"
+              onClick={() => setLocation('/admin/payment/refund')}>
+              <CardHeader className="pb-2">
+                <CardTitle className="text-sm font-medium text-gray-600 flex items-center gap-2">
+                  <RotateCcw className="h-4 w-4 text-purple-500" />환불
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="text-2xl font-bold text-purple-600">{fmtKrw(Number(settlement?.totalRefund ?? 0))}</div>
+                <p className="text-xs text-gray-500 mt-1">환불 금액</p>
+                <Badge className="mt-2 bg-purple-100 text-purple-700">실시간 DB</Badge>
+              </CardContent>
+            </Card>
 
-        <Card 
-          className="hover:shadow-lg hover:scale-105 transition-all cursor-pointer"
-          onClick={() => setLocation('/admin/payment/refund')}
-        >
-          <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-gray-600 flex items-center gap-2">
-              <AlertCircle className="h-4 w-4 text-orange-500" />
-              환불 대기
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold text-orange-600">₩99,000</div>
-            <p className="text-xs text-gray-500 mt-1">1건 대기 중</p>
-            <Badge className="mt-2 bg-orange-100 text-orange-700">승인 필요</Badge>
-          </CardContent>
-        </Card>
+            <Card className="hover:shadow-lg hover:scale-105 transition-all cursor-pointer"
+              onClick={() => setLocation('/admin/payment/settlement')}>
+              <CardHeader className="pb-2">
+                <CardTitle className="text-sm font-medium text-gray-600 flex items-center gap-2">
+                  <TrendingUp className="h-4 w-4 text-blue-500" />순매출
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="text-2xl font-bold text-blue-600">
+                  {fmtKrw(Number(settlement?.totalRevenue ?? 0) - Number(settlement?.totalRefund ?? 0))}
+                </div>
+                <p className="text-xs text-gray-500 mt-1">매출 - 환불</p>
+                <Badge className="mt-2 bg-blue-100 text-blue-700">실시간 계산</Badge>
+              </CardContent>
+            </Card>
 
-        <Card 
-          className="hover:shadow-lg hover:scale-105 transition-all cursor-pointer"
-          onClick={() => setLocation('/admin/payment/transaction')}
-        >
-          <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-gray-600 flex items-center gap-2">
-              <CreditCard className="h-4 w-4 text-purple-500" />
-              평균 거래액
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold text-purple-600">₩34,800</div>
-            <p className="text-xs text-gray-500 mt-1">이달 평균</p>
-            <Badge className="mt-2 bg-purple-100 text-purple-700">안정적</Badge>
-          </CardContent>
-        </Card>
+            <Card className="hover:shadow-lg hover:scale-105 transition-all cursor-pointer"
+              onClick={() => setLocation('/admin/payment/transaction')}>
+              <CardHeader className="pb-2">
+                <CardTitle className="text-sm font-medium text-gray-600 flex items-center gap-2">
+                  <Receipt className="h-4 w-4 text-orange-500" />전체 건수
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="text-2xl font-bold text-orange-600">{totalPayments.toLocaleString()}</div>
+                <p className="text-xs text-gray-500 mt-1">결제 트랜잭션</p>
+                <Badge className="mt-2 bg-orange-100 text-orange-700">실시간 DB</Badge>
+              </CardContent>
+            </Card>
+          </>
+        )}
       </div>
 
-      <Card className="hover:shadow-md transition-shadow">
+      {/* 매출 차트 */}
+      {chartData.length > 0 && (
+        <Card>
+          <CardHeader><CardTitle className="text-base">일별 매출 (실시간)</CardTitle></CardHeader>
+          <CardContent>
+            <ResponsiveContainer width="100%" height={200}>
+              <BarChart data={chartData}>
+                <CartesianGrid strokeDasharray="3 3" stroke="#E0E0E0" />
+                <XAxis dataKey="date" tick={{ fontSize: 11 }} />
+                <YAxis tickFormatter={v => `₩${(v/1000).toFixed(0)}K`} tick={{ fontSize: 11 }} />
+                <Tooltip formatter={(v: number) => fmtKrw(v)} />
+                <Bar dataKey="revenue" fill="#E53935" radius={[3, 3, 0, 0]} name="매출" />
+              </BarChart>
+            </ResponsiveContainer>
+          </CardContent>
+        </Card>
+      )}
+
+      {/* 결제 내역 테이블 — 실제 DB */}
+      <Card>
         <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <TrendingUp className="h-5 w-5" />
-            일별 결제 추이
+          <CardTitle className="text-base flex items-center gap-2">
+            결제 내역 <Badge variant="outline" className="text-xs">{totalPayments}건 · 실시간</Badge>
           </CardTitle>
-          <CardDescription>최근 5일간의 결제 현황</CardDescription>
         </CardHeader>
         <CardContent>
-          <ResponsiveContainer width="100%" height={300}>
-            <BarChart data={paymentData}>
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="date" />
-              <YAxis />
-              <Tooltip />
-              <Legend />
-              <Bar dataKey="amount" fill="#3b82f6" name="결제액" />
-              <Bar dataKey="count" fill="#10b981" name="건수" />
-            </BarChart>
-          </ResponsiveContainer>
-        </CardContent>
-      </Card>
-
-      <Card className="hover:shadow-md transition-shadow">
-        <CardHeader>
-          <CardTitle>최근 결제 이력</CardTitle>
-          <CardDescription>최근 5건의 결제 현황</CardDescription>
-        </CardHeader>
-        <CardContent>
-          <div className="overflow-x-auto">
-            <table className="w-full text-sm">
-              <thead>
-                <tr className="border-b">
-                  <th className="text-left py-2 px-2">날짜</th>
-                  <th className="text-left py-2 px-2">고객명</th>
-                  <th className="text-left py-2 px-2">결제 수단</th>
-                  <th className="text-right py-2 px-2">금액</th>
-                  <th className="text-center py-2 px-2">상태</th>
-                  <th className="text-center py-2 px-2">작업</th>
-                </tr>
-              </thead>
-              <tbody>
-                {paymentHistory.map((payment) => (
-                  <tr key={payment.id} className="border-b hover:bg-gray-50 dark:hover:bg-gray-900">
-                    <td className="py-3 px-2">{payment.date}</td>
-                    <td className="py-3 px-2 font-medium">{payment.customer}</td>
-                    <td className="py-3 px-2">
-                      <Badge variant="outline">{payment.method}</Badge>
-                    </td>
-                    <td className="py-3 px-2 text-right font-semibold">₩{payment.amount.toLocaleString()}</td>
-                    <td className="py-3 px-2 text-center">
-                      <Badge 
-                        className={
-                          payment.status === 'completed' 
-                            ? 'bg-green-100 text-green-700'
-                            : payment.status === 'pending'
-                            ? 'bg-yellow-100 text-yellow-700'
-                            : 'bg-red-100 text-red-700'
-                        }
-                      >
-                        {payment.status === 'completed' ? '완료' : payment.status === 'pending' ? '대기' : '실패'}
-                      </Badge>
-                    </td>
-                    <td className="py-3 px-2 text-center">
-                      {payment.status === 'failed' && (
-                        <Button size="sm" variant="outline" className="text-xs">
-                          재시도
-                        </Button>
-                      )}
-                      {payment.status === 'completed' && (
-                        <Button 
-                          size="sm" 
-                          variant="outline" 
-                          className="text-xs"
-                          onClick={() => toast.info('환불 요청이 접수되었습니다')}
-                        >
-                          환불
-                        </Button>
-                      )}
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </CardContent>
-      </Card>
-
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <Card className="hover:shadow-md transition-shadow">
-          <CardHeader>
-            <CardTitle>정산 현황</CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-3">
-            {[
-              { label: '이달 매출', value: '₩2,610,000', color: 'bg-green-100 text-green-700' },
-              { label: '수수료 3%', value: '-₩78,300', color: 'bg-red-100 text-red-700' },
-              { label: '환불액', value: '-₩99,000', color: 'bg-red-100 text-red-700' },
-              { label: '정산 예정액', value: '₩2,432,700', color: 'bg-blue-100 text-blue-700' },
-            ].map((item, i) => (
-              <div key={i} className="flex justify-between items-center p-2 border rounded-lg">
-                <span className="text-sm font-medium">{item.label}</span>
-                <Badge className={item.color}>{item.value}</Badge>
+          {loading ? (
+            <div className="space-y-2">{Array.from({ length: 5 }).map((_, i) => <Skeleton key={i} className="h-12 w-full" />)}</div>
+          ) : payments.length === 0 ? (
+            <div className="text-center py-12 text-gray-400 space-y-3">
+              <AlertCircle className="h-8 w-8 mx-auto" />
+              <p className="font-medium">결제 내역이 없습니다</p>
+              <p className="text-sm">Stripe 결제 완료 시 여기에 자동으로 표시됩니다</p>
+              <Button variant="outline" size="sm" onClick={() => setLocation('/admin/membership/checkout')}>
+                테스트 결제 하기
+              </Button>
+            </div>
+          ) : (
+            <>
+              <div className="overflow-x-auto">
+                <table className="w-full text-sm">
+                  <thead>
+                    <tr className="border-b border-gray-200 text-xs text-gray-500 uppercase">
+                      <th className="text-left py-2 px-3">날짜</th>
+                      <th className="text-left py-2 px-3">프로젝트</th>
+                      <th className="text-right py-2 px-3">금액</th>
+                      <th className="text-center py-2 px-3">상태</th>
+                      <th className="text-right py-2 px-3">액션</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {payments.map((p: any, i: number) => (
+                      <tr key={p.id ?? i} className="border-b border-gray-100 hover:bg-gray-50">
+                        <td className="py-2 px-3 text-gray-500">
+                          {p.createdAt ? new Date(p.createdAt).toLocaleDateString('ko-KR') : '—'}
+                        </td>
+                        <td className="py-2 px-3 font-medium">{p.projectSlug ?? p.description ?? '—'}</td>
+                        <td className="py-2 px-3 text-right font-mono font-bold">
+                          {fmtKrw(Number(p.amountKrw ?? 0))}
+                        </td>
+                        <td className="py-2 px-3 text-center">
+                          <Badge className={`text-xs ${STATUS_STYLE[p.status] ?? 'bg-gray-100 text-gray-600'}`}>
+                            {STATUS_LABEL[p.status] ?? p.status}
+                          </Badge>
+                        </td>
+                        <td className="py-2 px-3 text-right">
+                          {p.status === 'succeeded' && (
+                            <Button
+                              variant="ghost" size="sm"
+                              className="text-xs text-red-500 hover:text-red-700 h-7"
+                              onClick={() => {
+                                if (confirm(`₩${Number(p.amountKrw).toLocaleString()} 환불하시겠습니까?`)) {
+                                  refundPayment.mutate({
+                                    paymentId: Number(p.id ?? 0),
+                                    amount: p.amountKrw,
+                                  });
+                                }
+                              }}
+                            >환불</Button>
+                          )}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
               </div>
-            ))}
-          </CardContent>
-        </Card>
-
-        <Card className="hover:shadow-md transition-shadow">
-          <CardHeader>
-            <CardTitle>결제 수단별 현황</CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-3">
-            {[
-              { method: '카드', count: 45, amount: '₩1,575,000' },
-              { method: '모바일', count: 20, amount: '₩700,000' },
-              { method: '계좌이체', count: 10, amount: '₩335,000' },
-            ].map((item, i) => (
-              <div key={i} className="p-3 border rounded-lg hover:shadow-md transition-all">
-                <div className="flex justify-between mb-2">
-                  <span className="font-medium">{item.method}</span>
-                  <Badge variant="outline">{item.count}건</Badge>
-                </div>
-                <div className="text-sm font-semibold text-green-600">{item.amount}</div>
-                <div className="w-full bg-gray-200 rounded-full h-2 mt-2">
-                  <div
-                    className="h-2 rounded-full bg-green-500"
-                    style={{ width: `${(item.count / 45) * 100}%` }}
-                  />
+              {/* 페이지네이션 */}
+              <div className="flex items-center justify-between mt-4 text-sm">
+                <span className="text-gray-500">총 {totalPayments}건</span>
+                <div className="flex gap-2">
+                  <Button variant="outline" size="sm" disabled={page <= 1} onClick={() => setPage(p => p - 1)}>이전</Button>
+                  <span className="px-3 py-1 border rounded text-sm">{page} / {totalPages || 1}</span>
+                  <Button variant="outline" size="sm" disabled={page >= totalPages} onClick={() => setPage(p => p + 1)}>다음</Button>
                 </div>
               </div>
-            ))}
-          </CardContent>
-        </Card>
-      </div>
+            </>
+          )}
+        </CardContent>
+      </Card>
     </div>
   );
 }

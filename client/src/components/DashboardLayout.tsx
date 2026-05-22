@@ -32,6 +32,7 @@ const menuItems = [
   { icon: LayoutDashboard, label: "대시보드", path: "/admin" },
   { icon: FolderKanban, label: "프로젝트 관리", path: "/admin/projects" },
   { icon: CreditCard, label: "멤버십 관리", path: "/membership" },
+  { icon: Gem, label: "멤버십 구매", path: "/admin/membership/checkout" },
   { icon: DollarSign, label: "결제 / 정산", path: "/admin/payment" },
   // AI & 분석
   { icon: Brain, label: "AI 분석 & 랭킹", path: "/admin/ai-analytics" },

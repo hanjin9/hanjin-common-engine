@@ -43,6 +43,7 @@ export const appRouter = router({
   }),
 
   // 프로젝트 관리 라우터
+  // ─── 🔵 PROJECT-SPECIFIC ────────────────────────────────────────────────
   projects: router({
     glwaFranchise: glwaFranchiseRouter,
     glwaCommunity: glwaCommunityRouter,
@@ -83,12 +84,14 @@ export const appRouter = router({
   ai: aiRouter,
 
   // 결제/정산 관리자 라우터 (입금명단, 환불, 구독갱신, 정산, CSV)
+  // ─── 🔴 CORE ────────────────────────────────────────────────────────────
   payment: paymentRouter,
 
   // 건강 AI 분석 라우터 (생체데이터 분석, 피드백, 관리자 현황)
   healthAi: healthAiRouter,
 
   // 미션 관리 라우터 (GLWA 10단계 × 단계별 미션 + 슬롯머신 + 즉석발송)
+  // ─── 🟡 PLUGINS ─────────────────────────────────────────────────────────
   mission: missionRouter,
 
   // 이벤트 관리 라우터 (캘린더 연동 + 즉석발송 + 미션 연동)
@@ -101,7 +104,7 @@ export const appRouter = router({
   scheduler: schedulerRouter,
 
   // 관리자 라우터 (사용자 관리, 시스템 통계, 설정)
-  admin: adminRouter,
+  admin: adminRouter, // CORE
 
   // P1: 웨어러블 연동 라우터
   wearable: wearableRouter,

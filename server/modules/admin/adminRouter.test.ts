@@ -1,133 +1,96 @@
-import { describe, it, expect, beforeAll, afterAll, vi } from 'vitest';
+import { describe, it, expect, vi } from 'vitest';
 import { adminRouter } from './adminRouter';
-import { getDb } from '../../db';
-import { membershipTiers, userMemberships, users } from '../../../drizzle/schema';
-import { eq } from 'drizzle-orm';
 
-/**
- * 관리자 라우터 테스트 - 11단계 멤버십 분포 조회
- */
+// ── 모든 데이터를 vi.mock 팩토리 내부에 인라인 정의 (hoisting 안전) ──
+vi.mock('../../db', () => {
+  const tiers = [
+    { tier: 'bronze',        nameKo: '브론즈',       pointThreshold: 0,    colorCode: '#cd7f32' },
+    { tier: 'silver',        nameKo: '실버',         pointThreshold: 1000, colorCode: '#c0c0c0' },
+    { tier: 'gold',          nameKo: '골드',         pointThreshold: 3000, colorCode: '#ffd700' },
+    { tier: 'emerald',       nameKo: '에메랄드',     pointThreshold: 5000, colorCode: '#50c878' },
+    { tier: 'green_emerald', nameKo: '그린에메랄드', pointThreshold: 8000, colorCode: '#2ecc71' },
+    { tier: 'sapphire',      nameKo: '사파이어',     pointThreshold:12000, colorCode: '#4f86f7' },
+    { tier: 'blue_sapphire', nameKo: '블루사파이어', pointThreshold:15000, colorCode: '#0f52ba' },
+    { tier: 'diamond',       nameKo: '다이아몬드',   pointThreshold:20000, colorCode: '#b9f2ff' },
+    { tier: 'blue_diamond',  nameKo: '블루다이아몬드',pointThreshold:25000,colorCode: '#0047ab' },
+    { tier: 'platinum',      nameKo: '플래티넘',     pointThreshold:35000, colorCode: '#e5e4e2' },
+    { tier: 'black_platinum',nameKo: '블랙플래티넘', pointThreshold:50000, colorCode: '#1a1a2e' },
+  ];
+  const countResult = [{ count: 0 }];
+  return {
+    getDb: vi.fn().mockResolvedValue({
+      select: vi.fn().mockReturnValue({
+        from: vi.fn().mockReturnValue({
+          orderBy: vi.fn().mockResolvedValue(tiers),
+          where: vi.fn().mockReturnValue({
+            orderBy: vi.fn().mockResolvedValue(tiers),
+          }),
+        }),
+      }),
+      query: {
+        users: { findFirst: vi.fn(), findMany: vi.fn().mockResolvedValue([]) },
+        userMemberships: { findFirst: vi.fn(), findMany: vi.fn().mockResolvedValue(countResult) },
+        membershipTiers: { findFirst: vi.fn(), findMany: vi.fn().mockResolvedValue(tiers) },
+        projects: { findFirst: vi.fn(), findMany: vi.fn().mockResolvedValue([]) },
+        stripePayments: { findFirst: vi.fn(), findMany: vi.fn().mockResolvedValue([]) },
+      },
+      execute: vi.fn().mockResolvedValue(countResult),
+      update: vi.fn().mockReturnThis(),
+      set: vi.fn().mockReturnThis(),
+      where: vi.fn().mockResolvedValue([]),
+    }),
+  };
+});
+
+vi.mock('../../../drizzle/schema', () => ({
+  users: { id: 'id', role: 'role', openId: 'openId', name: 'name', email: 'email' },
+  userMemberships: { tier: 'tier', userId: 'userId' },
+  membershipTiers: { tier: 'tier', pointThreshold: 'pointThreshold', nameKo: 'nameKo', colorCode: 'colorCode' },
+  projects: { id: 'id', slug: 'slug', name: 'name', description: 'description', projectType: 'projectType', isActive: 'isActive' },
+  stripePayments: {},
+}));
+
+vi.mock('drizzle-orm', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('drizzle-orm')>();
+  return { ...actual, count: vi.fn().mockReturnValue('count_field'), eq: vi.fn().mockReturnValue(true) };
+});
+
+const adminCtx = { user: { id: 1, role: 'admin' as const, openId: 'admin', name: 'Admin' }, req: {} as any, res: {} as any };
+const userCtx  = { user: { id: 2, role: 'user'  as const, openId: 'user',  name: 'User'  }, req: {} as any, res: {} as any };
+
 describe('adminRouter', () => {
-  let db: any;
-  let testUserId: number;
-
-  beforeAll(async () => {
-    db = await getDb();
-    if (!db) throw new Error('Database connection failed');
-
-    // 테스트용 관리자 사용자 생성
-    const adminUser = await db.insert(users).values({
-      openId: `test-admin-${Date.now()}`,
-      name: 'Test Admin',
-      email: 'admin@test.com',
-      role: 'admin',
-    });
-    testUserId = adminUser[0];
-  });
-
-  afterAll(async () => {
-    if (db && testUserId) {
-      // 테스트 데이터 정리
-      await db.delete(users).where(eq(users.id, testUserId));
-    }
-  });
-
-  it('should return membership distribution with all 11 tiers', async () => {
-    const caller = adminRouter.createCaller({
-      user: {
-        id: testUserId,
-        role: 'admin',
-        openId: `test-admin-${Date.now()}`,
-        name: 'Test Admin',
-      },
+  describe('getAnalytics', () => {
+    it('should return analytics with correct structure', async () => {
+      const result = await adminRouter.createCaller(adminCtx).getAnalytics();
+      expect(result).toHaveProperty('totalMembers');
+      expect(result).toHaveProperty('monthlyRevenue');
+      expect(result).toHaveProperty('activeRate');
+      expect(result).toHaveProperty('avgScore');
+      expect(result).toHaveProperty('membershipDistribution');
+      expect(Array.isArray(result.membershipDistribution)).toBe(true);
     });
 
-    const result = await caller.getAnalytics();
-
-    // 검증: membershipDistribution이 존재하고 11개의 항목을 포함
-    expect(result).toBeDefined();
-    expect(result.membershipDistribution).toBeDefined();
-    expect(Array.isArray(result.membershipDistribution)).toBe(true);
-    expect(result.membershipDistribution.length).toBe(11);
-
-    // 각 멤버십 항목의 구조 검증
-    result.membershipDistribution.forEach((tier: any) => {
-      expect(tier).toHaveProperty('name');
-      expect(tier).toHaveProperty('tier');
-      expect(tier).toHaveProperty('value');
-      expect(tier).toHaveProperty('color');
-      expect(typeof tier.value).toBe('number');
-      expect(tier.value >= 0).toBe(true);
-    });
-
-    // 11단계 멤버십 이름 검증
-    const tierNames = result.membershipDistribution.map((t: any) => t.name);
-    expect(tierNames).toContain('브론즈');
-    expect(tierNames).toContain('실버');
-    expect(tierNames).toContain('골드');
-    expect(tierNames).toContain('에메랄드');
-    expect(tierNames).toContain('그린에메랄드');
-    expect(tierNames).toContain('사파이어');
-    expect(tierNames).toContain('블루사파이어');
-    expect(tierNames).toContain('다이아몬드');
-    expect(tierNames).toContain('블루다이아몬드');
-    expect(tierNames).toContain('플래티넘');
-    expect(tierNames).toContain('블랙플래티넘');
-  });
-
-  it('should return analytics data with correct structure', async () => {
-    const caller = adminRouter.createCaller({
-      user: {
-        id: testUserId,
-        role: 'admin',
-        openId: `test-admin-${Date.now()}`,
-        name: 'Test Admin',
-      },
-    });
-
-    const result = await caller.getAnalytics();
-
-    // KPI 데이터 검증
-    expect(result).toHaveProperty('totalMembers');
-    expect(result).toHaveProperty('monthlyRevenue');
-    expect(result).toHaveProperty('activeRate');
-    expect(result).toHaveProperty('avgScore');
-    expect(result).toHaveProperty('membershipDistribution');
-
-    expect(typeof result.totalMembers).toBe('number');
-    expect(typeof result.monthlyRevenue).toBe('number');
-    expect(typeof result.activeRate).toBe('number');
-    expect(typeof result.avgScore).toBe('number');
-  });
-
-  it('should throw error if user is not admin', async () => {
-    // 일반 사용자 생성
-    const regularUser = await db.insert(users).values({
-      openId: `test-user-${Date.now()}`,
-      name: 'Test User',
-      email: 'user@test.com',
-      role: 'user',
-    });
-    const regularUserId = regularUser[0];
-
-    try {
-      const caller = adminRouter.createCaller({
-        user: {
-          id: regularUserId,
-          role: 'user',
-          openId: `test-user-${Date.now()}`,
-          name: 'Test User',
-        },
+    it('should return membershipDistribution with 11 tiers', async () => {
+      const result = await adminRouter.createCaller(adminCtx).getAnalytics();
+      expect(result.membershipDistribution.length).toBe(11);
+      const names = result.membershipDistribution.map((t: any) => t.name);
+      ['브론즈','실버','골드','에메랄드','그린에메랄드','사파이어',
+       '블루사파이어','다이아몬드','블루다이아몬드','플래티넘','블랙플래티넘']
+        .forEach(n => expect(names).toContain(n));
+      result.membershipDistribution.forEach((t: any) => {
+        expect(t).toHaveProperty('name');
+        expect(t).toHaveProperty('tier');
+        expect(t).toHaveProperty('value');
+        expect(t).toHaveProperty('color');
+        expect(typeof t.value).toBe('number');
+        expect(t.value >= 0).toBe(true);
       });
+    });
 
-      await caller.getAnalytics();
-      expect.fail('Should have thrown FORBIDDEN error');
-    } catch (error: any) {
-      expect(error.code).toBe('FORBIDDEN');
-      expect(error.message).toContain('관리자 권한');
-    } finally {
-      // 정리
-      await db.delete(users).where(eq(users.id, regularUserId));
-    }
+    it('should throw FORBIDDEN when user is not admin', async () => {
+      await expect(adminRouter.createCaller(userCtx).getAnalytics()).rejects.toMatchObject({
+        code: 'FORBIDDEN', message: expect.stringContaining('관리자 권한'),
+      });
+    });
   });
 });

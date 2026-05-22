@@ -1,224 +1,208 @@
-import React from 'react';
-import { Card } from '@/components/ui/card';
-import {
-  LineChart,
-  Line,
-  BarChart,
-  Bar,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  Legend,
-  ResponsiveContainer,
-  PieChart,
-  Pie,
-  Cell,
-} from 'recharts';
-
 /**
- * 결제/구독 현황 차트
- * 국제 타이포그래피 스타일 기반
+ * PaymentChart.tsx — 실제 Stripe DB 연동 결제 차트
+ * trpc.payment.getRevenueChart + getPaymentList + getSubscriptionList 사용
  */
+import { useState } from 'react';
+import { trpc } from '@/lib/trpc';
+import { Card } from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Skeleton } from '@/components/ui/skeleton';
+import {
+  LineChart, Line, BarChart, Bar, XAxis, YAxis,
+  CartesianGrid, Tooltip, Legend, ResponsiveContainer, PieChart, Pie, Cell,
+} from 'recharts';
+import { RefreshCw, Download, ExternalLink } from 'lucide-react';
+import { toast } from 'sonner';
 
-// 월별 매출 데이터
-const monthlyRevenueData = [
-  { month: '1월', revenue: 45000, subscriptions: 120 },
-  { month: '2월', revenue: 52000, subscriptions: 135 },
-  { month: '3월', revenue: 48000, subscriptions: 128 },
-  { month: '4월', revenue: 61000, subscriptions: 155 },
-  { month: '5월', revenue: 55000, subscriptions: 142 },
-];
-
-// 구독 플랜 분포
-const subscriptionDistribution = [
-  { name: '기본', value: 245, color: '#BDBDBD' },
-  { name: '프리미엄', value: 380, color: '#E53935' },
-  { name: '엔터프라이즈', value: 95, color: '#212121' },
-];
-
-// 결제 상태 분포
-const paymentStatus = [
-  { name: '성공', value: 650, color: '#2E7D32' },
-  { name: '대기', value: 45, color: '#F57C00' },
-  { name: '실패', value: 25, color: '#D32F2F' },
-];
+const STATUS_COLORS: Record<string, string> = {
+  succeeded: '#2E7D32', pending: '#F57C00', failed: '#D32F2F',
+  refunded: '#7B1FA2', canceled: '#757575',
+};
+const STATUS_LABELS: Record<string, string> = {
+  succeeded: '성공', pending: '대기', failed: '실패', refunded: '환불', canceled: '취소',
+};
 
 export default function PaymentChart() {
+  const [period, setPeriod] = useState<'week' | 'month'>('month');
+
+  // ── 실제 DB 데이터 ─────────────────────────────────────────────
+  const { data: revenueChart, isLoading: chartLoading, refetch } = trpc.payment.getRevenueChart.useQuery(
+    { period }, { retry: false }
+  );
+  const { data: paymentData, isLoading: pmtLoading } = trpc.payment.getPaymentList.useQuery(
+    { period, status: 'all', page: 1, pageSize: 10 }, { retry: false }
+  );
+  const { data: settlement } = trpc.payment.getSettlementSummary.useQuery(
+    { period }, { retry: false }
+  );
+
+  const exportCsv = trpc.payment.exportPaymentsCsv.useQuery({ period: period as any }, { enabled: false }); //
+
+
+  // 월별 집계 변환
+  const chartData = (() => {
+    if (!revenueChart?.data?.length) return [];
+    const byDate: Record<string, { date: string; revenue: number; count: number }> = {};
+    revenueChart.data.forEach((r: any) => {
+      const d = r.date?.slice(5) ?? ''; // MM-DD
+      if (!byDate[d]) byDate[d] = { date: d, revenue: 0, count: 0 };
+      byDate[d].revenue += Number(r.total ?? 0);
+      byDate[d].count += Number(r.count ?? 0);
+    });
+    return Object.values(byDate).slice(-14);
+  })();
+
+  // 상태별 분포
+  const payments = (paymentData as any)?.payments ?? (paymentData as any)?.items ?? [];
+  const statusDist = (() => {
+    const m: Record<string, number> = {};
+    payments.forEach((p: any) => {
+      const s = p.status ?? 'unknown';
+      m[s] = (m[s] ?? 0) + 1;
+    });
+    return Object.entries(m).map(([status, value]) => ({
+      name: STATUS_LABELS[status] ?? status,
+      value,
+      color: STATUS_COLORS[status] ?? '#9E9E9E',
+    }));
+  })();
+
+  const fmtKrw = (v: number) => `₩${Math.round(v).toLocaleString('ko-KR')}`;
+  const loading = chartLoading || pmtLoading;
+
   return (
     <div className="space-y-8">
-      {/* 제목 */}
-      <div className="border-b border-gray-200 pb-6">
-        <h1 className="text-5xl font-bold text-black mb-2">
-          결제 및 구독 현황
-        </h1>
-        <p className="text-gray-600 text-lg">
-          프로젝트별 매출, 구독 추이, 결제 상태를 분석합니다
-        </p>
+      <div className="border-b border-gray-200 pb-6 flex items-start justify-between flex-wrap gap-4">
+        <div>
+          <h1 className="text-5xl font-bold text-black mb-2">결제 및 구독 현황</h1>
+          <p className="text-gray-600 text-lg">Stripe · 실시간 DB 연동 · stripePayments 테이블</p>
+        </div>
+        <div className="flex gap-2">
+          <Button
+            variant={period === 'week' ? 'default' : 'outline'}
+            size="sm"
+            onClick={() => setPeriod('week')}
+          >7일</Button>
+          <Button
+            variant={period === 'month' ? 'default' : 'outline'}
+            size="sm"
+            onClick={() => setPeriod('month')}
+          >30일</Button>
+          <Button variant="outline" size="sm" onClick={() => refetch()}>
+            <RefreshCw className="h-4 w-4" />
+          </Button>
+          <Button variant="outline" size="sm" onClick={() => { exportCsv?.refetch?.(); toast.success('CSV 준비 완료'); }}>
+            <Download className="h-4 w-4 mr-1" />CSV
+          </Button>
+        </div>
       </div>
 
-      {/* 월별 매출 및 구독 추이 */}
+      {/* 정산 요약 */}
+      <div className="grid grid-cols-3 gap-4">
+        {[
+          { label: '총 매출', value: settlement ? fmtKrw(Number(settlement.totalRevenue)) : '—', color: 'text-green-600' },
+          { label: '환불', value: settlement ? fmtKrw(Number(settlement.totalRefund ?? 0)) : '—', color: 'text-red-500' },
+          { label: '순매출', value: settlement ? fmtKrw(Number(settlement.totalRevenue) - Number(settlement.totalRefund ?? 0)) : '—', color: 'text-black' },
+        ].map(s => (
+          <Card key={s.label} className="p-4 border-gray-200 text-center">
+            <p className="text-xs text-gray-500 uppercase tracking-wide mb-1">{s.label}</p>
+            <p className={`text-2xl font-bold ${s.color}`}>{s.value}</p>
+          </Card>
+        ))}
+      </div>
+
+      {/* 매출 추이 차트 */}
       <Card className="p-8 border-gray-200">
-        <h2 className="text-2xl font-bold text-black mb-6">
-          월별 매출 및 구독 추이
-        </h2>
-        <ResponsiveContainer width="100%" height={300}>
-          <LineChart data={monthlyRevenueData}>
-            <CartesianGrid strokeDasharray="3 3" stroke="#E0E0E0" />
-            <XAxis dataKey="month" stroke="#757575" />
-            <YAxis stroke="#757575" />
-            <Tooltip
-              contentStyle={{
-                backgroundColor: '#FFFFFF',
-                border: '1px solid #E0E0E0',
-                borderRadius: '0.5rem',
-              }}
-            />
-            <Legend />
-            <Line
-              type="monotone"
-              dataKey="revenue"
-              stroke="#E53935"
-              strokeWidth={2}
-              dot={{ fill: '#E53935', r: 4 }}
-              name="매출 ($)"
-            />
-            <Line
-              type="monotone"
-              dataKey="subscriptions"
-              stroke="#424242"
-              strokeWidth={2}
-              dot={{ fill: '#424242', r: 4 }}
-              name="구독 수"
-            />
-          </LineChart>
-        </ResponsiveContainer>
+        <h2 className="text-2xl font-bold text-black mb-6">일별 매출 추이 (실시간)</h2>
+        {loading ? (
+          <Skeleton className="h-64 w-full" />
+        ) : chartData.length === 0 ? (
+          <div className="h-64 flex items-center justify-center text-gray-400">
+            <div className="text-center">
+              <p className="text-lg font-medium">결제 데이터 없음</p>
+              <p className="text-sm mt-1">Stripe 결제 후 자동으로 표시됩니다</p>
+            </div>
+          </div>
+        ) : (
+          <ResponsiveContainer width="100%" height={280}>
+            <LineChart data={chartData}>
+              <CartesianGrid strokeDasharray="3 3" stroke="#E0E0E0" />
+              <XAxis dataKey="date" stroke="#757575" tick={{ fontSize: 12 }} />
+              <YAxis stroke="#757575" tickFormatter={v => `₩${(v/1000).toFixed(0)}K`} tick={{ fontSize: 12 }} />
+              <Tooltip formatter={(v: number) => fmtKrw(v)} />
+              <Legend />
+              <Line type="monotone" dataKey="revenue" stroke="#E53935" strokeWidth={2.5} dot={{ r: 3 }} name="매출" />
+              <Line type="monotone" dataKey="count" stroke="#424242" strokeWidth={1.5} dot={{ r: 3 }} name="건수" yAxisId="right" />
+            </LineChart>
+          </ResponsiveContainer>
+        )}
       </Card>
 
-      {/* 구독 플랜 분포 및 결제 상태 */}
+      {/* 상태 분포 */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-        {/* 구독 플랜 분포 */}
         <Card className="p-8 border-gray-200">
-          <h2 className="text-2xl font-bold text-black mb-6">
-            구독 플랜 분포
-          </h2>
-          <ResponsiveContainer width="100%" height={250}>
-            <PieChart>
-              <Pie
-                data={subscriptionDistribution}
-                cx="50%"
-                cy="50%"
-                labelLine={false}
-                label={({ name, value }) => `${name}: ${value}`}
-                outerRadius={80}
-                fill="#8884d8"
-                dataKey="value"
-              >
-                {subscriptionDistribution.map((entry, index) => (
-                  <Cell key={`cell-${index}`} fill={entry.color} />
+          <h2 className="text-2xl font-bold text-black mb-6">결제 상태 분포 (실시간)</h2>
+          {loading ? <Skeleton className="h-48 w-full" /> : statusDist.length === 0 ? (
+            <div className="h-48 flex items-center justify-center text-gray-400 text-sm">결제 데이터 없음</div>
+          ) : (
+            <>
+              <ResponsiveContainer width="100%" height={200}>
+                <PieChart>
+                  <Pie data={statusDist} cx="50%" cy="50%" outerRadius={75} dataKey="value"
+                    label={({ name, value }) => `${name}: ${value}`} labelLine={false}>
+                    {statusDist.map((e, i) => <Cell key={i} fill={e.color} />)}
+                  </Pie>
+                  <Tooltip />
+                </PieChart>
+              </ResponsiveContainer>
+              <div className="mt-4 space-y-2">
+                {statusDist.map(s => (
+                  <div key={s.name} className="flex items-center justify-between text-sm">
+                    <div className="flex items-center gap-2">
+                      <div className="w-3 h-3 rounded-sm" style={{ background: s.color }} />
+                      <span className="text-gray-600">{s.name}</span>
+                    </div>
+                    <span className="font-bold text-black">{s.value}건</span>
+                  </div>
                 ))}
-              </Pie>
-              <Tooltip />
-            </PieChart>
-          </ResponsiveContainer>
-          <div className="mt-6 space-y-2">
-            {subscriptionDistribution.map((item) => (
-              <div
-                key={item.name}
-                className="flex items-center justify-between text-sm"
-              >
-                <div className="flex items-center gap-2">
-                  <div
-                    className="w-3 h-3"
-                    style={{ backgroundColor: item.color }}
-                  />
-                  <span className="text-gray-600">{item.name}</span>
-                </div>
-                <span className="font-semibold text-black">{item.value}</span>
               </div>
-            ))}
-          </div>
+            </>
+          )}
         </Card>
 
-        {/* 결제 상태 분포 */}
+        {/* 최근 결제 내역 */}
         <Card className="p-8 border-gray-200">
-          <h2 className="text-2xl font-bold text-black mb-6">
-            결제 상태 분포
-          </h2>
-          <ResponsiveContainer width="100%" height={250}>
-            <PieChart>
-              <Pie
-                data={paymentStatus}
-                cx="50%"
-                cy="50%"
-                labelLine={false}
-                label={({ name, value }) => `${name}: ${value}`}
-                outerRadius={80}
-                fill="#8884d8"
-                dataKey="value"
-              >
-                {paymentStatus.map((entry, index) => (
-                  <Cell key={`cell-${index}`} fill={entry.color} />
-                ))}
-              </Pie>
-              <Tooltip />
-            </PieChart>
-          </ResponsiveContainer>
-          <div className="mt-6 space-y-2">
-            {paymentStatus.map((item) => (
-              <div
-                key={item.name}
-                className="flex items-center justify-between text-sm"
-              >
-                <div className="flex items-center gap-2">
-                  <div
-                    className="w-3 h-3"
-                    style={{ backgroundColor: item.color }}
-                  />
-                  <span className="text-gray-600">{item.name}</span>
+          <h2 className="text-2xl font-bold text-black mb-6">최근 결제 내역 (실시간)</h2>
+          {loading ? (
+            <div className="space-y-3">{[1,2,3,4,5].map(i => <Skeleton key={i} className="h-10 w-full" />)}</div>
+          ) : payments.length === 0 ? (
+            <div className="h-48 flex flex-col items-center justify-center text-gray-400 gap-3">
+              <p className="text-sm">결제 내역 없음</p>
+              <Button variant="outline" size="sm" onClick={() => window.location.href = '/admin/membership/checkout'}>
+                <ExternalLink className="h-4 w-4 mr-1" />테스트 결제 하기
+              </Button>
+            </div>
+          ) : (
+            <div className="space-y-2">
+              {payments.slice(0, 6).map((p: any, i: number) => (
+                <div key={p.id ?? i} className="flex items-center justify-between py-2 border-b border-gray-100 last:border-0">
+                  <div>
+                    <p className="text-sm font-medium text-black">{p.projectSlug ?? p.description ?? '—'}</p>
+                    <p className="text-xs text-gray-500">{p.createdAt ? new Date(p.createdAt).toLocaleDateString('ko-KR') : '—'}</p>
+                  </div>
+                  <div className="text-right">
+                    <p className="text-sm font-bold text-black">{fmtKrw(Number(p.amountKrw ?? 0))}</p>
+                    <Badge className="text-xs" style={{ background: STATUS_COLORS[p.status] + '20', color: STATUS_COLORS[p.status] }}>
+                      {STATUS_LABELS[p.status] ?? p.status}
+                    </Badge>
+                  </div>
                 </div>
-                <span className="font-semibold text-black">{item.value}</span>
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
+          )}
         </Card>
       </div>
-
-      {/* 프로젝트별 매출 비교 */}
-      <Card className="p-8 border-gray-200">
-        <h2 className="text-2xl font-bold text-black mb-6">
-          프로젝트별 매출 비교
-        </h2>
-        <ResponsiveContainer width="100%" height={300}>
-          <BarChart
-            data={[
-              { project: '장부관리사', revenue: 12450 },
-              { project: '스포츠회복사', revenue: 8920 },
-              { project: '로또', revenue: 34210 },
-              { project: 'GLWA', revenue: 5670 },
-              { project: '숨호흡', revenue: 21340 },
-              { project: '랜딩', revenue: 45670 },
-            ]}
-          >
-            <CartesianGrid strokeDasharray="3 3" stroke="#E0E0E0" />
-            <XAxis dataKey="project" stroke="#757575" />
-            <YAxis stroke="#757575" />
-            <Tooltip
-              contentStyle={{
-                backgroundColor: '#FFFFFF',
-                border: '1px solid #E0E0E0',
-                borderRadius: '0.5rem',
-              }}
-            />
-            <Bar
-              dataKey="revenue"
-              fill="#E53935"
-              radius={[4, 4, 0, 0]}
-              name="매출 ($)"
-            />
-          </BarChart>
-        </ResponsiveContainer>
-      </Card>
     </div>
   );
 }

@@ -43,6 +43,40 @@ async function startServer() {
     }
   );
 
+  // ─── Stripe REST API 엔드포인트 (jangbu + sports 레포 이식) ─────────────────
+  // 결제 세션 검증 (PaymentSuccess 페이지에서 호출)
+  app.get("/api/stripe/verify-session", async (req, res) => {
+    try {
+      const sessionId = req.query.session_id as string;
+      if (!sessionId) return res.json({ success: false, error: "session_id required" });
+
+      const stripeKey = process.env.STRIPE_SECRET_KEY;
+      if (!stripeKey) return res.json({ success: false, error: "Stripe not configured" });
+
+      const Stripe = (await import("stripe")).default;
+      const stripe = new Stripe(stripeKey);
+      const session = await stripe.checkout.sessions.retrieve(sessionId);
+
+      if (session.payment_status === "paid" || session.status === "complete") {
+        res.json({
+          success: true,
+          order: {
+            tier_key: session.metadata?.tier_key,
+            tier_name: session.metadata?.tier_name || session.metadata?.tier_id,
+            project_slug: session.metadata?.project_slug,
+            amount: session.amount_total,
+            stripe_subscription_id: session.subscription,
+          },
+        });
+      } else {
+        res.json({ success: false, status: session.payment_status });
+      }
+    } catch (error: any) {
+      console.error("[Stripe verify-session]", error.message);
+      res.status(500).json({ success: false, error: "결제 검증 실패" });
+    }
+  });
+
   // ─── Heartbeat 스케줄러 엔드포인트 ───────────────────────────────────────────
   // 일일 미션 자동 발송 (매일 KST 10:00)
   app.post("/api/scheduled/daily-mission", async (req, res) => {

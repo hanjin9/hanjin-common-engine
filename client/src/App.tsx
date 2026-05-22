@@ -40,6 +40,8 @@ import TargetAudienceManager from './pages/TargetAudienceManager';
 import ScheduledMissionManager from './pages/ScheduledMissionManager';
 import SleepDetectionSettings from './pages/SleepDetectionSettings';
 import FeedbackTemplateManager from './pages/FeedbackTemplateManager';
+import MembershipCheckout from './pages/MembershipCheckout';
+import PaymentSuccess from './pages/PaymentSuccess';
 
 function Router() {
   return (
@@ -215,6 +217,16 @@ function Router() {
       )} />
 
       {/* 404 */}
+      {/* ✅ 신규: 멤버십 결제 + 결제완료/취소 (3개 레포 이식) */}
+      <Route path={"/admin/membership/checkout"} component={() => (
+        <MembershipCheckout />
+      )} />
+      <Route path={"/payment/success"} component={() => (
+        <PaymentSuccess />
+      )} />
+      <Route path={"/payment/cancel"} component={() => (
+        <PaymentSuccess />
+      )} />
       <Route path={"/404"} component={NotFound} />
       <Route component={NotFound} />
     </Switch>
