@@ -227,6 +227,49 @@ export const googleFitRouter = router({
     };
   }),
 
+  // 모의 테스트 데이터 생성 (Google Fit 미연동 시 테스트용)
+  generateMockData: protectedProcedure.mutation(async ({ ctx }) => {
+    const db = await getDb();
+    if (!db) throw new Error("DB 연결 실패");
+
+    // 최근 7일치 더미 데이터 생성
+    const mockRecords = Array.from({ length: 7 }, (_, i) => {
+      const date = new Date();
+      date.setDate(date.getDate() - (6 - i));
+      const steps = Math.floor(Math.random() * 8000) + 4000; // 4000~12000
+      const calories = Math.floor(steps * 0.04 + Math.random() * 100); // 칼로리 계산
+      const heartRate = Math.floor(Math.random() * 30) + 65; // 65~95 bpm
+      const distance = Math.round(steps * 0.75); // 보폭 0.75m 기준
+      return {
+        userId: ctx.user.id,
+        steps,
+        caloriesBurned: calories,
+        heartRate,
+        activeMinutes: Math.floor(steps / 100),
+        measuredAt: date,
+      };
+    });
+
+    await db.insert(realtimeBioData).values(mockRecords);
+
+    const totals = mockRecords.reduce((acc, r) => ({
+      steps: acc.steps + r.steps,
+      calories: acc.calories + r.caloriesBurned,
+    }), { steps: 0, calories: 0 });
+
+    return {
+      success: true,
+      message: `7일치 모의 데이터 생성 완료`,
+      summary: {
+        totalSteps: totals.steps,
+        totalCalories: totals.calories,
+        avgDailySteps: Math.round(totals.steps / 7),
+        avgDailyCalories: Math.round(totals.calories / 7),
+      },
+      records: mockRecords,
+    };
+  }),
+
   // 최근 동기화 데이터 조회
   getRecentData: protectedProcedure.query(async ({ ctx }) => {
     const recent = await (await getDb())!

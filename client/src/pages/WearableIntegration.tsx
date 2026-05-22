@@ -8,7 +8,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Activity, Heart, Zap, Watch, Plus, Trash2, RefreshCw, Footprints, Flame } from "lucide-react";
+import { Activity, Heart, Zap, Watch, Plus, Trash2, RefreshCw, Footprints, Flame, FlaskConical } from "lucide-react";
 import { toast } from "sonner";
 
 const PLATFORM_INFO: Record<string, { name: string; icon: string; color: string }> = {
@@ -25,10 +25,22 @@ export default function WearableIntegration() {
   const [selectedPlatform, setSelectedPlatform] = useState<string>("");
   const [deviceName, setDeviceName] = useState("");
 
+  const utils = trpc.useUtils();
   const { data: connections, refetch: refetchConnections } = trpc.wearable.getConnections.useQuery();
-  const { data: bioSummary } = trpc.wearable.getBioSummary.useQuery();
-  const { data: bioData } = trpc.wearable.getBioData.useQuery({ hours: 24 });
+  const { data: bioSummary, refetch: refetchBio } = trpc.wearable.getBioSummary.useQuery();
+  const { data: bioData, refetch: refetchBioData } = trpc.wearable.getBioData.useQuery({ hours: 24 });
   const { data: exerciseSessions } = trpc.wearable.getExerciseSessions.useQuery({ limit: 10 });
+
+  const generateMock = trpc.googleFit.generateMockData.useMutation({
+    onSuccess: (data) => {
+      toast.success(
+        `테스트 데이터 생성 완료! 평균 걸음수: ${data.summary.avgDailySteps.toLocaleString()}걸음 / 평균 칼로리: ${data.summary.avgDailyCalories}kcal`
+      );
+      refetchBio();
+      refetchBioData();
+    },
+    onError: () => toast.error("테스트 데이터 생성에 실패했습니다."),
+  });
 
   const addConnection = trpc.wearable.addConnection.useMutation({
     onSuccess: () => {
@@ -63,6 +75,16 @@ export default function WearableIntegration() {
           <h1 className="text-2xl font-bold text-cyan-700">웨어러블 연동</h1>
           <p className="text-muted-foreground text-sm mt-1">스마트워치 및 피트니스 트래커 연동 관리</p>
         </div>
+        <div className="flex items-center gap-2">
+          <Button
+            variant="outline"
+            className="border-dashed border-cyan-400 text-cyan-700 hover:bg-cyan-50 text-xs sm:text-sm"
+            onClick={() => generateMock.mutate()}
+            disabled={generateMock.isPending}
+          >
+            <FlaskConical className="w-4 h-4 mr-1" />
+            {generateMock.isPending ? "생성 중...⏳" : "테스트 데이터 생성"}
+          </Button>
         <Dialog open={addOpen} onOpenChange={setAddOpen}>
           <DialogTrigger asChild>
             <Button className="bg-cyan-600 hover:bg-cyan-700 text-white">
@@ -108,6 +130,7 @@ export default function WearableIntegration() {
             </div>
           </DialogContent>
         </Dialog>
+        </div>
       </div>
 
       {/* 요약 카드 */}
