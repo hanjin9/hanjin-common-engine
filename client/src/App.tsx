@@ -29,7 +29,6 @@ import WearableIntegration from './pages/WearableIntegration';
 import FeedbackAdvancedDashboard from './pages/FeedbackAdvancedDashboard';
 import CommunityHub from './pages/CommunityHub';
 import AdvancedAnalytics from './pages/AdvancedAnalytics';
-import PaymentAdvanced from './pages/PaymentAdvanced';
 
 // Group A: AI 피드백 페이지
 import AiFeedbackDashboard from './pages/AiFeedbackDashboard';
@@ -209,12 +208,7 @@ function Router() {
         </DashboardLayout>
       )} />
 
-      {/* P5: 결제 고도화 */}
-      <Route path={"/admin/payment-advanced"} component={() => (
-        <DashboardLayout>
-          <PaymentAdvanced />
-        </DashboardLayout>
-      )} />
+
 
       {/* 404 */}
       {/* ✅ 신규: 멤버십 결제 + 결제완료/취소 (3개 레포 이식) */}

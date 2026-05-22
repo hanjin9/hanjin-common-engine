@@ -1,3 +1,10 @@
+/**
+ * hanjin-common-engine — App Router
+ *
+ * 🔴 CORE ENGINE    : auth, payment, wellness, admin, notifications, permissions
+ * 🟡 STANDARD MODULE: ai, healthAi, mission, event, scheduler, sleep, wearable, community
+ * 🔵 GLWA EXTENSION : projects.glwaFranchise, projects.glwaCommunity, analytics, global, googleFit, feedbackAdvanced
+ */
 import { COOKIE_NAME } from "@shared/const";
 import { getSessionCookieOptions } from "./_core/cookies";
 import { systemRouter } from "./_core/systemRouter";
@@ -22,8 +29,6 @@ import { wearableRouter } from './modules/wearable/wearableRouter';
 import { feedbackAdvancedRouter } from './modules/feedbackAdvanced/feedbackAdvancedRouter';
 import { communityRouter } from './modules/community/communityRouter';
 import { analyticsRouter } from './modules/analytics/analyticsRouter';
-import { paymentAdvancedRouter } from './modules/paymentAdvanced/paymentAdvancedRouter';
-import { operationsRouter } from './modules/operations/operationsRouter';
 import { globalRouter } from './modules/global/globalRouter';
 import { googleFitRouter } from './modules/googleFit/googleFitRouter';
 import { z } from 'zod';
@@ -119,10 +124,8 @@ export const appRouter = router({
   analytics: analyticsRouter,
 
   // P5: 결제 고도화 라우터
-  paymentAdvanced: paymentAdvancedRouter,
 
   // P6: 운영 자동화 라우터
-  operations: operationsRouter,
 
   // P7: 글로벌 확장 라우터
   global: globalRouter,
