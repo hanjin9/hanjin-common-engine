@@ -21,26 +21,39 @@ import {
 } from "@/components/ui/sidebar";
 import { getLoginUrl } from "@/const";
 import { useIsMobile } from "@/hooks/useMobile";
-import { LayoutDashboard, LogOut, PanelLeft, Users, BarChart3, Settings, Activity, CreditCard, FolderKanban, Zap, FileText, Moon, Brain, DollarSign, Target, Calendar, Timer, Trophy } from "lucide-react";
+import { LayoutDashboard, LogOut, PanelLeft, Users, BarChart3, Settings, Activity, CreditCard, FolderKanban, Zap, FileText, Moon, Brain, DollarSign, Target, Calendar, Timer, Trophy, Watch, MessageSquare, TrendingUp, Gem, Send, FileCheck } from "lucide-react";
 import { CSSProperties, useEffect, useRef, useState } from "react";
 import { useLocation } from "wouter";
 import { DashboardLayoutSkeleton } from './DashboardLayoutSkeleton';
 import { Button } from "./ui/button";
 
 const menuItems = [
+  // 핵심 대시보드
   { icon: LayoutDashboard, label: "대시보드", path: "/admin" },
   { icon: FolderKanban, label: "프로젝트 관리", path: "/admin/projects" },
   { icon: CreditCard, label: "멤버십 관리", path: "/membership" },
   { icon: DollarSign, label: "결제 / 정산", path: "/admin/payment" },
+  // AI & 분석
   { icon: Brain, label: "AI 분석 & 랭킹", path: "/admin/ai-analytics" },
   { icon: Zap, label: "AI 피드백", path: "/admin/ai-feedback" },
-  { icon: Activity, label: "모니터링", path: "/admin/monitoring" },
-  { icon: BarChart3, label: "통계", path: "/admin/stats" },
+  { icon: MessageSquare, label: "AI 피드백 고도화", path: "/admin/feedback-advanced" },
+  { icon: TrendingUp, label: "고급 분석 & 리포트", path: "/admin/analytics" },
+  // 활동 & 미션
   { icon: Target, label: "미션 관리", path: "/admin/missions" },
   { icon: Calendar, label: "이벤트 관리", path: "/admin/events" },
   { icon: Timer, label: "스케줄러 관리", path: "/admin/scheduler" },
+  { icon: Send, label: "타겟 발송", path: "/admin/target-audience" },
+  // 건강 & 데이터
+  { icon: Watch, label: "웨어러블 연동", path: "/admin/wearable" },
   { icon: Moon, label: "수면 자동 체크", path: "/sleep-settings" },
-  { icon: FileText, label: "카피 문구 편집", path: "/copy-editor" },
+  { icon: Activity, label: "모니터링", path: "/admin/monitoring" },
+  { icon: BarChart3, label: "통계", path: "/admin/stats" },
+  // 커뮤니티 & 결제
+  { icon: Trophy, label: "커뮤니티 허브", path: "/admin/community" },
+  { icon: Gem, label: "결제 고도화", path: "/admin/payment-advanced" },
+  // 설정 & 기타
+  { icon: FileText, label: "커피 문구 편집", path: "/copy-editor" },
+  { icon: FileCheck, label: "피드백 템플릿", path: "/admin/feedback-templates" },
   { icon: Settings, label: "설정", path: "/admin/settings" },
 ];
 

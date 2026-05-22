@@ -24,6 +24,12 @@ import RefundDetailsPage from './pages/Payment/RefundDetailsPage';
 import TransactionDetailsPage from './pages/Payment/TransactionDetailsPage';
 import LoginPage from './pages/LoginPage';
 import SettingsPage from './pages/SettingsPage';
+import TermsOfService from './pages/TermsOfService';
+import WearableIntegration from './pages/WearableIntegration';
+import FeedbackAdvancedDashboard from './pages/FeedbackAdvancedDashboard';
+import CommunityHub from './pages/CommunityHub';
+import AdvancedAnalytics from './pages/AdvancedAnalytics';
+import PaymentAdvanced from './pages/PaymentAdvanced';
 
 // Group A: AI 피드백 페이지
 import AiFeedbackDashboard from './pages/AiFeedbackDashboard';
@@ -168,6 +174,46 @@ function Router() {
         </DashboardLayout>
       )} />
       
+      {/* 약관 페이지 (공개) */}
+      <Route path={"/terms"} component={TermsOfService} />
+      <Route path={"/terms/privacy"} component={TermsOfService} />
+      <Route path={"/terms/health"} component={TermsOfService} />
+
+      {/* P1: 웨어러블 연동 */}
+      <Route path={"/admin/wearable"} component={() => (
+        <DashboardLayout>
+          <WearableIntegration />
+        </DashboardLayout>
+      )} />
+
+      {/* P2: AI 피드백 고도화 */}
+      <Route path={"/admin/feedback-advanced"} component={() => (
+        <DashboardLayout>
+          <FeedbackAdvancedDashboard />
+        </DashboardLayout>
+      )} />
+
+      {/* P3: 커뮤니티 허브 */}
+      <Route path={"/admin/community"} component={() => (
+        <DashboardLayout>
+          <CommunityHub />
+        </DashboardLayout>
+      )} />
+
+      {/* P4: 고급 분석 */}
+      <Route path={"/admin/analytics"} component={() => (
+        <DashboardLayout>
+          <AdvancedAnalytics />
+        </DashboardLayout>
+      )} />
+
+      {/* P5: 결제 고도화 */}
+      <Route path={"/admin/payment-advanced"} component={() => (
+        <DashboardLayout>
+          <PaymentAdvanced />
+        </DashboardLayout>
+      )} />
+
       {/* 404 */}
       <Route path={"/404"} component={NotFound} />
       <Route component={NotFound} />

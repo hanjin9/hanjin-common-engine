@@ -1199,3 +1199,446 @@ export const eventMissionLinks = mysqlTable("event_mission_links", {
 });
 export type EventMissionLink = typeof eventMissionLinks.$inferSelect;
 export type InsertEventMissionLink = typeof eventMissionLinks.$inferInsert;
+
+// ═══════════════════════════════════════════════════════════════════════════
+// P1: 실시간 데이터 연동
+// ═══════════════════════════════════════════════════════════════════════════
+
+// ─── 웨어러블 기기 연동 ────────────────────────────────────────────────────
+export const wearableConnections = mysqlTable("wearable_connections", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("user_id").notNull(),
+  platform: mysqlEnum("platform", ["apple_watch", "galaxy_watch", "fitbit", "garmin", "polar", "whoop", "google_fit"]).notNull(),
+  accessToken: text("access_token"),
+  refreshToken: text("refresh_token"),
+  tokenExpiresAt: timestamp("token_expires_at"),
+  deviceId: varchar("device_id", { length: 255 }),
+  deviceName: varchar("device_name", { length: 255 }),
+  isActive: boolean("is_active").default(true).notNull(),
+  lastSyncAt: timestamp("last_sync_at"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().onUpdateNow().notNull(),
+});
+export type WearableConnection = typeof wearableConnections.$inferSelect;
+export type InsertWearableConnection = typeof wearableConnections.$inferInsert;
+
+// ─── 실시간 바이오 데이터 ──────────────────────────────────────────────────
+export const realtimeBioData = mysqlTable("realtime_bio_data", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("user_id").notNull(),
+  wearableConnectionId: int("wearable_connection_id"),
+  heartRate: int("heart_rate"),
+  bloodOxygen: decimal("blood_oxygen", { precision: 5, scale: 2 }),
+  bloodPressureSystolic: int("blood_pressure_systolic"),
+  bloodPressureDiastolic: int("blood_pressure_diastolic"),
+  stressLevel: int("stress_level"),
+  caloriesBurned: int("calories_burned"),
+  steps: int("steps"),
+  activeMinutes: int("active_minutes"),
+  measuredAt: timestamp("measured_at").defaultNow().notNull(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+export type RealtimeBioData = typeof realtimeBioData.$inferSelect;
+export type InsertRealtimeBioData = typeof realtimeBioData.$inferInsert;
+
+// ─── 운동 자동 감지 세션 ──────────────────────────────────────────────────
+export const exerciseSessions = mysqlTable("exercise_sessions", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("user_id").notNull(),
+  activityType: mysqlEnum("activity_type", ["walking", "running", "cycling", "swimming", "yoga", "strength", "hiit", "other"]).notNull(),
+  startedAt: timestamp("started_at").notNull(),
+  endedAt: timestamp("ended_at"),
+  durationMinutes: int("duration_minutes"),
+  caloriesBurned: int("calories_burned"),
+  distanceMeters: decimal("distance_meters", { precision: 10, scale: 2 }),
+  avgHeartRate: int("avg_heart_rate"),
+  maxHeartRate: int("max_heart_rate"),
+  isAutoDetected: boolean("is_auto_detected").default(false).notNull(),
+  source: varchar("source", { length: 100 }),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+export type ExerciseSession = typeof exerciseSessions.$inferSelect;
+export type InsertExerciseSession = typeof exerciseSessions.$inferInsert;
+
+// ═══════════════════════════════════════════════════════════════════════════
+// P2: AI 피드백 고도화
+// ═══════════════════════════════════════════════════════════════════════════
+
+// ─── 피드백 발송 큐 ────────────────────────────────────────────────────────
+export const feedbackQueue = mysqlTable("feedback_queue", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("user_id").notNull(),
+  feedbackType: mysqlEnum("feedback_type", ["auto_1st", "auto_2nd", "manual_3rd"]).notNull(),
+  channel: mysqlEnum("channel", ["push", "sms", "email", "voice", "in_app"]).notNull(),
+  status: mysqlEnum("status", ["pending", "approved", "sent", "failed", "cancelled"]).default("pending").notNull(),
+  title: varchar("title", { length: 255 }).notNull(),
+  content: text("content").notNull(),
+  voiceUrl: text("voice_url"),
+  scheduledAt: timestamp("scheduled_at"),
+  sentAt: timestamp("sent_at"),
+  approvedBy: int("approved_by"),
+  approvedAt: timestamp("approved_at"),
+  rankTier: varchar("rank_tier", { length: 50 }),
+  triggerReason: text("trigger_reason"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().onUpdateNow().notNull(),
+});
+export type FeedbackQueue = typeof feedbackQueue.$inferSelect;
+export type InsertFeedbackQueue = typeof feedbackQueue.$inferInsert;
+
+// ─── FCM 기기 토큰 ────────────────────────────────────────────────────────
+export const fcmTokens = mysqlTable("fcm_tokens", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("user_id").notNull(),
+  token: text("token").notNull(),
+  platform: mysqlEnum("platform", ["ios", "android", "web"]).notNull(),
+  isActive: boolean("is_active").default(true).notNull(),
+  lastUsedAt: timestamp("last_used_at"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+export type FcmToken = typeof fcmTokens.$inferSelect;
+export type InsertFcmToken = typeof fcmTokens.$inferInsert;
+
+// ═══════════════════════════════════════════════════════════════════════════
+// P3: 커뮤니티 & 소셜
+// ═══════════════════════════════════════════════════════════════════════════
+
+// ─── 커뮤니티 피드 게시글 ─────────────────────────────────────────────────
+export const communityPosts = mysqlTable("community_posts", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("user_id").notNull(),
+  projectId: int("project_id"),
+  postType: mysqlEnum("post_type", ["workout_cert", "achievement", "tip", "question", "general"]).default("general").notNull(),
+  content: text("content").notNull(),
+  imageUrls: json("image_urls").$type<string[]>(),
+  likeCount: int("like_count").default(0).notNull(),
+  commentCount: int("comment_count").default(0).notNull(),
+  isPublic: boolean("is_public").default(true).notNull(),
+  isPinned: boolean("is_pinned").default(false).notNull(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().onUpdateNow().notNull(),
+});
+export type CommunityPost = typeof communityPosts.$inferSelect;
+export type InsertCommunityPost = typeof communityPosts.$inferInsert;
+
+// ─── 커뮤니티 댓글 ────────────────────────────────────────────────────────
+export const communityComments = mysqlTable("community_comments", {
+  id: int("id").autoincrement().primaryKey(),
+  postId: int("post_id").notNull(),
+  userId: int("user_id").notNull(),
+  parentId: int("parent_id"),
+  content: text("content").notNull(),
+  likeCount: int("like_count").default(0).notNull(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().onUpdateNow().notNull(),
+});
+export type CommunityComment = typeof communityComments.$inferSelect;
+
+// ─── 좋아요 ───────────────────────────────────────────────────────────────
+export const communityLikes = mysqlTable("community_likes", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("user_id").notNull(),
+  targetType: mysqlEnum("target_type", ["post", "comment"]).notNull(),
+  targetId: int("target_id").notNull(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+// ─── 팀 챌린지 ────────────────────────────────────────────────────────────
+export const teamChallenges = mysqlTable("team_challenges", {
+  id: int("id").autoincrement().primaryKey(),
+  name: varchar("name", { length: 255 }).notNull(),
+  description: text("description"),
+  projectId: int("project_id"),
+  missionId: int("mission_id"),
+  maxTeamSize: int("max_team_size").default(5).notNull(),
+  targetValue: int("target_value").notNull(),
+  startDate: timestamp("start_date").notNull(),
+  endDate: timestamp("end_date").notNull(),
+  rewardPoints: int("reward_points").default(0).notNull(),
+  status: mysqlEnum("status", ["upcoming", "active", "completed", "cancelled"]).default("upcoming").notNull(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+export type TeamChallenge = typeof teamChallenges.$inferSelect;
+export type InsertTeamChallenge = typeof teamChallenges.$inferInsert;
+
+// ─── 팀 챌린지 참가 ───────────────────────────────────────────────────────
+export const teamChallengeParticipants = mysqlTable("team_challenge_participants", {
+  id: int("id").autoincrement().primaryKey(),
+  challengeId: int("challenge_id").notNull(),
+  userId: int("user_id").notNull(),
+  teamName: varchar("team_name", { length: 100 }),
+  currentValue: int("current_value").default(0).notNull(),
+  joinedAt: timestamp("joined_at").defaultNow().notNull(),
+});
+
+// ─── 배지 & 업적 ──────────────────────────────────────────────────────────
+export const badges = mysqlTable("badges", {
+  id: int("id").autoincrement().primaryKey(),
+  name: varchar("name", { length: 100 }).notNull(),
+  description: text("description"),
+  iconUrl: text("icon_url"),
+  category: mysqlEnum("category", ["milestone", "streak", "ranking", "social", "special"]).notNull(),
+  condition: json("condition").$type<Record<string, unknown>>(),
+  rewardPoints: int("reward_points").default(0).notNull(),
+  isActive: boolean("is_active").default(true).notNull(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+export type Badge = typeof badges.$inferSelect;
+export type InsertBadge = typeof badges.$inferInsert;
+
+// ─── 사용자 배지 획득 ─────────────────────────────────────────────────────
+export const userBadges = mysqlTable("user_badges", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("user_id").notNull(),
+  badgeId: int("badge_id").notNull(),
+  earnedAt: timestamp("earned_at").defaultNow().notNull(),
+});
+
+// ═══════════════════════════════════════════════════════════════════════════
+// P4: 고급 분석 & 리포트
+// ═══════════════════════════════════════════════════════════════════════════
+
+// ─── 예측 분석 결과 ───────────────────────────────────────────────────────
+export const predictionResults = mysqlTable("prediction_results", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("user_id").notNull(),
+  predictionType: mysqlEnum("prediction_type", ["churn_risk", "health_risk", "engagement_score", "upgrade_probability"]).notNull(),
+  score: decimal("score", { precision: 5, scale: 4 }).notNull(),
+  confidence: decimal("confidence", { precision: 5, scale: 4 }),
+  factors: json("factors").$type<Record<string, unknown>>(),
+  recommendation: text("recommendation"),
+  predictedAt: timestamp("predicted_at").defaultNow().notNull(),
+  expiresAt: timestamp("expires_at"),
+});
+export type PredictionResult = typeof predictionResults.$inferSelect;
+export type InsertPredictionResult = typeof predictionResults.$inferInsert;
+
+// ─── 월간 리포트 ──────────────────────────────────────────────────────────
+export const monthlyReports = mysqlTable("monthly_reports", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("user_id").notNull(),
+  year: int("year").notNull(),
+  month: int("month").notNull(),
+  reportData: json("report_data").$type<Record<string, unknown>>(),
+  pdfUrl: text("pdf_url"),
+  generatedAt: timestamp("generated_at").defaultNow().notNull(),
+  sentAt: timestamp("sent_at"),
+});
+export type MonthlyReport = typeof monthlyReports.$inferSelect;
+export type InsertMonthlyReport = typeof monthlyReports.$inferInsert;
+
+// ─── A/B 테스트 실험 ──────────────────────────────────────────────────────
+export const abExperiments = mysqlTable("ab_experiments", {
+  id: int("id").autoincrement().primaryKey(),
+  name: varchar("name", { length: 255 }).notNull(),
+  description: text("description"),
+  experimentType: mysqlEnum("experiment_type", ["mission", "feedback", "ui", "notification"]).notNull(),
+  variantA: json("variant_a").$type<Record<string, unknown>>(),
+  variantB: json("variant_b").$type<Record<string, unknown>>(),
+  trafficSplit: decimal("traffic_split", { precision: 5, scale: 2 }).default("50.00").notNull(),
+  status: mysqlEnum("status", ["draft", "running", "paused", "completed"]).default("draft").notNull(),
+  startDate: timestamp("start_date"),
+  endDate: timestamp("end_date"),
+  winnerVariant: varchar("winner_variant", { length: 1 }),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+export type AbExperiment = typeof abExperiments.$inferSelect;
+export type InsertAbExperiment = typeof abExperiments.$inferInsert;
+
+// ─── A/B 테스트 참가자 ────────────────────────────────────────────────────
+export const abParticipants = mysqlTable("ab_participants", {
+  id: int("id").autoincrement().primaryKey(),
+  experimentId: int("experiment_id").notNull(),
+  userId: int("user_id").notNull(),
+  variant: varchar("variant", { length: 1 }).notNull(),
+  converted: boolean("converted").default(false).notNull(),
+  conversionValue: decimal("conversion_value", { precision: 10, scale: 2 }),
+  joinedAt: timestamp("joined_at").defaultNow().notNull(),
+  convertedAt: timestamp("converted_at"),
+});
+
+// ═══════════════════════════════════════════════════════════════════════════
+// P5: 결제 고도화
+// ═══════════════════════════════════════════════════════════════════════════
+
+// ─── 포인트 리워드 규칙 ───────────────────────────────────────────────────
+export const rewardRules = mysqlTable("reward_rules", {
+  id: int("id").autoincrement().primaryKey(),
+  name: varchar("name", { length: 255 }).notNull(),
+  triggerEvent: varchar("trigger_event", { length: 100 }).notNull(),
+  pointsAmount: int("points_amount").notNull(),
+  multiplier: decimal("multiplier", { precision: 5, scale: 2 }).default("1.00").notNull(),
+  maxPerDay: int("max_per_day"),
+  isActive: boolean("is_active").default(true).notNull(),
+  validFrom: timestamp("valid_from"),
+  validUntil: timestamp("valid_until"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+export type RewardRule = typeof rewardRules.$inferSelect;
+export type InsertRewardRule = typeof rewardRules.$inferInsert;
+
+// ─── 프리미엄 콘텐츠 마켓 상품 ───────────────────────────────────────────
+export const premiumProducts = mysqlTable("premium_products", {
+  id: int("id").autoincrement().primaryKey(),
+  name: varchar("name", { length: 255 }).notNull(),
+  description: text("description"),
+  productType: mysqlEnum("product_type", ["mission_pack", "coaching_session", "report", "course", "tool"]).notNull(),
+  priceKrw: int("price_krw").notNull(),
+  pricePoints: int("price_points"),
+  contentUrl: text("content_url"),
+  thumbnailUrl: text("thumbnail_url"),
+  isActive: boolean("is_active").default(true).notNull(),
+  salesCount: int("sales_count").default(0).notNull(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+export type PremiumProduct = typeof premiumProducts.$inferSelect;
+export type InsertPremiumProduct = typeof premiumProducts.$inferInsert;
+
+// ─── 프리미엄 상품 구매 ───────────────────────────────────────────────────
+export const premiumPurchases = mysqlTable("premium_purchases", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("user_id").notNull(),
+  productId: int("product_id").notNull(),
+  paymentMethod: mysqlEnum("payment_method", ["stripe", "points", "mixed"]).notNull(),
+  amountKrw: int("amount_krw"),
+  pointsUsed: int("points_used"),
+  stripePaymentIntentId: varchar("stripe_payment_intent_id", { length: 255 }),
+  status: mysqlEnum("status", ["pending", "completed", "refunded"]).default("pending").notNull(),
+  purchasedAt: timestamp("purchased_at").defaultNow().notNull(),
+});
+
+// ─── B2B 프랜차이즈 정산 ─────────────────────────────────────────────────
+export const franchiseSettlements = mysqlTable("franchise_settlements", {
+  id: int("id").autoincrement().primaryKey(),
+  projectId: int("project_id").notNull(),
+  year: int("year").notNull(),
+  month: int("month").notNull(),
+  totalRevenue: decimal("total_revenue", { precision: 12, scale: 2 }).notNull(),
+  platformFeeRate: decimal("platform_fee_rate", { precision: 5, scale: 4 }).notNull(),
+  platformFee: decimal("platform_fee", { precision: 12, scale: 2 }).notNull(),
+  franchiseeAmount: decimal("franchisee_amount", { precision: 12, scale: 2 }).notNull(),
+  memberCount: int("member_count").notNull(),
+  status: mysqlEnum("status", ["pending", "processing", "completed", "disputed"]).default("pending").notNull(),
+  settledAt: timestamp("settled_at"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+export type FranchiseSettlement = typeof franchiseSettlements.$inferSelect;
+export type InsertFranchiseSettlement = typeof franchiseSettlements.$inferInsert;
+
+// ═══════════════════════════════════════════════════════════════════════════
+// P6: 운영 자동화
+// ═══════════════════════════════════════════════════════════════════════════
+
+// ─── 회원 라이프사이클 단계 ───────────────────────────────────────────────
+export const lifecycleStages = mysqlTable("lifecycle_stages", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("user_id").notNull(),
+  stage: mysqlEnum("stage", ["new", "onboarding", "active", "at_risk", "churned", "reactivated"]).notNull(),
+  previousStage: varchar("previous_stage", { length: 50 }),
+  transitionReason: text("transition_reason"),
+  automationTriggered: boolean("automation_triggered").default(false).notNull(),
+  enteredAt: timestamp("entered_at").defaultNow().notNull(),
+});
+export type LifecycleStage = typeof lifecycleStages.$inferSelect;
+export type InsertLifecycleStage = typeof lifecycleStages.$inferInsert;
+
+// ─── 이메일 마케팅 캠페인 ─────────────────────────────────────────────────
+export const emailCampaigns = mysqlTable("email_campaigns", {
+  id: int("id").autoincrement().primaryKey(),
+  name: varchar("name", { length: 255 }).notNull(),
+  campaignType: mysqlEnum("campaign_type", ["drip", "broadcast", "trigger", "reengagement"]).notNull(),
+  subject: varchar("subject", { length: 500 }).notNull(),
+  htmlContent: text("html_content").notNull(),
+  targetSegment: json("target_segment").$type<Record<string, unknown>>(),
+  scheduledAt: timestamp("scheduled_at"),
+  sentAt: timestamp("sent_at"),
+  recipientCount: int("recipient_count").default(0).notNull(),
+  openCount: int("open_count").default(0).notNull(),
+  clickCount: int("click_count").default(0).notNull(),
+  status: mysqlEnum("status", ["draft", "scheduled", "sending", "sent", "paused"]).default("draft").notNull(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+export type EmailCampaign = typeof emailCampaigns.$inferSelect;
+export type InsertEmailCampaign = typeof emailCampaigns.$inferInsert;
+
+// ─── 이상 감지 알림 ───────────────────────────────────────────────────────
+export const anomalyAlerts = mysqlTable("anomaly_alerts", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("user_id").notNull(),
+  alertType: mysqlEnum("alert_type", ["health_anomaly", "mission_streak_broken", "inactivity", "vital_warning", "churn_risk"]).notNull(),
+  severity: mysqlEnum("severity", ["low", "medium", "high", "critical"]).notNull(),
+  title: varchar("title", { length: 255 }).notNull(),
+  description: text("description"),
+  data: json("data").$type<Record<string, unknown>>(),
+  isResolved: boolean("is_resolved").default(false).notNull(),
+  resolvedAt: timestamp("resolved_at"),
+  resolvedBy: int("resolved_by"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+export type AnomalyAlert = typeof anomalyAlerts.$inferSelect;
+export type InsertAnomalyAlert = typeof anomalyAlerts.$inferInsert;
+
+// ─── AI 미션 큐레이션 ─────────────────────────────────────────────────────
+export const missionCurations = mysqlTable("mission_curations", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("user_id").notNull(),
+  weekStartDate: timestamp("week_start_date").notNull(),
+  recommendedMissions: json("recommended_missions").$type<number[]>(),
+  aiReason: text("ai_reason"),
+  acceptedMissions: json("accepted_missions").$type<number[]>(),
+  status: mysqlEnum("status", ["pending", "accepted", "rejected", "expired"]).default("pending").notNull(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+export type MissionCuration = typeof missionCurations.$inferSelect;
+export type InsertMissionCuration = typeof missionCurations.$inferInsert;
+
+// ═══════════════════════════════════════════════════════════════════════════
+// P7: 글로벌 확장
+// ═══════════════════════════════════════════════════════════════════════════
+
+// ─── 다국어 번역 ──────────────────────────────────────────────────────────
+export const i18nTranslations = mysqlTable("i18n_translations", {
+  id: int("id").autoincrement().primaryKey(),
+  locale: varchar("locale", { length: 10 }).notNull(),
+  namespace: varchar("namespace", { length: 100 }).notNull(),
+  key: varchar("key", { length: 500 }).notNull(),
+  value: text("value").notNull(),
+  isApproved: boolean("is_approved").default(false).notNull(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().onUpdateNow().notNull(),
+});
+export type I18nTranslation = typeof i18nTranslations.$inferSelect;
+export type InsertI18nTranslation = typeof i18nTranslations.$inferInsert;
+
+// ─── 모바일 앱 API 토큰 ───────────────────────────────────────────────────
+export const mobileApiTokens = mysqlTable("mobile_api_tokens", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("user_id").notNull(),
+  token: varchar("token", { length: 512 }).notNull(),
+  platform: mysqlEnum("platform", ["ios", "android"]).notNull(),
+  appVersion: varchar("app_version", { length: 50 }),
+  deviceInfo: json("device_info").$type<Record<string, unknown>>(),
+  isActive: boolean("is_active").default(true).notNull(),
+  lastUsedAt: timestamp("last_used_at"),
+  expiresAt: timestamp("expires_at"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+export type MobileApiToken = typeof mobileApiTokens.$inferSelect;
+export type InsertMobileApiToken = typeof mobileApiTokens.$inferInsert;
+
+// ─── 외부 헬스 플랫폼 연동 ────────────────────────────────────────────────
+export const externalHealthConnections = mysqlTable("external_health_connections", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("user_id").notNull(),
+  platform: mysqlEnum("platform", ["apple_health", "google_fit", "samsung_health", "garmin_connect", "strava"]).notNull(),
+  accessToken: text("access_token"),
+  refreshToken: text("refresh_token"),
+  tokenExpiresAt: timestamp("token_expires_at"),
+  scope: text("scope"),
+  isActive: boolean("is_active").default(true).notNull(),
+  lastSyncAt: timestamp("last_sync_at"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().onUpdateNow().notNull(),
+});
+export type ExternalHealthConnection = typeof externalHealthConnections.$inferSelect;
+export type InsertExternalHealthConnection = typeof externalHealthConnections.$inferInsert;

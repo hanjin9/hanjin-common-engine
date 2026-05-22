@@ -18,6 +18,14 @@ import { eventRouter } from './modules/event/eventRouter';
 import { rankingRouter } from './modules/health-ai/rankingRouter';
 import { schedulerRouter } from './modules/scheduler/schedulerRouter';
 import { adminRouter } from './modules/admin/adminRouter';
+import { wearableRouter } from './modules/wearable/wearableRouter';
+import { feedbackAdvancedRouter } from './modules/feedbackAdvanced/feedbackAdvancedRouter';
+import { communityRouter } from './modules/community/communityRouter';
+import { analyticsRouter } from './modules/analytics/analyticsRouter';
+import { paymentAdvancedRouter } from './modules/paymentAdvanced/paymentAdvancedRouter';
+import { operationsRouter } from './modules/operations/operationsRouter';
+import { globalRouter } from './modules/global/globalRouter';
+import { googleFitRouter } from './modules/googleFit/googleFitRouter';
 import { z } from 'zod';
 
 export const appRouter = router({
@@ -94,6 +102,30 @@ export const appRouter = router({
 
   // 관리자 라우터 (사용자 관리, 시스템 통계, 설정)
   admin: adminRouter,
+
+  // P1: 웨어러블 연동 라우터
+  wearable: wearableRouter,
+
+  // P2: AI 피드백 고도화 라우터
+  feedbackAdvanced: feedbackAdvancedRouter,
+
+  // P3: 커뮤니티 & 소셜 라우터
+  community: communityRouter,
+
+  // P4: 고급 분석 & 리포트 라우터
+  analytics: analyticsRouter,
+
+  // P5: 결제 고도화 라우터
+  paymentAdvanced: paymentAdvancedRouter,
+
+  // P6: 운영 자동화 라우터
+  operations: operationsRouter,
+
+  // P7: 글로벌 확장 라우터
+  global: globalRouter,
+
+  // Google Fit 연동 라우터
+  googleFit: googleFitRouter,
 });
 
 export type AppRouter = typeof appRouter;
