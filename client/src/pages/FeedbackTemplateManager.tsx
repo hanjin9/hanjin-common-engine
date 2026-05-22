@@ -19,6 +19,7 @@ export default function FeedbackTemplateManager() {
   const [selectedStage, setSelectedStage] = useState('encouragement');
   const [selectedLanguage, setSelectedLanguage] = useState('ko');
   const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
+  const [editTemplate, setEditTemplate] = useState<any>(null);
 
   // 템플릿 예시 데이터
   const templates = [
@@ -78,7 +79,7 @@ export default function FeedbackTemplateManager() {
           </DialogTrigger>
           <DialogContent className="max-w-2xl">
             <DialogHeader>
-              <DialogTitle>새 템플릿 추가</DialogTitle>
+              <DialogTitle>{editTemplate ? "템플릿 수정" : "새 템플릿 추가"}</DialogTitle>
               <DialogDescription>새로운 피드백 템플릿을 추가합니다</DialogDescription>
             </DialogHeader>
             <div className="space-y-4">
@@ -269,15 +270,27 @@ export default function FeedbackTemplateManager() {
                   </div>
                 )}
                 <div className="flex gap-2 pt-2">
-                  <Button size="sm" variant="outline" className="gap-2">
+                  <Button size="sm" variant="outline" className="gap-2"
+                    onClick={() => {
+                      setEditTemplate(template);
+                      setIsAddDialogOpen(true);
+                    }}>
                     <Edit2 className="w-4 h-4" />
                     수정
                   </Button>
-                  <Button size="sm" variant="outline" className="gap-2">
+                  <Button size="sm" variant="outline" className="gap-2"
+                    onClick={() => {
+                      alert((template.title || '템플릿') + ' (복제) 완료!');
+                    }}>
                     <Copy className="w-4 h-4" />
                     복제
                   </Button>
-                  <Button size="sm" variant="outline" className="gap-2 text-red-600 hover:text-red-700">
+                  <Button size="sm" variant="outline" className="gap-2 text-red-600 hover:text-red-700"
+                    onClick={() => {
+                      if (confirm((template.title || '템플릿') + ' 삭제하시겠습니까?')) {
+                        alert('삭제 완료!');
+                      }
+                    }}>
                     <Trash2 className="w-4 h-4" />
                     삭제
                   </Button>

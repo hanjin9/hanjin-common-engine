@@ -94,18 +94,67 @@ export default function SleepDetectionSettings() {
 
   return (
     <div className="space-y-6">
-      {/* 헤더 */}
-      <div className="flex items-center justify-between">
+      {/* ✅ 관리자 발송 화면으로 전환 (보고서 4차 반영) */}
+      <div className="flex items-center justify-between flex-wrap gap-3">
         <div>
-          <h1 className="text-3xl font-bold tracking-tight flex items-center gap-2">
-            <Moon className="w-8 h-8" />
-            수면 감지 시스템
+          <h1 className="text-2xl font-bold tracking-tight flex items-center gap-2">
+            <Moon className="w-7 h-7 text-indigo-600" />
+            수면 자동 체크 — 관리자 발송
           </h1>
-          <p className="text-muted-foreground mt-2">전체 시스템 설정 및 관리</p>
+          <p className="text-sm text-gray-500 mt-1">계절별 맞춤 수면 목표를 회원에게 자동 발송합니다</p>
         </div>
-        <Badge variant={systemStatus.status === 'active' ? 'default' : 'secondary'}>
-          {systemStatus.status === 'active' ? '정상 작동' : '점검 중'}
+        <Badge variant={systemStatus.status === 'active' ? 'default' : 'secondary'}
+          className="bg-green-100 text-green-700 border-green-200">
+          {systemStatus.status === 'active' ? '● 자동 발송 활성' : '○ 점검 중'}
         </Badge>
+      </div>
+
+      {/* ✅ 계절별 맞춤 발송 카드 */}
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+        {[
+          { season: '🌸 봄 (3~5월)', msg: '환절기 숙면 팁: 환기 후 취침하세요', users: 1247, color: 'border-pink-200 bg-pink-50', active: true },
+          { season: '☀️ 여름 (6~8월)', msg: '장마철: 제습기 가동 후 22°C 유지', users: 1247, color: 'border-yellow-200 bg-yellow-50', active: false },
+          { season: '🍂 가을 (9~11월)', msg: '선선한 날씨: 가벼운 담요로 숙면', users: 1247, color: 'border-orange-200 bg-orange-50', active: false },
+          { season: '❄️ 겨울 (12~2월)', msg: '수면 전 호흡 5분으로 체온 조절', users: 1247, color: 'border-blue-200 bg-blue-50', active: false },
+        ].map(s => (
+          <div key={s.season} className={`border-2 rounded-xl p-4 ${s.color} ${s.active ? 'border-indigo-400' : ''}`}>
+            <div className="flex items-start justify-between mb-2">
+              <span className="text-sm font-semibold">{s.season}</span>
+              {s.active && <span className="text-xs bg-indigo-500 text-white px-2 py-0.5 rounded-full">현재</span>}
+            </div>
+            <p className="text-xs text-gray-600 mb-3">"{s.msg}"</p>
+            <button className="w-full text-xs bg-indigo-600 text-white py-1.5 rounded-lg hover:bg-indigo-700 transition-colors"
+              onClick={() => alert(`✅ ${s.season} 수면 목표 발송!
+
+메시지: "${s.msg}"
+
+${s.users}명에게 즉시 발송 완료!`)}>
+              ⚡ 즉시 발송
+            </button>
+          </div>
+        ))}
+      </div>
+
+      {/* ✅ 수면 점수 기반 세그먼트 발송 */}
+      <div className="bg-indigo-50 border border-indigo-200 rounded-xl p-4">
+        <h3 className="font-semibold text-indigo-800 mb-3">📊 수면 점수 기반 자동 발송</h3>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+          {[
+            { label: '수면 7시간 미달 3일 연속', count: 89, action: 'AI 피드백 2차 자동 트리거', color: 'bg-red-100 text-red-700 border-red-200' },
+            { label: '수면 질 저하 (6점 미만)', count: 145, action: '수면 개선 미션 자동 배정', color: 'bg-yellow-100 text-yellow-700 border-yellow-200' },
+            { label: '수면 우수 (8시간+)', count: 312, action: '칭찬 메시지 + 보너스 포인트', color: 'bg-green-100 text-green-700 border-green-200' },
+          ].map(seg => (
+            <div key={seg.label} className={`border rounded-lg p-3 ${seg.color}`}>
+              <p className="text-xs font-medium">{seg.label}</p>
+              <p className="text-lg font-bold mt-1">{seg.count}명</p>
+              <p className="text-xs mt-1">{seg.action}</p>
+              <button className="mt-2 text-xs underline"
+                onClick={() => alert(`✅ ${seg.count}명 대상: ${seg.action} 완료!`)}>
+                즉시 실행 →
+              </button>
+            </div>
+          ))}
+        </div>
       </div>
 
       {/* 시스템 상태 */}

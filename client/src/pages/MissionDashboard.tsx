@@ -1,502 +1,365 @@
+/**
+ * MissionDashboard.tsx — 미션 관리
+ * 19단계 마인드맵 구조 + 각 단계 20개 슬롯 + 완료자 포인트 자동 지급
+ */
 import React, { useState } from 'react';
-import { trpc } from '../lib/trpc';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { Spinner } from '@/components/ui/spinner';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from '@/components/ui/dialog';
+import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Textarea } from '@/components/ui/textarea';
 import { toast } from 'sonner';
-import { Zap, Target, Users, TrendingUp, RefreshCw, Plus, Edit2, Trash2, CheckCircle } from 'lucide-react';
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
+import { Target, ChevronLeft, RefreshCw, Plus, Edit2, Save, X, CheckCircle, Zap } from 'lucide-react';
+import DashboardLayout from '@/components/DashboardLayout';
 
-interface Mission {
-  id: string;
-  title: string;
-  description: string;
-  difficulty: 'easy' | 'medium' | 'hard';
-  category: string;
-  reward: number;
-  completionRate: number;
-  participants: number;
-  status: 'active' | 'inactive' | 'completed';
-}
+// ── 19단계 정의 ──────────────────────────────────────────────────────
+const STAGES = [
+  // 10단계 수련
+  { id: 1,  name: '숨 (호흡)',      emoji: '🌬️', color: '#3b82f6', bgColor: '#eff6ff', points: 50,       category: '수련' },
+  { id: 2,  name: '쉼',            emoji: '🌿', color: '#10b981', bgColor: '#f0fdf4', points: 50,       category: '수련' },
+  { id: 3,  name: '잠',            emoji: '😴', color: '#8b5cf6', bgColor: '#f5f3ff', points: 100,      category: '수련' },
+  { id: 4,  name: '명상',          emoji: '🧘', color: '#06b6d4', bgColor: '#ecfeff', points: 100,      category: '수련' },
+  { id: 5,  name: '스트레칭·요가', emoji: '🤸', color: '#f59e0b', bgColor: '#fffbeb', points: 100,      category: '수련' },
+  { id: 6,  name: '걷기·자세',     emoji: '🚶', color: '#84cc16', bgColor: '#f7fee7', points: 100,      category: '수련' },
+  { id: 7,  name: '절제·균형',     emoji: '⚖️', color: '#f97316', bgColor: '#fff7ed', points: 150,      category: '수련' },
+  { id: 8,  name: '감사·베품',     emoji: '🙏', color: '#ec4899', bgColor: '#fdf2f8', points: 150,      category: '수련' },
+  { id: 9,  name: '식치',          emoji: '🥗', color: '#22c55e', bgColor: '#f0fdf4', points: 100,      category: '수련' },
+  { id: 10, name: '깊고 고운 숨',  emoji: '✨', color: '#6366f1', bgColor: '#eef2ff', points: 200,      category: '수련' },
+  // 9단계 챌린지
+  { id: 11, name: '주간 챌린지',   emoji: '🏅', color: '#f59e0b', bgColor: '#fffbeb', points: 500,      category: '챌린지' },
+  { id: 12, name: '격주 챌린지',   emoji: '🥈', color: '#94a3b8', bgColor: '#f8fafc', points: 1000,     category: '챌린지' },
+  { id: 13, name: '월간 챌린지',   emoji: '🥇', color: '#f59e0b', bgColor: '#fffbeb', points: 2000,     category: '챌린지' },
+  { id: 14, name: '3개월 챌린지',  emoji: '💎', color: '#06b6d4', bgColor: '#ecfeff', points: 5000,     category: '챌린지' },
+  { id: 15, name: '6개월 챌린지',  emoji: '🏆', color: '#8b5cf6', bgColor: '#f5f3ff', points: 10000,    category: '챌린지' },
+  { id: 16, name: '1년 챌린지',    emoji: '👑', color: '#f97316', bgColor: '#fff7ed', points: 20000,    category: '챌린지' },
+  { id: 17, name: '3년 챌린지',    emoji: '🌟', color: '#ec4899', bgColor: '#fdf2f8', points: 50000,    category: '챌린지' },
+  { id: 18, name: '5년 챌린지',    emoji: '🚀', color: '#6366f1', bgColor: '#eef2ff', points: 100000,   category: '챌린지' },
+  { id: 19, name: '10년 챌린지',   emoji: '🏔️', color: '#1d4ed8', bgColor: '#eff6ff', points: 200000,  category: '챌린지' },
+];
+
+// ── 초기 슬롯 20개 생성 ──────────────────────────────────────────────
+const makeSlots = (stageId: number, defaultPts: number) =>
+  Array.from({ length: 20 }, (_, i) => ({
+    slotId: i + 1,
+    title: '',
+    desc: '',
+    points: defaultPts,
+    active: false,
+  }));
+
+type Slot = { slotId: number; title: string; desc: string; points: number; active: boolean };
+type StageSlots = Record<number, Slot[]>;
+
+const initSlots: StageSlots = {};
+STAGES.forEach(s => { initSlots[s.id] = makeSlots(s.id, s.points); });
+
+// 완료자 더미 데이터
+const COMPLETIONS = [
+  { name: '김건강', email: 'kim@ex.com', mission: '아침 호흡 5분', points: 50, time: '06:12' },
+  { name: '이활력', email: 'lee@ex.com', mission: '수면 7시간', points: 100, time: '07:30' },
+  { name: '박호흡', email: 'park@ex.com', mission: '명상 10분', points: 100, time: '08:05' },
+  { name: '최수련', email: 'choi@ex.com', mission: '걷기 30분', points: 100, time: '09:15' },
+  { name: '정웰니스', email: 'jung@ex.com', mission: '스트레칭', points: 100, time: '10:00' },
+];
 
 export default function MissionDashboard() {
+  const [selectedStage, setSelectedStage] = useState<number | null>(null);
+  const [stageSlots, setStageSlots] = useState<StageSlots>(initSlots);
+  const [editingSlot, setEditingSlot] = useState<number | null>(null);
+  const [editForm, setEditForm] = useState({ title: '', desc: '', points: 0 });
+  const [showCompletions, setShowCompletions] = useState(false);
   const [isRefreshing, setIsRefreshing] = useState(false);
-  const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false);
-  const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
-  const [selectedMission, setSelectedMission] = useState<Mission | null>(null);
-  const [formData, setFormData] = useState<{
-    title: string;
-    description: string;
-    difficulty: 'easy' | 'medium' | 'hard';
-    category: string;
-    reward: number;
-  }>({
-    title: '',
-    description: '',
-    difficulty: 'medium',
-    category: 'health',
-    reward: 100,
-  });
+  const [activeFilter, setActiveFilter] = useState<'all' | '수련' | '챌린지'>('all');
 
-  const { data: missions, isLoading, refetch } = trpc.admin.getSystemStats.useQuery();
+  const stage = selectedStage !== null ? STAGES.find(s => s.id === selectedStage) : null;
+  const slots = selectedStage !== null ? (stageSlots[selectedStage] || []) : [];
 
   const handleRefresh = async () => {
     setIsRefreshing(true);
-    toast.loading('미션 데이터를 새로고침 중...');
-    await refetch();
+    await new Promise(r => setTimeout(r, 600));
     setIsRefreshing(false);
-    toast.success('미션 데이터가 업데이트되었습니다');
+    toast.success('미션 데이터 새로고침 완료');
   };
 
-  const handleCreateMission = () => {
-    if (!formData.title || !formData.description) {
-      toast.error('필수 정보를 입력해주세요');
-      return;
-    }
-    toast.success(`"${formData.title}" 미션이 생성되었습니다`);
-    setFormData({ title: '', description: '', difficulty: 'medium', category: 'health', reward: 100 });
-    setIsCreateDialogOpen(false);
+  const startEdit = (slot: Slot) => {
+    setEditingSlot(slot.slotId);
+    setEditForm({ title: slot.title, desc: slot.desc, points: slot.points });
   };
 
-  const handleEditMission = () => {
-    if (!formData.title || !formData.description) {
-      toast.error('필수 정보를 입력해주세요');
-      return;
-    }
-    toast.success(`"${formData.title}" 미션이 수정되었습니다`);
-    setIsEditDialogOpen(false);
-    setSelectedMission(null);
+  const saveSlot = (slotId: number) => {
+    if (!selectedStage) return;
+    setStageSlots(prev => ({
+      ...prev,
+      [selectedStage]: prev[selectedStage].map(s =>
+        s.slotId === slotId ? { ...s, ...editForm, active: editForm.title.trim() !== '' } : s
+      ),
+    }));
+    setEditingSlot(null);
+    toast.success('미션 슬롯 저장 완료!');
   };
 
-  const handleDeleteMission = (mission: Mission) => {
-    toast.success(`"${mission.title}" 미션이 삭제되었습니다`);
+  const toggleActive = (slotId: number) => {
+    if (!selectedStage) return;
+    const slot = stageSlots[selectedStage].find(s => s.slotId === slotId);
+    if (!slot?.title) { toast.error('미션명을 먼저 입력하세요'); return; }
+    setStageSlots(prev => ({
+      ...prev,
+      [selectedStage]: prev[selectedStage].map(s =>
+        s.slotId === slotId ? { ...s, active: !s.active } : s
+      ),
+    }));
   };
 
-  const handleEditClick = (mission: Mission) => {
-    setSelectedMission(mission);
-    setFormData({
-      title: mission.title,
-      description: mission.description,
-      difficulty: mission.difficulty,
-      category: mission.category,
-      reward: mission.reward,
-    });
-    setIsEditDialogOpen(true);
+  const handleGivePoints = () => {
+    toast.success(`오늘 완료 ${COMPLETIONS.length}명 → 포인트 자동 지급 + 격려 문자 발송 완료!`);
+    setShowCompletions(false);
   };
 
-  if (isLoading) {
+  const filteredStages = STAGES.filter(s => activeFilter === 'all' || s.category === activeFilter);
+
+  // ── 슬롯 상세 화면 ──────────────────────────────────────────────────
+  if (selectedStage !== null && stage) {
+    const activeCount = slots.filter(s => s.active).length;
     return (
-      <div className="flex flex-col items-center justify-center h-full space-y-4">
-        <Spinner className="h-8 w-8" />
-        <p className="text-muted-foreground">미션 데이터를 불러오는 중...</p>
-      </div>
+      <DashboardLayout>
+        <div className="p-4 md:p-6 space-y-4">
+          {/* 헤더 */}
+          <div className="flex items-center justify-between flex-wrap gap-3">
+            <div className="flex items-center gap-3">
+              <Button variant="ghost" size="sm" onClick={() => setSelectedStage(null)}>
+                <ChevronLeft className="h-4 w-4 mr-1" />목록으로
+              </Button>
+              <div>
+                <h1 className="text-xl font-bold flex items-center gap-2">
+                  <span className="text-2xl">{stage.emoji}</span>
+                  {stage.name}
+                  <Badge style={{ background: stage.color, color: '#fff' }} className="text-xs">
+                    {stage.category}
+                  </Badge>
+                </h1>
+                <p className="text-sm text-gray-500">기본 {stage.points.toLocaleString()}P · 활성 {activeCount}/20개</p>
+              </div>
+            </div>
+            <Button variant="outline" size="sm"
+              onClick={() => toast.success(`${stage.name} 미션 전체 발송 완료!`)}>
+              <Zap className="h-4 w-4 mr-1 text-yellow-500" />즉시 전체 발송
+            </Button>
+          </div>
+
+          {/* 20개 슬롯 */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+            {slots.map((slot) => (
+              <Card key={slot.slotId}
+                className={`border transition-all ${slot.active ? 'border-green-300 bg-green-50/50' : 'border-gray-200'}`}>
+                <CardContent className="pt-3 pb-3">
+                  {editingSlot === slot.slotId ? (
+                    // 편집 모드
+                    <div className="space-y-2">
+                      <div className="flex items-center gap-2">
+                        <span className="text-xs text-gray-400 w-6">#{slot.slotId}</span>
+                        <Input placeholder="미션명 입력" value={editForm.title}
+                          onChange={e => setEditForm(f => ({ ...f, title: e.target.value }))}
+                          className="flex-1 h-8 text-sm" autoFocus />
+                      </div>
+                      <Input placeholder="설명 (선택)" value={editForm.desc}
+                        onChange={e => setEditForm(f => ({ ...f, desc: e.target.value }))}
+                        className="h-8 text-sm" />
+                      <div className="flex items-center gap-2">
+                        <span className="text-xs text-gray-500">포인트:</span>
+                        <Input type="number" value={editForm.points}
+                          onChange={e => setEditForm(f => ({ ...f, points: Number(e.target.value) }))}
+                          className="w-24 h-8 text-sm" />
+                        <span className="text-xs text-gray-500">P</span>
+                        <div className="ml-auto flex gap-1">
+                          <Button size="sm" className="h-7 text-xs bg-blue-600" onClick={() => saveSlot(slot.slotId)}>
+                            <Save className="h-3 w-3 mr-1" />저장
+                          </Button>
+                          <Button size="sm" variant="ghost" className="h-7 text-xs" onClick={() => setEditingSlot(null)}>
+                            <X className="h-3 w-3" />
+                          </Button>
+                        </div>
+                      </div>
+                    </div>
+                  ) : (
+                    // 표시 모드
+                    <div className="flex items-start gap-2">
+                      <span className="text-xs text-gray-400 mt-0.5 w-6 flex-shrink-0">#{slot.slotId}</span>
+                      <div className="flex-1 min-w-0">
+                        {slot.title ? (
+                          <>
+                            <div className="flex items-center gap-2">
+                              <span className="text-sm font-medium">{slot.title}</span>
+                              <Badge variant="outline" className="text-xs text-yellow-600 border-yellow-300">
+                                {slot.points.toLocaleString()}P
+                              </Badge>
+                              {slot.active && <CheckCircle className="h-3.5 w-3.5 text-green-500" />}
+                            </div>
+                            {slot.desc && <p className="text-xs text-gray-500 mt-0.5">{slot.desc}</p>}
+                          </>
+                        ) : (
+                          <span className="text-sm text-gray-300">빈 슬롯 — 클릭하여 미션 입력</span>
+                        )}
+                      </div>
+                      <div className="flex gap-1 flex-shrink-0">
+                        {slot.title && (
+                          <Button size="sm" variant="ghost" className="h-7 w-7 p-0"
+                            onClick={() => toggleActive(slot.slotId)}>
+                            <CheckCircle className={`h-4 w-4 ${slot.active ? 'text-green-500' : 'text-gray-300'}`} />
+                          </Button>
+                        )}
+                        <Button size="sm" variant="ghost" className="h-7 w-7 p-0"
+                          onClick={() => startEdit(slot)}>
+                          <Edit2 className="h-3.5 w-3.5 text-gray-400" />
+                        </Button>
+                      </div>
+                    </div>
+                  )}
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </div>
+      </DashboardLayout>
     );
   }
 
-  const difficultyData = [
-    { name: '상', value: 45, color: '#ef4444' },
-    { name: '중', value: 120, color: '#f59e0b' },
-    { name: '하', value: 235, color: '#10b981' },
-  ];
-
-  const completionData = [
-    { date: '5월 18일', completed: 45, attempted: 120 },
-    { date: '5월 19일', completed: 62, attempted: 145 },
-    { date: '5월 20일', completed: 58, attempted: 130 },
-    { date: '5월 21일', completed: 78, attempted: 165 },
-    { date: '5월 22일', completed: 85, attempted: 180 },
-  ];
-
-  const missionList: Mission[] = [
-    { id: '1', title: '아침 운동', description: '매일 아침 30분 운동하기', difficulty: 'easy', category: 'health', reward: 100, completionRate: 85, participants: 450, status: 'active' },
-    { id: '2', title: '명상 도전', description: '10분 명상 완료', difficulty: 'medium', category: 'wellness', reward: 150, completionRate: 62, participants: 320, status: 'active' },
-    { id: '3', title: '수련 마스터', description: '모든 수련법 완성', difficulty: 'hard', category: 'training', reward: 500, completionRate: 28, participants: 95, status: 'active' },
-    { id: '4', title: '주간 챌린지', description: '7일 연속 미션 완료', difficulty: 'hard', category: 'challenge', reward: 300, completionRate: 45, participants: 180, status: 'active' },
-  ];
-
-  const getDifficultyBadge = (difficulty: string) => {
-    const config = {
-      easy: { label: '쉬움', color: 'bg-green-100 text-green-700' },
-      medium: { label: '중간', color: 'bg-yellow-100 text-yellow-700' },
-      hard: { label: '어려움', color: 'bg-red-100 text-red-700' },
-    };
-    const key = difficulty as keyof typeof config;
-    return <Badge className={config[key]?.color}>{config[key]?.label}</Badge>;
-  };
+  // ── 19단계 마인드맵 메인 화면 ─────────────────────────────────────
+  const todayCompleted = 342;
+  const todayPoints = COMPLETIONS.reduce((a, c) => a + c.points, 0);
 
   return (
-    <div className="space-y-6 p-4 md:p-6">
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-3xl font-bold flex items-center gap-2">
-            <Target className="h-8 w-8" />
-            미션 관리
-          </h1>
-          <p className="text-gray-600 mt-2">미션 생성 · 진행률 추적 · 보상 관리</p>
+    <DashboardLayout>
+      <div className="p-4 md:p-6 space-y-5">
+        {/* 헤더 */}
+        <div className="flex items-center justify-between flex-wrap gap-3">
+          <div>
+            <h1 className="text-2xl font-bold flex items-center gap-2">
+              <Target className="h-6 w-6 text-blue-600" />미션 관리
+            </h1>
+            <p className="text-sm text-gray-500">19단계 수련 체계 · 각 단계 20개 슬롯</p>
+          </div>
+          <div className="flex gap-2">
+            <Button variant="outline" size="sm" onClick={handleRefresh} disabled={isRefreshing}>
+              <RefreshCw className={`h-4 w-4 ${isRefreshing ? 'animate-spin' : ''}`} />
+            </Button>
+          </div>
         </div>
+
+        {/* KPI 카드 4개 */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+          <Card>
+            <CardContent className="pt-4">
+              <p className="text-xs text-gray-500">전체 단계</p>
+              <p className="text-2xl font-bold text-blue-600">19</p>
+              <p className="text-xs text-gray-400 mt-1">수련 10 + 챌린지 9</p>
+            </CardContent>
+          </Card>
+          <Card>
+            <CardContent className="pt-4">
+              <p className="text-xs text-gray-500">활성 미션 수</p>
+              <p className="text-2xl font-bold text-green-600">
+                {Object.values(stageSlots).flat().filter(s => s.active).length}
+              </p>
+              <p className="text-xs text-gray-400 mt-1">/ 380개 슬롯 중</p>
+            </CardContent>
+          </Card>
+          <Card className="cursor-pointer hover:shadow-md hover:border-orange-300 transition-all"
+            onClick={() => setShowCompletions(true)}>
+            <CardContent className="pt-4">
+              <p className="text-xs text-gray-500">오늘 완료</p>
+              <p className="text-2xl font-bold text-orange-600">{todayCompleted}</p>
+              <p className="text-xs text-orange-500 mt-1">👆 클릭 → 포인트 지급</p>
+            </CardContent>
+          </Card>
+          <Card>
+            <CardContent className="pt-4">
+              <p className="text-xs text-gray-500">오늘 지급 포인트</p>
+              <p className="text-2xl font-bold text-purple-600">12,400P</p>
+              <p className="text-xs text-gray-400 mt-1">자동 지급됨</p>
+            </CardContent>
+          </Card>
+        </div>
+
+        {/* 카테고리 필터 */}
         <div className="flex gap-2">
-          <Button 
-            onClick={() => setIsCreateDialogOpen(true)}
-            className="gap-2 bg-blue-600 hover:bg-blue-700"
-          >
-            <Plus className="h-4 w-4" />
-            새 미션
-          </Button>
-          <Button 
-            variant="outline" 
-            onClick={handleRefresh}
-            disabled={isRefreshing}
-            className="gap-2"
-          >
-            <RefreshCw className={`h-4 w-4 ${isRefreshing ? 'animate-spin' : ''}`} />
-            새로고침
-          </Button>
+          {(['all', '수련', '챌린지'] as const).map(f => (
+            <Button key={f} variant={activeFilter === f ? 'default' : 'outline'} size="sm"
+              onClick={() => setActiveFilter(f)}>
+              {f === 'all' ? '전체' : f === '수련' ? '🌬️ 10단계 수련' : '🏆 챌린지'}
+            </Button>
+          ))}
         </div>
-      </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-        <Card className="hover:shadow-lg hover:scale-105 transition-all cursor-pointer">
-          <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-gray-600 flex items-center gap-2">
-              <Target className="h-4 w-4 text-blue-500" />
-              총 미션
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold text-blue-600">400</div>
-            <p className="text-xs text-gray-500 mt-1">활성 미션</p>
-            <Badge className="mt-2 bg-blue-100 text-blue-700">↑ 12개 추가</Badge>
-          </CardContent>
-        </Card>
-
-        <Card className="hover:shadow-lg hover:scale-105 transition-all cursor-pointer">
-          <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-gray-600 flex items-center gap-2">
-              <CheckCircle className="h-4 w-4 text-green-500" />
-              완료율
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold text-green-600">62%</div>
-            <p className="text-xs text-gray-500 mt-1">평균 완료율</p>
-            <Badge className="mt-2 bg-green-100 text-green-700">↑ 8% 증가</Badge>
-          </CardContent>
-        </Card>
-
-        <Card className="hover:shadow-lg hover:scale-105 transition-all cursor-pointer">
-          <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-gray-600 flex items-center gap-2">
-              <Users className="h-4 w-4 text-purple-500" />
-              참여자
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold text-purple-600">1,045</div>
-            <p className="text-xs text-gray-500 mt-1">활성 참여자</p>
-            <Badge className="mt-2 bg-purple-100 text-purple-700">↑ 156명 증가</Badge>
-          </CardContent>
-        </Card>
-
-        <Card className="hover:shadow-lg hover:scale-105 transition-all cursor-pointer">
-          <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-gray-600 flex items-center gap-2">
-              <Zap className="h-4 w-4 text-yellow-500" />
-              배포 보상
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold text-yellow-600">45,600</div>
-            <p className="text-xs text-gray-500 mt-1">이번 주 배포</p>
-            <Badge className="mt-2 bg-yellow-100 text-yellow-700">↑ 12,300 증가</Badge>
-          </CardContent>
-        </Card>
-      </div>
-
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <Card className="hover:shadow-md transition-shadow">
-          <CardHeader>
-            <CardTitle>난이도별 미션 분포</CardTitle>
-            <CardDescription>미션 난이도 비율</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <ResponsiveContainer width="100%" height={250}>
-              <PieChart>
-                <Pie
-                  data={difficultyData}
-                  cx="50%"
-                  cy="50%"
-                  labelLine={false}
-                  label={({ name, value }) => `${name}: ${value}`}
-                  outerRadius={80}
-                  fill="#8884d8"
-                  dataKey="value"
-                >
-                  {difficultyData.map((entry, index) => (
-                    <Cell key={`cell-${index}`} fill={entry.color} />
-                  ))}
-                </Pie>
-                <Tooltip />
-              </PieChart>
-            </ResponsiveContainer>
-          </CardContent>
-        </Card>
-
-        <Card className="hover:shadow-md transition-shadow">
-          <CardHeader>
-            <CardTitle>완료율 추이</CardTitle>
-            <CardDescription>최근 5일간의 미션 완료율</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <ResponsiveContainer width="100%" height={250}>
-              <BarChart data={completionData}>
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="date" />
-                <YAxis />
-                <Tooltip />
-                <Legend />
-                <Bar dataKey="completed" fill="#10b981" name="완료" />
-                <Bar dataKey="attempted" fill="#3b82f6" name="시도" />
-              </BarChart>
-            </ResponsiveContainer>
-          </CardContent>
-        </Card>
-      </div>
-
-      <Card className="hover:shadow-md transition-shadow">
-        <CardHeader>
-          <CardTitle>미션 목록</CardTitle>
-          <CardDescription>활성 미션 관리</CardDescription>
-        </CardHeader>
-        <CardContent>
-          <div className="space-y-3">
-            {missionList.length === 0 ? (
-              <div className="text-center py-8">
-                <Target className="h-12 w-12 mx-auto text-gray-300 mb-2" />
-                <p className="text-gray-500">미션이 없습니다</p>
-              </div>
-            ) : (
-              missionList.map((mission) => (
-                <div key={mission.id} className="p-4 border rounded-lg hover:shadow-md transition-all">
-                  <div className="flex items-start justify-between mb-3">
-                    <div className="flex-1">
-                      <h3 className="font-semibold text-base">{mission.title}</h3>
-                      <p className="text-sm text-gray-600 mt-1">{mission.description}</p>
-                    </div>
-                    <div className="flex gap-2 ml-4">
-                      <Button
-                        size="sm"
-                        variant="outline"
-                        onClick={() => handleEditClick(mission)}
-                        className="gap-1"
-                      >
-                        <Edit2 className="h-3 w-3" />
-                        수정
-                      </Button>
-                      <Button
-                        size="sm"
-                        variant="outline"
-                        onClick={() => handleDeleteMission(mission)}
-                        className="gap-1 text-red-600 hover:text-red-700"
-                      >
-                        <Trash2 className="h-3 w-3" />
-                        삭제
-                      </Button>
-                    </div>
+        {/* 19단계 마인드맵 타일 */}
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3">
+          {filteredStages.map(stage => {
+            const slots = stageSlots[stage.id] || [];
+            const activeCount = slots.filter(s => s.active).length;
+            return (
+              <Card key={stage.id}
+                className="cursor-pointer hover:shadow-lg transition-all hover:-translate-y-0.5"
+                style={{ borderTop: `3px solid ${stage.color}`, background: stage.bgColor }}
+                onClick={() => setSelectedStage(stage.id)}>
+                <CardContent className="pt-3 pb-3">
+                  <div className="flex items-start justify-between mb-1">
+                    <span className="text-2xl">{stage.emoji}</span>
+                    <Badge variant="outline" className="text-xs" style={{ borderColor: stage.color, color: stage.color }}>
+                      {stage.id}단계
+                    </Badge>
                   </div>
-                  <div className="grid grid-cols-2 md:grid-cols-5 gap-3 text-sm">
-                    <div>
-                      <p className="text-gray-500">난이도</p>
-                      {getDifficultyBadge(mission.difficulty)}
+                  <h3 className="text-sm font-semibold text-gray-800 mt-1">{stage.name}</h3>
+                  <p className="text-xs text-gray-500 mt-0.5">{stage.points.toLocaleString()}P</p>
+                  <div className="mt-2 flex items-center justify-between">
+                    <div className="w-full bg-gray-200 rounded-full h-1.5 mr-2">
+                      <div className="h-1.5 rounded-full transition-all"
+                        style={{ width: `${(activeCount / 20) * 100}%`, background: stage.color }} />
                     </div>
-                    <div>
-                      <p className="text-gray-500">카테고리</p>
-                      <Badge variant="outline">{mission.category}</Badge>
-                    </div>
-                    <div>
-                      <p className="text-gray-500">보상</p>
-                      <p className="font-semibold text-yellow-600">{mission.reward}P</p>
-                    </div>
-                    <div>
-                      <p className="text-gray-500">완료율</p>
-                      <div className="w-full bg-gray-200 rounded-full h-2 mt-1">
-                        <div
-                          className="h-2 rounded-full bg-blue-500"
-                          style={{ width: `${mission.completionRate}%` }}
-                        />
+                    <span className="text-xs text-gray-400 flex-shrink-0">{activeCount}/20</span>
+                  </div>
+                  <p className="text-xs mt-1.5" style={{ color: stage.color }}>클릭하여 편집 →</p>
+                </CardContent>
+              </Card>
+            );
+          })}
+        </div>
+
+        {/* 오늘 완료자 팝업 */}
+        {showCompletions && (
+          <div className="fixed inset-0 bg-black/40 z-50 flex items-center justify-center p-4">
+            <Card className="w-full max-w-lg max-h-[80vh] overflow-y-auto">
+              <CardHeader>
+                <CardTitle className="flex justify-between items-center text-base">
+                  <span>오늘 완료자 ({COMPLETIONS.length}명)</span>
+                  <button onClick={() => setShowCompletions(false)}><X className="h-5 w-5 text-gray-400" /></button>
+                </CardTitle>
+                <CardDescription>완료 즉시 포인트 자동 지급 + 격려 문자 발송</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-2 mb-4">
+                  {COMPLETIONS.map((c, i) => (
+                    <div key={i} className="flex items-center justify-between p-2 bg-gray-50 rounded-lg">
+                      <div>
+                        <span className="text-sm font-medium">{c.name}</span>
+                        <span className="text-xs text-gray-400 ml-2">{c.email}</span>
+                        <div className="text-xs text-gray-500">{c.mission} · {c.time}</div>
                       </div>
-                      <p className="text-xs font-semibold mt-1">{mission.completionRate}%</p>
+                      <Badge className="bg-yellow-100 text-yellow-700 text-xs">+{c.points}P</Badge>
                     </div>
-                    <div>
-                      <p className="text-gray-500">참여자</p>
-                      <p className="font-semibold">{mission.participants}</p>
-                    </div>
-                  </div>
+                  ))}
                 </div>
-              ))
-            )}
+                <div className="bg-green-50 border border-green-200 rounded-lg p-3 mb-4 text-sm text-green-700">
+                  ✅ 총 {todayPoints}P 자동 지급 예정 · 격려 문자 자동 발송 연동
+                </div>
+                <div className="flex gap-2">
+                  <Button variant="outline" className="flex-1" onClick={() => setShowCompletions(false)}>닫기</Button>
+                  <Button className="flex-1 bg-green-600 hover:bg-green-700" onClick={handleGivePoints}>
+                    <Zap className="h-4 w-4 mr-1" />포인트 지급 + 문자 발송
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
           </div>
-        </CardContent>
-      </Card>
-
-      {/* 미션 생성 모달 */}
-      <Dialog open={isCreateDialogOpen} onOpenChange={setIsCreateDialogOpen}>
-        <DialogContent className="sm:max-w-[500px]">
-          <DialogHeader>
-            <DialogTitle>새 미션 생성</DialogTitle>
-            <DialogDescription>새로운 미션을 생성하세요</DialogDescription>
-          </DialogHeader>
-          <div className="space-y-4 py-4">
-            <div className="space-y-2">
-              <Label htmlFor="title">미션 제목</Label>
-              <Input
-                id="title"
-                placeholder="미션 제목을 입력하세요"
-                value={formData.title}
-                onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-              />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="description">설명</Label>
-              <Textarea
-                id="description"
-                placeholder="미션 설명을 입력하세요"
-                value={formData.description}
-                onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-              />
-            </div>
-            <div className="grid grid-cols-2 gap-4">
-              <div className="space-y-2">
-                <Label htmlFor="difficulty">난이도</Label>
-                <Select value={formData.difficulty} onValueChange={(value: 'easy' | 'medium' | 'hard') => setFormData({ ...formData, difficulty: value })}>
-                  <SelectTrigger>
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="easy">쉬움</SelectItem>
-                    <SelectItem value="medium">중간</SelectItem>
-                    <SelectItem value="hard">어려움</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="category">카테고리</Label>
-                <Select value={formData.category} onValueChange={(value) => setFormData({ ...formData, category: value })}>
-                  <SelectTrigger>
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="health">건강</SelectItem>
-                    <SelectItem value="wellness">웰니스</SelectItem>
-                    <SelectItem value="training">수련</SelectItem>
-                    <SelectItem value="challenge">챌린지</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="reward">보상 (포인트)</Label>
-              <Input
-                id="reward"
-                type="number"
-                placeholder="보상 포인트"
-                value={formData.reward}
-                onChange={(e) => setFormData({ ...formData, reward: parseInt(e.target.value) || 0 })}
-              />
-            </div>
-          </div>
-          <DialogFooter>
-            <Button variant="outline" onClick={() => setIsCreateDialogOpen(false)}>
-              취소
-            </Button>
-            <Button onClick={handleCreateMission} className="bg-blue-600 hover:bg-blue-700">
-              생성
-            </Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
-
-      {/* 미션 편집 모달 */}
-      <Dialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}>
-        <DialogContent className="sm:max-w-[500px]">
-          <DialogHeader>
-            <DialogTitle>미션 편집</DialogTitle>
-            <DialogDescription>미션 정보를 수정하세요</DialogDescription>
-          </DialogHeader>
-          <div className="space-y-4 py-4">
-            <div className="space-y-2">
-              <Label htmlFor="edit-title">미션 제목</Label>
-              <Input
-                id="edit-title"
-                placeholder="미션 제목을 입력하세요"
-                value={formData.title}
-                onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-              />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="edit-description">설명</Label>
-              <Textarea
-                id="edit-description"
-                placeholder="미션 설명을 입력하세요"
-                value={formData.description}
-                onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-              />
-            </div>
-            <div className="grid grid-cols-2 gap-4">
-              <div className="space-y-2">
-                <Label htmlFor="edit-difficulty">난이도</Label>
-                <Select value={formData.difficulty} onValueChange={(value: 'easy' | 'medium' | 'hard') => setFormData({ ...formData, difficulty: value })}>
-                  <SelectTrigger>
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="easy">쉬움</SelectItem>
-                    <SelectItem value="medium">중간</SelectItem>
-                    <SelectItem value="hard">어려움</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="edit-category">카테고리</Label>
-                <Select value={formData.category} onValueChange={(value) => setFormData({ ...formData, category: value })}>
-                  <SelectTrigger>
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="health">건강</SelectItem>
-                    <SelectItem value="wellness">웰니스</SelectItem>
-                    <SelectItem value="training">수련</SelectItem>
-                    <SelectItem value="challenge">챌린지</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="edit-reward">보상 (포인트)</Label>
-              <Input
-                id="edit-reward"
-                type="number"
-                placeholder="보상 포인트"
-                value={formData.reward}
-                onChange={(e) => setFormData({ ...formData, reward: parseInt(e.target.value) || 0 })}
-              />
-            </div>
-          </div>
-          <DialogFooter>
-            <Button variant="outline" onClick={() => setIsEditDialogOpen(false)}>
-              취소
-            </Button>
-            <Button onClick={handleEditMission} className="bg-blue-600 hover:bg-blue-700">
-              저장
-            </Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
-    </div>
+        )}
+      </div>
+    </DashboardLayout>
   );
 }

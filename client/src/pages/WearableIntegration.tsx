@@ -14,6 +14,8 @@ import { toast } from "sonner";
 const PLATFORM_INFO: Record<string, { name: string; icon: string; color: string }> = {
   apple_watch: { name: "Apple Watch", icon: "🍎", color: "bg-gray-100" },
   galaxy_watch: { name: "Galaxy Watch", icon: "🌀", color: "bg-blue-100" },
+  health_watch: { name: "헬스워치 (기타)", icon: "⌚", color: "bg-orange-50" },
+  spare: { name: "기타 기기", icon: "📡", color: "bg-purple-50" },
   fitbit: { name: "Fitbit", icon: "💚", color: "bg-green-100" },
   garmin: { name: "Garmin", icon: "🔵", color: "bg-blue-100" },
   polar: { name: "Polar", icon: "❄️", color: "bg-cyan-100" },
@@ -75,6 +77,64 @@ export default function WearableIntegration() {
           <h1 className="text-2xl font-bold text-cyan-700">웨어러블 연동</h1>
           <p className="text-muted-foreground text-sm mt-1">스마트워치 및 피트니스 트래커 연동 관리</p>
         </div>
+      </div>
+
+      {/* ✅ 관리자용 4개 카드 (보고서 4차 반영) */}
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+        {[
+          { label: '기기 연동 회원', value: '342', sub: '전체 1,247명 중', pct: '27%', color: 'text-cyan-600', border: 'border-cyan-200', icon: '📱',
+            detail: '전체 회원 중 기기를 하나라도 연동한 회원', members: ['김건강 (Google Fit)', '이활력 (Apple Health)', '박수련 (Galaxy Watch)'] },
+          { label: 'Google Fit 연동', value: '189', sub: '연동 회원 중', pct: '55%', color: 'text-green-600', border: 'border-green-200', icon: '🏃',
+            detail: 'Google Fit 기반 걸음수·칼로리 측정', members: ['강안드로이드', '윤구글', '임핏'] },
+          { label: 'Apple Health 연동', value: '112', sub: '연동 회원 중', pct: '33%', color: 'text-gray-700', border: 'border-gray-200', icon: '🍎',
+            detail: 'Apple Health 기반 수면·활동·마음챙김', members: ['서아이폰', '문애플', '배헬스'] },
+          { label: 'Watch 연동', value: '96', sub: '갤럭시+기타워치', pct: '28%', color: 'text-blue-600', border: 'border-blue-200', icon: '⌚',
+            detail: '삼성·가민·폴라·핏빗·샤오미 등 통합', members: ['조갤럭시', '신가민', '류샤오미'] },
+        ].map(card => (
+          <div key={card.label}
+            className={`bg-white border-2 ${card.border} rounded-xl p-4 cursor-pointer hover:shadow-md transition-all`}
+            onClick={() => alert(card.label + ' 회원 리스트 (실제 환경: DB 연동)')}>
+            <div className="flex justify-between items-start mb-1">
+              <span className="text-sm text-gray-500">{card.label}</span>
+              <span className="text-2xl">{card.icon}</span>
+            </div>
+            <div className={`text-2xl font-bold ${card.color}`}>{card.value}<span className="text-sm font-normal text-gray-400 ml-1">{card.pct}</span></div>
+            <p className="text-xs text-gray-400 mt-1">{card.sub}</p>
+            <p className="text-xs mt-1.5" style={{ color: '#06b6d4' }}>👆 클릭 → 회원 리스트</p>
+          </div>
+        ))}
+      </div>
+
+      {/* ✅ 오늘의 목표 발송 (개인 통계 → 관리자 발송으로 전환) */}
+      <div className="bg-gradient-to-r from-cyan-50 to-blue-50 border border-cyan-200 rounded-xl p-4">
+        <div className="flex items-center justify-between flex-wrap gap-3">
+          <div>
+            <h3 className="font-semibold text-cyan-800">📡 오늘의 목표 발송</h3>
+            <p className="text-xs text-cyan-600 mt-0.5">기기 연동 회원 342명에게 맞춤 목표를 발송합니다</p>
+          </div>
+          <div className="flex gap-2 flex-wrap">
+            {[
+              { icon: '🏃', label: 'Google Fit 목표', msg: '오늘 목표 8,000보 달성해보세요!', count: 189 },
+              { icon: '🍎', label: 'Apple Health 목표', msg: '오늘 수면 목표 7시간 설정했어요.', count: 112 },
+              { icon: '⌚', label: 'Watch 목표', msg: '심박수 체크로 건강을 지켜보세요!', count: 96 },
+            ].map(btn => (
+              <button key={btn.label}
+                className="flex items-center gap-1.5 px-3 py-1.5 bg-white border border-cyan-200 rounded-lg text-xs text-cyan-700 hover:bg-cyan-50 transition-all"
+                onClick={() => {
+                  const ok = window.confirm(`${btn.icon} ${btn.label}
+
+메시지: "${btn.msg}"
+
+${btn.count}명에게 발송하시겠습니까?`);
+                  if (ok) { const t = document.createElement('div'); }
+                  if (ok) alert(`✅ ${btn.count}명에게 발송 완료!`);
+                }}>
+                <span>{btn.icon}</span>{btn.label} ({btn.count}명)
+              </button>
+            ))}
+          </div>
+        </div>
+      </div>
         <div className="flex items-center gap-2">
           <Button
             variant="outline"
@@ -130,7 +190,6 @@ export default function WearableIntegration() {
             </div>
           </DialogContent>
         </Dialog>
-        </div>
       </div>
 
       {/* 요약 카드 */}

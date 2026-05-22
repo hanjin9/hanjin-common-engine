@@ -98,6 +98,14 @@ export default function CommunityHub() {
           <p className="text-muted-foreground text-sm mt-1">함께 성장하는 건강 커뮤니티</p>
         </div>
         <Dialog open={postOpen} onOpenChange={setPostOpen}>
+          <Button className="bg-red-600 hover:bg-red-700 text-white text-sm gap-1 h-9"
+              onClick={() => { const m = prompt('공지 내용 입력:'); if(m) alert('공지 등록 완료! 1,247명 발송'); }}>
+              📢 공지
+            </Button>
+            <Button className="bg-purple-600 hover:bg-purple-700 text-white text-sm gap-1 h-9"
+              onClick={() => { const t = prompt('포인트 지급 게시글 제목:'); if(t) alert('포인트 지급 완료!'); }}>
+              ⭐ 포인트
+            </Button>
           <DialogTrigger asChild>
             <motion.div whileTap={{ scale: 0.95 }} whileHover={{ scale: 1.03 }}>
               <Button className="bg-emerald-600 hover:bg-emerald-700 text-white shadow-md">

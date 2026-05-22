@@ -30,9 +30,10 @@ import { Button } from "./ui/button";
 const menuItems = [
   // 핵심 대시보드
   { icon: LayoutDashboard, label: "대시보드", path: "/admin" },
+  { icon: Users, label: "사용자 관리", path: "/admin/users" },
   { icon: FolderKanban, label: "프로젝트 관리", path: "/admin/projects" },
   { icon: CreditCard, label: "멤버십 관리", path: "/membership" },
-  { icon: Gem, label: "멤버십 구매", path: "/admin/membership/checkout" },
+  { icon: Gem, label: "멤버십 혜택", path: "/admin/membership/benefits" },
   { icon: DollarSign, label: "결제 / 정산", path: "/admin/payment" },
   // AI & 분석
   { icon: Brain, label: "AI 분석 & 랭킹", path: "/admin/ai-analytics" },

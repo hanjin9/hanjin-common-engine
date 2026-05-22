@@ -14,6 +14,8 @@ import MissionDashboard from './pages/MissionDashboard';
 import EventDashboard from './pages/EventDashboard';
 import SchedulerDashboard from './pages/SchedulerDashboard';
 import DashboardLayout from "./components/DashboardLayout";
+import UsersManagement from './pages/UsersManagement';
+import MembershipBenefits from './pages/MembershipBenefits';
 import ProjectsManagement from './pages/ProjectsManagement';
 import MonitoringDashboard from './pages/MonitoringDashboard';
 import StatsDashboard from './pages/StatsDashboard';
@@ -134,6 +136,9 @@ function Router() {
       )} />
       
       {/* 프로젝트 관리 */}
+      <Route path={"/admin/users"} component={() => (
+        <UsersManagement />
+      )} />
       <Route path={"/admin/projects"} component={() => (
         <DashboardLayout>
           <ProjectsManagement />
@@ -212,6 +217,9 @@ function Router() {
 
       {/* 404 */}
       {/* ✅ 신규: 멤버십 결제 + 결제완료/취소 (3개 레포 이식) */}
+      <Route path={"/admin/membership/benefits"} component={() => (
+        <MembershipBenefits />
+      )} />
       <Route path={"/admin/membership/checkout"} component={() => (
         <MembershipCheckout />
       )} />

@@ -97,6 +97,7 @@ export default function AiAnalyticsDashboard() {
   const { user } = useAuth();
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [selectedMetric, setSelectedMetric] = useState('accuracy');
+  const [segmentSelected, setSegmentSelected] = useState<any>(null);
 
   // Mock 데이터
   const aiMetrics: AIMetrics = {
@@ -398,64 +399,153 @@ export default function AiAnalyticsDashboard() {
             </Card>
           </TabsContent>
 
-          {/* 탭3: 사용자 세그멘테이션 */}
+          {/* ✅ 탭3: 세그멘테이션 → 클릭 시 리스트 + 일괄 액션 (보고서 2차 반영) */}
           <TabsContent value="segment" className="space-y-4">
-            <Card>
-              <CardHeader>
-                <CardTitle>사용자 세그멘테이션</CardTitle>
-                <CardDescription>참여도별 사용자 분포</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <ResponsiveContainer width="100%" height={300}>
-                  <RechartsPieChart>
-                    <Pie
-                      data={segmentData}
-                      dataKey="users"
-                      nameKey="name"
-                      cx="50%"
-                      cy="50%"
-                      outerRadius={100}
-                      label
-                    >
-                      {segmentData.map((entry, index) => (
-                        <Cell key={`cell-${index}`} fill={['#10b981', '#3b82f6', '#f59e0b', '#ef4444'][index]} />
-                      ))}
-                    </Pie>
-                    <Tooltip />
-                  </RechartsPieChart>
-                </ResponsiveContainer>
-              </CardContent>
-            </Card>
-
-            <Card>
-              <CardHeader>
-                <CardTitle>세그먼트별 상세 분석</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-4">
-                  {segmentData.map((segment) => (
-                    <div key={segment.name} className="p-4 border rounded-lg">
-                      <div className="flex items-center justify-between mb-2">
-                        <h4 className="font-semibold">{segment.name}</h4>
-                        <Badge>{segment.users.toLocaleString()} 명</Badge>
-                      </div>
-                      <div className="grid grid-cols-2 gap-4">
-                        <div>
-                          <p className="text-xs text-gray-600">참여도</p>
-                          <Progress value={segment.engagement} className="mt-1" />
-                          <p className="text-sm font-semibold mt-1">{segment.engagement}%</p>
-                        </div>
-                        <div>
-                          <p className="text-xs text-gray-600">유지율</p>
-                          <Progress value={segment.retention} className="mt-1" />
-                          <p className="text-sm font-semibold mt-1">{segment.retention}%</p>
-                        </div>
-                      </div>
+            {segmentSelected ? (
+              // 선택된 세그먼트 리스트 화면
+              <Card>
+                <CardHeader>
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <CardTitle className="flex items-center gap-2 text-base">
+                        {segmentSelected.emoji} {segmentSelected.name} — {segmentSelected.users.toLocaleString()}명
+                      </CardTitle>
+                      <CardDescription>{segmentSelected.desc}</CardDescription>
                     </div>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
+                    <Button variant="outline" size="sm" onClick={() => setSegmentSelected(null)}>← 전체 세그먼트</Button>
+                  </div>
+                </CardHeader>
+                <CardContent>
+                  {/* 일괄 액션 버튼 */}
+                  <div className="grid grid-cols-2 md:grid-cols-4 gap-2 mb-4">
+                    {[
+                      { icon: '💬', label: '메시지 발송', color: 'bg-blue-600', msg: '격려 메시지를' },
+                      { icon: '🎉', label: '이벤트 등록', color: 'bg-purple-600', msg: '이벤트를' },
+                      { icon: '⭐', label: '포인트 지급', color: 'bg-yellow-600', msg: '포인트를' },
+                      { icon: '🎯', label: '미션 배정', color: 'bg-green-600', msg: '미션을' },
+                    ].map(action => (
+                      <Button key={action.label}
+                        className={`${action.color} text-white text-xs h-9 gap-1`}
+                        onClick={() => {
+                          toast.success(`${segmentSelected.name} ${segmentSelected.users}명에게 ${action.msg} 발송 완료!`);
+                        }}>
+                        <span>{action.icon}</span>{action.label}
+                      </Button>
+                    ))}
+                  </div>
+                  {/* 더미 회원 목록 */}
+                  <div className="overflow-x-auto">
+                    <table className="w-full text-sm">
+                      <thead><tr className="border-b border-gray-200 text-xs text-gray-500">
+                        <th className="text-left py-2 px-3">이름</th>
+                        <th className="text-left py-2 px-3">이메일</th>
+                        <th className="text-right py-2 px-3">AI점수</th>
+                        <th className="text-center py-2 px-3">등급</th>
+                      </tr></thead>
+                      <tbody>
+                        {segmentSelected.members.map((m: any, i: number) => (
+                          <tr key={i} className="border-b border-gray-100 hover:bg-gray-50">
+                            <td className="py-2 px-3 font-medium">{m.name}</td>
+                            <td className="py-2 px-3 text-xs text-gray-400">{m.email}</td>
+                            <td className="py-2 px-3 text-right font-mono"
+                              style={{ color: segmentSelected.color }}>{m.score}</td>
+                            <td className="py-2 px-3 text-center">
+                              <Badge className="text-xs" style={{ background: segmentSelected.color + '22', color: segmentSelected.color }}>
+                                {segmentSelected.tag}
+                              </Badge>
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                  <p className="text-xs text-gray-400 mt-3 text-center">
+                    실제 환경: trpc.admin.getUsers (세그먼트 필터 연동) 전체 {segmentSelected.users}명 조회
+                  </p>
+                </CardContent>
+              </Card>
+            ) : (
+              // 세그먼트 선택 화면
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {[
+                  {
+                    name: '상위 20%', emoji: '🏆', users: 249, engagement: 95, retention: 88, color: '#10b981', tag: 'VIP',
+                    desc: '건강 점수 상위 20% — 칭찬 + 보너스 포인트 추천',
+                    members: [
+                      { name: '김건강', email: 'kim@ex.com', score: 98.2 },
+                      { name: '이활력', email: 'lee@ex.com', score: 95.7 },
+                      { name: '박수련', email: 'park@ex.com', score: 93.4 },
+                      { name: '최웰니스', email: 'choi@ex.com', score: 91.8 },
+                      { name: '정호흡', email: 'jung@ex.com', score: 90.5 },
+                    ],
+                  },
+                  {
+                    name: '중간 60%', emoji: '💪', users: 748, engagement: 68, retention: 72, color: '#3b82f6', tag: '일반',
+                    desc: '건강 점수 중간 — 도전 미션 + 승급 이벤트 추천',
+                    members: [
+                      { name: '강건강', email: 'kang@ex.com', score: 78.2 },
+                      { name: '윤활력', email: 'yoon@ex.com', score: 74.1 },
+                      { name: '임수련', email: 'im@ex.com', score: 71.8 },
+                      { name: '한웰니스', email: 'han@ex.com', score: 68.5 },
+                      { name: '오호흡', email: 'oh@ex.com', score: 65.3 },
+                    ],
+                  },
+                  {
+                    name: '하위 20%', emoji: '⚠️', users: 250, engagement: 32, retention: 41, color: '#ef4444', tag: '개선 필요',
+                    desc: '건강 점수 하위 20% — 응원 메시지 + 회복 미션 추천',
+                    members: [
+                      { name: '서개선', email: 'seo@ex.com', score: 38.1 },
+                      { name: '문회복', email: 'moon@ex.com', score: 35.7 },
+                      { name: '배노력', email: 'bae@ex.com', score: 32.4 },
+                      { name: '조향상', email: 'jo@ex.com', score: 29.8 },
+                      { name: '신성장', email: 'shin@ex.com', score: 26.5 },
+                    ],
+                  },
+                  {
+                    name: '30일 미활동', emoji: '😴', users: 89, engagement: 5, retention: 12, color: '#6b7280', tag: '휴면',
+                    desc: '30일 이상 미접속 — 복귀 이벤트 + 포인트 지급 추천',
+                    members: [
+                      { name: '류복귀', email: 'ryu@ex.com', score: 0 },
+                      { name: '표재시작', email: 'pyo@ex.com', score: 0 },
+                      { name: '하돌아와', email: 'ha@ex.com', score: 0 },
+                    ],
+                  },
+                ].map(seg => (
+                  <Card key={seg.name}
+                    className="cursor-pointer hover:shadow-lg transition-all hover:-translate-y-0.5 border-l-4"
+                    style={{ borderLeftColor: seg.color }}
+                    onClick={() => setSegmentSelected(seg)}>
+                    <CardContent className="pt-4 pb-4">
+                      <div className="flex items-start justify-between mb-2">
+                        <div className="flex items-center gap-2">
+                          <span className="text-2xl">{seg.emoji}</span>
+                          <div>
+                            <h3 className="font-semibold text-sm">{seg.name}</h3>
+                            <p className="text-xs text-gray-500">{seg.desc}</p>
+                          </div>
+                        </div>
+                        <Badge className="text-lg font-bold px-3" style={{ background: seg.color + '22', color: seg.color }}>
+                          {seg.users.toLocaleString()}명
+                        </Badge>
+                      </div>
+                      <div className="grid grid-cols-2 gap-3 mt-3">
+                        <div>
+                          <p className="text-xs text-gray-500 mb-1">참여도</p>
+                          <Progress value={seg.engagement} className="h-2" />
+                          <p className="text-xs font-semibold mt-0.5" style={{ color: seg.color }}>{seg.engagement}%</p>
+                        </div>
+                        <div>
+                          <p className="text-xs text-gray-500 mb-1">유지율</p>
+                          <Progress value={seg.retention} className="h-2" />
+                          <p className="text-xs font-semibold mt-0.5">{seg.retention}%</p>
+                        </div>
+                      </div>
+                      <p className="text-xs mt-2" style={{ color: seg.color }}>👆 클릭 → 명단 + 일괄 발송</p>
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
+            )}
           </TabsContent>
 
           {/* 탭4: 주요 인사이트 */}
