@@ -29,7 +29,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import DashboardLayout from "@/components/DashboardLayout";
 import {
   Brain, RefreshCw, Activity, Users, Zap, AlertCircle,
-  TrendingUp, Trophy, Star, Crown, BarChart3, LineChart, PieChart
+  TrendingUp, Trophy, Star, Crown, BarChart3, LineChart, PieChart, Watch
 } from "lucide-react";
 import { toast } from "sonner";
 import {
@@ -59,6 +59,11 @@ function formatDate(d: Date | string | null | undefined): string {
 }
 
 interface AIMetrics {
+  // ✅ 보고서 2차 반영: AI 기기 연동 현황
+  totalMembers: number;
+  deviceConnected: number;
+  voiceAiUsers: number;
+  cameraAiUsers: number;
   accuracy: number;
   precision: number;
   recall: number;
@@ -95,6 +100,10 @@ export default function AiAnalyticsDashboard() {
 
   // Mock 데이터
   const aiMetrics: AIMetrics = {
+    totalMembers: 1247,
+    deviceConnected: 342,
+    voiceAiUsers: 189,
+    cameraAiUsers: 97,
     accuracy: 94.5,
     precision: 92.3,
     recall: 96.1,
@@ -196,55 +205,90 @@ export default function AiAnalyticsDashboard() {
           </Button>
         </div>
 
-        {/* 성능 지표 카드 */}
+        {/* ✅ AI 기기 연동 현황 카드 3개 (보고서 2차 반영) */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <Card className="hover:shadow-lg transition-shadow">
-            <CardHeader className="pb-3">
-              <CardTitle className="text-sm font-medium flex items-center justify-between">
-                <span>정확도</span>
-                <Zap className="h-4 w-4 text-yellow-500" />
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className={`text-3xl font-bold ${getMetricColor(aiMetrics.accuracy)}`}>
-                {aiMetrics.accuracy.toFixed(1)}%
-              </div>
-              <Progress value={aiMetrics.accuracy} className="mt-2" />
-              <p className="text-xs text-gray-500 mt-2">목표: 95% 이상</p>
-            </CardContent>
-          </Card>
 
-          <Card className="hover:shadow-lg transition-shadow">
-            <CardHeader className="pb-3">
+          {/* 카드 1: AI Fit 기기 연동 회원 */}
+          <Card
+            className="hover:shadow-lg transition-all cursor-pointer hover:border-blue-300"
+            onClick={() => {
+              alert("AI Fit 기기 연동 회원 리스트\n\n실제 환경에서는:\n- Google Fit 연동자\n- Apple Health 연동자\n- Watch 연동자\n전체 목록이 표시됩니다.");
+            }}
+          >
+            <CardHeader className="pb-2">
               <CardTitle className="text-sm font-medium flex items-center justify-between">
-                <span>사용자 만족도</span>
-                <Trophy className="h-4 w-4 text-amber-500" />
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className={`text-3xl font-bold ${getMetricColor(aiMetrics.userSatisfaction)}`}>
-                {aiMetrics.userSatisfaction.toFixed(1)}%
-              </div>
-              <Progress value={aiMetrics.userSatisfaction} className="mt-2" />
-              <p className="text-xs text-gray-500 mt-2">전주 대비 +3.2%</p>
-            </CardContent>
-          </Card>
-
-          <Card className="hover:shadow-lg transition-shadow">
-            <CardHeader className="pb-3">
-              <CardTitle className="text-sm font-medium flex items-center justify-between">
-                <span>응답 시간</span>
-                <Activity className="h-4 w-4 text-blue-500" />
+                <span>🏃 AI Fit 기기 연동</span>
+                <Watch className="h-4 w-4 text-blue-500" />
               </CardTitle>
             </CardHeader>
             <CardContent>
               <div className="text-3xl font-bold text-blue-600">
-                {aiMetrics.responseTime}ms
+                {aiMetrics.totalMembers > 0
+                  ? `${Math.round((aiMetrics.deviceConnected / aiMetrics.totalMembers) * 100)}%`
+                  : "—"}
               </div>
-              <Progress value={Math.min((1000 - aiMetrics.responseTime) / 10, 100)} className="mt-2" />
-              <p className="text-xs text-gray-500 mt-2">목표: 200ms 이하</p>
+              <Progress value={aiMetrics.totalMembers > 0 ? (aiMetrics.deviceConnected / aiMetrics.totalMembers) * 100 : 0} className="mt-2" />
+              <p className="text-xs text-gray-500 mt-2">
+                전체 {aiMetrics.totalMembers.toLocaleString()}명 중 {aiMetrics.deviceConnected.toLocaleString()}명 연동
+              </p>
+              <p className="text-xs text-blue-500 mt-1">👆 클릭 시 회원 리스트</p>
             </CardContent>
           </Card>
+
+          {/* 카드 2: 소리·호흡 AI 사용 회원 */}
+          <Card
+            className="hover:shadow-lg transition-all cursor-pointer hover:border-green-300"
+            onClick={() => {
+              alert("소리·호흡 AI 사용 회원 리스트\n\n실제 환경에서는:\n- 마이크 기반 호흡 분석 사용자\n- 스트레스 감지 기능 사용자\n- 생체리듬 측정 사용자\n목록이 표시됩니다.");
+            }}
+          >
+            <CardHeader className="pb-2">
+              <CardTitle className="text-sm font-medium flex items-center justify-between">
+                <span>🎙️ 소리·호흡 AI</span>
+                <Activity className="h-4 w-4 text-green-500" />
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="text-3xl font-bold text-green-600">
+                {aiMetrics.totalMembers > 0
+                  ? `${Math.round((aiMetrics.voiceAiUsers / aiMetrics.totalMembers) * 100)}%`
+                  : "—"}
+              </div>
+              <Progress value={aiMetrics.totalMembers > 0 ? (aiMetrics.voiceAiUsers / aiMetrics.totalMembers) * 100 : 0} className="mt-2" />
+              <p className="text-xs text-gray-500 mt-2">
+                전체 {aiMetrics.totalMembers.toLocaleString()}명 중 {aiMetrics.voiceAiUsers.toLocaleString()}명 사용
+              </p>
+              <p className="text-xs text-green-500 mt-1">👆 클릭 시 회원 리스트</p>
+            </CardContent>
+          </Card>
+
+          {/* 카드 3: 카메라 AI 사용 회원 */}
+          <Card
+            className="hover:shadow-lg transition-all cursor-pointer hover:border-purple-300"
+            onClick={() => {
+              alert("카메라 AI 사용 회원 리스트\n\n실제 환경에서는:\n- 식사 인식 사용자\n- 자세 교정 사용자\n- 사진 기반 정신건강 분석 사용자\n목록이 표시됩니다.");
+            }}
+          >
+            <CardHeader className="pb-2">
+              <CardTitle className="text-sm font-medium flex items-center justify-between">
+                <span>📸 카메라 AI</span>
+                <Zap className="h-4 w-4 text-purple-500" />
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="text-3xl font-bold text-purple-600">
+                {aiMetrics.totalMembers > 0
+                  ? `${Math.round((aiMetrics.cameraAiUsers / aiMetrics.totalMembers) * 100)}%`
+                  : "—"}
+              </div>
+              <Progress value={aiMetrics.totalMembers > 0 ? (aiMetrics.cameraAiUsers / aiMetrics.totalMembers) * 100 : 0} className="mt-2" />
+              <p className="text-xs text-gray-500 mt-2">
+                전체 {aiMetrics.totalMembers.toLocaleString()}명 중 {aiMetrics.cameraAiUsers.toLocaleString()}명 사용
+              </p>
+              <p className="text-xs text-purple-500 mt-1">👆 클릭 시 회원 리스트</p>
+            </CardContent>
+          </Card>
+
         </div>
 
         {/* 탭 섹션 */}

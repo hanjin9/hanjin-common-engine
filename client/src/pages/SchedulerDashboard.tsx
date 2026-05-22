@@ -70,9 +70,9 @@ export default function SchedulerDashboard() {
           <div>
             <h1 className="text-2xl font-bold text-white flex items-center gap-2">
               <Timer className="w-6 h-6 text-amber-400" />
-              스케줄러 관리
+              업무 스케줄 관리
             </h1>
-            <p className="text-slate-400 text-sm mt-1">Heartbeat 기반 자동 발송 크론 관리</p>
+            <p className="text-slate-400 text-sm mt-1">AI 피드백 자동 발송 · 미션 자동화 · 업무 스케줄</p>
           </div>
           <Button variant="outline" size="sm" onClick={() => refetch()} className="border-slate-600 text-slate-300">
             <RefreshCw className="w-4 h-4 mr-1" /> 새로고침
@@ -192,6 +192,190 @@ export default function SchedulerDashboard() {
               )}
             </CardContent>
           </Card>
+        </div>
+
+        {/* ✅ AI 피드백 자동 발송 크론 (보고서 3·4순위 반영) */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+
+          {/* AI 1차 피드백 자동 발송 */}
+          <div className="bg-green-900/30 border border-green-700/40 rounded-xl p-5">
+            <div className="flex items-center gap-2 mb-2">
+              <span className="text-green-400">🤖</span>
+              <h3 className="font-semibold text-green-300">AI 1차 피드백 자동 발송</h3>
+              <span className="ml-auto text-xs bg-green-800 text-green-300 px-2 py-0.5 rounded">자동</span>
+            </div>
+            <p className="text-xs text-slate-400 mb-3">미션 완료 즉시 자동 발송 · 격려/칭찬 피드백</p>
+            <p>📋 크론: <code className="text-xs bg-slate-700 px-1 rounded">* * * * *</code> (실시간 트리거)</p>
+            <div className="mt-3 flex gap-2">
+              <button className="flex-1 py-1.5 rounded bg-green-700 hover:bg-green-600 text-xs text-white transition">활성화</button>
+              <button className="flex-1 py-1.5 rounded border border-slate-600 text-xs text-slate-300 hover:bg-slate-700 transition">설정</button>
+            </div>
+          </div>
+
+          {/* AI 2차 피드백 자동 발송 */}
+          <div className="bg-yellow-900/30 border border-yellow-700/40 rounded-xl p-5">
+            <div className="flex items-center gap-2 mb-2">
+              <span className="text-yellow-400">⚠️</span>
+              <h3 className="font-semibold text-yellow-300">AI 2차 피드백 자동 발송</h3>
+              <span className="ml-auto text-xs bg-yellow-800 text-yellow-300 px-2 py-0.5 rounded">D+3</span>
+            </div>
+            <p className="text-xs text-slate-400 mb-3">3일 미활동 시 경고/개선 피드백 자동 발송</p>
+            <p>📋 크론: <code className="text-xs bg-slate-700 px-1 rounded">0 9 * * *</code> (매일 09:00)</p>
+            <div className="mt-3 flex gap-2">
+              <button className="flex-1 py-1.5 rounded bg-yellow-700 hover:bg-yellow-600 text-xs text-white transition">활성화</button>
+              <button className="flex-1 py-1.5 rounded border border-slate-600 text-xs text-slate-300 hover:bg-slate-700 transition">설정</button>
+            </div>
+          </div>
+
+          {/* AI 3차 피드백 자동 발송 */}
+          <div className="bg-purple-900/30 border border-purple-700/40 rounded-xl p-5">
+            <div className="flex items-center gap-2 mb-2">
+              <span className="text-purple-400">⚡</span>
+              <h3 className="font-semibold text-purple-300">AI 3차 프리미엄 피드백</h3>
+              <span className="ml-auto text-xs bg-purple-800 text-purple-300 px-2 py-0.5 rounded">D+7</span>
+            </div>
+            <p className="text-xs text-slate-400 mb-3">7일 미활동 · 하위 20% → 자동 분류 후 코치 검토 발송</p>
+            <p>📋 크론: <code className="text-xs bg-slate-700 px-1 rounded">0 10 * * 1</code> (매주 월 10:00)</p>
+            <div className="mt-3 flex gap-2">
+              <button className="flex-1 py-1.5 rounded bg-purple-700 hover:bg-purple-600 text-xs text-white transition">활성화</button>
+              <button className="flex-1 py-1.5 rounded border border-slate-600 text-xs text-slate-300 hover:bg-slate-700 transition">설정</button>
+            </div>
+          </div>
+
+          {/* 미션 완료 포인트 자동 지급 */}
+          <div className="bg-blue-900/30 border border-blue-700/40 rounded-xl p-5">
+            <div className="flex items-center gap-2 mb-2">
+              <span className="text-blue-400">⭐</span>
+              <h3 className="font-semibold text-blue-300">미션 완료 포인트 자동 지급</h3>
+              <span className="ml-auto text-xs bg-blue-800 text-blue-300 px-2 py-0.5 rounded">실시간</span>
+            </div>
+            <p className="text-xs text-slate-400 mb-3">미션 완료 즉시 설정 포인트 자동 지급 + 격려 문자</p>
+            <p>📋 크론: <code className="text-xs bg-slate-700 px-1 rounded">* * * * *</code> (실시간 트리거)</p>
+            <div className="mt-3 flex gap-2">
+              <button className="flex-1 py-1.5 rounded bg-blue-700 hover:bg-blue-600 text-xs text-white transition">활성화</button>
+              <button className="flex-1 py-1.5 rounded border border-slate-600 text-xs text-slate-300 hover:bg-slate-700 transition">설정</button>
+            </div>
+          </div>
+
+          {/* 수면 체크 리마인더 */}
+          <div className="bg-indigo-900/30 border border-indigo-700/40 rounded-xl p-5">
+            <div className="flex items-center gap-2 mb-2">
+              <span className="text-indigo-400">🌙</span>
+              <h3 className="font-semibold text-indigo-300">수면 체크 리마인더</h3>
+              <span className="ml-auto text-xs bg-indigo-800 text-indigo-300 px-2 py-0.5 rounded">매일</span>
+            </div>
+            <p className="text-xs text-slate-400 mb-3">취침 전 수면 목표 푸시 · 계절별 맞춤 문구 적용</p>
+            <p>📋 크론: <code className="text-xs bg-slate-700 px-1 rounded">0 22 * * *</code> (매일 22:00)</p>
+            <div className="mt-3 flex gap-2">
+              <button className="flex-1 py-1.5 rounded bg-indigo-700 hover:bg-indigo-600 text-xs text-white transition">활성화</button>
+              <button className="flex-1 py-1.5 rounded border border-slate-600 text-xs text-slate-300 hover:bg-slate-700 transition">설정</button>
+            </div>
+          </div>
+
+          {/* 웰니스 주간 요약 */}
+          <div className="bg-teal-900/30 border border-teal-700/40 rounded-xl p-5">
+            <div className="flex items-center gap-2 mb-2">
+              <span className="text-teal-400">📊</span>
+              <h3 className="font-semibold text-teal-300">웰니스 주간 요약 발송</h3>
+              <span className="ml-auto text-xs bg-teal-800 text-teal-300 px-2 py-0.5 rounded">주간</span>
+            </div>
+            <p className="text-xs text-slate-400 mb-3">주간 건강 점수 · 미션 달성률 · 개인 분석 리포트</p>
+            <p>📋 크론: <code className="text-xs bg-slate-700 px-1 rounded">0 8 * * 1</code> (매주 월 08:00)</p>
+            <div className="mt-3 flex gap-2">
+              <button className="flex-1 py-1.5 rounded bg-teal-700 hover:bg-teal-600 text-xs text-white transition">활성화</button>
+              <button className="flex-1 py-1.5 rounded border border-slate-600 text-xs text-slate-300 hover:bg-slate-700 transition">설정</button>
+            </div>
+          </div>
+
+        </div>
+
+        {/* ✅ AI 피드백 자동 발송 스케줄 (보고서 3차 반영) */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+
+          {/* AI 피드백 1차 자동 발송 */}
+          <div className="bg-green-950 border border-green-800 rounded-xl p-5">
+            <div className="flex items-center gap-2 mb-2">
+              <span className="text-2xl">🤖</span>
+              <div>
+                <h3 className="text-white font-semibold">AI 피드백 1차 자동 발송</h3>
+                <p className="text-green-400 text-xs">미션 완료 즉시 격려 메시지</p>
+              </div>
+              <span className="ml-auto bg-green-700 text-green-100 text-xs px-2 py-0.5 rounded-full">활성</span>
+            </div>
+            <p className="text-green-300 text-xs mb-3">📋 트리거: 미션 완료 이벤트 감지 즉시</p>
+            <p className="text-slate-400 text-xs">채널: 앱 푸시 + 이메일 | 포인트 자동 지급 연동</p>
+          </div>
+
+          {/* AI 피드백 2차 자동 발송 */}
+          <div className="bg-yellow-950 border border-yellow-800 rounded-xl p-5">
+            <div className="flex items-center gap-2 mb-2">
+              <span className="text-2xl">⚡</span>
+              <div>
+                <h3 className="text-white font-semibold">AI 피드백 2차 자동 발송</h3>
+                <p className="text-yellow-400 text-xs">3일 미활동 · 점수 하락 시 경고</p>
+              </div>
+              <span className="ml-auto bg-yellow-700 text-yellow-100 text-xs px-2 py-0.5 rounded-full">활성</span>
+            </div>
+            <p className="text-yellow-300 text-xs mb-3">📋 크론: <code className="text-xs bg-slate-700 px-1 rounded">0 9 * * *</code> (매일 09:00 미활동 감지)</p>
+            <p className="text-slate-400 text-xs">채널: SMS + 앱 푸시 | 수면 부족 3일 연속 자동 트리거</p>
+          </div>
+
+          {/* AI 피드백 3차 자동 발송 */}
+          <div className="bg-purple-950 border border-purple-800 rounded-xl p-5">
+            <div className="flex items-center gap-2 mb-2">
+              <span className="text-2xl">👑</span>
+              <div>
+                <h3 className="text-white font-semibold">AI 피드백 3차 자동 발송</h3>
+                <p className="text-purple-400 text-xs">D+7 프리미엄 피드백 (코치 추가 가능)</p>
+              </div>
+              <span className="ml-auto bg-purple-700 text-purple-100 text-xs px-2 py-0.5 rounded-full">활성</span>
+            </div>
+            <p className="text-purple-300 text-xs mb-3">📋 크론: <code className="text-xs bg-slate-700 px-1 rounded">0 10 * * *</code> (매일 10:00 D+7 대상 검사)</p>
+            <p className="text-slate-400 text-xs">채널: 이메일 + PDF | 코치 수동 내용 추가 가능</p>
+          </div>
+
+          {/* 미션 완료자 포인트 자동 지급 */}
+          <div className="bg-orange-950 border border-orange-800 rounded-xl p-5">
+            <div className="flex items-center gap-2 mb-2">
+              <span className="text-2xl">⭐</span>
+              <div>
+                <h3 className="text-white font-semibold">미션 완료자 포인트 자동 지급</h3>
+                <p className="text-orange-400 text-xs">완료 즉시 설정 포인트 자동 지급</p>
+              </div>
+              <span className="ml-auto bg-orange-700 text-orange-100 text-xs px-2 py-0.5 rounded-full">활성</span>
+            </div>
+            <p className="text-orange-300 text-xs mb-3">📋 트리거: 미션 완료 이벤트 즉시</p>
+            <p className="text-slate-400 text-xs">19단계 × 20슬롯 포인트 자동 계산 지급</p>
+          </div>
+
+          {/* 수면 체크 리마인더 */}
+          <div className="bg-blue-950 border border-blue-800 rounded-xl p-5">
+            <div className="flex items-center gap-2 mb-2">
+              <span className="text-2xl">😴</span>
+              <div>
+                <h3 className="text-white font-semibold">수면 체크 리마인더</h3>
+                <p className="text-blue-400 text-xs">계절별 맞춤 수면 목표 발송</p>
+              </div>
+              <span className="ml-auto bg-blue-700 text-blue-100 text-xs px-2 py-0.5 rounded-full">활성</span>
+            </div>
+            <p className="text-blue-300 text-xs mb-3">📋 크론: <code className="text-xs bg-slate-700 px-1 rounded">0 22 * * *</code> (매일 22:00 취침 리마인더)</p>
+            <p className="text-slate-400 text-xs">봄/여름/가을/겨울 계절별 맞춤 문구 자동 선택</p>
+          </div>
+
+          {/* 웰니스 주간 요약 발송 */}
+          <div className="bg-teal-950 border border-teal-800 rounded-xl p-5">
+            <div className="flex items-center gap-2 mb-2">
+              <span className="text-2xl">📊</span>
+              <div>
+                <h3 className="text-white font-semibold">웰니스 주간 요약 발송</h3>
+                <p className="text-teal-400 text-xs">매주 월요일 개인 건강 리포트</p>
+              </div>
+              <span className="ml-auto bg-teal-700 text-teal-100 text-xs px-2 py-0.5 rounded-full">활성</span>
+            </div>
+            <p className="text-teal-300 text-xs mb-3">📋 크론: <code className="text-xs bg-slate-700 px-1 rounded">0 8 * * 1</code> (매주 월요일 08:00)</p>
+            <p className="text-slate-400 text-xs">10단계 수련 진도 + AI 점수 + 포인트 요약</p>
+          </div>
+
         </div>
 
         {/* 등록된 크론 전체 목록 */}
