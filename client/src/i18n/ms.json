@@ -1,0 +1,63 @@
+{
+  "_meta": {
+    "lang": "ms",
+    "name": "Bahasa Melayu",
+    "flag": "🇲🇾"
+  },
+  "nav": {
+    "dashboard": "Papan Pemuka",
+    "payment": "Pembayaran",
+    "membership": "Keahlian",
+    "checkout": "Beli Keahlian",
+    "missions": "Misi",
+    "monitoring": "Pemantauan",
+    "ai": "Analitik AI",
+    "community": "Komuniti",
+    "settings": "Tetapan"
+  },
+  "kpi": {
+    "revenue": "Pendapatan Bulanan",
+    "users": "Jumlah Pengguna",
+    "subscriptions": "Langganan Aktif"
+  },
+  "payment": {
+    "title": "Pengurusan Pembayaran",
+    "total": "Jumlah Pendapatan",
+    "refund": "Bayaran Balik",
+    "net": "Pendapatan Bersih",
+    "succeeded": "Berjaya",
+    "pending": "Dalam Proses",
+    "failed": "Gagal",
+    "refundBtn": "Bayar Balik",
+    "approveBtn": "Luluskan",
+    "csvBtn": "Eksport CSV"
+  },
+  "tiers": {
+    "bronze": "Gangsa",
+    "silver": "Perak",
+    "gold": "Emas",
+    "emerald": "Zamrud",
+    "green_emerald": "Zamrud Hijau",
+    "sapphire": "Safir",
+    "blue_sapphire": "Safir Biru",
+    "diamond": "Berlian",
+    "blue_diamond": "Berlian Biru",
+    "platinum": "Platinum",
+    "black_platinum": "Platinum Hitam"
+  },
+  "checkout": {
+    "title": "Beli Keahlian",
+    "payBtn": "Bayar dengan Stripe",
+    "perMonth": "/bulan",
+    "secureMsg": "Pembayaran selamat · PCI DSS"
+  },
+  "common": {
+    "realtime": "DB Langsung",
+    "loading": "Memuatkan...",
+    "noData": "Tiada data",
+    "save": "Simpan",
+    "cancel": "Batal",
+    "edit": "Edit",
+    "delete": "Padam"
+  }
+}

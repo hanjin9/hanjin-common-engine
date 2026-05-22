@@ -1,0 +1,63 @@
+{
+  "_meta": {
+    "lang": "ru",
+    "name": "Русский",
+    "flag": "🇷🇺"
+  },
+  "nav": {
+    "dashboard": "Панель",
+    "payment": "Платежи",
+    "membership": "Членство",
+    "checkout": "Купить членство",
+    "missions": "Миссии",
+    "monitoring": "Мониторинг",
+    "ai": "AI Аналитика",
+    "community": "Сообщество",
+    "settings": "Настройки"
+  },
+  "kpi": {
+    "revenue": "Доход за месяц",
+    "users": "Всего пользователей",
+    "subscriptions": "Активные подписки"
+  },
+  "payment": {
+    "title": "Управление платежами",
+    "total": "Общий доход",
+    "refund": "Возвраты",
+    "net": "Чистый доход",
+    "succeeded": "Успешно",
+    "pending": "В обработке",
+    "failed": "Ошибка",
+    "refundBtn": "Вернуть",
+    "approveBtn": "Одобрить",
+    "csvBtn": "Экспорт CSV"
+  },
+  "tiers": {
+    "bronze": "Бронза",
+    "silver": "Серебро",
+    "gold": "Золото",
+    "emerald": "Изумруд",
+    "green_emerald": "Зелёный изумруд",
+    "sapphire": "Сапфир",
+    "blue_sapphire": "Синий сапфир",
+    "diamond": "Бриллиант",
+    "blue_diamond": "Синий бриллиант",
+    "platinum": "Платина",
+    "black_platinum": "Чёрная платина"
+  },
+  "checkout": {
+    "title": "Купить членство",
+    "payBtn": "Оплатить через Stripe",
+    "perMonth": "/мес",
+    "secureMsg": "Безопасная оплата · PCI DSS"
+  },
+  "common": {
+    "realtime": "Live БД",
+    "loading": "Загрузка...",
+    "noData": "Нет данных",
+    "save": "Сохранить",
+    "cancel": "Отмена",
+    "edit": "Изменить",
+    "delete": "Удалить"
+  }
+}

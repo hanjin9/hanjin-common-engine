@@ -1,0 +1,63 @@
+{
+  "_meta": {
+    "lang": "es",
+    "name": "Español",
+    "flag": "🇪🇸"
+  },
+  "nav": {
+    "dashboard": "Panel",
+    "payment": "Pagos",
+    "membership": "Membresía",
+    "checkout": "Comprar Membresía",
+    "missions": "Misiones",
+    "monitoring": "Monitoreo",
+    "ai": "Análisis IA",
+    "community": "Comunidad",
+    "settings": "Configuración"
+  },
+  "kpi": {
+    "revenue": "Ingresos Mensuales",
+    "users": "Usuarios Totales",
+    "subscriptions": "Suscripciones Activas"
+  },
+  "payment": {
+    "title": "Gestión de Pagos",
+    "total": "Ingresos Totales",
+    "refund": "Reembolsos",
+    "net": "Ingresos Netos",
+    "succeeded": "Exitoso",
+    "pending": "Pendiente",
+    "failed": "Fallido",
+    "refundBtn": "Reembolsar",
+    "approveBtn": "Aprobar",
+    "csvBtn": "Exportar CSV"
+  },
+  "tiers": {
+    "bronze": "Bronce",
+    "silver": "Plata",
+    "gold": "Oro",
+    "emerald": "Esmeralda",
+    "green_emerald": "Esmeralda Verde",
+    "sapphire": "Zafiro",
+    "blue_sapphire": "Zafiro Azul",
+    "diamond": "Diamante",
+    "blue_diamond": "Diamante Azul",
+    "platinum": "Platino",
+    "black_platinum": "Platino Negro"
+  },
+  "checkout": {
+    "title": "Comprar Membresía",
+    "payBtn": "Pagar con Stripe",
+    "perMonth": "/mes",
+    "secureMsg": "Pago seguro · PCI DSS"
+  },
+  "common": {
+    "realtime": "BD en Vivo",
+    "loading": "Cargando...",
+    "noData": "Sin datos",
+    "save": "Guardar",
+    "cancel": "Cancelar",
+    "edit": "Editar",
+    "delete": "Eliminar"
+  }
+}

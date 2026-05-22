@@ -1,0 +1,63 @@
+{
+  "_meta": {
+    "lang": "zh",
+    "name": "中文",
+    "flag": "🇨🇳"
+  },
+  "nav": {
+    "dashboard": "仪表板",
+    "payment": "支付管理",
+    "membership": "会员管理",
+    "checkout": "购买会员",
+    "missions": "任务管理",
+    "monitoring": "系统监控",
+    "ai": "AI分析",
+    "community": "社区",
+    "settings": "设置"
+  },
+  "kpi": {
+    "revenue": "本月收入",
+    "users": "总用户数",
+    "subscriptions": "活跃订阅"
+  },
+  "payment": {
+    "title": "支付管理",
+    "total": "总收入",
+    "refund": "退款",
+    "net": "净收入",
+    "succeeded": "成功",
+    "pending": "处理中",
+    "failed": "失败",
+    "refundBtn": "退款",
+    "approveBtn": "批准",
+    "csvBtn": "导出CSV"
+  },
+  "tiers": {
+    "bronze": "青铜",
+    "silver": "白银",
+    "gold": "黄金",
+    "emerald": "祖母绿",
+    "green_emerald": "绿祖母绿",
+    "sapphire": "蓝宝石",
+    "blue_sapphire": "深蓝宝石",
+    "diamond": "钻石",
+    "blue_diamond": "蓝钻石",
+    "platinum": "铂金",
+    "black_platinum": "黑金刚"
+  },
+  "checkout": {
+    "title": "购买会员",
+    "payBtn": "Stripe支付",
+    "perMonth": "/月",
+    "secureMsg": "安全支付 · PCI DSS认证"
+  },
+  "common": {
+    "realtime": "实时数据库",
+    "loading": "加载中...",
+    "noData": "暂无数据",
+    "save": "保存",
+    "cancel": "取消",
+    "edit": "编辑",
+    "delete": "删除"
+  }
+}

@@ -1,0 +1,63 @@
+{
+  "_meta": {
+    "lang": "vi",
+    "name": "Tiếng Việt",
+    "flag": "🇻🇳"
+  },
+  "nav": {
+    "dashboard": "Bảng điều khiển",
+    "payment": "Thanh toán",
+    "membership": "Thành viên",
+    "checkout": "Mua thành viên",
+    "missions": "Nhiệm vụ",
+    "monitoring": "Giám sát",
+    "ai": "Phân tích AI",
+    "community": "Cộng đồng",
+    "settings": "Cài đặt"
+  },
+  "kpi": {
+    "revenue": "Doanh thu tháng",
+    "users": "Tổng người dùng",
+    "subscriptions": "Đăng ký hoạt động"
+  },
+  "payment": {
+    "title": "Quản lý thanh toán",
+    "total": "Tổng doanh thu",
+    "refund": "Hoàn tiền",
+    "net": "Doanh thu ròng",
+    "succeeded": "Thành công",
+    "pending": "Đang xử lý",
+    "failed": "Thất bại",
+    "refundBtn": "Hoàn tiền",
+    "approveBtn": "Phê duyệt",
+    "csvBtn": "Xuất CSV"
+  },
+  "tiers": {
+    "bronze": "Đồng",
+    "silver": "Bạc",
+    "gold": "Vàng",
+    "emerald": "Ngọc lục bảo",
+    "green_emerald": "Ngọc lục bảo xanh",
+    "sapphire": "Ngọc lam",
+    "blue_sapphire": "Ngọc lam xanh",
+    "diamond": "Kim cương",
+    "blue_diamond": "Kim cương xanh",
+    "platinum": "Bạch kim",
+    "black_platinum": "Bạch kim đen"
+  },
+  "checkout": {
+    "title": "Mua thành viên",
+    "payBtn": "Thanh toán Stripe",
+    "perMonth": "/tháng",
+    "secureMsg": "Thanh toán bảo mật · PCI DSS"
+  },
+  "common": {
+    "realtime": "DB trực tiếp",
+    "loading": "Đang tải...",
+    "noData": "Không có dữ liệu",
+    "save": "Lưu",
+    "cancel": "Hủy",
+    "edit": "Sửa",
+    "delete": "Xóa"
+  }
+}

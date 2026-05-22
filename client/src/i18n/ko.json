@@ -1,0 +1,63 @@
+{
+  "_meta": {
+    "lang": "ko",
+    "name": "한국어",
+    "flag": "🇰🇷"
+  },
+  "nav": {
+    "dashboard": "대시보드",
+    "payment": "결제 관리",
+    "membership": "멤버십 관리",
+    "checkout": "멤버십 구매",
+    "missions": "미션 관리",
+    "monitoring": "모니터링",
+    "ai": "AI 분석",
+    "community": "커뮤니티",
+    "settings": "설정"
+  },
+  "kpi": {
+    "revenue": "이달 매출",
+    "users": "전체 사용자",
+    "subscriptions": "활성 구독"
+  },
+  "payment": {
+    "title": "결제 관리",
+    "total": "총 매출",
+    "refund": "환불",
+    "net": "순매출",
+    "succeeded": "성공",
+    "pending": "처리중",
+    "failed": "실패",
+    "refundBtn": "환불",
+    "approveBtn": "승인",
+    "csvBtn": "CSV 내보내기"
+  },
+  "tiers": {
+    "bronze": "브론즈",
+    "silver": "실버",
+    "gold": "골드",
+    "emerald": "에메랄드",
+    "green_emerald": "그린에메랄드",
+    "sapphire": "사파이어",
+    "blue_sapphire": "블루사파이어",
+    "diamond": "다이아몬드",
+    "blue_diamond": "블루다이아몬드",
+    "platinum": "플래티넘",
+    "black_platinum": "블랙플래티넘"
+  },
+  "checkout": {
+    "title": "멤버십 구매",
+    "payBtn": "Stripe 결제하기",
+    "perMonth": "/월",
+    "secureMsg": "Stripe 보안 결제 · PCI DSS 준수"
+  },
+  "common": {
+    "realtime": "실시간 DB",
+    "loading": "로딩 중...",
+    "noData": "데이터 없음",
+    "save": "저장",
+    "cancel": "취소",
+    "edit": "수정",
+    "delete": "삭제"
+  }
+}

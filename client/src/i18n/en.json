@@ -1,0 +1,63 @@
+{
+  "_meta": {
+    "lang": "en",
+    "name": "English",
+    "flag": "🇺🇸"
+  },
+  "nav": {
+    "dashboard": "Dashboard",
+    "payment": "Payments",
+    "membership": "Membership",
+    "checkout": "Buy Membership",
+    "missions": "Missions",
+    "monitoring": "Monitoring",
+    "ai": "AI Analytics",
+    "community": "Community",
+    "settings": "Settings"
+  },
+  "kpi": {
+    "revenue": "Monthly Revenue",
+    "users": "Total Users",
+    "subscriptions": "Active Subscriptions"
+  },
+  "payment": {
+    "title": "Payment Management",
+    "total": "Total Revenue",
+    "refund": "Refunds",
+    "net": "Net Revenue",
+    "succeeded": "Succeeded",
+    "pending": "Pending",
+    "failed": "Failed",
+    "refundBtn": "Refund",
+    "approveBtn": "Approve",
+    "csvBtn": "Export CSV"
+  },
+  "tiers": {
+    "bronze": "Bronze",
+    "silver": "Silver",
+    "gold": "Gold",
+    "emerald": "Emerald",
+    "green_emerald": "Green Emerald",
+    "sapphire": "Sapphire",
+    "blue_sapphire": "Blue Sapphire",
+    "diamond": "Diamond",
+    "blue_diamond": "Blue Diamond",
+    "platinum": "Platinum",
+    "black_platinum": "Black Platinum"
+  },
+  "checkout": {
+    "title": "Buy Membership",
+    "payBtn": "Pay with Stripe",
+    "perMonth": "/mo",
+    "secureMsg": "Secure payment · PCI DSS compliant"
+  },
+  "common": {
+    "realtime": "Live DB",
+    "loading": "Loading...",
+    "noData": "No data",
+    "save": "Save",
+    "cancel": "Cancel",
+    "edit": "Edit",
+    "delete": "Delete"
+  }
+}
