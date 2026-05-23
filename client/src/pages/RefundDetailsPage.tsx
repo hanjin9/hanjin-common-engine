@@ -49,13 +49,13 @@ export default function RefundDetailsPage() {
   return (
     <DashboardLayout>
       <div className="space-y-3 p-3 md:p-4">
-        <div className="flex items-center justify-between flex-wrap gap-3">
-          <div className="flex items-center gap-3">
+        <div className="flex items-center justify-between flex-wrap gap-1.5">
+          <div className="flex items-center gap-1.5">
             <Button variant="ghost" size="sm" onClick={() => setLocation('/admin/payment')}>
               <ArrowLeft className="h-4 w-4 mr-1" />뒤로
             </Button>
             <div>
-              <h1 className="text-xl font-bold flex items-center gap-2">
+              <h1 className="text-xl font-bold flex items-center gap-1.5">
                 <RotateCcw className="h-6 w-6 text-red-500" />환불 상세
               </h1>
               <p className="text-xs text-gray-400 mt-0.5 leading-snug">환불 내역 조회 · 환불 처리</p>
@@ -70,7 +70,7 @@ export default function RefundDetailsPage() {
           </div>
         </div>
 
-        <div className="grid grid-cols-2 gap-2">
+        <div className="grid grid-cols-2 gap-1.5">
           <Card><CardContent className="pt-5">
             <p className="text-sm text-gray-500">환불 건수</p>
             <p className="text-xl font-bold text-red-500">{total.toLocaleString()}건</p>
@@ -123,7 +123,7 @@ export default function RefundDetailsPage() {
         {/* 환불 완료 목록 */}
         <Card>
           <CardHeader>
-            <CardTitle className="text-base flex items-center gap-2">
+            <CardTitle className="text-base flex items-center gap-1.5">
               환불 완료 내역 <Badge variant="outline" className="text-xs">{total.toLocaleString()}건</Badge>
             </CardTitle>
           </CardHeader>
@@ -154,7 +154,7 @@ export default function RefundDetailsPage() {
                 </div>
                 <div className="flex items-center justify-between mt-4 text-sm">
                   <span className="text-gray-500">총 {total.toLocaleString()}건</span>
-                  <div className="flex gap-2">
+                  <div className="flex gap-1.5">
                     <Button variant="outline" size="sm" disabled={page<=1} onClick={()=>setPage(p=>p-1)}>이전</Button>
                     <span className="px-3 py-1 border rounded">{page} / {totalPages||1}</span>
                     <Button variant="outline" size="sm" disabled={page>=totalPages} onClick={()=>setPage(p=>p+1)}>다음</Button>

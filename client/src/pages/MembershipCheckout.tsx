@@ -236,7 +236,7 @@ export default function MembershipCheckout() {
 
         {/* ── 프로젝트 + 결제 방식 선택 ─────────────────────── */}
         <div className="flex flex-wrap gap-2 justify-center mb-8">
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-1.5">
             <span className="text-slate-400 text-sm">프로젝트:</span>
             <Select value={selectedProject} onValueChange={setSelectedProject}>
               <SelectTrigger className="w-48 bg-slate-800 border-slate-700 text-white">
@@ -251,7 +251,7 @@ export default function MembershipCheckout() {
               </SelectContent>
             </Select>
           </div>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-1.5">
             <span className="text-slate-400 text-sm">결제 방식:</span>
             <Select value={paymentMode} onValueChange={(v: any) => setPaymentMode(v)}>
               <SelectTrigger className="w-36 bg-slate-800 border-slate-700 text-white">
@@ -311,7 +311,7 @@ export default function MembershipCheckout() {
                   )}
                 </CardHeader>
 
-                <CardContent className="space-y-3">
+                <CardContent className="space-y-1.5">
                   <ul className="space-y-1.5">
                     {tier.features.map((f, i) => (
                       <li key={i} className="flex items-start gap-2 text-xs">
@@ -343,9 +343,9 @@ export default function MembershipCheckout() {
         {selectedTierData && (
           <div className="max-w-2xl mx-auto mb-8">
             <Card className="bg-slate-800/60 border-yellow-500/30">
-              <CardContent className="pt-3 pb-2">
-                <div className="flex items-center justify-between flex-wrap gap-2">
-                  <div className="flex items-center gap-3">
+              <CardContent className="pt-2 pb-1.5">
+                <div className="flex items-center justify-between flex-wrap gap-1.5">
+                  <div className="flex items-center gap-1.5">
                     <span className="text-3xl">{selectedTierData.icon}</span>
                     <div>
                       <p className="text-white font-bold text-lg">{selectedTierData.name} 플랜</p>
@@ -355,7 +355,7 @@ export default function MembershipCheckout() {
                       </p>
                     </div>
                   </div>
-                  <div className="flex items-center gap-3">
+                  <div className="flex items-center gap-1.5">
                     <span className="text-xl font-bold text-yellow-400">
                       ₩{selectedTierData.amountKrw.toLocaleString()}
                     </span>
@@ -381,13 +381,13 @@ export default function MembershipCheckout() {
         {/* ── 보안 안내 (jangbu 레포 이식) ────────────────────── */}
         <div className="max-w-3xl mx-auto">
           <Card className="bg-slate-800/40 border-slate-700/50">
-            <CardContent className="pt-3 pb-2">
+            <CardContent className="pt-2 pb-1.5">
               <div className="flex items-center gap-2 mb-2">
                 <Shield className="w-5 h-5 text-emerald-400" />
                 <span className="text-white font-semibold text-sm">안전한 결제 보장</span>
                 <span className="text-slate-500 text-xs">Stripe 보안 결제 · PCI DSS 준수</span>
               </div>
-              <div className="grid grid-cols-3 gap-2">
+              <div className="grid grid-cols-3 gap-1.5">
                 {[
                   { icon: Lock, title: "256-bit SSL", desc: "모든 거래 암호화" },
                   { icon: Shield, title: "PCI DSS 준수", desc: "국제 보안 기준" },
@@ -407,14 +407,14 @@ export default function MembershipCheckout() {
         </div>
 
         {/* ── FAQ (장부 레포 이식) ────────────────────────────── */}
-        <div className="max-w-3xl mx-auto mt-8 space-y-3">
+        <div className="max-w-3xl mx-auto mt-8 space-y-1.5">
           {[
             { q: "언제부터 결제가 시작되나요?", a: "결제 완료 후 즉시 해당 멤버십 권한이 활성화됩니다. 월간 구독은 매월 같은 날짜에 자동 갱신됩니다." },
             { q: "업그레이드/다운그레이드가 가능한가요?", a: "언제든지 관리자 대시보드에서 플랜을 변경할 수 있습니다. 차액은 일할 계산으로 자동 처리됩니다." },
             { q: "환불 정책은 어떻게 되나요?", a: "결제 후 7일 이내 미이용 시 전액 환불 가능합니다. 이후에는 잔여 기간에 대해 비례 환불됩니다." },
           ].map((faq, i) => (
             <Card key={i} className="bg-slate-800/40 border-slate-700/40">
-              <CardContent className="pt-2 pb-2">
+              <CardContent className="pt-1.5 pb-1.5">
                 <p className="text-white text-sm font-semibold mb-1">{faq.q}</p>
                 <p className="text-slate-400 text-xs leading-relaxed">{faq.a}</p>
               </CardContent>

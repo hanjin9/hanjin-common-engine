@@ -93,11 +93,11 @@ export default function SleepDetectionSettings() {
   ];
 
   return (
-    <div className="space-y-3">
+    <div className="space-y-1.5">
       {/* ✅ 관리자 발송 화면으로 전환 (보고서 4차 반영) */}
-      <div className="flex items-center justify-between flex-wrap gap-3">
+      <div className="flex items-center justify-between flex-wrap gap-1.5">
         <div>
-          <h1 className="text-xl font-bold tracking-tight flex items-center gap-2">
+          <h1 className="text-xl font-bold tracking-tight flex items-center gap-1.5">
             <Moon className="w-7 h-7 text-indigo-600" />
             수면 자동 체크 — 관리자 발송
           </h1>
@@ -110,7 +110,7 @@ export default function SleepDetectionSettings() {
       </div>
 
       {/* ✅ 계절별 맞춤 발송 카드 */}
-      <div className="grid grid-cols-2 gap-2">
+      <div className="grid grid-cols-2 gap-1.5">
         {[
           { season: '🌸 봄 (3~5월)', msg: '환절기 숙면 팁: 환기 후 취침하세요', users: 1247, color: 'border-pink-200 bg-pink-50', active: true },
           { season: '☀️ 여름 (6~8월)', msg: '장마철: 제습기 가동 후 22°C 유지', users: 1247, color: 'border-yellow-200 bg-yellow-50', active: false },
@@ -138,7 +138,7 @@ ${s.users}명에게 즉시 발송 완료!`)}>
       {/* ✅ 수면 점수 기반 세그먼트 발송 */}
       <div className="bg-indigo-50 border border-indigo-200 rounded-xl p-4">
         <h3 className="font-semibold text-indigo-800 mb-3">📊 수면 점수 기반 자동 발송</h3>
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-1.5">
           {[
             { label: '수면 7시간 미달 3일 연속', count: 89, action: 'AI 피드백 2차 자동 트리거', color: 'bg-red-100 text-red-700 border-red-200' },
             { label: '수면 질 저하 (6점 미만)', count: 145, action: '수면 개선 미션 자동 배정', color: 'bg-yellow-100 text-yellow-700 border-yellow-200' },
@@ -158,7 +158,7 @@ ${s.users}명에게 즉시 발송 완료!`)}>
       </div>
 
       {/* 시스템 상태 */}
-      <div className="grid grid-cols-1 sm:grid-cols-4 gap-2">
+      <div className="grid grid-cols-1 sm:grid-cols-4 gap-1.5">
         <Card>
           <CardHeader className="pb-1">
             <CardTitle className="text-base font-medium">연결된 기기</CardTitle>
@@ -209,13 +209,13 @@ ${s.users}명에게 즉시 발송 완료!`)}>
         </TabsList>
 
         {/* 시스템 설정 탭 */}
-        <TabsContent value="system" className="space-y-2">
+        <TabsContent value="system" className="space-y-1.5">
           <Card>
             <CardHeader>
               <CardTitle>전체 시스템 설정</CardTitle>
               <CardDescription>수면 감지 시스템의 전체 설정</CardDescription>
             </CardHeader>
-            <CardContent className="space-y-3">
+            <CardContent className="space-y-1.5">
               {/* 시스템 활성화 */}
               <div className="flex items-center justify-between p-4 border rounded-lg">
                 <div>
@@ -235,21 +235,21 @@ ${s.users}명에게 즉시 발송 완료!`)}>
               </div>
 
               {/* 감지 시작 시간 */}
-              <div className="space-y-2">
+              <div className="space-y-1.5">
                 <p className="font-medium">감지 시작 시간</p>
                 <p className="text-sm text-muted-foreground">매일 수면 감지를 시작할 시간</p>
                 <Input type="time" defaultValue="21:00" />
               </div>
 
               {/* 감지 종료 시간 */}
-              <div className="space-y-2">
+              <div className="space-y-1.5">
                 <p className="font-medium">감지 종료 시간</p>
                 <p className="text-sm text-muted-foreground">매일 수면 감지를 종료할 시간</p>
                 <Input type="time" defaultValue="09:00" />
               </div>
 
               {/* 감지 민감도 */}
-              <div className="space-y-2">
+              <div className="space-y-1.5">
                 <p className="font-medium">감지 민감도</p>
                 <p className="text-sm text-muted-foreground">수면 감지의 민감도 조절</p>
                 <Select defaultValue="medium">
@@ -265,7 +265,7 @@ ${s.users}명에게 즉시 발송 완료!`)}>
               </div>
 
               {/* 데이터 보관 기간 */}
-              <div className="space-y-2">
+              <div className="space-y-1.5">
                 <p className="font-medium">데이터 보관 기간</p>
                 <p className="text-sm text-muted-foreground">수면 데이터 보관 기간</p>
                 <Select defaultValue="90">
@@ -287,8 +287,8 @@ ${s.users}명에게 즉시 발송 완료!`)}>
         </TabsContent>
 
         {/* 감지 규칙 탭 */}
-        <TabsContent value="rules" className="space-y-2">
-          <div className="space-y-2">
+        <TabsContent value="rules" className="space-y-1.5">
+          <div className="space-y-1.5">
             {detectionRules.map((rule) => (
               <Card key={rule.id}>
                 <CardHeader>
@@ -302,7 +302,7 @@ ${s.users}명에게 즉시 발송 완료!`)}>
                     <Badge variant="default">활성</Badge>
                   </div>
                 </CardHeader>
-                <CardContent className="space-y-2">
+                <CardContent className="space-y-1.5">
                   <div className="flex items-center justify-between p-3 bg-muted rounded-lg">
                     <div>
                       <p className="text-sm font-medium">해당 사용자</p>
@@ -310,7 +310,7 @@ ${s.users}명에게 즉시 발송 완료!`)}>
                     </div>
                     <Activity className="w-8 h-8 text-blue-600" />
                   </div>
-                  <div className="flex gap-2">
+                  <div className="flex gap-1.5">
                     <Button size="sm" variant="outline">수정</Button>
                     <Button size="sm" variant="outline">테스트</Button>
                   </div>
@@ -321,8 +321,8 @@ ${s.users}명에게 즉시 발송 완료!`)}>
         </TabsContent>
 
         {/* 사용자 설정 탭 */}
-        <TabsContent value="users" className="space-y-2">
-          <div className="space-y-2">
+        <TabsContent value="users" className="space-y-1.5">
+          <div className="space-y-1.5">
             {userSettings.map((user) => (
               <Card key={user.id}>
                 <CardHeader>
@@ -340,8 +340,8 @@ ${s.users}명에게 즉시 발송 완료!`)}>
                     </Badge>
                   </div>
                 </CardHeader>
-                <CardContent className="space-y-2">
-                  <div className="grid grid-cols-3 gap-2">
+                <CardContent className="space-y-1.5">
+                  <div className="grid grid-cols-3 gap-1.5">
                     <div className="flex items-center justify-between p-3 border rounded-lg">
                       <div>
                         <p className="text-xs font-medium text-muted-foreground">감지</p>
@@ -383,7 +383,7 @@ ${s.users}명에게 즉시 발송 완료!`)}>
                     </div>
                   </div>
                   <p className="text-xs text-muted-foreground">마지막 동기화: {user.lastSync}</p>
-                  <div className="flex gap-2">
+                  <div className="flex gap-1.5">
                     <Button size="sm" variant="outline">수정</Button>
                     <Button size="sm" variant="outline">동기화</Button>
                   </div>

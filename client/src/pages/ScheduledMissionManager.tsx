@@ -119,7 +119,7 @@ export default function ScheduledMissionManager() {
   ];
 
   return (
-    <div className="space-y-3">
+    <div className="space-y-1.5">
       {/* 헤더 */}
       <div className="flex items-center justify-between">
         <div>
@@ -133,10 +133,10 @@ export default function ScheduledMissionManager() {
       </div>
 
       {/* 통계 */}
-      <div className="grid grid-cols-1 sm:grid-cols-4 gap-2">
+      <div className="grid grid-cols-1 sm:grid-cols-4 gap-1.5">
         <Card>
           <CardHeader className="pb-1">
-            <CardTitle className="text-base font-medium flex items-center gap-2">
+            <CardTitle className="text-base font-medium flex items-center gap-1.5">
               <Calendar className="w-4 h-4" />
               활성 스케줄
             </CardTitle>
@@ -149,7 +149,7 @@ export default function ScheduledMissionManager() {
 
         <Card>
           <CardHeader className="pb-1">
-            <CardTitle className="text-base font-medium flex items-center gap-2">
+            <CardTitle className="text-base font-medium flex items-center gap-1.5">
               <Clock className="w-4 h-4" />
               예정된 미션
             </CardTitle>
@@ -162,7 +162,7 @@ export default function ScheduledMissionManager() {
 
         <Card>
           <CardHeader className="pb-1">
-            <CardTitle className="text-base font-medium flex items-center gap-2">
+            <CardTitle className="text-base font-medium flex items-center gap-1.5">
               <Users className="w-4 h-4" />
               총 참여자
             </CardTitle>
@@ -193,8 +193,8 @@ export default function ScheduledMissionManager() {
         </TabsList>
 
         {/* 스케줄된 미션 탭 */}
-        <TabsContent value="scheduled" className="space-y-2">
-          <div className="space-y-2">
+        <TabsContent value="scheduled" className="space-y-1.5">
+          <div className="space-y-1.5">
             {scheduledMissions.map((mission) => (
               <Card key={mission.id}>
                 <CardHeader>
@@ -210,8 +210,8 @@ export default function ScheduledMissionManager() {
                     </div>
                   </div>
                 </CardHeader>
-                <CardContent className="space-y-2">
-                  <div className="grid grid-cols-2 gap-2">
+                <CardContent className="space-y-1.5">
+                  <div className="grid grid-cols-2 gap-1.5">
                     <div>
                       <p className="text-xs font-medium text-muted-foreground">타겟</p>
                       <p className="text-sm font-semibold">{mission.targetAudience}</p>
@@ -254,15 +254,15 @@ export default function ScheduledMissionManager() {
         </TabsContent>
 
         {/* 주간 미션 탭 */}
-        <TabsContent value="weekly" className="space-y-2">
-          <div className="space-y-2">
+        <TabsContent value="weekly" className="space-y-1.5">
+          <div className="space-y-1.5">
             {weeklyMissions.map((week) => (
               <Card key={week.id}>
                 <CardHeader>
                   <h3 className="text-lg font-semibold">{week.week}</h3>
                 </CardHeader>
-                <CardContent className="space-y-2">
-                  <div className="space-y-3">
+                <CardContent className="space-y-1.5">
+                  <div className="space-y-1.5">
                     {week.missions.map((mission, idx) => (
                       <div key={idx} className="flex items-center justify-between p-3 border rounded-lg">
                         <div className="flex-1">
@@ -297,8 +297,8 @@ export default function ScheduledMissionManager() {
         </TabsContent>
 
         {/* 발송 이력 탭 */}
-        <TabsContent value="history" className="space-y-2">
-          <div className="space-y-2">
+        <TabsContent value="history" className="space-y-1.5">
+          <div className="space-y-1.5">
             {sendHistory.map((history) => (
               <Card key={history.id}>
                 <CardHeader>
@@ -310,8 +310,8 @@ export default function ScheduledMissionManager() {
                     <Badge variant="default">완료</Badge>
                   </div>
                 </CardHeader>
-                <CardContent className="space-y-2">
-                  <div className="grid grid-cols-3 gap-2">
+                <CardContent className="space-y-1.5">
+                  <div className="grid grid-cols-3 gap-1.5">
                     <div>
                       <p className="text-xs font-medium text-muted-foreground">발송 대상</p>
                       <p className="text-base font-bold truncate">{history.targetCount}</p>

@@ -61,7 +61,7 @@ export default function RefundDetailsPage() {
             돌아가기
           </Button>
           <div>
-            <h1 className="text-3xl font-bold flex items-center gap-2">
+            <h1 className="text-3xl font-bold flex items-center gap-1.5">
               <AlertCircle className="h-8 w-8 text-orange-500" />
               환불 대기 상세
             </h1>

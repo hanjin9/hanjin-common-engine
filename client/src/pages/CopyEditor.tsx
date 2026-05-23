@@ -80,7 +80,7 @@ function CopyRow({
 
   return (
     <div className={`rounded-lg border p-3 ${item.isActive ? "border-slate-700" : "border-slate-800 opacity-50"}`}>
-      <div className="flex items-start gap-3">
+      <div className="flex items-start gap-1.5">
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-2 mb-1">
             <span className="text-xs font-medium text-slate-300">{label}</span>
@@ -97,7 +97,7 @@ function CopyRow({
           </div>
 
           {editing ? (
-            <div className="space-y-2">
+            <div className="space-y-1.5">
               {item.copyText.length > 60 ? (
                 <Textarea
                   value={draft}
@@ -191,7 +191,7 @@ function AddCopyForm({ projectSlug, onAdded }: { projectSlug: string; onAdded: (
   }
 
   return (
-    <div className="rounded-lg border border-dashed border-slate-600 p-3 space-y-2">
+    <div className="rounded-lg border border-dashed border-slate-600 p-3 space-y-1.5">
       <Input
         value={key}
         onChange={e => setKey(e.target.value)}
@@ -240,7 +240,7 @@ function CopyPanel({ projectSlug }: { projectSlug: string }) {
 
   if (isLoading) {
     return (
-      <div className="space-y-2">
+      <div className="space-y-1.5">
         {Array.from({ length: 5 }).map((_, i) => (
           <Skeleton key={i} className="h-16 rounded-lg bg-slate-800" />
         ))}
@@ -253,7 +253,7 @@ function CopyPanel({ projectSlug }: { projectSlug: string }) {
   };
 
   return (
-    <div className="space-y-3">
+    <div className="space-y-1.5">
       {/* 상단 액션 */}
       <div className="flex items-center justify-between">
         <span className="text-xs text-slate-400">{data?.length ?? 0}개 문구</span>
@@ -285,7 +285,7 @@ function CopyPanel({ projectSlug }: { projectSlug: string }) {
           문구 데이터가 없습니다. 위 버튼으로 초기 데이터를 삽입하세요.
         </div>
       ) : (
-        <div className="space-y-2">
+        <div className="space-y-1.5">
           {data.map((item) => (
             <CopyRow
               key={item.id}
@@ -309,9 +309,9 @@ export default function CopyEditor() {
 
   return (
     <DashboardLayout>
-      <div className="p-3 md:p-4 space-y-3">
+      <div className="p-2 md:p-3 space-y-1.5">
         {/* 헤더 */}
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-1.5">
           <FileText className="w-5 h-5 text-blue-400" />
           <div>
             <h1 className="text-lg font-bold text-white">카피라이팅 문구 편집</h1>

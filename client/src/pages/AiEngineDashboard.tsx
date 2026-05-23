@@ -67,7 +67,7 @@ export default function AiEngineDashboard() {
 
   return (
     <DashboardLayout>
-      <div className="p-3 md:p-4 space-y-3">
+      <div className="p-2 md:p-3 space-y-1.5">
         <div>
           <h1 className="text-base font-bold truncate">🤖 AI 엔진 통합 관리</h1>
           <p className="text-xs text-gray-400 mt-0.5 leading-snug">
@@ -77,7 +77,7 @@ export default function AiEngineDashboard() {
 
         {/* 파이프라인 흐름도 */}
         <Card style={{ background: 'linear-gradient(135deg, #f0fdf4, #eff6ff)' }}>
-          <CardContent className="pt-2 pb-2">
+          <CardContent className="pt-1.5 pb-1.5">
             <p className="text-xs font-semibold text-gray-500 mb-3">⚡ 자동화 파이프라인</p>
             <div className="flex items-center gap-2 flex-wrap text-xs">
               {[
@@ -87,7 +87,7 @@ export default function AiEngineDashboard() {
                 { icon:'🎯', label:'코칭 생성', engine:true },
                 { icon:'📤', label:'자동 발송' },
               ].map((s, i) => (
-                <div key={i} className="flex items-center gap-2">
+                <div key={i} className="flex items-center gap-1.5">
                   <div className={`flex items-center gap-1 px-2.5 py-1.5 rounded-lg font-medium ${s.engine ? 'bg-green-100 text-green-700 border border-green-300' : 'bg-gray-100 text-gray-600'}`}>
                     <span>{s.icon}</span>{s.label}
                     {s.engine && <span className="w-1.5 h-1.5 bg-green-500 rounded-full inline-block ml-1 animate-pulse" />}
@@ -100,12 +100,12 @@ export default function AiEngineDashboard() {
         </Card>
 
         {/* 엔진 완성도 현황 */}
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-1.5">
           {(['anomalyDetection','realtimeCoaching','healthAnalysis'] as const).map(key => {
             const m = ENGINE_META[key];
             return (
               <Card key={key} style={{ borderLeft: `4px solid ${m.color}` }}>
-                <CardContent className="pt-2 pb-2">
+                <CardContent className="pt-1.5 pb-1.5">
                   <div className="flex items-center justify-between mb-2">
                     <span className="text-sm font-semibold">{m.label}</span>
                     <Badge style={{ background: m.bg, color: m.color }}>{m.completion}%</Badge>
@@ -182,9 +182,9 @@ export default function AiEngineDashboard() {
                   className="border border-gray-200 rounded px-2 py-1 text-xs w-36" />
               </div>
             </div>
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-1.5">
               <Button onClick={handleTest} disabled={isTesting}
-                className="bg-green-600 hover:bg-green-700 text-white gap-2">
+                className="bg-green-600 hover:bg-green-700 text-white gap-1.5">
                 {isTesting ? '실행 중...' : '⚡ 통합 코칭 파이프라인 실행'}
               </Button>
               <p className="text-xs text-gray-400">

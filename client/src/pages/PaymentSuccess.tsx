@@ -117,7 +117,7 @@ export default function PaymentSuccess() {
                 결제 과정에서 취소하셨습니다. 언제든지 다시 시도할 수 있습니다.
               </CardDescription>
             </CardHeader>
-            <CardContent className="space-y-3">
+            <CardContent className="space-y-1.5">
               <Button
                 className="w-full bg-gradient-to-r from-yellow-500 to-amber-500 text-slate-900 font-bold hover:opacity-90"
                 onClick={() => navigate("/admin/membership/checkout")}
@@ -155,7 +155,7 @@ export default function PaymentSuccess() {
                 결제 정보를 확인할 수 없습니다. 결제가 완료되었다면 고객 지원팀에 문의해주세요.
               </CardDescription>
             </CardHeader>
-            <CardContent className="space-y-3">
+            <CardContent className="space-y-1.5">
               <Button
                 className="w-full bg-gradient-to-r from-yellow-500 to-amber-500 text-slate-900 font-bold hover:opacity-90"
                 onClick={() => navigate("/admin/membership/checkout")}
@@ -199,7 +199,7 @@ export default function PaymentSuccess() {
 
         {/* 구독 정보 카드 */}
         <Card className="bg-slate-900 border-emerald-900/50 mb-2">
-          <CardContent className="pt-3 pb-2">
+          <CardContent className="pt-2 pb-1.5">
             <div className="flex items-center gap-2 mb-2">
               <CheckCircle2 className="w-4 h-4 text-emerald-400" />
               <h3 className="font-semibold text-white text-sm">구독 정보</h3>
@@ -241,9 +241,9 @@ export default function PaymentSuccess() {
 
         {/* 다음 단계 */}
         <Card className="bg-slate-900 border-slate-700/50 mb-3">
-          <CardContent className="pt-3 pb-2">
+          <CardContent className="pt-2 pb-1.5">
             <h4 className="font-semibold text-white text-sm mb-3">다음 단계</h4>
-            <ul className="space-y-2">
+            <ul className="space-y-1.5">
               {[
                 "이메일로 결제 확인서가 발송되었습니다",
                 "대시보드에서 구독을 관리할 수 있습니다",
@@ -268,9 +268,9 @@ export default function PaymentSuccess() {
         </div>
 
         {/* 버튼 */}
-        <div className="space-y-3">
+        <div className="space-y-1.5">
           <Button
-            className="w-full bg-gradient-to-r from-yellow-500 to-amber-500 text-slate-900 font-bold hover:opacity-90 gap-2"
+            className="w-full bg-gradient-to-r from-yellow-500 to-amber-500 text-slate-900 font-bold hover:opacity-90 gap-1.5"
             size="lg"
             onClick={() => navigate("/admin")}
           >
@@ -279,7 +279,7 @@ export default function PaymentSuccess() {
           </Button>
           <Button
             variant="outline"
-            className="w-full border-slate-700 text-slate-300 hover:bg-slate-800 gap-2"
+            className="w-full border-slate-700 text-slate-300 hover:bg-slate-800 gap-1.5"
             onClick={() => navigate("/admin/membership/checkout")}
           >
             <RefreshCw className="w-4 h-4" />

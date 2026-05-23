@@ -51,7 +51,7 @@ export default function SettlementDetailsPage() {
             돌아가기
           </Button>
           <div>
-            <h1 className="text-3xl font-bold flex items-center gap-2">
+            <h1 className="text-3xl font-bold flex items-center gap-1.5">
               <TrendingUp className="h-8 w-8 text-blue-500" />
               정산 예정액 상세
             </h1>
@@ -111,7 +111,7 @@ export default function SettlementDetailsPage() {
           <CardDescription>이달 정산액 계산 내역</CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="space-y-3">
+          <div className="space-y-1.5">
             {settlementCalculation.map((item, i) => (
               <div
                 key={i}
@@ -175,7 +175,7 @@ export default function SettlementDetailsPage() {
               <tbody>
                 {settlementHistory.map((settlement, i) => (
                   <tr key={i} className="border-b hover:bg-gray-50 dark:hover:bg-gray-900">
-                    <td className="py-3 px-2 flex items-center gap-2">
+                    <td className="py-3 px-2 flex items-center gap-1.5">
                       <Calendar className="h-4 w-4 text-gray-400" />
                       {settlement.date}
                     </td>
@@ -201,7 +201,7 @@ export default function SettlementDetailsPage() {
         <CardHeader>
           <CardTitle className="text-blue-900">다음 정산 일정</CardTitle>
         </CardHeader>
-        <CardContent className="space-y-2">
+        <CardContent className="space-y-1.5">
           <div className="flex justify-between items-center">
             <span className="text-blue-900">정산 예정일</span>
             <span className="font-bold text-blue-600">2026년 5월 30일</span>

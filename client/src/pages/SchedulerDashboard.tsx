@@ -68,7 +68,7 @@ export default function SchedulerDashboard() {
         {/* 헤더 */}
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-xl font-bold text-white flex items-center gap-2">
+            <h1 className="text-xl font-bold text-white flex items-center gap-1.5">
               <Timer className="w-6 h-6 text-amber-400" />
               업무 스케줄 관리
             </h1>
@@ -81,7 +81,7 @@ export default function SchedulerDashboard() {
 
         {/* 배포 안내 */}
         <Card className="bg-amber-500/10 border-amber-500/30">
-          <CardContent className="pt-4 pb-3 flex items-start gap-3">
+          <CardContent className="pt-4 pb-3 flex items-start gap-1.5">
             <AlertCircle className="w-4 h-4 text-amber-400 mt-0.5 shrink-0" />
             <p className="text-sm text-amber-200">
               <strong>배포 후 실제 동작합니다.</strong> 개발 환경에서는 핸들러만 등록되며, 크론 등록 후 실제 발송은 프로덕션 배포 시 활성화됩니다.
@@ -90,24 +90,24 @@ export default function SchedulerDashboard() {
         </Card>
 
         {/* 크론 카드 2개 */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-1.5">
           {/* 일일 미션 발송 */}
           <Card className="bg-slate-800 border-slate-700">
             <CardHeader className="pb-1">
-              <CardTitle className="text-base text-white flex items-center gap-2">
+              <CardTitle className="text-base text-white flex items-center gap-1.5">
                 <Zap className="w-4 h-4 text-amber-400" />
                 일일 미션 자동 발송
               </CardTitle>
             </CardHeader>
-            <CardContent className="space-y-3">
+            <CardContent className="space-y-1.5">
               <div className="text-sm text-slate-400 space-y-1">
                 <p>⏰ 매일 <strong className="text-white">오전 10:00 KST</strong> (UTC 01:00)</p>
                 <p>📍 경로: <code className="text-xs bg-slate-700 px-1 rounded">/api/scheduled/daily-mission</code></p>
                 <p>📋 크론: <code className="text-xs bg-slate-700 px-1 rounded">0 0 1 * * *</code></p>
               </div>
               {dailyJob ? (
-                <div className="space-y-2">
-                  <div className="flex items-center gap-2">
+                <div className="space-y-1.5">
+                  <div className="flex items-center gap-1.5">
                     <CheckCircle2 className="w-4 h-4 text-green-400" />
                     <span className="text-sm text-green-400">등록됨</span>
                     <Badge variant="outline" className={dailyJob.isEnable ? "border-green-500 text-green-400" : "border-red-500 text-red-400"}>
@@ -145,20 +145,20 @@ export default function SchedulerDashboard() {
           {/* 주간 리포트 */}
           <Card className="bg-slate-800 border-slate-700">
             <CardHeader className="pb-1">
-              <CardTitle className="text-base text-white flex items-center gap-2">
+              <CardTitle className="text-base text-white flex items-center gap-1.5">
                 <Calendar className="w-4 h-4 text-blue-400" />
                 주간 미션 리포트
               </CardTitle>
             </CardHeader>
-            <CardContent className="space-y-3">
+            <CardContent className="space-y-1.5">
               <div className="text-sm text-slate-400 space-y-1">
                 <p>⏰ 매주 <strong className="text-white">월요일 09:00 KST</strong> (UTC 00:00)</p>
                 <p>📍 경로: <code className="text-xs bg-slate-700 px-1 rounded">/api/scheduled/weekly-mission-report</code></p>
                 <p>📋 크론: <code className="text-xs bg-slate-700 px-1 rounded">0 0 0 * * 1</code></p>
               </div>
               {weeklyJob ? (
-                <div className="space-y-2">
-                  <div className="flex items-center gap-2">
+                <div className="space-y-1.5">
+                  <div className="flex items-center gap-1.5">
                     <CheckCircle2 className="w-4 h-4 text-green-400" />
                     <span className="text-sm text-green-400">등록됨</span>
                     <Badge variant="outline" className={weeklyJob.isEnable ? "border-green-500 text-green-400" : "border-red-500 text-red-400"}>
@@ -195,7 +195,7 @@ export default function SchedulerDashboard() {
         </div>
 
         {/* ✅ AI 피드백 자동 발송 크론 (보고서 3·4순위 반영) */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-1.5">
 
           {/* AI 1차 피드백 자동 발송 */}
           <div className="bg-green-900/30 border border-green-700/40 rounded-xl p-5">
@@ -206,7 +206,7 @@ export default function SchedulerDashboard() {
             </div>
             <p className="text-xs text-slate-400 mb-3">미션 완료 즉시 자동 발송 · 격려/칭찬 피드백</p>
             <p>📋 크론: <code className="text-xs bg-slate-700 px-1 rounded">* * * * *</code> (실시간 트리거)</p>
-            <div className="mt-3 flex gap-2">
+            <div className="mt-3 flex gap-1.5">
               <button className="flex-1 py-1.5 rounded bg-green-700 hover:bg-green-600 text-xs text-white transition">활성화</button>
               <button className="flex-1 py-1.5 rounded border border-slate-600 text-xs text-slate-300 hover:bg-slate-700 transition">설정</button>
             </div>
@@ -221,7 +221,7 @@ export default function SchedulerDashboard() {
             </div>
             <p className="text-xs text-slate-400 mb-3">3일 미활동 시 경고/개선 피드백 자동 발송</p>
             <p>📋 크론: <code className="text-xs bg-slate-700 px-1 rounded">0 9 * * *</code> (매일 09:00)</p>
-            <div className="mt-3 flex gap-2">
+            <div className="mt-3 flex gap-1.5">
               <button className="flex-1 py-1.5 rounded bg-yellow-700 hover:bg-yellow-600 text-xs text-white transition">활성화</button>
               <button className="flex-1 py-1.5 rounded border border-slate-600 text-xs text-slate-300 hover:bg-slate-700 transition">설정</button>
             </div>
@@ -236,7 +236,7 @@ export default function SchedulerDashboard() {
             </div>
             <p className="text-xs text-slate-400 mb-3">7일 미활동 · 하위 20% → 자동 분류 후 코치 검토 발송</p>
             <p>📋 크론: <code className="text-xs bg-slate-700 px-1 rounded">0 10 * * 1</code> (매주 월 10:00)</p>
-            <div className="mt-3 flex gap-2">
+            <div className="mt-3 flex gap-1.5">
               <button className="flex-1 py-1.5 rounded bg-purple-700 hover:bg-purple-600 text-xs text-white transition">활성화</button>
               <button className="flex-1 py-1.5 rounded border border-slate-600 text-xs text-slate-300 hover:bg-slate-700 transition">설정</button>
             </div>
@@ -251,7 +251,7 @@ export default function SchedulerDashboard() {
             </div>
             <p className="text-xs text-slate-400 mb-3">미션 완료 즉시 설정 포인트 자동 지급 + 격려 문자</p>
             <p>📋 크론: <code className="text-xs bg-slate-700 px-1 rounded">* * * * *</code> (실시간 트리거)</p>
-            <div className="mt-3 flex gap-2">
+            <div className="mt-3 flex gap-1.5">
               <button className="flex-1 py-1.5 rounded bg-blue-700 hover:bg-blue-600 text-xs text-white transition">활성화</button>
               <button className="flex-1 py-1.5 rounded border border-slate-600 text-xs text-slate-300 hover:bg-slate-700 transition">설정</button>
             </div>
@@ -266,7 +266,7 @@ export default function SchedulerDashboard() {
             </div>
             <p className="text-xs text-slate-400 mb-3">취침 전 수면 목표 푸시 · 계절별 맞춤 문구 적용</p>
             <p>📋 크론: <code className="text-xs bg-slate-700 px-1 rounded">0 22 * * *</code> (매일 22:00)</p>
-            <div className="mt-3 flex gap-2">
+            <div className="mt-3 flex gap-1.5">
               <button className="flex-1 py-1.5 rounded bg-indigo-700 hover:bg-indigo-600 text-xs text-white transition">활성화</button>
               <button className="flex-1 py-1.5 rounded border border-slate-600 text-xs text-slate-300 hover:bg-slate-700 transition">설정</button>
             </div>
@@ -281,7 +281,7 @@ export default function SchedulerDashboard() {
             </div>
             <p className="text-xs text-slate-400 mb-3">주간 건강 점수 · 미션 달성률 · 개인 분석 리포트</p>
             <p>📋 크론: <code className="text-xs bg-slate-700 px-1 rounded">0 8 * * 1</code> (매주 월 08:00)</p>
-            <div className="mt-3 flex gap-2">
+            <div className="mt-3 flex gap-1.5">
               <button className="flex-1 py-1.5 rounded bg-teal-700 hover:bg-teal-600 text-xs text-white transition">활성화</button>
               <button className="flex-1 py-1.5 rounded border border-slate-600 text-xs text-slate-300 hover:bg-slate-700 transition">설정</button>
             </div>
@@ -381,7 +381,7 @@ export default function SchedulerDashboard() {
         {/* 등록된 크론 전체 목록 */}
         <Card className="bg-slate-800 border-slate-700">
           <CardHeader className="pb-1">
-            <CardTitle className="text-base text-white flex items-center gap-2">
+            <CardTitle className="text-base text-white flex items-center gap-1.5">
               <Clock className="w-4 h-4 text-slate-400" />
               등록된 크론 전체 목록
               {cronData && (
@@ -391,7 +391,7 @@ export default function SchedulerDashboard() {
           </CardHeader>
           <CardContent>
             {isLoading ? (
-              <div className="space-y-2">
+              <div className="space-y-1.5">
                 {[...Array(3)].map((_, i) => <Skeleton key={i} className="h-10 w-full bg-slate-700" />)}
               </div>
             ) : jobs.length === 0 ? (

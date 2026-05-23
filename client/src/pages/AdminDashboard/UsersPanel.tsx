@@ -124,7 +124,7 @@ export default function UsersPanel() {
         </div>
 
         {/* 필터 */}
-        <div className="flex gap-2">
+        <div className="flex gap-1.5">
           <Button
             variant={filterRole === 'all' ? 'default' : 'outline'}
             onClick={() => setFilterRole('all')}

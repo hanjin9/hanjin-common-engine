@@ -43,7 +43,7 @@ export default function RevenueDetailsPage() {
             돌아가기
           </Button>
           <div>
-            <h1 className="text-3xl font-bold flex items-center gap-2">
+            <h1 className="text-3xl font-bold flex items-center gap-1.5">
               <TrendingUp className="h-8 w-8 text-green-500" />
               이달 매출 상세
             </h1>
@@ -147,7 +147,7 @@ export default function RevenueDetailsPage() {
           </CardHeader>
           <CardContent className="space-y-4">
             {revenueByPaymentMethod.map((item, i) => (
-              <div key={i} className="space-y-2">
+              <div key={i} className="space-y-1.5">
                 <div className="flex justify-between items-center">
                   <span className="font-medium">{item.method}</span>
                   <Badge variant="outline">{item.percentage}%</Badge>

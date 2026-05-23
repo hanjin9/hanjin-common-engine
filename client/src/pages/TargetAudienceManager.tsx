@@ -87,9 +87,9 @@ export default function TargetAudienceManager() {
       <div className="space-y-3 p-3 md:p-4">
 
         {/* ── 헤더 ── */}
-        <div className="flex items-center justify-between flex-wrap gap-3">
+        <div className="flex items-center justify-between flex-wrap gap-1.5">
           <div>
-            <h1 className="text-xl font-bold flex items-center gap-2">
+            <h1 className="text-xl font-bold flex items-center gap-1.5">
               <Filter className="h-6 w-6 text-blue-600" />타겟 발송 관리
             </h1>
             <p className="text-xs text-gray-400 mt-0.5 leading-snug">세그먼트별 맞춤 발송 · 새 캠페인 생성</p>
@@ -104,7 +104,7 @@ export default function TargetAudienceManager() {
         </div>
 
         {/* ── KPI ── */}
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-1.5">
           <Card><CardContent className="pt-5">
             <p className="text-sm text-gray-500">활성 세그먼트</p>
             <p className="text-base font-bold truncate">3</p>
@@ -127,7 +127,7 @@ export default function TargetAudienceManager() {
           <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4">
             <div className="bg-white rounded-xl shadow-2xl w-full max-w-lg max-h-[90vh] overflow-y-auto">
               <div className="flex items-center justify-between p-5 border-b">
-                <h2 className="text-lg font-bold flex items-center gap-2">
+                <h2 className="text-lg font-bold flex items-center gap-1.5">
                   <Plus className="h-5 w-5 text-blue-600" />새 캠페인 생성
                 </h2>
                 <button onClick={() => setShowCampaign(false)} className="text-gray-400 hover:text-gray-600">
@@ -140,7 +140,7 @@ export default function TargetAudienceManager() {
                 {/* 캠페인 유형 */}
                 <div>
                   <p className="text-sm font-semibold mb-2">캠페인 유형</p>
-                  <div className="grid grid-cols-1 gap-2">
+                  <div className="grid grid-cols-1 gap-1.5">
                     {CAMPAIGN_TYPES.map(ct => (
                       <button
                         key={ct.value}
@@ -231,7 +231,7 @@ export default function TargetAudienceManager() {
                 {/* 발송 시점 */}
                 <div>
                   <p className="text-sm font-semibold mb-2">발송 시점</p>
-                  <div className="flex gap-2">
+                  <div className="flex gap-1.5">
                     <button
                       onClick={() => setSendMode('instant')}
                       className={`flex-1 py-2 rounded-lg border text-sm font-medium transition ${
@@ -257,7 +257,7 @@ export default function TargetAudienceManager() {
 
                 {/* 발송 버튼 */}
                 <Button
-                  className="w-full gap-2"
+                  className="w-full gap-1.5"
                   disabled={isSending || sendDone}
                   onClick={handleSend}
                 >
@@ -278,7 +278,7 @@ export default function TargetAudienceManager() {
         )}
 
         {/* ── 세그먼트 목록 ── */}
-        <div className="space-y-3">
+        <div className="space-y-1.5">
           <h2 className="text-base font-semibold">타겟 세그먼트</h2>
           {segments.map(s => (
             <Card key={s.id}
@@ -286,7 +286,7 @@ export default function TargetAudienceManager() {
               onClick={() => setSelectedSegment(selectedSegment === s.id ? null : s.id)}
             >
               <CardContent className="pt-2">
-                <div className="flex items-start justify-between gap-3">
+                <div className="flex items-start justify-between gap-1.5">
                   <div className="flex-1">
                     <div className="flex items-center gap-2 mb-1">
                       <h3 className="font-semibold">{s.name}</h3>
@@ -322,7 +322,7 @@ export default function TargetAudienceManager() {
         </div>
 
         {/* ── 발송 이력 ── */}
-        <div className="space-y-3">
+        <div className="space-y-1.5">
           <h2 className="text-base font-semibold">발송 이력</h2>
           {sendHistory.map(h => (
             <Card key={h.id}>

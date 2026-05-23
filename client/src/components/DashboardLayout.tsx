@@ -60,8 +60,8 @@ const menuItems = [
 ];
 
 const SIDEBAR_WIDTH_KEY = "sidebar-width";
-const DEFAULT_WIDTH = 280;
-const MIN_WIDTH = 200;
+const DEFAULT_WIDTH = 168;
+const MIN_WIDTH = 120;
 const MAX_WIDTH = 480;
 
 export default function DashboardLayout({

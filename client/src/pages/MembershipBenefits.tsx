@@ -89,7 +89,7 @@ function EventModal({ open, onClose, initial, onSaved }: EventModalProps) {
     <Dialog open={open} onOpenChange={onClose}>
       <DialogContent className="max-w-md max-h-[90vh] overflow-y-auto">
         <DialogHeader>
-          <DialogTitle className="flex items-center gap-2">
+          <DialogTitle className="flex items-center gap-1.5">
             <Calendar className="h-5 w-5 text-blue-500" />
             {isEdit ? '이벤트 수정' : '혜택 이벤트 추가'}
           </DialogTitle>
@@ -99,7 +99,7 @@ function EventModal({ open, onClose, initial, onSaved }: EventModalProps) {
             <Label className="text-xs">이벤트명</Label>
             <Input value={form.title} onChange={f('title')} placeholder="이벤트명 입력" className="mt-1" />
           </div>
-          <div className="grid grid-cols-2 gap-3">
+          <div className="grid grid-cols-2 gap-1.5">
             <div>
               <Label className="text-xs">날짜</Label>
               <Input type="date" value={form.date} onChange={f('date')} className="mt-1" />
@@ -159,16 +159,16 @@ export default function MembershipBenefits() {
 
   return (
     <DashboardLayout>
-      <div className="p-3 md:p-4 space-y-3">
+      <div className="p-2 md:p-3 space-y-1.5">
         {/* 헤더 */}
-        <div className="flex items-center justify-between flex-wrap gap-3">
+        <div className="flex items-center justify-between flex-wrap gap-1.5">
           <div>
-            <h1 className="text-xl font-bold flex items-center gap-2">
+            <h1 className="text-xl font-bold flex items-center gap-1.5">
               <Gift className="h-6 w-6 text-pink-500" />이벤트 / 멤버십 혜택
             </h1>
             <p className="text-xs text-gray-400 mt-0.5 leading-snug">오프라인 이벤트 · 등급별 혜택 · 프로모션 관리</p>
           </div>
-          <div className="flex gap-2">
+          <div className="flex gap-1.5">
             <Button variant="outline" size="sm" onClick={() => setEditMode(!editMode)}>
               <Edit2 className="h-4 w-4 mr-1" />{editMode ? '완료' : '혜택 편집'}
             </Button>
@@ -185,7 +185,7 @@ export default function MembershipBenefits() {
               <Calendar className="h-4 w-4 text-blue-500" />오프라인 혜택 이벤트
             </CardTitle>
           </CardHeader>
-          <CardContent className="space-y-3">
+          <CardContent className="space-y-1.5">
             {events.map(ev => (
               <div key={ev.id}
                 className="flex items-start justify-between p-3 bg-gray-50 rounded-lg border border-gray-200 hover:border-blue-200 transition-all">
@@ -230,14 +230,14 @@ export default function MembershipBenefits() {
                 <Gift className="h-4 w-4 text-yellow-500" />등급별 특별 혜택 이벤트
               </CardTitle>
             </CardHeader>
-            <CardContent className="space-y-2">
+            <CardContent className="space-y-1.5">
               {TIER_BENEFITS.map(t => (
                 <div key={t.step}>
                   <div
                     className="flex items-center justify-between p-2.5 rounded-lg cursor-pointer hover:shadow-sm transition-all"
                     style={{ borderLeft: `3px solid ${t.color}`, background: t.color + '11' }}
                     onClick={() => setExpandedTier(expandedTier === t.step ? null : t.step)}>
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-1.5">
                       <span className="text-sm">{t.emoji}</span>
                       <span className="text-xs font-semibold" style={{ color: t.color }}>{t.step}단계</span>
                       <span className="text-sm font-medium">{t.name}</span>
@@ -278,7 +278,7 @@ export default function MembershipBenefits() {
                 <span className="text-xs font-normal text-gray-400">(30일 경과 시 자동 마감)</span>
               </CardTitle>
             </CardHeader>
-            <CardContent className="space-y-3">
+            <CardContent className="space-y-1.5">
               {promos.map(p => {
                 const expired = isExpired(p.endDate);
                 const status = expired ? '마감' : p.badge;

@@ -151,11 +151,11 @@ export default function UsersManagement() {
 
   return (
     <DashboardLayout>
-      <div className="p-3 md:p-4 space-y-3">
+      <div className="p-2 md:p-3 space-y-1.5">
         {/* 헤더 */}
-        <div className="flex items-center justify-between flex-wrap gap-3">
+        <div className="flex items-center justify-between flex-wrap gap-1.5">
           <div>
-            <h1 className="text-xl font-bold flex items-center gap-2"><Users className="h-6 w-6 text-blue-600"/>사용자 관리</h1>
+            <h1 className="text-xl font-bold flex items-center gap-1.5"><Users className="h-6 w-6 text-blue-600"/>사용자 관리</h1>
             <p className="text-xs text-gray-400 mt-0.5 leading-snug">6가지 분류 기준 · 카드 선택 → 상세 명단</p>
           </div>
           <Button variant="outline" size="sm" className="gap-1" onClick={() => setShowCalendar(!showCalendar)}>
@@ -172,7 +172,7 @@ export default function UsersManagement() {
         )}
 
         {/* 6개 네비게이션 카드 */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+        <div className="grid grid-cols-2 sm:grid-cols-3 gap-1.5">
           {NAV_CARDS.map(card => {
             const Icon = card.icon;
             const isActive = activeCard === card.mode;
@@ -180,7 +180,7 @@ export default function UsersManagement() {
               <Card key={card.mode}
                 className={`cursor-pointer transition-all hover:shadow-md hover:-translate-y-0.5 ${isActive ? `${card.bg} border-2 ${card.border}` : 'hover:border-gray-300'}`}
                 onClick={() => { setActiveCard(card.mode); setSelectedProject(null); setSelectedIds(new Set()); }}>
-                <CardContent className="pt-2 pb-2">
+                <CardContent className="pt-1.5 pb-1.5">
                   <div className="flex items-center justify-between mb-2">
                     <span className={`text-xs font-semibold ${card.color}`}>{card.label}</span>
                     <Icon className={`h-4 w-4 ${card.color}`}/>
@@ -195,8 +195,8 @@ export default function UsersManagement() {
 
         {/* ── 카드1: 전체 통계 ─────────────────────────────────────── */}
         {activeCard === 'stats' && (
-          <div className="space-y-2">
-            <div className="grid grid-cols-2 gap-2">
+          <div className="space-y-1.5">
+            <div className="grid grid-cols-2 gap-1.5">
               {[
                 { label:'전체 사용자', val:users.length, color:'text-blue-600', sub:'전체' },
                 { label:'오늘 가입',   val:todayCnt,     color:'text-green-600', sub:'신규' },
@@ -213,9 +213,9 @@ export default function UsersManagement() {
             {/* 명단 */}
             <Card>
               <CardHeader className="pb-1">
-                <div className="flex items-center justify-between flex-wrap gap-2">
+                <div className="flex items-center justify-between flex-wrap gap-1.5">
                   <CardTitle className="text-base">전체 회원 명단</CardTitle>
-                  <div className="flex gap-2">
+                  <div className="flex gap-1.5">
                     <Input placeholder="검색" className="h-8 w-36 text-xs" value={search} onChange={e => setSearch(e.target.value)}/>
                     {selectedIds.size > 0 && (
                       <Button size="sm" className="bg-blue-600 text-white h-8 text-xs gap-1" onClick={() => setShowAction(true)}>
@@ -256,7 +256,7 @@ export default function UsersManagement() {
           <Card>
             <CardHeader><CardTitle className="text-base">📁 프로젝트 선택</CardTitle></CardHeader>
             <CardContent>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-1.5">
                 {PROJECTS.map(p => (
                   <div key={p.id} className="p-4 rounded-lg border border-gray-200 cursor-pointer hover:shadow-md hover:-translate-y-0.5 transition-all"
                     style={{ borderLeft:`4px solid ${p.color}` }}
@@ -312,7 +312,7 @@ export default function UsersManagement() {
           <Card>
             <CardHeader><CardTitle className="text-base">🏆 멤버십 등급별 사용자</CardTitle></CardHeader>
             <CardContent>
-              <div className="space-y-2">
+              <div className="space-y-1.5">
                 {[
                   { step:11, emoji:'⚫', name:'블랙플래티넘', cnt:12,  color:'#1a1a2e' },
                   { step:10, emoji:'👑', name:'플래티넘',     cnt:34,  color:'#6366f1' },
@@ -325,14 +325,14 @@ export default function UsersManagement() {
                   <div key={t.step} className="flex items-center justify-between p-3 rounded-lg border cursor-pointer hover:shadow-sm transition-all"
                     style={{ borderLeft:`4px solid ${t.color}`, background:t.color+'0d' }}
                     onClick={() => toast.success(`${t.name} ${t.cnt}명 명단 조회!`)}>
-                    <div className="flex items-center gap-3">
+                    <div className="flex items-center gap-1.5">
                       <span className="text-lg">{t.emoji}</span>
                       <div>
                         <span className="text-xs font-bold" style={{ color:t.color }}>{t.step}단계</span>
                         <span className="text-sm font-medium ml-1.5">{t.name}</span>
                       </div>
                     </div>
-                    <div className="flex items-center gap-3">
+                    <div className="flex items-center gap-1.5">
                       <span className="text-sm font-mono font-bold">{t.cnt}명</span>
                       <div className="w-20 bg-gray-200 rounded-full h-1.5">
                         <div className="h-1.5 rounded-full" style={{ width:`${Math.round(t.cnt/1247*100)}%`, background:t.color }}/>
@@ -348,10 +348,10 @@ export default function UsersManagement() {
 
         {/* ── 카드4: 미션별/단계별 ───────────────────────────────── */}
         {activeCard === 'mission' && (
-          <div className="grid md:grid-cols-2 gap-2">
+          <div className="grid md:grid-cols-2 gap-1.5">
             <Card>
               <CardHeader><CardTitle className="text-base">✅ 미션 완료 현황</CardTitle></CardHeader>
-              <CardContent className="space-y-2">
+              <CardContent className="space-y-1.5">
                 {[
                   { label:'오늘 미션 완수', cnt:342, color:'#16a34a' },
                   { label:'주간 미션 완수', cnt:1847, color:'#3b82f6' },
@@ -361,7 +361,7 @@ export default function UsersManagement() {
                   <div key={m.label} className="flex justify-between items-center p-2.5 rounded-lg border cursor-pointer hover:bg-gray-50"
                     onClick={() => toast.success(`${m.label} ${m.cnt}명 명단!`)}>
                     <span className="text-sm">{m.label}</span>
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-1.5">
                       <span className="font-mono font-bold text-sm" style={{ color:m.color }}>{m.cnt}명</span>
                       <span className="text-xs" style={{ color:m.color }}>→</span>
                     </div>
@@ -389,7 +389,7 @@ export default function UsersManagement() {
           <Card>
             <CardHeader><CardTitle className="text-base">🤖 AI 피드백 세그먼트별</CardTitle></CardHeader>
             <CardContent>
-              <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+              <div className="grid grid-cols-2 sm:grid-cols-3 gap-1.5">
                 {AI_SEGS.map(s => (
                   <div key={s.value} className="p-3 rounded-lg border cursor-pointer hover:shadow-sm transition-all"
                     style={{ borderLeft:`3px solid ${s.color}`, background:s.color+'11' }}
@@ -411,11 +411,11 @@ export default function UsersManagement() {
 
         {/* ── 카드6: 국가/직급별 관리자 ──────────────────────────── */}
         {activeCard === 'geo-admin' && (
-          <div className="space-y-2">
+          <div className="space-y-1.5">
             <Card>
               <CardHeader><CardTitle className="text-base">🌏 직급별 체계 (프랜차이즈 관리자)</CardTitle></CardHeader>
               <CardContent>
-                <div className="grid grid-cols-2 gap-2">
+                <div className="grid grid-cols-2 gap-1.5">
                   {GEO_LEVELS.map(g => (
                     <div key={g.level} className="p-4 rounded-lg border cursor-pointer hover:shadow-md transition-all text-center"
                       style={{ borderTop:`3px solid ${g.color}`, background:g.color+'0d' }}
@@ -433,7 +433,7 @@ export default function UsersManagement() {
             <Card>
               <CardHeader><CardTitle className="text-base">관리자 발송 · 보상</CardTitle></CardHeader>
               <CardContent>
-                <div className="grid grid-cols-2 gap-3">
+                <div className="grid grid-cols-2 gap-1.5">
                   {[
                     { label:'전체 관리자 격려 발송', cnt:47, color:'#6366f1' },
                     { label:'지회장 포상 지급',      cnt:12, color:'#f59e0b' },
@@ -458,7 +458,7 @@ export default function UsersManagement() {
         <DialogContent className="max-w-md">
           <DialogHeader><DialogTitle>내용 선택/입력 — {selectedIds.size}명</DialogTitle></DialogHeader>
           <div className="space-y-4 py-2">
-            <div className="grid grid-cols-2 gap-2">
+            <div className="grid grid-cols-2 gap-1.5">
               {ACTIONS.map(a => (
                 <button key={a.type}
                   className={`p-3 rounded-lg border text-left text-sm transition-all ${actionType===a.type?'border-blue-500 bg-blue-50':'border-gray-200 hover:border-gray-300'}`}

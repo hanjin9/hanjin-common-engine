@@ -516,7 +516,7 @@ export default function FeedbackTemplateManager() {
       <div className="p-4 md:p-6 space-y-4">
         {/* 헤더 */}
         <div>
-          <h1 className="text-2xl font-bold flex items-center gap-2">
+          <h1 className="text-2xl font-bold flex items-center gap-1.5">
             📋 피드백 템플릿 관리
           </h1>
           <p className="text-xs text-gray-400 mt-0.5 leading-snug">
@@ -539,7 +539,7 @@ export default function FeedbackTemplateManager() {
               {/* 티어 */}
               <div>
                 <p className="text-xs font-semibold text-gray-500 mb-2">📊 티어 선택</p>
-                <div className="flex flex-wrap gap-2">
+                <div className="flex flex-wrap gap-1.5">
                   {TIER_OPTIONS.map(t => (
                     <button key={t.value}
                       className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium border transition-all ${tier === t.value ? 'text-white border-transparent' : 'bg-white border-gray-200 hover:border-gray-300'}`}
@@ -554,7 +554,7 @@ export default function FeedbackTemplateManager() {
               {/* 카테고리 */}
               <div>
                 <p className="text-xs font-semibold text-gray-500 mb-2">💬 카테고리</p>
-                <div className="flex flex-wrap gap-2">
+                <div className="flex flex-wrap gap-1.5">
                   {CATEGORIES.map(cat => (
                     <button key={cat.value}
                       className={`px-3 py-1.5 rounded-full text-xs font-medium border transition-all ${category === cat.value ? 'text-white border-transparent' : 'bg-white border-gray-200 hover:border-gray-300'}`}
@@ -569,7 +569,7 @@ export default function FeedbackTemplateManager() {
               {/* 언어 */}
               <div>
                 <p className="text-xs font-semibold text-gray-500 mb-2">🌐 언어</p>
-                <div className="flex gap-2">
+                <div className="flex gap-1.5">
                   {LANGUAGES.map(l => (
                     <button key={l.value}
                       className={`px-3 py-1.5 rounded-lg text-xs border transition-all ${language === l.value ? 'bg-gray-800 text-white border-gray-800' : 'bg-white border-gray-200 hover:border-gray-300'}`}
@@ -631,7 +631,7 @@ export default function FeedbackTemplateManager() {
             </CardContent>
           </Card>
         ) : (
-          <div className="space-y-2">
+          <div className="space-y-1.5">
             {templates.map((tpl, idx) => {
               const preview = applyVars(tpl, { name: sampleName, period: '최근 30일', days: '7', score: '72' });
               const isSelected = selectedIdx === idx;
@@ -641,7 +641,7 @@ export default function FeedbackTemplateManager() {
                   className={`transition-all cursor-pointer ${isSelected ? 'ring-2' : 'hover:shadow-sm'}`}
                   style={isSelected ? { borderColor: catInfo.color, outline: `2px solid ${catInfo.color}` } : {}}>
                   <CardContent className="pt-3 pb-3">
-                    <div className="flex items-start gap-3">
+                    <div className="flex items-start gap-1.5">
                       {/* 선택 버튼 */}
                       <button
                         className={`mt-0.5 w-5 h-5 rounded-full border-2 flex items-center justify-center flex-shrink-0 transition-all`}
@@ -664,10 +664,10 @@ export default function FeedbackTemplateManager() {
                           )}
                         </div>
                         {isEditing ? (
-                          <div className="space-y-2">
+                          <div className="space-y-1.5">
                             <Textarea value={editText} onChange={e => setEditText(e.target.value)}
                               rows={4} className="text-sm" />
-                            <div className="flex gap-2">
+                            <div className="flex gap-1.5">
                               <Button size="sm" className="h-7 text-xs bg-blue-600 text-white"
                                 onClick={() => handleSaveEdit(idx)}>저장</Button>
                               <Button size="sm" variant="ghost" className="h-7 text-xs"
@@ -704,7 +704,7 @@ export default function FeedbackTemplateManager() {
         {selectedIdx !== null && (
           <Card style={{ borderColor: catInfo.color, borderWidth: 1.5 }}>
             <CardContent className="pt-3 pb-3">
-              <div className="flex items-center justify-between flex-wrap gap-3">
+              <div className="flex items-center justify-between flex-wrap gap-1.5">
                 <div>
                   <p className="text-sm font-semibold" style={{ color: catInfo.color }}>
                     ✅ #{selectedIdx + 1}번 선정 완료
@@ -713,7 +713,7 @@ export default function FeedbackTemplateManager() {
                     {tierInfo.emoji} {tierInfo.label} · {catInfo.label} · {LANGUAGES.find(l => l.value === language)?.label}
                   </p>
                 </div>
-                <div className="flex gap-2">
+                <div className="flex gap-1.5">
                   <Button size="sm" variant="outline" className="h-8 text-xs gap-1"
                     onClick={() => handleSend(templates[selectedIdx] || '')}>
                     <Zap className="h-3.5 w-3.5 text-yellow-500" />즉시 발송

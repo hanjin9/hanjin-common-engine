@@ -207,7 +207,7 @@ export default function AiAnalyticsDashboard() {
         </div>
 
         {/* ✅ AI 기기 연동 현황 카드 3개 (보고서 2차 반영) */}
-        <div className="grid grid-cols-3 gap-2">
+        <div className="grid grid-cols-3 gap-1.5">
 
           {/* 카드 1: AI Fit 기기 연동 회원 */}
           <Card
@@ -314,14 +314,14 @@ export default function AiAnalyticsDashboard() {
           </TabsList>
 
           {/* 탭1: 성능 지표 */}
-          <TabsContent value="metrics" className="space-y-2">
+          <TabsContent value="metrics" className="space-y-1.5">
             <Card>
               <CardHeader>
                 <CardTitle>AI 모델 성능 지표</CardTitle>
                 <CardDescription>최근 7일간의 성능 평가</CardDescription>
               </CardHeader>
               <CardContent>
-                <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+                <div className="grid grid-cols-2 sm:grid-cols-3 gap-1.5">
                   {[
                     { label: '정확도', value: aiMetrics.accuracy, unit: '%' },
                     { label: '정밀도', value: aiMetrics.precision, unit: '%' },
@@ -343,7 +343,7 @@ export default function AiAnalyticsDashboard() {
           </TabsContent>
 
           {/* 탭2: 예측 분석 */}
-          <TabsContent value="prediction" className="space-y-2">
+          <TabsContent value="prediction" className="space-y-1.5">
             <Card>
               <CardHeader>
                 <CardTitle>5일 예측 분석</CardTitle>
@@ -400,7 +400,7 @@ export default function AiAnalyticsDashboard() {
           </TabsContent>
 
           {/* ✅ 탭3: 세그멘테이션 → 클릭 시 리스트 + 일괄 액션 (보고서 2차 반영) */}
-          <TabsContent value="segment" className="space-y-2">
+          <TabsContent value="segment" className="space-y-1.5">
             {segmentSelected ? (
               // 선택된 세그먼트 리스트 화면
               <Card>
@@ -466,7 +466,7 @@ export default function AiAnalyticsDashboard() {
               </Card>
             ) : (
               // 세그먼트 선택 화면
-              <div className="grid grid-cols-2 gap-2">
+              <div className="grid grid-cols-2 gap-1.5">
                 {[
                   {
                     name: '상위 20%', emoji: '🏆', users: 249, engagement: 95, retention: 88, color: '#10b981', tag: 'VIP',
@@ -515,9 +515,9 @@ export default function AiAnalyticsDashboard() {
                     className="cursor-pointer hover:shadow-lg transition-all hover:-translate-y-0.5 border-l-4"
                     style={{ borderLeftColor: seg.color }}
                     onClick={() => setSegmentSelected(seg)}>
-                    <CardContent className="pt-2 pb-2">
+                    <CardContent className="pt-1.5 pb-1.5">
                       <div className="flex items-start justify-between mb-2">
-                        <div className="flex items-center gap-2">
+                        <div className="flex items-center gap-1.5">
                           <span className="text-2xl">{seg.emoji}</span>
                           <div>
                             <h3 className="font-semibold text-sm">{seg.name}</h3>
@@ -549,13 +549,13 @@ export default function AiAnalyticsDashboard() {
           </TabsContent>
 
           {/* 탭4: 주요 인사이트 */}
-          <TabsContent value="insights" className="space-y-2">
+          <TabsContent value="insights" className="space-y-1.5">
             {insights.map((insight, idx) => (
               <Card key={idx} className={`border-l-4 ${getImpactColor(insight.impact)}`}>
                 <CardHeader>
                   <div className="flex items-start justify-between">
                     <div>
-                      <CardTitle className="flex items-center gap-2">
+                      <CardTitle className="flex items-center gap-1.5">
                         {insight.impact === 'high' && <AlertCircle className="h-5 w-5 text-red-600" />}
                         {insight.impact === 'medium' && <TrendingUp className="h-5 w-5 text-amber-600" />}
                         {insight.impact === 'low' && <Star className="h-5 w-5 text-blue-600" />}

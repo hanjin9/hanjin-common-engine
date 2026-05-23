@@ -70,7 +70,7 @@ export default function ProjectsPanel() {
   const [selectedProject, setSelectedProject] = useState<number | null>(null);
 
   return (
-    <div className="space-y-3">
+    <div className="space-y-1.5">
       {/* 제목 */}
       <div className="border-b border-gray-200 pb-2">
         <h1 className="text-base font-bold text-black mb-0.5">
@@ -82,7 +82,7 @@ export default function ProjectsPanel() {
       </div>
 
       {/* 프로젝트 그리드 */}
-      <div className="grid grid-cols-2 gap-2">
+      <div className="grid grid-cols-2 gap-1.5">
         {PROJECTS.map((project) => (
           <Card
             key={project.id}
@@ -161,7 +161,7 @@ export default function ProjectsPanel() {
             <div className="border-t border-gray-200 my-2" />
 
             {/* 액션 버튼 */}
-            <div className="flex gap-2">
+            <div className="flex gap-1.5">
               <Button
                 variant="outline"
                 className="flex-1 text-xs font-semibold uppercase"
@@ -181,7 +181,7 @@ export default function ProjectsPanel() {
       {/* 프로젝트 요약 통계 */}
       <div className="border-t border-gray-200 pt-3">
         <h2 className="text-sm font-bold text-black mb-2">전체 통계</h2>
-        <div className="grid grid-cols-2 gap-2">
+        <div className="grid grid-cols-2 gap-1.5">
           <Card className="p-2 border-gray-200">
             <div className="text-gray-600 text-xs font-medium mb-0.5">
               전체 프로젝트

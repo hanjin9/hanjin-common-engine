@@ -52,7 +52,7 @@ export default function TransactionDetailsPage() {
             돌아가기
           </Button>
           <div>
-            <h1 className="text-3xl font-bold flex items-center gap-2">
+            <h1 className="text-3xl font-bold flex items-center gap-1.5">
               <CreditCard className="h-8 w-8 text-purple-500" />
               평균 거래액 상세
             </h1>
@@ -171,9 +171,9 @@ export default function TransactionDetailsPage() {
           <CardHeader>
             <CardTitle>거래액 범위별 구성</CardTitle>
           </CardHeader>
-          <CardContent className="space-y-3">
+          <CardContent className="space-y-1.5">
             {transactionByAmount.map((item, i) => (
-              <div key={i} className="space-y-2">
+              <div key={i} className="space-y-1.5">
                 <div className="flex justify-between items-center">
                   <span className="font-medium text-sm">{item.range}</span>
                   <Badge variant="outline">{item.percentage}%</Badge>

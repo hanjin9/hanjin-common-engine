@@ -31,13 +31,13 @@ export default function SettlementDetailsPage() {
   return (
     <DashboardLayout>
       <div className="space-y-3 p-3 md:p-4">
-        <div className="flex items-center justify-between flex-wrap gap-3">
-          <div className="flex items-center gap-3">
+        <div className="flex items-center justify-between flex-wrap gap-1.5">
+          <div className="flex items-center gap-1.5">
             <Button variant="ghost" size="sm" onClick={() => setLocation('/admin/payment')}>
               <ArrowLeft className="h-4 w-4 mr-1" />뒤로
             </Button>
             <div>
-              <h1 className="text-xl font-bold flex items-center gap-2">
+              <h1 className="text-xl font-bold flex items-center gap-1.5">
                 <DollarSign className="h-6 w-6 text-blue-600" />정산 상세
               </h1>
               <p className="text-xs text-gray-400 mt-0.5 leading-snug">순매출 · 기간별 정산 현황</p>
@@ -53,12 +53,12 @@ export default function SettlementDetailsPage() {
         </div>
 
         {isLoading ? (
-          <div className="grid grid-cols-2 gap-2">
+          <div className="grid grid-cols-2 gap-1.5">
             {Array.from({length:4}).map((_,i)=><Skeleton key={i} className="h-24 rounded-lg"/>)}
           </div>
         ) : (
           <>
-            <div className="grid grid-cols-2 gap-2">
+            <div className="grid grid-cols-2 gap-1.5">
               <Card><CardContent className="pt-5">
                 <p className="text-sm text-gray-500">총 매출</p>
                 <p className="text-2xl font-bold text-green-600">{fmtKrw(settlement?.totalRevenue)}</p>
@@ -80,7 +80,7 @@ export default function SettlementDetailsPage() {
             <Card>
               <CardHeader><CardTitle className="text-base">정산 요약</CardTitle></CardHeader>
               <CardContent>
-                <div className="space-y-3">
+                <div className="space-y-1.5">
                   {[
                     { label: '결제 성공 건수', value: `${Number(settlement?.succeededCount ?? 0).toLocaleString()}건`, color: 'text-green-600' },
                     { label: '총 매출', value: fmtKrw(settlement?.totalRevenue), color: 'text-green-600' },

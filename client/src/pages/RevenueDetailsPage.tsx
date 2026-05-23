@@ -63,13 +63,13 @@ export default function RevenueDetailsPage() {
     <DashboardLayout>
       <div className="space-y-3 p-3 md:p-4">
         {/* 헤더 */}
-        <div className="flex items-center justify-between flex-wrap gap-3">
-          <div className="flex items-center gap-3">
+        <div className="flex items-center justify-between flex-wrap gap-1.5">
+          <div className="flex items-center gap-1.5">
             <Button variant="ghost" size="sm" onClick={() => setLocation('/admin/payment')}>
               <ArrowLeft className="h-4 w-4 mr-1" />뒤로
             </Button>
             <div>
-              <h1 className="text-xl font-bold flex items-center gap-2">
+              <h1 className="text-xl font-bold flex items-center gap-1.5">
                 <TrendingUp className="h-6 w-6 text-green-600" />총 매출 상세
               </h1>
               <p className="text-xs text-gray-400 mt-0.5 leading-snug">결제 성공 건수 · 실시간 DB (stripePayments)</p>
@@ -94,7 +94,7 @@ export default function RevenueDetailsPage() {
         </div>
 
         {/* KPI */}
-        <div className="grid grid-cols-2 gap-2">
+        <div className="grid grid-cols-2 gap-1.5">
           {isLoading ? Array.from({length:4}).map((_,i)=><Skeleton key={i} className="h-24 rounded-lg"/>) : (
             <>
               <Card>
@@ -127,12 +127,12 @@ export default function RevenueDetailsPage() {
 
         {/* ✅ 프로젝트별 분류 (7차 반영) */}
         <Card>
-          <CardHeader><CardTitle className="text-base flex items-center gap-2">
+          <CardHeader><CardTitle className="text-base flex items-center gap-1.5">
             📁 프로젝트별 매출
             <Badge variant="outline" className="text-xs">클릭 → 세부 내역</Badge>
           </CardTitle></CardHeader>
           <CardContent>
-            <div className="space-y-2">
+            <div className="space-y-1.5">
               {[
                 { name: '숨호흡 앱',   amount: 1200000, count: 89,  pct: 35 },
                 { name: 'GLWA',        amount: 1800000, count: 112, pct: 52 },
@@ -147,7 +147,7 @@ export default function RevenueDetailsPage() {
                       <span className="text-sm font-semibold">{proj.name}</span>
                       <span className="text-sm font-mono font-bold text-green-600">₩{proj.amount.toLocaleString()}</span>
                     </div>
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-1.5">
                       <div className="flex-1 bg-gray-200 rounded-full h-1.5">
                         <div className="h-1.5 rounded-full bg-green-500" style={{ width: `${proj.pct}%` }} />
                       </div>
@@ -182,14 +182,14 @@ export default function RevenueDetailsPage() {
         {/* 결제 목록 */}
         <Card>
           <CardHeader>
-            <CardTitle className="text-base flex items-center gap-2">
+            <CardTitle className="text-base flex items-center gap-1.5">
               결제 성공 목록
               <Badge variant="outline" className="text-xs">{total.toLocaleString()}건 · 실시간</Badge>
             </CardTitle>
           </CardHeader>
           <CardContent>
             {isLoading ? (
-              <div className="space-y-2">{Array.from({length:5}).map((_,i)=><Skeleton key={i} className="h-10"/>)}</div>
+              <div className="space-y-1.5">{Array.from({length:5}).map((_,i)=><Skeleton key={i} className="h-10"/>)}</div>
             ) : items.length === 0 ? (
               <p className="text-center text-gray-400 py-10">결제 내역이 없습니다</p>
             ) : (
@@ -225,7 +225,7 @@ export default function RevenueDetailsPage() {
                 </div>
                 <div className="flex items-center justify-between mt-4 text-sm">
                   <span className="text-gray-500">총 {total.toLocaleString()}건</span>
-                  <div className="flex gap-2">
+                  <div className="flex gap-1.5">
                     <Button variant="outline" size="sm" disabled={page <= 1} onClick={() => setPage(p => p-1)}>이전</Button>
                     <span className="px-3 py-1 border rounded text-sm">{page} / {totalPages || 1}</span>
                     <Button variant="outline" size="sm" disabled={page >= totalPages} onClick={() => setPage(p => p+1)}>다음</Button>

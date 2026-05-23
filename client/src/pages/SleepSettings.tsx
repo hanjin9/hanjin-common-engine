@@ -37,7 +37,7 @@ export default function SleepSettings() {
 
   if (!settings) {
     return (
-      <div className="flex flex-col items-center justify-center h-64 gap-2">
+      <div className="flex flex-col items-center justify-center h-64 gap-1.5">
         <AlertCircle className="h-10 w-10 text-destructive" />
         <p className="text-sm text-muted-foreground">수면 설정을 불러오지 못했습니다.</p>
         <Button variant="outline" onClick={() => refetch()}>다시 시도</Button>
@@ -78,9 +78,9 @@ export default function SleepSettings() {
   };
 
   return (
-    <div className="max-w-2xl mx-auto p-3 md:p-4 space-y-3">
+    <div className="max-w-2xl mx-auto p-3 md:p-4 space-y-1.5">
       {/* 헤더 */}
-      <div className="flex items-center gap-3">
+      <div className="flex items-center gap-1.5">
         <Moon className="h-7 w-7 text-indigo-500" />
         <div>
           <h1 className="text-base font-bold truncate">수면 자동 체크</h1>
@@ -123,7 +123,7 @@ export default function SleepSettings() {
         <CardHeader className="pb-1">
           <div className="flex items-center justify-between">
             <div>
-              <CardTitle className="text-base flex items-center gap-2">
+              <CardTitle className="text-base flex items-center gap-1.5">
                 수면 체크 거부
                 {settings.optedOut && (
                   <Badge variant="outline" className="text-orange-600 border-orange-300 text-xs">
@@ -156,16 +156,16 @@ export default function SleepSettings() {
       {/* 수면 시간대 설정 */}
       <Card>
         <CardHeader>
-          <CardTitle className="text-base flex items-center gap-2">
+          <CardTitle className="text-base flex items-center gap-1.5">
             <Clock className="h-4 w-4" /> 수면 감지 시간대
           </CardTitle>
           <CardDescription>
             이 시간대에 앱이 수면 여부를 감지합니다
           </CardDescription>
         </CardHeader>
-        <CardContent className="space-y-3">
+        <CardContent className="space-y-1.5">
           {/* 수면 시작 시간 */}
-          <div className="space-y-3">
+          <div className="space-y-1.5">
             <div className="flex justify-between items-center">
               <span className="text-sm font-medium">수면 시작</span>
               <span className="text-sm text-muted-foreground font-mono bg-muted px-2 py-0.5 rounded">
@@ -187,7 +187,7 @@ export default function SleepSettings() {
           </div>
 
           {/* 수면 종료 시간 */}
-          <div className="space-y-3">
+          <div className="space-y-1.5">
             <div className="flex justify-between items-center">
               <span className="text-sm font-medium">기상 시간</span>
               <span className="text-sm text-muted-foreground font-mono bg-muted px-2 py-0.5 rounded">
@@ -209,7 +209,7 @@ export default function SleepSettings() {
           </div>
 
           {/* 최소 수면 시간 */}
-          <div className="space-y-3">
+          <div className="space-y-1.5">
             <div className="flex justify-between items-center">
               <span className="text-sm font-medium">최소 수면 시간</span>
               <span className="text-sm text-muted-foreground font-mono bg-muted px-2 py-0.5 rounded">
@@ -245,7 +245,7 @@ export default function SleepSettings() {
         <CardHeader className="pb-1">
           <div className="flex items-center justify-between">
             <div>
-              <CardTitle className="text-base flex items-center gap-2">
+              <CardTitle className="text-base flex items-center gap-1.5">
                 <Bell className="h-4 w-4" /> 수면 알림
               </CardTitle>
               <CardDescription className="mt-1">
@@ -264,7 +264,7 @@ export default function SleepSettings() {
       {/* 포인트 안내 */}
       <Card className="bg-indigo-50/50 border-indigo-100">
         <CardContent className="pt-2">
-          <div className="flex gap-2">
+          <div className="flex gap-1.5">
             <Info className="h-4 w-4 text-indigo-500 mt-0.5 shrink-0" />
             <div className="text-sm text-indigo-700 space-y-1">
               <p className="font-medium">수면 포인트 적립 기준</p>

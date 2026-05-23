@@ -90,9 +90,9 @@ export default function PaymentDashboard() {
   return (
     <div className="space-y-3 p-3 md:p-4">
       {/* 헤더 */}
-      <div className="flex items-center justify-between flex-wrap gap-3">
+      <div className="flex items-center justify-between flex-wrap gap-1.5">
         <div>
-          <h1 className="text-xl font-bold flex items-center gap-2">
+          <h1 className="text-xl font-bold flex items-center gap-1.5">
             <CreditCard className="h-8 w-8" />결제 관리
           </h1>
           <p className="text-gray-600 mt-1 text-sm">Stripe 실시간 · stripePayments 테이블 직접 조회</p>
@@ -124,7 +124,7 @@ export default function PaymentDashboard() {
       </div>
 
       {/* KPI 카드 — 실제 DB */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-1.5">
         {loading ? (
           Array.from({ length: 4 }).map((_, i) => <Skeleton key={i} className="h-28 w-full rounded-lg" />)
         ) : (
@@ -132,7 +132,7 @@ export default function PaymentDashboard() {
             <Card className="hover:shadow-lg hover:scale-105 transition-all cursor-pointer"
               onClick={() => setLocation('/admin/payment/revenue')}>
               <CardHeader className="pb-1">
-                <CardTitle className="text-base font-medium text-gray-600 flex items-center gap-2">
+                <CardTitle className="text-base font-medium text-gray-600 flex items-center gap-1.5">
                   <DollarSign className="h-4 w-4 text-green-500" />이달 매출
                 </CardTitle>
               </CardHeader>
@@ -146,7 +146,7 @@ export default function PaymentDashboard() {
             <Card className="hover:shadow-lg hover:scale-105 transition-all cursor-pointer"
               onClick={() => setLocation('/admin/payment/refund')}>
               <CardHeader className="pb-1">
-                <CardTitle className="text-base font-medium text-gray-600 flex items-center gap-2">
+                <CardTitle className="text-base font-medium text-gray-600 flex items-center gap-1.5">
                   <RotateCcw className="h-4 w-4 text-purple-500" />환불
                 </CardTitle>
               </CardHeader>
@@ -160,7 +160,7 @@ export default function PaymentDashboard() {
             <Card className="hover:shadow-lg hover:scale-105 transition-all cursor-pointer"
               onClick={() => setLocation('/admin/payment/settlement')}>
               <CardHeader className="pb-1">
-                <CardTitle className="text-base font-medium text-gray-600 flex items-center gap-2">
+                <CardTitle className="text-base font-medium text-gray-600 flex items-center gap-1.5">
                   <TrendingUp className="h-4 w-4 text-blue-500" />순매출
                 </CardTitle>
               </CardHeader>
@@ -176,7 +176,7 @@ export default function PaymentDashboard() {
             <Card className="hover:shadow-lg hover:scale-105 transition-all cursor-pointer"
               onClick={() => setLocation('/admin/payment/transaction')}>
               <CardHeader className="pb-1">
-                <CardTitle className="text-base font-medium text-gray-600 flex items-center gap-2">
+                <CardTitle className="text-base font-medium text-gray-600 flex items-center gap-1.5">
                   <Receipt className="h-4 w-4 text-orange-500" />전체 건수
                 </CardTitle>
               </CardHeader>
@@ -211,15 +211,15 @@ export default function PaymentDashboard() {
       {/* 결제 내역 테이블 — 실제 DB */}
       <Card>
         <CardHeader>
-          <CardTitle className="text-base flex items-center gap-2">
+          <CardTitle className="text-base flex items-center gap-1.5">
             결제 내역 <Badge variant="outline" className="text-xs">{totalPayments}건 · 실시간</Badge>
           </CardTitle>
         </CardHeader>
         <CardContent>
           {loading ? (
-            <div className="space-y-2">{Array.from({ length: 5 }).map((_, i) => <Skeleton key={i} className="h-12 w-full" />)}</div>
+            <div className="space-y-1.5">{Array.from({ length: 5 }).map((_, i) => <Skeleton key={i} className="h-12 w-full" />)}</div>
           ) : payments.length === 0 ? (
-            <div className="text-center py-12 text-gray-400 space-y-3">
+            <div className="text-center py-12 text-gray-400 space-y-1.5">
               <AlertCircle className="h-8 w-8 mx-auto" />
               <p className="font-medium">결제 내역이 없습니다</p>
               <p className="text-sm">Stripe 결제 완료 시 여기에 자동으로 표시됩니다</p>
@@ -279,7 +279,7 @@ export default function PaymentDashboard() {
               {/* 페이지네이션 */}
               <div className="flex items-center justify-between mt-4 text-sm">
                 <span className="text-gray-500">총 {totalPayments}건</span>
-                <div className="flex gap-2">
+                <div className="flex gap-1.5">
                   <Button variant="outline" size="sm" disabled={page <= 1} onClick={() => setPage(p => p - 1)}>이전</Button>
                   <span className="px-3 py-1 border rounded text-sm">{page} / {totalPages || 1}</span>
                   <Button variant="outline" size="sm" disabled={page >= totalPages} onClick={() => setPage(p => p + 1)}>다음</Button>

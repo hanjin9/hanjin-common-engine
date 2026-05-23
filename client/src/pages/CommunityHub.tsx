@@ -85,7 +85,7 @@ export default function CommunityHub() {
   const earnedBadgeIds = new Set(userBadges?.map((ub) => ub.badge.id) ?? []);
 
   return (
-    <div className="p-4 sm:p-3 md:p-4 space-y-3">
+    <div className="p-4 sm:p-3 md:p-4 space-y-1.5">
       {/* 헤더 */}
       <motion.div
         className="flex items-center justify-between"
@@ -174,7 +174,7 @@ export default function CommunityHub() {
                     <p>게시글이 없습니다.</p>
                   </motion.div>
                 )}
-                <motion.div className="space-y-2" variants={containerVariants} initial="hidden" animate="visible">
+                <motion.div className="space-y-1.5" variants={containerVariants} initial="hidden" animate="visible">
                   {posts?.map((post) => (
                     <motion.div key={post.id} variants={cardVariants} layout>
                       <Card className="overflow-hidden active:scale-[0.99] transition-transform">
@@ -224,7 +224,7 @@ export default function CommunityHub() {
                     <p>진행 중인 챌린지가 없습니다.</p>
                   </motion.div>
                 )}
-                <motion.div className="space-y-2" variants={containerVariants} initial="hidden" animate="visible">
+                <motion.div className="space-y-1.5" variants={containerVariants} initial="hidden" animate="visible">
                   {challenges?.map((challenge) => (
                     <motion.div key={challenge.id} variants={cardVariants}>
                       <Card className="active:scale-[0.99] transition-transform">
@@ -242,7 +242,7 @@ export default function CommunityHub() {
                             <span className="flex items-center gap-1"><Users className="w-4 h-4" /> 최대 {challenge.maxTeamSize}명</span>
                             <span className="flex items-center gap-1"><Trophy className="w-4 h-4" /> {challenge.rewardPoints} 포인트</span>
                           </div>
-                          <div className="flex items-center gap-2">
+                          <div className="flex items-center gap-1.5">
                             <span className="text-xs text-muted-foreground">
                               {new Date(challenge.startDate).toLocaleDateString()} ~ {new Date(challenge.endDate).toLocaleDateString()}
                             </span>
@@ -275,7 +275,7 @@ export default function CommunityHub() {
               <motion.div key="leaderboard" variants={tabContentVariants} initial="hidden" animate="visible" exit="exit">
                 <Card>
                   <CardHeader>
-                    <CardTitle className="text-base flex items-center gap-2">
+                    <CardTitle className="text-base flex items-center gap-1.5">
                       <motion.span
                         animate={{ rotate: [0, -10, 10, -10, 0] }}
                         transition={{ delay: 0.3, duration: 0.5 }}
@@ -329,7 +329,7 @@ export default function CommunityHub() {
           <AnimatePresence mode="wait">
             {activeTab === "badges" && (
               <motion.div key="badges" variants={tabContentVariants} initial="hidden" animate="visible" exit="exit">
-                <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2">
+                <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-1.5">
                   {badges?.map((badge, i) => {
                     const earned = earnedBadgeIds.has(badge.id);
                     return (

@@ -39,7 +39,7 @@ export default function SettingsPage() {
     <div className="space-y-3 p-3 md:p-4">
       {/* 헤더 */}
       <div>
-        <h1 className="text-xl font-bold flex items-center gap-2">
+        <h1 className="text-xl font-bold flex items-center gap-1.5">
           <Settings className="h-8 w-8" />
           시스템 설정
         </h1>
@@ -49,14 +49,14 @@ export default function SettingsPage() {
       {/* 기본 정보 */}
       <Card className="hover:shadow-md transition-shadow">
         <CardHeader>
-          <CardTitle className="flex items-center gap-2">
+          <CardTitle className="flex items-center gap-1.5">
             <Zap className="h-5 w-5 text-blue-500" />
             기본 정보
           </CardTitle>
           <CardDescription>앱의 기본 정보를 설정합니다</CardDescription>
         </CardHeader>
-        <CardContent className="space-y-2">
-          <div className="space-y-2">
+        <CardContent className="space-y-1.5">
+          <div className="space-y-1.5">
             <label className="block text-sm font-medium">앱 이름</label>
             <Input
               value={settings.appName}
@@ -65,7 +65,7 @@ export default function SettingsPage() {
               className="hover:shadow-md transition-shadow"
             />
           </div>
-          <div className="space-y-2">
+          <div className="space-y-1.5">
             <label className="block text-sm font-medium">앱 설명</label>
             <Textarea
               value={settings.appDescription}
@@ -83,13 +83,13 @@ export default function SettingsPage() {
       {/* 시스템 설정 */}
       <Card className="hover:shadow-md transition-shadow">
         <CardHeader>
-          <CardTitle className="flex items-center gap-2">
+          <CardTitle className="flex items-center gap-1.5">
             <AlertCircle className="h-5 w-5 text-orange-500" />
             시스템 설정
           </CardTitle>
           <CardDescription>시스템 운영 옵션을 설정합니다</CardDescription>
         </CardHeader>
-        <CardContent className="space-y-2">
+        <CardContent className="space-y-1.5">
           <div className="flex items-center justify-between p-3 border rounded-lg hover:shadow-md transition-all hover:scale-102">
             <div>
               <p className="font-medium">유지보수 모드</p>
@@ -104,7 +104,7 @@ export default function SettingsPage() {
             />
           </div>
 
-          <div className="space-y-2">
+          <div className="space-y-1.5">
             <label className="block text-sm font-medium">최대 업로드 크기 (MB)</label>
             <Input
               type="number"
@@ -123,13 +123,13 @@ export default function SettingsPage() {
       {/* 알림 설정 */}
       <Card className="hover:shadow-md transition-shadow">
         <CardHeader>
-          <CardTitle className="flex items-center gap-2">
+          <CardTitle className="flex items-center gap-1.5">
             <Bell className="h-5 w-5 text-blue-500" />
             알림 설정
           </CardTitle>
           <CardDescription>알림 수신 방식을 설정합니다</CardDescription>
         </CardHeader>
-        <CardContent className="space-y-2">
+        <CardContent className="space-y-1.5">
           <div className="flex items-center justify-between p-3 border rounded-lg hover:shadow-md transition-all hover:scale-102">
             <div>
               <p className="font-medium">이메일 알림</p>
@@ -165,13 +165,13 @@ export default function SettingsPage() {
       {/* 보안 설정 */}
       <Card className="hover:shadow-md transition-shadow">
         <CardHeader>
-          <CardTitle className="flex items-center gap-2">
+          <CardTitle className="flex items-center gap-1.5">
             <Lock className="h-5 w-5 text-red-500" />
             보안 설정
           </CardTitle>
           <CardDescription>계정 보안을 관리합니다</CardDescription>
         </CardHeader>
-        <CardContent className="space-y-3">
+        <CardContent className="space-y-1.5">
           <Button 
             variant="outline" 
             className="w-full hover:shadow-md transition-all hover:scale-102 active:scale-95"

@@ -64,22 +64,22 @@ export default function AdminDashboard() {
             </TabsList>
 
             {/* 개요 탭 */}
-            <TabsContent value="overview" className="space-y-3">
+            <TabsContent value="overview" className="space-y-1.5">
               <KPICards />
             </TabsContent>
 
             {/* 프로젝트 탭 */}
-            <TabsContent value="projects" className="space-y-3">
+            <TabsContent value="projects" className="space-y-1.5">
               <ProjectsPanel />
             </TabsContent>
 
             {/* 사용자 탭 */}
-            <TabsContent value="users" className="space-y-3">
+            <TabsContent value="users" className="space-y-1.5">
               <UsersPanel />
             </TabsContent>
 
             {/* 결제 탭 */}
-            <TabsContent value="payments" className="space-y-3">
+            <TabsContent value="payments" className="space-y-1.5">
               <PaymentChart />
             </TabsContent>
           </Tabs>

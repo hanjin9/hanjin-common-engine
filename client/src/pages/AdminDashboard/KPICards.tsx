@@ -98,13 +98,13 @@ export default function KPICards() {
   ];
 
   return (
-    <div className="space-y-3">
+    <div className="space-y-1.5">
       <div className="border-b border-gray-200 pb-2">
         <h1 className="text-base font-bold text-black mb-0.5">핵심 지표 (KPI)</h1>
         <p className="text-gray-600 text-xs">실시간 DB 데이터 기반 — 새로고침 시 즉시 반영</p>
       </div>
 
-      <div className="grid grid-cols-2 gap-2">
+      <div className="grid grid-cols-2 gap-1.5">
         {kpis.map(k => (
           <KPICard key={k.title} {...k} loading={loading} />
         ))}
@@ -114,10 +114,10 @@ export default function KPICards() {
       {analytics?.membershipDistribution && analytics.membershipDistribution.length > 0 && (
         <div className="border-t border-gray-200 pt-3">
           <h2 className="text-sm font-bold text-black mb-2">11단계 멤버십 분포 (실시간)</h2>
-          <div className="grid grid-cols-1 gap-3">
+          <div className="grid grid-cols-1 gap-1.5">
             <Card className="p-3 border-gray-200">
               <h3 className="text-sm font-bold text-black mb-2">단계별 회원 수</h3>
-              <div className="space-y-2">
+              <div className="space-y-1.5">
                 {analytics.membershipDistribution.map((tier: any) => (
                   <div key={tier.tier} className="flex items-center gap-3 pb-2 border-b border-gray-100 last:border-0">
                     <div className="w-3 h-3 rounded-full flex-shrink-0" style={{ background: tier.color || '#999' }} />

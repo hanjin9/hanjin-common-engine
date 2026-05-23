@@ -71,10 +71,10 @@ export default function MonitoringDashboard() {
       </div>
 
       {/* KPI 카드 4개 */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-1.5">
         <Card className="hover:shadow-lg hover:scale-105 transition-all cursor-pointer">
           <CardHeader className="pb-1">
-            <CardTitle className="text-base font-medium text-gray-600 flex items-center gap-2">
+            <CardTitle className="text-base font-medium text-gray-600 flex items-center gap-1.5">
               <Users className="h-4 w-4 text-blue-500" />
               활성 사용자
             </CardTitle>
@@ -88,7 +88,7 @@ export default function MonitoringDashboard() {
 
         <Card className="hover:shadow-lg hover:scale-105 transition-all cursor-pointer">
           <CardHeader className="pb-1">
-            <CardTitle className="text-base font-medium text-gray-600 flex items-center gap-2">
+            <CardTitle className="text-base font-medium text-gray-600 flex items-center gap-1.5">
               <TrendingUp className="h-4 w-4 text-purple-500" />
               총 요청
             </CardTitle>
@@ -102,7 +102,7 @@ export default function MonitoringDashboard() {
 
         <Card className="hover:shadow-lg hover:scale-105 transition-all cursor-pointer">
           <CardHeader className="pb-1">
-            <CardTitle className="text-base font-medium text-gray-600 flex items-center gap-2">
+            <CardTitle className="text-base font-medium text-gray-600 flex items-center gap-1.5">
               <AlertTriangle className="h-4 w-4 text-orange-500" />
               에러율
             </CardTitle>
@@ -118,7 +118,7 @@ export default function MonitoringDashboard() {
 
         <Card className="hover:shadow-lg hover:scale-105 transition-all cursor-pointer">
           <CardHeader className="pb-1">
-            <CardTitle className="text-base font-medium text-gray-600 flex items-center gap-2">
+            <CardTitle className="text-base font-medium text-gray-600 flex items-center gap-1.5">
               <Activity className="h-4 w-4 text-green-500" />
               응답시간
             </CardTitle>
@@ -134,7 +134,7 @@ export default function MonitoringDashboard() {
       {/* 트래픽 차트 */}
       <Card className="hover:shadow-md transition-shadow">
         <CardHeader>
-          <CardTitle className="flex items-center gap-2">
+          <CardTitle className="flex items-center gap-1.5">
             <TrendingUp className="h-5 w-5" />
             시스템 트래픽 추이
           </CardTitle>
@@ -155,16 +155,16 @@ export default function MonitoringDashboard() {
       </Card>
 
       {/* 서버 상태 + 최근 알림 */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-1.5">
         {/* 서버 상태 */}
         <Card className="hover:shadow-md transition-shadow">
           <CardHeader>
-            <CardTitle className="flex items-center gap-2">
+            <CardTitle className="flex items-center gap-1.5">
               <Server className="h-5 w-5" />
               서버 상태
             </CardTitle>
           </CardHeader>
-          <CardContent className="space-y-3">
+          <CardContent className="space-y-1.5">
             {serverStatus.map((item, i) => (
               <div 
                 key={i}
@@ -192,12 +192,12 @@ export default function MonitoringDashboard() {
         {/* 최근 알림 */}
         <Card className="hover:shadow-md transition-shadow">
           <CardHeader>
-            <CardTitle className="flex items-center gap-2">
+            <CardTitle className="flex items-center gap-1.5">
               <AlertCircle className="h-5 w-5 text-orange-500" />
               최근 알림
             </CardTitle>
           </CardHeader>
-          <CardContent className="space-y-2">
+          <CardContent className="space-y-1.5">
             {[
               { icon: '⚠️', text: '메모리 사용률 상승 감지', time: '2분 전' },
               { icon: '⏱️', text: '데이터베이스 연결 지연', time: '5분 전' },
@@ -208,7 +208,7 @@ export default function MonitoringDashboard() {
                 className="p-2 border rounded hover:shadow-md transition-all hover:scale-102 cursor-pointer"
               >
                 <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-2">
+                  <div className="flex items-center gap-1.5">
                     <span>{alert.icon}</span>
                     <span className="text-sm">{alert.text}</span>
                   </div>
@@ -223,7 +223,7 @@ export default function MonitoringDashboard() {
       {/* 서비스 상태 */}
       <Card className="hover:shadow-md transition-shadow">
         <CardHeader>
-          <CardTitle className="flex items-center gap-2">
+          <CardTitle className="flex items-center gap-1.5">
             <Activity className="h-5 w-5 text-green-500" />
             서비스 상태
           </CardTitle>
@@ -244,7 +244,7 @@ export default function MonitoringDashboard() {
               >
                 <div className="flex items-center justify-between">
                   <span className="text-sm font-medium">{service.name}</span>
-                  <div className="flex items-center gap-2">
+                  <div className="flex items-center gap-1.5">
                     <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
                     <span className="text-xs text-green-600">온라인</span>
                   </div>

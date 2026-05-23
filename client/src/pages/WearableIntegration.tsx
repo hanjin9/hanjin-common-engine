@@ -71,7 +71,7 @@ export default function WearableIntegration() {
   };
 
   return (
-    <div className="p-3 md:p-4 space-y-3">
+    <div className="p-2 md:p-3 space-y-1.5">
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-xl font-bold text-cyan-700">웨어러블 연동</h1>
@@ -80,7 +80,7 @@ export default function WearableIntegration() {
       </div>
 
       {/* ✅ 관리자용 4개 카드 (보고서 4차 반영) */}
-      <div className="grid grid-cols-2 gap-2">
+      <div className="grid grid-cols-2 gap-1.5">
         {[
           { label: '기기 연동 회원', value: '342', sub: '전체 1,247명 중', pct: '27%', color: 'text-cyan-600', border: 'border-cyan-200', icon: '📱',
             detail: '전체 회원 중 기기를 하나라도 연동한 회원', members: ['김건강 (Google Fit)', '이활력 (Apple Health)', '박수련 (Galaxy Watch)'] },
@@ -107,7 +107,7 @@ export default function WearableIntegration() {
 
       {/* ✅ 오늘의 목표 발송 (개인 통계 → 관리자 발송으로 전환) */}
       <div className="bg-gradient-to-r from-cyan-50 to-blue-50 border border-cyan-200 rounded-xl p-4">
-        <div className="flex items-center justify-between flex-wrap gap-3">
+        <div className="flex items-center justify-between flex-wrap gap-1.5">
           <div>
             <h3 className="font-semibold text-cyan-800">📡 오늘의 목표 발송</h3>
             <p className="text-xs text-cyan-600 mt-0.5">기기 연동 회원 342명에게 맞춤 목표를 발송합니다</p>
@@ -135,7 +135,7 @@ ${btn.count}명에게 발송하시겠습니까?`);
           </div>
         </div>
       </div>
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-1.5">
           <Button
             variant="outline"
             className="border-dashed border-cyan-400 text-cyan-700 hover:bg-cyan-50 text-xs sm:text-sm"
@@ -193,9 +193,9 @@ ${btn.count}명에게 발송하시겠습니까?`);
       </div>
 
       {/* 요약 카드 */}
-      <div className="grid grid-cols-2 gap-2">
+      <div className="grid grid-cols-2 gap-1.5">
         <Card className="border-cyan-200">
-          <CardContent className="p-2 flex items-center gap-3">
+          <CardContent className="p-2 flex items-center gap-1.5">
             <div className="p-2 rounded-full bg-red-100">
               <Heart className="w-5 h-5 text-red-500" />
             </div>
@@ -206,7 +206,7 @@ ${btn.count}명에게 발송하시겠습니까?`);
           </CardContent>
         </Card>
         <Card className="border-cyan-200">
-          <CardContent className="p-2 flex items-center gap-3">
+          <CardContent className="p-2 flex items-center gap-1.5">
             <div className="p-2 rounded-full bg-blue-100">
               <Activity className="w-5 h-5 text-blue-500" />
             </div>
@@ -217,7 +217,7 @@ ${btn.count}명에게 발송하시겠습니까?`);
           </CardContent>
         </Card>
         <Card className="border-cyan-200">
-          <CardContent className="p-2 flex items-center gap-3">
+          <CardContent className="p-2 flex items-center gap-1.5">
             <div className="p-2 rounded-full bg-orange-100">
               <Flame className="w-5 h-5 text-orange-500" />
             </div>
@@ -228,7 +228,7 @@ ${btn.count}명에게 발송하시겠습니까?`);
           </CardContent>
         </Card>
         <Card className="border-cyan-200">
-          <CardContent className="p-2 flex items-center gap-3">
+          <CardContent className="p-2 flex items-center gap-1.5">
             <div className="p-2 rounded-full bg-green-100">
               <Footprints className="w-5 h-5 text-green-500" />
             </div>
@@ -248,7 +248,7 @@ ${btn.count}명에게 발송하시겠습니까?`);
         </TabsList>
 
         <TabsContent value="devices" className="mt-4">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-1.5">
             {connections?.length === 0 && (
               <div className="col-span-full text-center py-3 text-muted-foreground">
                 <Watch className="w-12 h-12 mx-auto mb-3 opacity-30" />
@@ -262,14 +262,14 @@ ${btn.count}명에게 발송하시겠습니까?`);
                 <Card key={conn.id} className={`${info.color} border-0`}>
                   <CardContent className="p-4">
                     <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-3">
+                      <div className="flex items-center gap-1.5">
                         <span className="text-2xl">{info.icon}</span>
                         <div>
                           <p className="font-semibold">{conn.deviceName ?? info.name}</p>
                           <p className="text-xs text-muted-foreground">{info.name}</p>
                         </div>
                       </div>
-                      <div className="flex items-center gap-2">
+                      <div className="flex items-center gap-1.5">
                         <Badge variant={conn.isActive ? "default" : "secondary"}>
                           {conn.isActive ? "연동됨" : "비활성"}
                         </Badge>
@@ -336,7 +336,7 @@ ${btn.count}명에게 발송하시겠습니까?`);
         </TabsContent>
 
         <TabsContent value="exercise" className="mt-4">
-          <div className="space-y-3">
+          <div className="space-y-1.5">
             {exerciseSessions?.length === 0 && (
               <div className="text-center py-3 text-muted-foreground">
                 <Zap className="w-10 h-10 mx-auto mb-2 opacity-30" />

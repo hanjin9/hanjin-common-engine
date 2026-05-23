@@ -29,7 +29,7 @@ export default function Home() {
     <div className="min-h-screen bg-background flex flex-col">
       {/* 헤더 */}
       <header className="border-b px-6 py-4 flex items-center justify-between">
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-1.5">
           <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center">
             <Shield className="h-4 w-4 text-primary-foreground" />
           </div>
@@ -64,17 +64,17 @@ export default function Home() {
 
         {/* 기능 카드 3개 */}
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 w-full max-w-2xl">
-          <div className="border rounded-xl p-5 text-left flex flex-col gap-2">
+          <div className="border rounded-xl p-5 text-left flex flex-col gap-1.5">
             <BarChart3 className="h-5 w-5 text-primary" />
             <p className="font-semibold text-sm">통합 통계</p>
             <p className="text-xs text-muted-foreground">프로젝트별 매출·가입자·구독 현황을 한눈에</p>
           </div>
-          <div className="border rounded-xl p-5 text-left flex flex-col gap-2">
+          <div className="border rounded-xl p-5 text-left flex flex-col gap-1.5">
             <CreditCard className="h-5 w-5 text-primary" />
             <p className="font-semibold text-sm">멤버십 관리</p>
             <p className="text-xs text-muted-foreground">GLWA 10단계 VIP 멤버십 정책 편집 및 이력 관리</p>
           </div>
-          <div className="border rounded-xl p-5 text-left flex flex-col gap-2">
+          <div className="border rounded-xl p-5 text-left flex flex-col gap-1.5">
             <Users className="h-5 w-5 text-primary" />
             <p className="font-semibold text-sm">사용자 관리</p>
             <p className="text-xs text-muted-foreground">전체 프로젝트 사용자 통합 조회 및 역할 관리</p>

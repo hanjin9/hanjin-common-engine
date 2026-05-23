@@ -61,13 +61,13 @@ export default function TransactionDetailsPage() {
   return (
     <DashboardLayout>
       <div className="space-y-3 p-3 md:p-4">
-        <div className="flex items-center justify-between flex-wrap gap-3">
-          <div className="flex items-center gap-3">
+        <div className="flex items-center justify-between flex-wrap gap-1.5">
+          <div className="flex items-center gap-1.5">
             <Button variant="ghost" size="sm" onClick={() => setLocation('/admin/payment')}>
               <ArrowLeft className="h-4 w-4 mr-1" />뒤로
             </Button>
             <div>
-              <h1 className="text-xl font-bold flex items-center gap-2">
+              <h1 className="text-xl font-bold flex items-center gap-1.5">
                 <Receipt className="h-6 w-6 text-orange-500" />전체 거래 내역
               </h1>
               <p className="text-xs text-gray-400 mt-0.5 leading-snug">모든 결제 트랜잭션 · 실시간 DB</p>
@@ -96,13 +96,13 @@ export default function TransactionDetailsPage() {
 
         <Card>
           <CardHeader>
-            <CardTitle className="text-base flex items-center gap-2">
+            <CardTitle className="text-base flex items-center gap-1.5">
               거래 목록 <Badge variant="outline" className="text-xs">{total.toLocaleString()}건 · 실시간</Badge>
             </CardTitle>
           </CardHeader>
           <CardContent>
             {isLoading ? (
-              <div className="space-y-2">{Array.from({length:6}).map((_,i)=><Skeleton key={i} className="h-10"/>)}</div>
+              <div className="space-y-1.5">{Array.from({length:6}).map((_,i)=><Skeleton key={i} className="h-10"/>)}</div>
             ) : items.length === 0 ? (
               <p className="text-center text-gray-400 py-10">거래 내역이 없습니다</p>
             ) : (
@@ -138,7 +138,7 @@ export default function TransactionDetailsPage() {
                 </div>
                 <div className="flex items-center justify-between mt-4 text-sm">
                   <span className="text-gray-500">총 {total.toLocaleString()}건</span>
-                  <div className="flex gap-2">
+                  <div className="flex gap-1.5">
                     <Button variant="outline" size="sm" disabled={page<=1} onClick={()=>setPage(p=>p-1)}>이전</Button>
                     <span className="px-3 py-1 border rounded">{page} / {totalPages||1}</span>
                     <Button variant="outline" size="sm" disabled={page>=totalPages} onClick={()=>setPage(p=>p+1)}>다음</Button>

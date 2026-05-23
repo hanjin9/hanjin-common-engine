@@ -65,14 +65,14 @@ export default function FeedbackAdvancedDashboard() {
   }, {} as Record<string, number>) ?? {};
 
   return (
-    <div className="p-3 md:p-4 space-y-3">
+    <div className="p-2 md:p-3 space-y-1.5">
       <div>
         <h1 className="text-xl font-bold text-indigo-700">AI 피드백 고도화</h1>
         <p className="text-muted-foreground text-sm mt-1">3단계 피드백 시스템 관리 (1차 자동 → 2차 자동 → 3차 수동)</p>
       </div>
 
       {/* 통계 카드 */}
-      <div className="grid grid-cols-2 md:grid-cols-5 gap-2">
+      <div className="grid grid-cols-2 md:grid-cols-5 gap-1.5">
         {[
           { label: "대기 중", key: "pending", icon: <Clock className="w-5 h-5 text-yellow-500" />, bg: "bg-yellow-50" },
           { label: "승인됨", key: "approved", icon: <CheckCircle className="w-5 h-5 text-blue-500" />, bg: "bg-blue-50" },
@@ -81,7 +81,7 @@ export default function FeedbackAdvancedDashboard() {
           { label: "취소됨", key: "cancelled", icon: <XCircle className="w-5 h-5 text-gray-400" />, bg: "bg-gray-50" },
         ].map((item) => (
           <Card key={item.key} className={`${item.bg} border-0`}>
-            <CardContent className="p-2 flex items-center gap-3">
+            <CardContent className="p-2 flex items-center gap-1.5">
               {item.icon}
               <div>
                 <p className="text-xs text-muted-foreground">{item.label}</p>
@@ -98,7 +98,7 @@ export default function FeedbackAdvancedDashboard() {
           <CardTitle className="text-base">채널별 발송 현황</CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="flex flex-wrap gap-3">
+          <div className="flex flex-wrap gap-1.5">
             {stats?.channelStats?.map((cs) => (
               <div key={cs.channel} className="flex items-center gap-2 px-3 py-2 rounded-lg bg-muted">
                 {CHANNEL_ICONS[cs.channel]}
@@ -115,7 +115,7 @@ export default function FeedbackAdvancedDashboard() {
         <CardHeader>
           <div className="flex items-center justify-between">
             <CardTitle className="text-base">피드백 큐</CardTitle>
-            <div className="flex gap-2">
+            <div className="flex gap-1.5">
               <Select value={statusFilter} onValueChange={setStatusFilter}>
                 <SelectTrigger className="w-32 h-8 text-xs">
                   <SelectValue />

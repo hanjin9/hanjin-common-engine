@@ -116,9 +116,9 @@ export default function ProjectsManagement() {
                   </Badge>
                 </div>
               </CardHeader>
-              <CardContent className="space-y-3">
+              <CardContent className="space-y-1.5">
                 <p className="text-sm text-gray-600">{project.description || '설명 없음'}</p>
-                <div className="flex gap-2">
+                <div className="flex gap-1.5">
                   <Button
                     size="sm"
                     variant="outline"

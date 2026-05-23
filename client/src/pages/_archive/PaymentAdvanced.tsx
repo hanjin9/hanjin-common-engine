@@ -54,7 +54,7 @@ export default function PaymentAdvanced() {
       {/* 요약 카드 */}
       <div className="grid grid-cols-3 gap-4">
         <Card className="bg-yellow-50 border-0">
-          <CardContent className="p-4 flex items-center gap-3">
+          <CardContent className="p-4 flex items-center gap-1.5">
             <Coins className="w-8 h-8 text-yellow-500" />
             <div>
               <p className="text-xs text-muted-foreground">활성 리워드 규칙</p>
@@ -63,7 +63,7 @@ export default function PaymentAdvanced() {
           </CardContent>
         </Card>
         <Card className="bg-orange-50 border-0">
-          <CardContent className="p-4 flex items-center gap-3">
+          <CardContent className="p-4 flex items-center gap-1.5">
             <ShoppingBag className="w-8 h-8 text-orange-500" />
             <div>
               <p className="text-xs text-muted-foreground">프리미엄 상품</p>
@@ -72,7 +72,7 @@ export default function PaymentAdvanced() {
           </CardContent>
         </Card>
         <Card className="bg-blue-50 border-0">
-          <CardContent className="p-4 flex items-center gap-3">
+          <CardContent className="p-4 flex items-center gap-1.5">
             <Building2 className="w-8 h-8 text-blue-500" />
             <div>
               <p className="text-xs text-muted-foreground">정산 대기</p>

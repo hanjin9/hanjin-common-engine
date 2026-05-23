@@ -72,13 +72,13 @@ export default function PaymentChart() {
   const loading = chartLoading || pmtLoading;
 
   return (
-    <div className="space-y-3">
+    <div className="space-y-1.5">
       <div className="border-b border-gray-200 pb-2 flex items-start justify-between flex-wrap gap-4">
         <div>
           <h1 className="text-base font-bold text-black mb-0.5">결제 및 구독 현황</h1>
           <p className="text-gray-600 text-xs">Stripe · 실시간 DB 연동 · stripePayments 테이블</p>
         </div>
-        <div className="flex gap-2">
+        <div className="flex gap-1.5">
           <Button
             variant={period === 'week' ? 'default' : 'outline'}
             size="sm"
@@ -140,7 +140,7 @@ export default function PaymentChart() {
       </Card>
 
       {/* 상태 분포 */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-2">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-1.5">
         <Card className="p-8 border-gray-200">
           <h2 className="text-base font-semibold text-black mb-2">결제 상태 분포 (실시간)</h2>
           {loading ? <Skeleton className="h-48 w-full" /> : statusDist.length === 0 ? (
@@ -156,10 +156,10 @@ export default function PaymentChart() {
                   <Tooltip />
                 </PieChart>
               </ResponsiveContainer>
-              <div className="mt-4 space-y-2">
+              <div className="mt-4 space-y-1.5">
                 {statusDist.map(s => (
                   <div key={s.name} className="flex items-center justify-between text-sm">
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-1.5">
                       <div className="w-3 h-3 rounded-sm" style={{ background: s.color }} />
                       <span className="text-gray-600">{s.name}</span>
                     </div>
@@ -175,16 +175,16 @@ export default function PaymentChart() {
         <Card className="p-8 border-gray-200">
           <h2 className="text-base font-semibold text-black mb-2">최근 결제 내역 (실시간)</h2>
           {loading ? (
-            <div className="space-y-3">{[1,2,3,4,5].map(i => <Skeleton key={i} className="h-10 w-full" />)}</div>
+            <div className="space-y-1.5">{[1,2,3,4,5].map(i => <Skeleton key={i} className="h-10 w-full" />)}</div>
           ) : payments.length === 0 ? (
-            <div className="h-48 flex flex-col items-center justify-center text-gray-400 gap-3">
+            <div className="h-48 flex flex-col items-center justify-center text-gray-400 gap-1.5">
               <p className="text-sm">결제 내역 없음</p>
               <Button variant="outline" size="sm" onClick={() => window.location.href = '/admin/membership/checkout'}>
                 <ExternalLink className="h-4 w-4 mr-1" />테스트 결제 하기
               </Button>
             </div>
           ) : (
-            <div className="space-y-2">
+            <div className="space-y-1.5">
               {payments.slice(0, 6).map((p: any, i: number) => (
                 <div key={p.id ?? i} className="flex items-center justify-between py-2 border-b border-gray-100 last:border-0">
                   <div>

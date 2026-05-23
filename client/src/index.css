@@ -275,3 +275,54 @@
 [data-slot="card"] select {
   font-size: 0.9rem !important;
 }
+
+/* ━━ 사이드바 메뉴 글씨 크기 20% 크게 + 색 진하게 ━━━━━━━━━━━━━━ */
+[data-sidebar="menu-button"] {
+  font-size: 0.88rem !important;
+  font-weight: 600 !important;
+  color: #1e293b !important;
+  letter-spacing: -0.01em;
+}
+[data-sidebar="menu-button"]:hover {
+  color: #0f172a !important;
+  background: rgba(0,0,0,0.07) !important;
+}
+[data-sidebar="menu-button"][data-active="true"] {
+  color: #1e40af !important;
+  font-weight: 700 !important;
+}
+[data-sidebar="group-label"] {
+  font-size: 0.68rem !important;
+  font-weight: 700 !important;
+  color: #475569 !important;
+  letter-spacing: 0.08em;
+}
+/* 사이드바 내 섹션명 */
+.sidebar-section-label {
+  font-size: 0.65rem !important;
+  font-weight: 700 !important;
+  color: #475569 !important;
+}
+
+/* ━━ 카드 높이 20% 추가 축소 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+[data-slot="card-content"] {
+  padding-top: 6px !important;
+  padding-bottom: 6px !important;
+  padding-left: 10px !important;
+  padding-right: 10px !important;
+}
+[data-slot="card-header"] {
+  padding-top: 6px !important;
+  padding-bottom: 3px !important;
+  padding-left: 10px !important;
+  padding-right: 10px !important;
+}
+[data-slot="card"] {
+  margin-bottom: 5px !important;
+}
+/* 카드 내 수직 간격 */
+[data-slot="card-content"] .space-y-3 > * + * { margin-top: 0.35rem !important; }
+[data-slot="card-content"] .space-y-2 > * + * { margin-top: 0.25rem !important; }
+[data-slot="card-content"] .mb-2 { margin-bottom: 0.25rem !important; }
+[data-slot="card-content"] .mt-2 { margin-top: 0.25rem !important; }
+[data-slot="card-content"] .mt-1 { margin-top: 0.15rem !important; }

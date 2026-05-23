@@ -78,8 +78,8 @@ export default function MembershipManagement() {
 
   return (
     <DashboardLayout>
-      <div className="p-3 md:p-4 space-y-3">
-        <div className="flex items-center justify-between flex-wrap gap-3">
+      <div className="p-2 md:p-3 space-y-1.5">
+        <div className="flex items-center justify-between flex-wrap gap-1.5">
           <div>
             <h1 className="text-base font-bold truncate">멤버십 관리</h1>
             <p className="text-xs text-gray-400 mt-0.5 leading-snug">11단계 VIP 멤버십 체계 · 정책·조건·혜택·회비 편집</p>
@@ -110,7 +110,7 @@ export default function MembershipManagement() {
                   className="grid items-center px-4 py-3 border-b border-gray-100 hover:bg-gray-50 transition-colors"
                   style={{ gridTemplateColumns: '140px 1fr 1fr 160px 40px' }}>
                   {/* 등급 */}
-                  <div className="flex items-center gap-2">
+                  <div className="flex items-center gap-1.5">
                     {/* 이미지 슬롯 */}
                     <div style={{
                       width: 32, height: 32, borderRadius: 6, background: tier.bg,
@@ -150,8 +150,8 @@ export default function MembershipManagement() {
                   <div style={{ background: tier.bg, borderBottom: '1px solid #e5e7eb', padding: '14px 20px' }}>
                     {editing === tier.step ? (
                       // 편집 모드
-                      <div className="space-y-3">
-                        <div className="grid grid-cols-2 gap-3">
+                      <div className="space-y-1.5">
+                        <div className="grid grid-cols-2 gap-1.5">
                           <div>
                             <label className="text-xs font-medium text-gray-500 block mb-1">자격 조건</label>
                             <Textarea value={editData.condition} rows={2}
@@ -165,7 +165,7 @@ export default function MembershipManagement() {
                               className="text-xs" />
                           </div>
                         </div>
-                        <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+                        <div className="grid grid-cols-2 sm:grid-cols-4 gap-1.5">
                           {[
                             { k: 'joinFee', label: '가입비 (₩)' },
                             { k: 'deposit',  label: '보증금 (₩)' },
@@ -179,7 +179,7 @@ export default function MembershipManagement() {
                             </div>
                           ))}
                         </div>
-                        <div className="flex gap-2">
+                        <div className="flex gap-1.5">
                           <Button size="sm" className="gap-1 bg-blue-600 text-white" onClick={() => saveEdit(tier.step)}>
                             <Save className="h-3 w-3" />저장
                           </Button>
@@ -190,7 +190,7 @@ export default function MembershipManagement() {
                       </div>
                     ) : (
                       // 보기 모드
-                      <div className="space-y-3">
+                      <div className="space-y-1.5">
                         <div className="grid grid-cols-2 gap-2 text-xs">
                           <div>
                             <p className="font-semibold text-gray-600 mb-1">📋 자격 조건</p>
@@ -220,7 +220,7 @@ export default function MembershipManagement() {
                             <p className="font-bold text-gray-800">{fmtKrw(tier.annual)}</p>
                           </div>
                         </div>
-                        <div className="flex items-center gap-2">
+                        <div className="flex items-center gap-1.5">
                           <Button size="sm" variant="outline" className="gap-1 h-7 text-xs" onClick={() => startEdit(tier)}>
                             <Edit2 className="h-3 w-3" />수정
                           </Button>

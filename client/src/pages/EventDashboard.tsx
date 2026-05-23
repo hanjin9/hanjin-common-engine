@@ -135,7 +135,7 @@ function EventDialog({
               rows={4}
             />
           </div>
-          <div className="grid grid-cols-2 gap-3">
+          <div className="grid grid-cols-2 gap-1.5">
             <div>
               <Label>발송 유형</Label>
               <Select value={form.sendType} onValueChange={v => setForm(p => ({ ...p, sendType: v }))}>
@@ -240,11 +240,11 @@ export default function EventDashboard() {
     : events.filter((e: any) => e.sendStatus === activeTab);
 
   return (
-    <div className="p-3 md:p-4 space-y-3">
+    <div className="p-2 md:p-3 space-y-1.5">
       {/* 헤더 */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-xl font-bold flex items-center gap-2">
+          <h1 className="text-xl font-bold flex items-center gap-1.5">
             <Calendar className="w-6 h-6 text-blue-500" />
             이벤트 관리
           </h1>
@@ -262,7 +262,7 @@ export default function EventDashboard() {
       </div>
 
       {/* 통계 카드 */}
-      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
+      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-1.5">
         {[
           { label: "전체 이벤트", value: stats.total, icon: Calendar, color: "text-blue-500" },
           { label: "오늘 발송", value: stats.sentToday, icon: CheckCircle2, color: "text-green-500" },
@@ -272,7 +272,7 @@ export default function EventDashboard() {
           { label: "발송률", value: `${stats.total > 0 ? Math.round((stats.sentToday / stats.total) * 100) : 0}%`, icon: BarChart3, color: "text-yellow-500" },
         ].map(({ label, value, icon: Icon, color }) => (
           <Card key={label} className="p-3">
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-1.5">
               <Icon className={`w-4 h-4 ${color}`} />
               <span className="text-xs text-muted-foreground">{label}</span>
             </div>
@@ -284,13 +284,13 @@ export default function EventDashboard() {
       {/* 타겟 그룹 안내 */}
       <Card className="border-blue-200 dark:border-blue-800">
         <CardHeader className="pb-1">
-          <CardTitle className="text-base flex items-center gap-2">
+          <CardTitle className="text-base flex items-center gap-1.5">
             <Users className="w-4 h-4 text-blue-500" />
             % 기반 타겟 발송 가이드
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2">
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-1.5">
             {TARGET_OPTIONS.map(({ value, label, icon: Icon, color, desc }) => (
               <div key={value} className="text-center p-2 rounded bg-muted">
                 {Icon && <Icon className={`w-5 h-5 mx-auto mb-1 ${color}`} />}
@@ -305,7 +305,7 @@ export default function EventDashboard() {
       {/* 이벤트 목록 */}
       <Card>
         <CardHeader>
-          <CardTitle className="flex items-center gap-2">
+          <CardTitle className="flex items-center gap-1.5">
             <Bell className="w-5 h-5" />
             이벤트 목록
           </CardTitle>
@@ -330,7 +330,7 @@ export default function EventDashboard() {
                   </Button>
                 </div>
               ) : (
-                <div className="space-y-3">
+                <div className="space-y-1.5">
                   {filteredEvents.map((event: any) => {
                     const target = TARGET_OPTIONS.find(t => t.value === event.targetAudience);
                     const sendType = SEND_TYPES.find(t => t.value === event.sendType);
@@ -423,13 +423,13 @@ export default function EventDashboard() {
       {/* 즉석 이벤트 빠른 발송 */}
       <Card className="border-yellow-200 dark:border-yellow-800">
         <CardHeader>
-          <CardTitle className="text-base flex items-center gap-2">
+          <CardTitle className="text-base flex items-center gap-1.5">
             <Zap className="w-4 h-4 text-yellow-500" />
             즉석 이벤트 빠른 발송
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="grid grid-cols-2 gap-2">
+          <div className="grid grid-cols-2 gap-1.5">
             {[
               { label: "전체 공지", target: "all", icon: Bell, color: "bg-blue-500" },
               { label: "TOP 10% 축하", target: "top_10pct", icon: Trophy, color: "bg-yellow-500" },
@@ -439,7 +439,7 @@ export default function EventDashboard() {
               <Button
                 key={target}
                 variant="outline"
-                className="h-auto py-3 flex-col gap-2"
+                className="h-auto py-3 flex-col gap-1.5"
                 onClick={() => {
                   setShowCreate(true);
                   // 타겟 프리셋으로 다이얼로그 열기

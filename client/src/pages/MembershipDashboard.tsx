@@ -103,7 +103,7 @@ function EditTierModal({
     <Dialog open={open} onOpenChange={onClose}>
       <DialogContent className="bg-slate-900 border-slate-700 text-white max-w-lg max-h-[90vh] overflow-y-auto">
         <DialogHeader>
-          <DialogTitle className="flex items-center gap-2">
+          <DialogTitle className="flex items-center gap-1.5">
             <span
               className="w-4 h-4 rounded-full inline-block"
               style={{ backgroundColor: color }}
@@ -163,7 +163,7 @@ function EditTierModal({
           </div>
 
           {/* 혜택 목록 */}
-          <div className="space-y-2">
+          <div className="space-y-1.5">
             <div className="flex items-center justify-between">
               <Label className="text-slate-300 text-xs">혜택 목록</Label>
               <Button
@@ -269,7 +269,7 @@ function TierCard({
         }`}
         style={{ borderLeftColor: color, borderLeftWidth: 3 }}
       >
-        <div className="flex items-start justify-between gap-2">
+        <div className="flex items-start justify-between gap-1.5">
           <div className="flex items-center gap-2 min-w-0">
             <div
               className="flex-shrink-0 w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold text-white"
@@ -384,11 +384,11 @@ function PolicyHistoryPanel({ projectSlug }: { projectSlug: string }) {
   };
 
   return (
-    <div className="space-y-2">
+    <div className="space-y-1.5">
       {history.map((h) => (
         <div key={h.id} className="rounded-lg border border-slate-700 p-3 text-sm">
           <div className="flex items-center justify-between gap-2 mb-1">
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-1.5">
               <Badge variant="outline" className="text-xs border-slate-600 text-slate-400">
                 {changeTypeLabel[h.changeType] ?? h.changeType}
               </Badge>
@@ -455,7 +455,7 @@ function ProjectMembershipPanel({
 
   if (isLoading) {
     return (
-      <div className="space-y-2">
+      <div className="space-y-1.5">
         {Array.from({ length: 5 }).map((_, i) => (
           <Skeleton key={i} className="h-16 rounded-lg bg-slate-800" />
         ))}
@@ -468,9 +468,9 @@ function ProjectMembershipPanel({
   };
 
   return (
-    <div className="space-y-2">
+    <div className="space-y-1.5">
       {/* 뷰 전환 + 시드 버튼 */}
-      <div className="flex items-center justify-between gap-2">
+      <div className="flex items-center justify-between gap-1.5">
         <div className="flex gap-1">
           <Button
             size="sm"
@@ -517,7 +517,7 @@ function ProjectMembershipPanel({
               단계 데이터가 없습니다. 위 버튼으로 초기 데이터를 삽입하세요.
             </div>
           ) : (
-            <div className="space-y-2">
+            <div className="space-y-1.5">
               {stats.tierDistribution.map((tier) => (
                 <TierCard
                   key={tier.tierKey}
@@ -546,9 +546,9 @@ export default function MembershipDashboard() {
 
   return (
     <DashboardLayout>
-      <div className="p-3 md:p-4 space-y-3">
+      <div className="p-2 md:p-3 space-y-1.5">
         {/* 헤더 */}
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-1.5">
           <Crown className="w-5 h-5 text-amber-400" />
           <div>
             <h1 className="text-lg font-bold text-white">멤버십 / 구독 관리</h1>

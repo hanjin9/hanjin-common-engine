@@ -46,11 +46,11 @@ export default function LoginPage() {
           <CardTitle className="text-2xl">한진 공통 엔진</CardTitle>
           <CardDescription>로그인하여 시작하세요</CardDescription>
         </CardHeader>
-        <CardContent className="space-y-3">
+        <CardContent className="space-y-1.5">
           {/* 소셜 로그인 - 추천 순서 */}
-          <div className="space-y-2">
+          <div className="space-y-1.5">
             <p className="text-xs font-semibold text-gray-600">소셜 로그인</p>
-            <div className="grid grid-cols-2 gap-2">
+            <div className="grid grid-cols-2 gap-1.5">
               <Button
                 variant="outline"
                 onClick={() => handleSocialLogin('Google')}
@@ -83,8 +83,8 @@ export default function LoginPage() {
           </div>
 
           {/* 이메일 로그인 */}
-          <div className="space-y-3">
-            <div className="space-y-2">
+          <div className="space-y-1.5">
+            <div className="space-y-1.5">
               <Label htmlFor="email">이메일</Label>
               <Input
                 id="email"
@@ -98,7 +98,7 @@ export default function LoginPage() {
             <Button
               onClick={handleEmailLogin}
               disabled={isLoading}
-              className="w-full bg-blue-600 hover:bg-blue-700 gap-2"
+              className="w-full bg-blue-600 hover:bg-blue-700 gap-1.5"
             >
               <Mail className="h-4 w-4" />
               이메일로 로그인
@@ -106,9 +106,9 @@ export default function LoginPage() {
           </div>
 
           {/* 추가 로그인 옵션 */}
-          <div className="space-y-2">
+          <div className="space-y-1.5">
             <p className="text-xs font-semibold text-gray-600">다른 방법</p>
-            <div className="grid grid-cols-2 gap-2">
+            <div className="grid grid-cols-2 gap-1.5">
               <Button
                 variant="outline"
                 onClick={() => handleSocialLogin('Phone')}

@@ -85,7 +85,7 @@ export default function EventManagement() {
   ];
 
   return (
-    <div className="space-y-3">
+    <div className="space-y-1.5">
       {/* 헤더 */}
       <div className="flex items-center justify-between">
         <div>
@@ -99,10 +99,10 @@ export default function EventManagement() {
       </div>
 
       {/* 통계 카드 */}
-      <div className="grid grid-cols-1 sm:grid-cols-4 gap-2">
+      <div className="grid grid-cols-1 sm:grid-cols-4 gap-1.5">
         <Card>
           <CardHeader className="pb-1">
-            <CardTitle className="text-base font-medium flex items-center gap-2">
+            <CardTitle className="text-base font-medium flex items-center gap-1.5">
               <Calendar className="w-4 h-4" />
               활성 캠페인
             </CardTitle>
@@ -115,7 +115,7 @@ export default function EventManagement() {
 
         <Card>
           <CardHeader className="pb-1">
-            <CardTitle className="text-base font-medium flex items-center gap-2">
+            <CardTitle className="text-base font-medium flex items-center gap-1.5">
               <Users className="w-4 h-4" />
               발송 대상
             </CardTitle>
@@ -128,7 +128,7 @@ export default function EventManagement() {
 
         <Card>
           <CardHeader className="pb-1">
-            <CardTitle className="text-base font-medium flex items-center gap-2">
+            <CardTitle className="text-base font-medium flex items-center gap-1.5">
               <Send className="w-4 h-4" />
               발송 완료
             </CardTitle>
@@ -141,7 +141,7 @@ export default function EventManagement() {
 
         <Card>
           <CardHeader className="pb-1">
-            <CardTitle className="text-base font-medium flex items-center gap-2">
+            <CardTitle className="text-base font-medium flex items-center gap-1.5">
               <Target className="w-4 h-4" />
               반복 이벤트
             </CardTitle>
@@ -162,8 +162,8 @@ export default function EventManagement() {
         </TabsList>
 
         {/* 캠페인 탭 */}
-        <TabsContent value="campaigns" className="space-y-2">
-          <div className="space-y-2">
+        <TabsContent value="campaigns" className="space-y-1.5">
+          <div className="space-y-1.5">
             {campaigns.map((campaign) => (
               <Card key={campaign.id}>
                 <CardHeader>
@@ -187,8 +187,8 @@ export default function EventManagement() {
                     </div>
                   </div>
                 </CardHeader>
-                <CardContent className="space-y-2">
-                  <div className="grid grid-cols-2 gap-2">
+                <CardContent className="space-y-1.5">
+                  <div className="grid grid-cols-2 gap-1.5">
                     <div>
                       <p className="text-xs font-medium text-muted-foreground">타겟 대상</p>
                       <p className="text-sm font-semibold">{campaign.targetAudience}</p>
@@ -232,8 +232,8 @@ export default function EventManagement() {
         </TabsContent>
 
         {/* 반복 이벤트 탭 */}
-        <TabsContent value="events" className="space-y-2">
-          <div className="space-y-2">
+        <TabsContent value="events" className="space-y-1.5">
+          <div className="space-y-1.5">
             {events.map((event) => (
               <Card key={event.id}>
                 <CardHeader>
@@ -251,8 +251,8 @@ export default function EventManagement() {
                     </div>
                   </div>
                 </CardHeader>
-                <CardContent className="space-y-2">
-                  <div className="grid grid-cols-2 gap-2">
+                <CardContent className="space-y-1.5">
+                  <div className="grid grid-cols-2 gap-1.5">
                     <div>
                       <p className="text-xs font-medium text-muted-foreground">타겟 대상</p>
                       <p className="text-sm font-semibold">{event.targetAudience}</p>
@@ -291,28 +291,28 @@ export default function EventManagement() {
         </TabsContent>
 
         {/* 설정 탭 */}
-        <TabsContent value="settings" className="space-y-2">
+        <TabsContent value="settings" className="space-y-1.5">
           <Card>
             <CardHeader>
               <CardTitle>이벤트 관리 설정</CardTitle>
               <CardDescription>이벤트 발송 및 타겟팅 설정</CardDescription>
             </CardHeader>
-            <CardContent className="space-y-2">
-              <div className="space-y-2">
+            <CardContent className="space-y-1.5">
+              <div className="space-y-1.5">
                 <p className="text-sm font-medium">발송 시간대</p>
                 <p className="text-sm text-muted-foreground">이벤트 발송 가능 시간을 설정합니다</p>
-                <div className="flex gap-2">
+                <div className="flex gap-1.5">
                   <input type="time" className="border rounded px-2 py-1" defaultValue="07:00" />
                   <span className="text-sm text-muted-foreground">~</span>
                   <input type="time" className="border rounded px-2 py-1" defaultValue="22:00" />
                 </div>
               </div>
-              <div className="space-y-2">
+              <div className="space-y-1.5">
                 <p className="text-sm font-medium">일일 발송 제한</p>
                 <p className="text-sm text-muted-foreground">사용자당 일일 최대 발송 횟수</p>
                 <input type="number" className="border rounded px-2 py-1 w-20" defaultValue="5" />
               </div>
-              <div className="space-y-2">
+              <div className="space-y-1.5">
                 <p className="text-sm font-medium">재시도 정책</p>
                 <p className="text-sm text-muted-foreground">발송 실패 시 재시도 횟수</p>
                 <input type="number" className="border rounded px-2 py-1 w-20" defaultValue="3" />

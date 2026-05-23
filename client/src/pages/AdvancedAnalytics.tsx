@@ -57,16 +57,16 @@ export default function AdvancedAnalytics() {
   const now = new Date();
 
   return (
-    <div className="p-3 md:p-4 space-y-3">
+    <div className="p-2 md:p-3 space-y-1.5">
       <div>
         <h1 className="text-xl font-bold text-amber-700">고급 분석 & 리포트</h1>
         <p className="text-muted-foreground text-sm mt-1">AI 예측 분석, 월간 리포트, A/B 테스트 관리</p>
       </div>
 
       {/* 요약 카드 */}
-      <div className="grid grid-cols-3 gap-2">
+      <div className="grid grid-cols-3 gap-1.5">
         <Card className="bg-amber-50 border-0">
-          <CardContent className="p-2 flex items-center gap-3">
+          <CardContent className="p-2 flex items-center gap-1.5">
             <Brain className="w-8 h-8 text-amber-500" />
             <div>
               <p className="text-xs text-muted-foreground">총 예측 수행</p>
@@ -75,7 +75,7 @@ export default function AdvancedAnalytics() {
           </CardContent>
         </Card>
         <Card className="bg-blue-50 border-0">
-          <CardContent className="p-2 flex items-center gap-3">
+          <CardContent className="p-2 flex items-center gap-1.5">
             <FlaskConical className="w-8 h-8 text-blue-500" />
             <div>
               <p className="text-xs text-muted-foreground">진행 중 A/B 테스트</p>
@@ -84,7 +84,7 @@ export default function AdvancedAnalytics() {
           </CardContent>
         </Card>
         <Card className="bg-green-50 border-0">
-          <CardContent className="p-2 flex items-center gap-3">
+          <CardContent className="p-2 flex items-center gap-1.5">
             <FileText className="w-8 h-8 text-green-500" />
             <div>
               <p className="text-xs text-muted-foreground">총 사용자</p>
@@ -148,7 +148,7 @@ export default function AdvancedAnalytics() {
             </CardContent>
           </Card>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-1.5">
             {predictions?.map((pred) => {
               const info = PREDICTION_LABELS[pred.predictionType];
               const score = parseFloat(pred.score ?? "0");
@@ -276,7 +276,7 @@ export default function AdvancedAnalytics() {
               <CardContent className="p-4">
                 <div className="flex items-center justify-between mb-2">
                   <h3 className="font-semibold">{exp.name}</h3>
-                  <div className="flex items-center gap-2">
+                  <div className="flex items-center gap-1.5">
                     <Badge variant={exp.status === "running" ? "default" : "secondary"}>
                       {exp.status === "running" ? "진행 중" : exp.status === "draft" ? "초안" : exp.status === "completed" ? "완료" : "일시정지"}
                     </Badge>

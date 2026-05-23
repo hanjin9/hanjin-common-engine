@@ -123,13 +123,13 @@ export default function MissionDashboard() {
       <DashboardLayout>
         <div className="p-4 md:p-6 space-y-4">
           {/* 헤더 */}
-          <div className="flex items-center justify-between flex-wrap gap-2">
-            <div className="flex items-center gap-2">
+          <div className="flex items-center justify-between flex-wrap gap-1.5">
+            <div className="flex items-center gap-1.5">
               <Button variant="ghost" size="sm" onClick={() => setSelectedStage(null)}>
                 <ChevronLeft className="h-4 w-4 mr-1" />목록으로
               </Button>
               <div>
-                <h1 className="text-xl font-bold flex items-center gap-2">
+                <h1 className="text-xl font-bold flex items-center gap-1.5">
                   <span className="text-2xl">{stage.emoji}</span>
                   {stage.name}
                   <Badge style={{ background: stage.color, color: '#fff' }} className="text-xs">
@@ -146,15 +146,15 @@ export default function MissionDashboard() {
           </div>
 
           {/* 20개 슬롯 */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-1.5">
             {slots.map((slot) => (
               <Card key={slot.slotId}
                 className={`border transition-all ${slot.active ? 'border-green-300 bg-green-50/50' : 'border-gray-200'}`}>
-                <CardContent className="pt-2 pb-2">
+                <CardContent className="pt-1.5 pb-1.5">
                   {editingSlot === slot.slotId ? (
                     // 편집 모드
-                    <div className="space-y-2">
-                      <div className="flex items-center gap-2">
+                    <div className="space-y-1.5">
+                      <div className="flex items-center gap-1.5">
                         <span className="text-xs text-gray-400 w-6">#{slot.slotId}</span>
                         <Input placeholder="미션명 입력" value={editForm.title}
                           onChange={e => setEditForm(f => ({ ...f, title: e.target.value }))}
@@ -163,7 +163,7 @@ export default function MissionDashboard() {
                       <Input placeholder="설명 (선택)" value={editForm.desc}
                         onChange={e => setEditForm(f => ({ ...f, desc: e.target.value }))}
                         className="h-8 text-sm" />
-                      <div className="flex items-center gap-2">
+                      <div className="flex items-center gap-1.5">
                         <span className="text-xs text-gray-500">포인트:</span>
                         <Input type="number" value={editForm.points}
                           onChange={e => setEditForm(f => ({ ...f, points: Number(e.target.value) }))}
@@ -181,12 +181,12 @@ export default function MissionDashboard() {
                     </div>
                   ) : (
                     // 표시 모드
-                    <div className="flex items-start gap-2">
+                    <div className="flex items-start gap-1.5">
                       <span className="text-xs text-gray-400 mt-0.5 w-6 flex-shrink-0">#{slot.slotId}</span>
                       <div className="flex-1 min-w-0">
                         {slot.title ? (
                           <>
-                            <div className="flex items-center gap-2">
+                            <div className="flex items-center gap-1.5">
                               <span className="text-sm font-medium">{slot.title}</span>
                               <Badge variant="outline" className="text-xs text-yellow-600 border-yellow-300">
                                 {slot.points.toLocaleString()}P
@@ -228,9 +228,9 @@ export default function MissionDashboard() {
 
   return (
     <DashboardLayout>
-      <div className="p-3 md:p-4 space-y-3">
+      <div className="p-2 md:p-3 space-y-1.5">
         {/* 헤더 */}
-        <div className="flex items-center justify-between flex-wrap gap-2">
+        <div className="flex items-center justify-between flex-wrap gap-1.5">
           <div>
             <h1 className="text-sm font-bold flex items-center gap-1">
               <Target className="h-4 w-4 text-blue-600" />미션 관리
@@ -245,7 +245,7 @@ export default function MissionDashboard() {
         </div>
 
         {/* ✅ KPI 카드 4개 개편 (4차 반영) */}
-        <div className="grid grid-cols-2 gap-2">
+        <div className="grid grid-cols-2 gap-1.5">
           {/* 카드1: 타임 루틴 */}
           <Card className="cursor-pointer hover:shadow-md hover:border-blue-300 transition-all"
             onClick={() => { setActiveFilter('all'); setSelectedStage(null); }}>
@@ -296,7 +296,7 @@ export default function MissionDashboard() {
         </div>
 
         {/* 19단계 마인드맵 타일 */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2">
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-1.5">
           {filteredStages.map(stage => {
             const slots = stageSlots[stage.id] || [];
             const activeCount = slots.filter(s => s.active).length;
@@ -305,7 +305,7 @@ export default function MissionDashboard() {
                 className="cursor-pointer hover:shadow-lg transition-all hover:-translate-y-0.5"
                 style={{ borderTop: `3px solid ${stage.color}`, background: stage.bgColor }}
                 onClick={() => setSelectedStage(stage.id)}>
-                <CardContent className="pt-2 pb-2">
+                <CardContent className="pt-1.5 pb-1.5">
                   <div className="flex items-start justify-between mb-1">
                     <span className="text-2xl">{stage.emoji}</span>
                     <Badge variant="outline" className="text-xs" style={{ borderColor: stage.color, color: stage.color }}>
