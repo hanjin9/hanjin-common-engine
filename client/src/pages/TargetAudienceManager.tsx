@@ -117,7 +117,7 @@ export default function TargetAudienceManager() {
           </CardContent></Card>
           <Card><CardContent className="pt-5">
             <p className="text-sm text-gray-500">평균 발송 성공률</p>
-            <p className="text-xl font-bold text-green-600">95.1%</p>
+            <p className="text-2xl font-bold text-green-600">95.1%</p>
             <p className="text-xs text-gray-400 mt-1">최근 30일</p>
           </CardContent></Card>
         </div>
@@ -335,7 +335,7 @@ export default function TargetAudienceManager() {
                 <p className="text-xs text-gray-400 mb-3">{h.sentAt}</p>
                 <div className="grid grid-cols-3 gap-2 text-center">
                   <div><p className="text-xs text-gray-500">발송</p><p className="text-base font-bold truncate">{h.sentCount}</p></div>
-                  <div><p className="text-xs text-gray-500">성공</p><p className="text-xl font-bold text-green-600">{h.successCount}</p></div>
+                  <div><p className="text-xs text-gray-500">성공</p><p className="text-2xl font-bold text-green-600">{h.successCount}</p></div>
                   <div><p className="text-xs text-gray-500">실패</p><p className="text-xl font-bold text-red-500">{h.failureCount}</p></div>
                 </div>
                 <div className="mt-3 w-full bg-gray-200 rounded-full h-1.5">

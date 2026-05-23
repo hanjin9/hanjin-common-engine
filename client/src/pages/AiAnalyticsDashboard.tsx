@@ -217,13 +217,13 @@ export default function AiAnalyticsDashboard() {
             }}
           >
             <CardHeader className="pb-1">
-              <CardTitle className="text-sm font-medium flex items-center justify-between">
+              <CardTitle className="text-base font-medium flex items-center justify-between">
                 <span>🏃 AI Fit</span>
                 <Watch className="h-4 w-4 text-blue-500" />
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="text-xl font-bold text-blue-600">
+              <div className="text-2xl font-bold text-blue-600">
                 {aiMetrics.totalMembers > 0
                   ? `${Math.round((aiMetrics.deviceConnected / aiMetrics.totalMembers) * 100)}%`
                   : "—"}
@@ -244,13 +244,13 @@ export default function AiAnalyticsDashboard() {
             }}
           >
             <CardHeader className="pb-1">
-              <CardTitle className="text-sm font-medium flex items-center justify-between">
+              <CardTitle className="text-base font-medium flex items-center justify-between">
                 <span>🎙️ 소리·호흡</span>
                 <Activity className="h-4 w-4 text-green-500" />
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="text-xl font-bold text-green-600">
+              <div className="text-2xl font-bold text-green-600">
                 {aiMetrics.totalMembers > 0
                   ? `${Math.round((aiMetrics.voiceAiUsers / aiMetrics.totalMembers) * 100)}%`
                   : "—"}
@@ -271,13 +271,13 @@ export default function AiAnalyticsDashboard() {
             }}
           >
             <CardHeader className="pb-1">
-              <CardTitle className="text-sm font-medium flex items-center justify-between">
+              <CardTitle className="text-base font-medium flex items-center justify-between">
                 <span>📸 카메라</span>
                 <Zap className="h-4 w-4 text-purple-500" />
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="text-xl font-bold text-purple-600">
+              <div className="text-2xl font-bold text-purple-600">
                 {aiMetrics.totalMembers > 0
                   ? `${Math.round((aiMetrics.cameraAiUsers / aiMetrics.totalMembers) * 100)}%`
                   : "—"}

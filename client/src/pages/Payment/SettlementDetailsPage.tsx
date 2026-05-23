@@ -72,7 +72,7 @@ export default function SettlementDetailsPage() {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <Card>
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-gray-600">정산 예정액</CardTitle>
+            <CardTitle className="text-base font-medium text-gray-600">정산 예정액</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="text-3xl font-bold text-blue-600">₩2,432,700</div>
@@ -83,7 +83,7 @@ export default function SettlementDetailsPage() {
 
         <Card>
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-gray-600">수수료</CardTitle>
+            <CardTitle className="text-base font-medium text-gray-600">수수료</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="text-3xl font-bold text-red-600">₩78,300</div>
@@ -94,7 +94,7 @@ export default function SettlementDetailsPage() {
 
         <Card>
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-gray-600">정산 계좌</CardTitle>
+            <CardTitle className="text-base font-medium text-gray-600">정산 계좌</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="text-sm font-mono">국민은행 123-456-789012</div>

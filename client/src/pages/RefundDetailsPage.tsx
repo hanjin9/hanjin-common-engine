@@ -83,7 +83,7 @@ export default function RefundDetailsPage() {
 
         {/* 환불 가능 목록 (succeeded → 환불 버튼) */}
         <Card>
-          <CardHeader><CardTitle className="text-sm">환불 처리 가능 목록 (결제 성공)</CardTitle></CardHeader>
+          <CardHeader><CardTitle className="text-base">환불 처리 가능 목록 (결제 성공)</CardTitle></CardHeader>
           <CardContent>
             {sLoading ? <Skeleton className="h-40"/> : succeededItems.length === 0 ? (
               <p className="text-center text-gray-400 py-8">환불 가능한 결제가 없습니다</p>
@@ -123,7 +123,7 @@ export default function RefundDetailsPage() {
         {/* 환불 완료 목록 */}
         <Card>
           <CardHeader>
-            <CardTitle className="text-sm flex items-center gap-2">
+            <CardTitle className="text-base flex items-center gap-2">
               환불 완료 내역 <Badge variant="outline" className="text-xs">{total.toLocaleString()}건</Badge>
             </CardTitle>
           </CardHeader>

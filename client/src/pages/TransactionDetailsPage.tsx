@@ -96,7 +96,7 @@ export default function TransactionDetailsPage() {
 
         <Card>
           <CardHeader>
-            <CardTitle className="text-sm flex items-center gap-2">
+            <CardTitle className="text-base flex items-center gap-2">
               거래 목록 <Badge variant="outline" className="text-xs">{total.toLocaleString()}건 · 실시간</Badge>
             </CardTitle>
           </CardHeader>

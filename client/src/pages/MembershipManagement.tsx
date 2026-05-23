@@ -90,7 +90,7 @@ export default function MembershipManagement() {
         {/* 11단계 가로 표 */}
         <Card>
           <CardHeader>
-            <CardTitle className="text-sm">11단계 멤버십 체계</CardTitle>
+            <CardTitle className="text-base">11단계 멤버십 체계</CardTitle>
           </CardHeader>
           <CardContent className="p-0">
             {/* 헤더 */}
@@ -241,7 +241,7 @@ export default function MembershipManagement() {
 
         {/* 공통 엔진 활용 안내 */}
         <Card>
-          <CardHeader><CardTitle className="text-sm">📋 공통 엔진 활용 가이드</CardTitle></CardHeader>
+          <CardHeader><CardTitle className="text-base">📋 공통 엔진 활용 가이드</CardTitle></CardHeader>
           <CardContent>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 text-xs">
               <div className="p-3 bg-blue-50 rounded-lg border border-blue-200">

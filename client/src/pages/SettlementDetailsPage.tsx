@@ -61,7 +61,7 @@ export default function SettlementDetailsPage() {
             <div className="grid grid-cols-2 gap-2">
               <Card><CardContent className="pt-5">
                 <p className="text-sm text-gray-500">총 매출</p>
-                <p className="text-xl font-bold text-green-600">{fmtKrw(settlement?.totalRevenue)}</p>
+                <p className="text-2xl font-bold text-green-600">{fmtKrw(settlement?.totalRevenue)}</p>
               </CardContent></Card>
               <Card><CardContent className="pt-5">
                 <p className="text-sm text-gray-500">환불액</p>
@@ -69,7 +69,7 @@ export default function SettlementDetailsPage() {
               </CardContent></Card>
               <Card><CardContent className="pt-5">
                 <p className="text-sm text-gray-500">순매출</p>
-                <p className="text-xl font-bold text-blue-600">{fmtKrw(settlement?.netRevenue)}</p>
+                <p className="text-2xl font-bold text-blue-600">{fmtKrw(settlement?.netRevenue)}</p>
               </CardContent></Card>
               <Card><CardContent className="pt-5">
                 <p className="text-sm text-gray-500">활성 구독</p>
@@ -78,7 +78,7 @@ export default function SettlementDetailsPage() {
             </div>
 
             <Card>
-              <CardHeader><CardTitle className="text-sm">정산 요약</CardTitle></CardHeader>
+              <CardHeader><CardTitle className="text-base">정산 요약</CardTitle></CardHeader>
               <CardContent>
                 <div className="space-y-3">
                   {[

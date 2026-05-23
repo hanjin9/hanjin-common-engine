@@ -136,7 +136,7 @@ export default function ScheduledMissionManager() {
       <div className="grid grid-cols-1 sm:grid-cols-4 gap-2">
         <Card>
           <CardHeader className="pb-1">
-            <CardTitle className="text-sm font-medium flex items-center gap-2">
+            <CardTitle className="text-base font-medium flex items-center gap-2">
               <Calendar className="w-4 h-4" />
               활성 스케줄
             </CardTitle>
@@ -149,7 +149,7 @@ export default function ScheduledMissionManager() {
 
         <Card>
           <CardHeader className="pb-1">
-            <CardTitle className="text-sm font-medium flex items-center gap-2">
+            <CardTitle className="text-base font-medium flex items-center gap-2">
               <Clock className="w-4 h-4" />
               예정된 미션
             </CardTitle>
@@ -162,7 +162,7 @@ export default function ScheduledMissionManager() {
 
         <Card>
           <CardHeader className="pb-1">
-            <CardTitle className="text-sm font-medium flex items-center gap-2">
+            <CardTitle className="text-base font-medium flex items-center gap-2">
               <Users className="w-4 h-4" />
               총 참여자
             </CardTitle>
@@ -175,7 +175,7 @@ export default function ScheduledMissionManager() {
 
         <Card>
           <CardHeader className="pb-1">
-            <CardTitle className="text-sm font-medium">평균 완료율</CardTitle>
+            <CardTitle className="text-base font-medium">평균 완료율</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="text-base font-bold truncate">85%</div>
@@ -318,11 +318,11 @@ export default function ScheduledMissionManager() {
                     </div>
                     <div>
                       <p className="text-xs font-medium text-muted-foreground">발송 완료</p>
-                      <p className="text-xl font-bold text-blue-600">{history.sentCount}</p>
+                      <p className="text-2xl font-bold text-blue-600">{history.sentCount}</p>
                     </div>
                     <div>
                       <p className="text-xs font-medium text-muted-foreground">완료</p>
-                      <p className="text-xl font-bold text-green-600">{history.completedCount}</p>
+                      <p className="text-2xl font-bold text-green-600">{history.completedCount}</p>
                     </div>
                   </div>
                   <div>

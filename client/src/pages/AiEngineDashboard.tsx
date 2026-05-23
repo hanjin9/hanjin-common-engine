@@ -120,7 +120,7 @@ export default function AiEngineDashboard() {
 
         {/* 프로젝트별 엔진 설정 */}
         <Card>
-          <CardHeader><CardTitle className="text-sm">📋 프로젝트별 엔진 ON/OFF</CardTitle></CardHeader>
+          <CardHeader><CardTitle className="text-base">📋 프로젝트별 엔진 ON/OFF</CardTitle></CardHeader>
           <CardContent className="overflow-x-auto">
             <table className="w-full text-xs">
               <thead>
@@ -166,7 +166,7 @@ export default function AiEngineDashboard() {
 
         {/* 실시간 테스트 */}
         <Card>
-          <CardHeader><CardTitle className="text-sm">🧪 통합 코칭 테스트</CardTitle></CardHeader>
+          <CardHeader><CardTitle className="text-base">🧪 통합 코칭 테스트</CardTitle></CardHeader>
           <CardContent>
             <div className="flex gap-3 flex-wrap mb-2">
               <div>

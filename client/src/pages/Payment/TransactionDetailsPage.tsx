@@ -73,7 +73,7 @@ export default function TransactionDetailsPage() {
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
         <Card>
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-gray-600">평균 거래액</CardTitle>
+            <CardTitle className="text-base font-medium text-gray-600">평균 거래액</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="text-3xl font-bold text-purple-600">₩34,800</div>
@@ -84,7 +84,7 @@ export default function TransactionDetailsPage() {
 
         <Card>
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-gray-600">총 거래건수</CardTitle>
+            <CardTitle className="text-base font-medium text-gray-600">총 거래건수</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="text-3xl font-bold text-blue-600">75건</div>
@@ -95,7 +95,7 @@ export default function TransactionDetailsPage() {
 
         <Card>
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-gray-600">최고 거래액</CardTitle>
+            <CardTitle className="text-base font-medium text-gray-600">최고 거래액</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="text-3xl font-bold text-green-600">₩199,000</div>
@@ -109,7 +109,7 @@ export default function TransactionDetailsPage() {
 
         <Card>
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-gray-600">최저 거래액</CardTitle>
+            <CardTitle className="text-base font-medium text-gray-600">최저 거래액</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="text-3xl font-bold text-red-600">₩9,000</div>

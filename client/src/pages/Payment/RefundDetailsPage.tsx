@@ -82,7 +82,7 @@ export default function RefundDetailsPage() {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <Card>
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-gray-600">대기 중인 환불</CardTitle>
+            <CardTitle className="text-base font-medium text-gray-600">대기 중인 환불</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="text-3xl font-bold text-orange-600">₩{totalRefundAmount.toLocaleString()}</div>
@@ -93,7 +93,7 @@ export default function RefundDetailsPage() {
 
         <Card>
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-gray-600">승인된 환불</CardTitle>
+            <CardTitle className="text-base font-medium text-gray-600">승인된 환불</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="text-3xl font-bold text-green-600">
@@ -109,7 +109,7 @@ export default function RefundDetailsPage() {
 
         <Card>
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-gray-600">거절된 환불</CardTitle>
+            <CardTitle className="text-base font-medium text-gray-600">거절된 환불</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="text-3xl font-bold text-red-600">

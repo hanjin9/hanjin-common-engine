@@ -64,7 +64,7 @@ export default function RevenueDetailsPage() {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <Card>
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-gray-600">총 매출</CardTitle>
+            <CardTitle className="text-base font-medium text-gray-600">총 매출</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="text-3xl font-bold text-green-600">₩2,610,000</div>
@@ -75,7 +75,7 @@ export default function RevenueDetailsPage() {
 
         <Card>
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-gray-600">총 거래건수</CardTitle>
+            <CardTitle className="text-base font-medium text-gray-600">총 거래건수</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="text-3xl font-bold text-blue-600">75건</div>
@@ -86,7 +86,7 @@ export default function RevenueDetailsPage() {
 
         <Card>
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-gray-600">평균 거래액</CardTitle>
+            <CardTitle className="text-base font-medium text-gray-600">평균 거래액</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="text-3xl font-bold text-purple-600">₩34,800</div>

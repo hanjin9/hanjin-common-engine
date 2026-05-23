@@ -79,7 +79,7 @@ export default function AiFeedbackDashboard() {
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-2">
         <Card>
           <CardHeader className="pb-1">
-            <CardTitle className="text-sm font-medium">전체 피드백</CardTitle>
+            <CardTitle className="text-base font-medium">전체 피드백</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="text-base font-bold truncate">{feedbackStats.total}</div>
@@ -89,17 +89,17 @@ export default function AiFeedbackDashboard() {
 
         <Card>
           <CardHeader className="pb-1">
-            <CardTitle className="text-sm font-medium">1차: 격려</CardTitle>
+            <CardTitle className="text-base font-medium">1차: 격려</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-xl font-bold text-green-600">{feedbackStats.encouragement}</div>
+            <div className="text-2xl font-bold text-green-600">{feedbackStats.encouragement}</div>
             <p className="text-xs text-muted-foreground mt-1">무료, 즉시</p>
           </CardContent>
         </Card>
 
         <Card>
           <CardHeader className="pb-1">
-            <CardTitle className="text-sm font-medium">2차: 경고</CardTitle>
+            <CardTitle className="text-base font-medium">2차: 경고</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="text-xl font-bold text-yellow-600">{feedbackStats.warning}</div>
@@ -109,17 +109,17 @@ export default function AiFeedbackDashboard() {
 
         <Card>
           <CardHeader className="pb-1">
-            <CardTitle className="text-sm font-medium">3차: 프리미엄</CardTitle>
+            <CardTitle className="text-base font-medium">3차: 프리미엄</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-xl font-bold text-purple-600">{feedbackStats.premium}</div>
+            <div className="text-2xl font-bold text-purple-600">{feedbackStats.premium}</div>
             <p className="text-xs text-muted-foreground mt-1">유료, 전문가</p>
           </CardContent>
         </Card>
 
         <Card>
           <CardHeader className="pb-1">
-            <CardTitle className="text-sm font-medium">발송 상태</CardTitle>
+            <CardTitle className="text-base font-medium">발송 상태</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="text-base font-bold truncate">{feedbackStats.sent}</div>

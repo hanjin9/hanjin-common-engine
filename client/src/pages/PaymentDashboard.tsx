@@ -132,12 +132,12 @@ export default function PaymentDashboard() {
             <Card className="hover:shadow-lg hover:scale-105 transition-all cursor-pointer"
               onClick={() => setLocation('/admin/payment/revenue')}>
               <CardHeader className="pb-1">
-                <CardTitle className="text-sm font-medium text-gray-600 flex items-center gap-2">
+                <CardTitle className="text-base font-medium text-gray-600 flex items-center gap-2">
                   <DollarSign className="h-4 w-4 text-green-500" />이달 매출
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="text-xl font-bold text-green-600">{fmtKrw(Number(settlement?.totalRevenue))}</div>
+                <div className="text-2xl font-bold text-green-600">{fmtKrw(Number(settlement?.totalRevenue))}</div>
                 <p className="text-xs text-gray-500 mt-1">{totalPayments}건 결제</p>
                 <Badge className="mt-2 bg-green-100 text-green-700">실시간 DB</Badge>
               </CardContent>
@@ -146,12 +146,12 @@ export default function PaymentDashboard() {
             <Card className="hover:shadow-lg hover:scale-105 transition-all cursor-pointer"
               onClick={() => setLocation('/admin/payment/refund')}>
               <CardHeader className="pb-1">
-                <CardTitle className="text-sm font-medium text-gray-600 flex items-center gap-2">
+                <CardTitle className="text-base font-medium text-gray-600 flex items-center gap-2">
                   <RotateCcw className="h-4 w-4 text-purple-500" />환불
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="text-xl font-bold text-purple-600">{fmtKrw(Number(settlement?.totalRefund ?? 0))}</div>
+                <div className="text-2xl font-bold text-purple-600">{fmtKrw(Number(settlement?.totalRefund ?? 0))}</div>
                 <p className="text-xs text-gray-500 mt-1">환불 금액</p>
                 <Badge className="mt-2 bg-purple-100 text-purple-700">실시간 DB</Badge>
               </CardContent>
@@ -160,12 +160,12 @@ export default function PaymentDashboard() {
             <Card className="hover:shadow-lg hover:scale-105 transition-all cursor-pointer"
               onClick={() => setLocation('/admin/payment/settlement')}>
               <CardHeader className="pb-1">
-                <CardTitle className="text-sm font-medium text-gray-600 flex items-center gap-2">
+                <CardTitle className="text-base font-medium text-gray-600 flex items-center gap-2">
                   <TrendingUp className="h-4 w-4 text-blue-500" />순매출
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="text-xl font-bold text-blue-600">
+                <div className="text-2xl font-bold text-blue-600">
                   {fmtKrw(Number(settlement?.totalRevenue ?? 0) - Number(settlement?.totalRefund ?? 0))}
                 </div>
                 <p className="text-xs text-gray-500 mt-1">매출 - 환불</p>
@@ -176,12 +176,12 @@ export default function PaymentDashboard() {
             <Card className="hover:shadow-lg hover:scale-105 transition-all cursor-pointer"
               onClick={() => setLocation('/admin/payment/transaction')}>
               <CardHeader className="pb-1">
-                <CardTitle className="text-sm font-medium text-gray-600 flex items-center gap-2">
+                <CardTitle className="text-base font-medium text-gray-600 flex items-center gap-2">
                   <Receipt className="h-4 w-4 text-orange-500" />전체 건수
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="text-xl font-bold text-orange-600">{totalPayments.toLocaleString()}</div>
+                <div className="text-2xl font-bold text-orange-600">{totalPayments.toLocaleString()}</div>
                 <p className="text-xs text-gray-500 mt-1">결제 트랜잭션</p>
                 <Badge className="mt-2 bg-orange-100 text-orange-700">실시간 DB</Badge>
               </CardContent>

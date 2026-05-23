@@ -161,7 +161,7 @@ ${s.users}명에게 즉시 발송 완료!`)}>
       <div className="grid grid-cols-1 sm:grid-cols-4 gap-2">
         <Card>
           <CardHeader className="pb-1">
-            <CardTitle className="text-sm font-medium">연결된 기기</CardTitle>
+            <CardTitle className="text-base font-medium">연결된 기기</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="text-base font-bold truncate">{systemStatus.connectedDevices}</div>
@@ -171,7 +171,7 @@ ${s.users}명에게 즉시 발송 완료!`)}>
 
         <Card>
           <CardHeader className="pb-1">
-            <CardTitle className="text-sm font-medium">활성 사용자</CardTitle>
+            <CardTitle className="text-base font-medium">활성 사용자</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="text-base font-bold truncate">{systemStatus.activeUsers}</div>
@@ -181,7 +181,7 @@ ${s.users}명에게 즉시 발송 완료!`)}>
 
         <Card>
           <CardHeader className="pb-1">
-            <CardTitle className="text-sm font-medium">데이터 포인트</CardTitle>
+            <CardTitle className="text-base font-medium">데이터 포인트</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="text-base font-bold truncate">{systemStatus.dataPoints}</div>
@@ -191,7 +191,7 @@ ${s.users}명에게 즉시 발송 완료!`)}>
 
         <Card>
           <CardHeader className="pb-1">
-            <CardTitle className="text-sm font-medium">마지막 업데이트</CardTitle>
+            <CardTitle className="text-base font-medium">마지막 업데이트</CardTitle>
           </CardHeader>
           <CardContent>
             <p className="text-sm font-semibold">{systemStatus.lastUpdate}</p>

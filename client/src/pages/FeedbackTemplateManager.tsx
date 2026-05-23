@@ -527,7 +527,7 @@ export default function FeedbackTemplateManager() {
         {/* 필터 카드 */}
         <Card>
           <CardHeader className="pb-3">
-            <CardTitle className="text-sm flex items-center justify-between">
+            <CardTitle className="text-base flex items-center justify-between">
               <span>🔍 필터 설정</span>
               <button onClick={() => setExpandedCat(!expandedCat)}>
                 {expandedCat ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />}

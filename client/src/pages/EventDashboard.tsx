@@ -284,7 +284,7 @@ export default function EventDashboard() {
       {/* 타겟 그룹 안내 */}
       <Card className="border-blue-200 dark:border-blue-800">
         <CardHeader className="pb-1">
-          <CardTitle className="text-sm flex items-center gap-2">
+          <CardTitle className="text-base flex items-center gap-2">
             <Users className="w-4 h-4 text-blue-500" />
             % 기반 타겟 발송 가이드
           </CardTitle>
@@ -423,7 +423,7 @@ export default function EventDashboard() {
       {/* 즉석 이벤트 빠른 발송 */}
       <Card className="border-yellow-200 dark:border-yellow-800">
         <CardHeader>
-          <CardTitle className="text-sm flex items-center gap-2">
+          <CardTitle className="text-base flex items-center gap-2">
             <Zap className="w-4 h-4 text-yellow-500" />
             즉석 이벤트 빠른 발송
           </CardTitle>

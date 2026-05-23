@@ -166,7 +166,7 @@ export default function UsersManagement() {
         {/* 캘린더 (토글) */}
         {showCalendar && (
           <Card>
-            <CardHeader className="pb-1"><CardTitle className="text-sm">📅 스케줄 캘린더</CardTitle></CardHeader>
+            <CardHeader className="pb-1"><CardTitle className="text-base">📅 스케줄 캘린더</CardTitle></CardHeader>
             <CardContent><SharedCalendar events={calEvents} allowMultiSelect onDatesSelected={dates => toast.success(`${dates.length}개 날짜 선택: ${dates.join(', ')}`)} /></CardContent>
           </Card>
         )}
@@ -185,7 +185,7 @@ export default function UsersManagement() {
                     <span className={`text-xs font-semibold ${card.color}`}>{card.label}</span>
                     <Icon className={`h-4 w-4 ${card.color}`}/>
                   </div>
-                  <p className="text-xs text-gray-400">{card.sub}</p>
+                  <p className="text-sm text-gray-400">{card.sub}</p>
                   {isActive && <div className="mt-2 h-0.5 rounded-full" style={{ background: 'currentColor' }} />}
                 </CardContent>
               </Card>
@@ -204,7 +204,7 @@ export default function UsersManagement() {
                 { label:'월간 활성',  val:monthCnt,     color:'text-orange-600', sub:'30일' },
               ].map(s => (
                 <Card key={s.label}><CardContent className="pt-2">
-                  <p className="text-xs text-gray-500">{s.label}</p>
+                  <p className="text-sm text-gray-500">{s.label}</p>
                   <p className={`text-2xl font-bold ${s.color}`}>{s.val.toLocaleString()}</p>
                   <Badge variant="outline" className="text-xs mt-1">{s.sub}</Badge>
                 </CardContent></Card>
@@ -214,7 +214,7 @@ export default function UsersManagement() {
             <Card>
               <CardHeader className="pb-1">
                 <div className="flex items-center justify-between flex-wrap gap-2">
-                  <CardTitle className="text-sm">전체 회원 명단</CardTitle>
+                  <CardTitle className="text-base">전체 회원 명단</CardTitle>
                   <div className="flex gap-2">
                     <Input placeholder="검색" className="h-8 w-36 text-xs" value={search} onChange={e => setSearch(e.target.value)}/>
                     {selectedIds.size > 0 && (
@@ -254,7 +254,7 @@ export default function UsersManagement() {
         {/* ── 카드2: 프로젝트별 ──────────────────────────────────── */}
         {activeCard === 'project' && !selectedProject && (
           <Card>
-            <CardHeader><CardTitle className="text-sm">📁 프로젝트 선택</CardTitle></CardHeader>
+            <CardHeader><CardTitle className="text-base">📁 프로젝트 선택</CardTitle></CardHeader>
             <CardContent>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 {PROJECTS.map(p => (
@@ -284,7 +284,7 @@ export default function UsersManagement() {
           <Card>
             <CardHeader>
               <div className="flex items-center justify-between">
-                <CardTitle className="text-sm">{PROJECTS.find(p=>p.id===selectedProject)?.name} — 사용자 관리</CardTitle>
+                <CardTitle className="text-base">{PROJECTS.find(p=>p.id===selectedProject)?.name} — 사용자 관리</CardTitle>
                 <Button size="sm" variant="outline" onClick={() => setSelectedProject(null)}>← 프로젝트 목록</Button>
               </div>
             </CardHeader>
@@ -297,12 +297,12 @@ export default function UsersManagement() {
                   { label:'관리자',      val:Math.floor(p.users*0.01) },
                 ].map(s => (
                   <div key={s.label} className="p-3 bg-gray-50 rounded-lg border text-center">
-                    <p className="text-xs text-gray-500">{s.label}</p>
-                    <p className="text-xl font-bold text-blue-600">{s.val}</p>
+                    <p className="text-sm text-gray-500">{s.label}</p>
+                    <p className="text-3xl font-bold text-blue-600">{s.val}</p>
                   </div>
                 )); })()}
               </div>
-              <p className="text-xs text-gray-400">※ 실서버에서는 trpc.admin.getUsers에 projectId 필터 연동</p>
+              <p className="text-sm text-gray-400">※ 실서버에서는 trpc.admin.getUsers에 projectId 필터 연동</p>
             </CardContent>
           </Card>
         )}
@@ -310,7 +310,7 @@ export default function UsersManagement() {
         {/* ── 카드3: 멤버십별 ────────────────────────────────────── */}
         {activeCard === 'membership' && (
           <Card>
-            <CardHeader><CardTitle className="text-sm">🏆 멤버십 등급별 사용자</CardTitle></CardHeader>
+            <CardHeader><CardTitle className="text-base">🏆 멤버십 등급별 사용자</CardTitle></CardHeader>
             <CardContent>
               <div className="space-y-2">
                 {[
@@ -350,7 +350,7 @@ export default function UsersManagement() {
         {activeCard === 'mission' && (
           <div className="grid md:grid-cols-2 gap-2">
             <Card>
-              <CardHeader><CardTitle className="text-sm">✅ 미션 완료 현황</CardTitle></CardHeader>
+              <CardHeader><CardTitle className="text-base">✅ 미션 완료 현황</CardTitle></CardHeader>
               <CardContent className="space-y-2">
                 {[
                   { label:'오늘 미션 완수', cnt:342, color:'#16a34a' },
@@ -370,7 +370,7 @@ export default function UsersManagement() {
               </CardContent>
             </Card>
             <Card>
-              <CardHeader><CardTitle className="text-sm">🌬️ 10단계 수련별</CardTitle></CardHeader>
+              <CardHeader><CardTitle className="text-base">🌬️ 10단계 수련별</CardTitle></CardHeader>
               <CardContent className="space-y-1.5">
                 {['숨','쉼','잠','명상','스트레칭','걷기','절제','감사','식치','깊은 숨'].map((m, i) => (
                   <div key={m} className="flex justify-between items-center p-2 rounded cursor-pointer hover:bg-gray-50"
@@ -387,7 +387,7 @@ export default function UsersManagement() {
         {/* ── 카드5: AI 피드백별 ──────────────────────────────────── */}
         {activeCard === 'ai-feedback' && (
           <Card>
-            <CardHeader><CardTitle className="text-sm">🤖 AI 피드백 세그먼트별</CardTitle></CardHeader>
+            <CardHeader><CardTitle className="text-base">🤖 AI 피드백 세그먼트별</CardTitle></CardHeader>
             <CardContent>
               <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
                 {AI_SEGS.map(s => (
@@ -413,7 +413,7 @@ export default function UsersManagement() {
         {activeCard === 'geo-admin' && (
           <div className="space-y-2">
             <Card>
-              <CardHeader><CardTitle className="text-sm">🌏 직급별 체계 (프랜차이즈 관리자)</CardTitle></CardHeader>
+              <CardHeader><CardTitle className="text-base">🌏 직급별 체계 (프랜차이즈 관리자)</CardTitle></CardHeader>
               <CardContent>
                 <div className="grid grid-cols-2 gap-2">
                   {GEO_LEVELS.map(g => (
@@ -431,7 +431,7 @@ export default function UsersManagement() {
               </CardContent>
             </Card>
             <Card>
-              <CardHeader><CardTitle className="text-sm">관리자 발송 · 보상</CardTitle></CardHeader>
+              <CardHeader><CardTitle className="text-base">관리자 발송 · 보상</CardTitle></CardHeader>
               <CardContent>
                 <div className="grid grid-cols-2 gap-3">
                   {[

@@ -251,8 +251,8 @@ export default function MissionDashboard() {
             onClick={() => { setActiveFilter('all'); setSelectedStage(null); }}>
             <CardContent className="pt-2">
               <p className="text-xs text-gray-500">⏰ 타임 루틴</p>
-              <p className="text-xl font-bold text-blue-600">8종</p>
-              <p className="text-xs text-blue-500 mt-1">기상~취침 루틴</p>
+              <p className="text-2xl font-bold text-blue-600">8종</p>
+              <p className="text-sm text-blue-500 mt-1">기상~취침 루틴</p>
             </CardContent>
           </Card>
           {/* 카드2: 10단계 미션 */}
@@ -260,18 +260,18 @@ export default function MissionDashboard() {
             onClick={() => { setActiveFilter('수련'); setSelectedStage(null); }}>
             <CardContent className="pt-2">
               <p className="text-xs text-gray-500">🌬️ 10단계 미션</p>
-              <p className="text-xl font-bold text-green-600">10단계</p>
-              <p className="text-xs text-green-500 mt-1">숨·쉼·잠·명상...</p>
+              <p className="text-2xl font-bold text-green-600">10단계</p>
+              <p className="text-sm text-green-500 mt-1">숨·쉼·잠·명상...</p>
             </CardContent>
           </Card>
           {/* 카드3: 활성 미션 */}
           <Card className="cursor-pointer hover:shadow-md hover:border-purple-300 transition-all">
             <CardContent className="pt-2">
               <p className="text-xs text-gray-500">✅ 활성 미션</p>
-              <p className="text-xl font-bold text-purple-600">
+              <p className="text-2xl font-bold text-purple-600">
                 {Object.values(stageSlots).flat().filter(s => s.active).length}
               </p>
-              <p className="text-xs text-purple-500 mt-1">오늘 활성 미션</p>
+              <p className="text-sm text-purple-500 mt-1">오늘 활성 미션</p>
             </CardContent>
           </Card>
           {/* 카드4: 오늘 완료 + 포인트 합침 → 포인트 관리 연결 */}
@@ -279,8 +279,8 @@ export default function MissionDashboard() {
             onClick={() => setShowCompletions(true)}>
             <CardContent className="pt-2">
               <p className="text-xs text-gray-500">오늘 완료 · 포인트</p>
-              <p className="text-xl font-bold text-orange-600">{todayCompleted}명</p>
-              <p className="text-xs text-orange-500 mt-1">12,400P 지급 👆</p>
+              <p className="text-2xl font-bold text-orange-600">{todayCompleted}명</p>
+              <p className="text-sm text-orange-500 mt-1">12,400P 지급 👆</p>
             </CardContent>
           </Card>
         </div>

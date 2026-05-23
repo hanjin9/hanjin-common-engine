@@ -100,7 +100,7 @@ export default function RevenueDetailsPage() {
               <Card>
                 <CardContent className="pt-5">
                   <p className="text-sm text-gray-500">총 매출</p>
-                  <p className="text-xl font-bold text-green-600">{fmtKrw(summary?.totalAmount)}</p>
+                  <p className="text-2xl font-bold text-green-600">{fmtKrw(summary?.totalAmount)}</p>
                 </CardContent>
               </Card>
               <Card>
@@ -118,7 +118,7 @@ export default function RevenueDetailsPage() {
               <Card>
                 <CardContent className="pt-5">
                   <p className="text-sm text-gray-500">순매출</p>
-                  <p className="text-xl font-bold text-blue-600">{fmtKrw(summary?.netAmount)}</p>
+                  <p className="text-2xl font-bold text-blue-600">{fmtKrw(summary?.netAmount)}</p>
                 </CardContent>
               </Card>
             </>
@@ -127,7 +127,7 @@ export default function RevenueDetailsPage() {
 
         {/* ✅ 프로젝트별 분류 (7차 반영) */}
         <Card>
-          <CardHeader><CardTitle className="text-sm flex items-center gap-2">
+          <CardHeader><CardTitle className="text-base flex items-center gap-2">
             📁 프로젝트별 매출
             <Badge variant="outline" className="text-xs">클릭 → 세부 내역</Badge>
           </CardTitle></CardHeader>
@@ -164,7 +164,7 @@ export default function RevenueDetailsPage() {
         {/* 차트 */}
         {chartData.length > 0 && (
           <Card>
-            <CardHeader><CardTitle className="text-sm">일별 매출 추이</CardTitle></CardHeader>
+            <CardHeader><CardTitle className="text-base">일별 매출 추이</CardTitle></CardHeader>
             <CardContent>
               <ResponsiveContainer width="100%" height={180}>
                 <BarChart data={chartData}>
@@ -182,7 +182,7 @@ export default function RevenueDetailsPage() {
         {/* 결제 목록 */}
         <Card>
           <CardHeader>
-            <CardTitle className="text-sm flex items-center gap-2">
+            <CardTitle className="text-base flex items-center gap-2">
               결제 성공 목록
               <Badge variant="outline" className="text-xs">{total.toLocaleString()}건 · 실시간</Badge>
             </CardTitle>

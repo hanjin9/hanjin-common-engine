@@ -102,7 +102,7 @@ export default function EventManagement() {
       <div className="grid grid-cols-1 sm:grid-cols-4 gap-2">
         <Card>
           <CardHeader className="pb-1">
-            <CardTitle className="text-sm font-medium flex items-center gap-2">
+            <CardTitle className="text-base font-medium flex items-center gap-2">
               <Calendar className="w-4 h-4" />
               활성 캠페인
             </CardTitle>
@@ -115,7 +115,7 @@ export default function EventManagement() {
 
         <Card>
           <CardHeader className="pb-1">
-            <CardTitle className="text-sm font-medium flex items-center gap-2">
+            <CardTitle className="text-base font-medium flex items-center gap-2">
               <Users className="w-4 h-4" />
               발송 대상
             </CardTitle>
@@ -128,7 +128,7 @@ export default function EventManagement() {
 
         <Card>
           <CardHeader className="pb-1">
-            <CardTitle className="text-sm font-medium flex items-center gap-2">
+            <CardTitle className="text-base font-medium flex items-center gap-2">
               <Send className="w-4 h-4" />
               발송 완료
             </CardTitle>
@@ -141,7 +141,7 @@ export default function EventManagement() {
 
         <Card>
           <CardHeader className="pb-1">
-            <CardTitle className="text-sm font-medium flex items-center gap-2">
+            <CardTitle className="text-base font-medium flex items-center gap-2">
               <Target className="w-4 h-4" />
               반복 이벤트
             </CardTitle>
