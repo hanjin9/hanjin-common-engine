@@ -15,6 +15,7 @@ import { membershipRouter } from "./modules/wellness/membershipRouter";
 import { operatorRouter } from "./modules/wellness/operatorRouter";
 import { tierRouter } from "./modules/wellness/tierRouter";
 import { aiRouter } from "./modules/ai/aiRouter";
+import { coachingOrchestratorRouter } from "./modules/ai/coachingOrchestratorRouter";
 import { projectMembershipRouter } from './modules/membership/projectMembershipFactory';
 import copyRouter from './modules/copy/copyRouter';
 import { sleepRouter } from './modules/sleep/sleepRouter';
@@ -87,6 +88,7 @@ export const appRouter = router({
 
   // AI 피드백 엔진 라우터 (3단계 피드백 + 실시간 코칭 + 개인 메모리 + 생체 데이터)
   ai: aiRouter,
+  coachingOrchestrator: coachingOrchestratorRouter,
 
   // 결제/정산 관리자 라우터 (입금명단, 환불, 구독갱신, 정산, CSV)
   // ─── 🔴 CORE ────────────────────────────────────────────────────────────

@@ -10,6 +10,7 @@ import MembershipDashboard from './pages/MembershipDashboard';
 import CopyEditor from './pages/CopyEditor';
 import SleepSettings from './pages/SleepSettings';
 import AiAnalyticsDashboard from './pages/AiAnalyticsDashboard';
+import AiEngineDashboard from './pages/AiEngineDashboard';
 import MissionDashboard from './pages/MissionDashboard';
 import EventDashboard from './pages/EventDashboard';
 import SchedulerDashboard from './pages/SchedulerDashboard';
