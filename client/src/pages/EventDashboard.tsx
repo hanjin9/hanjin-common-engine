@@ -262,7 +262,7 @@ export default function EventDashboard() {
       </div>
 
       {/* 통계 카드 */}
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3">
+      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
         {[
           { label: "전체 이벤트", value: stats.total, icon: Calendar, color: "text-blue-500" },
           { label: "오늘 발송", value: stats.sentToday, icon: CheckCircle2, color: "text-green-500" },
@@ -290,7 +290,7 @@ export default function EventDashboard() {
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-2">
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2">
             {TARGET_OPTIONS.map(({ value, label, icon: Icon, color, desc }) => (
               <div key={value} className="text-center p-2 rounded bg-muted">
                 {Icon && <Icon className={`w-5 h-5 mx-auto mb-1 ${color}`} />}
@@ -429,7 +429,7 @@ export default function EventDashboard() {
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
             {[
               { label: "전체 공지", target: "all", icon: Bell, color: "bg-blue-500" },
               { label: "TOP 10% 축하", target: "top_10pct", icon: Trophy, color: "bg-yellow-500" },

@@ -133,7 +133,7 @@ export default function ScheduledMissionManager() {
       </div>
 
       {/* 통계 */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-4 gap-4">
         <Card>
           <CardHeader className="pb-3">
             <CardTitle className="text-sm font-medium flex items-center gap-2">
@@ -211,7 +211,7 @@ export default function ScheduledMissionManager() {
                   </div>
                 </CardHeader>
                 <CardContent className="space-y-4">
-                  <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
                     <div>
                       <p className="text-xs font-medium text-muted-foreground">타겟</p>
                       <p className="text-sm font-semibold">{mission.targetAudience}</p>

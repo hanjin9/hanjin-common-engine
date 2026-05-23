@@ -78,7 +78,7 @@ export default function StatsDashboard() {
       </div>
 
       {/* KPI 카드 4개 */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         <Card className="hover:shadow-lg hover:scale-105 transition-all cursor-pointer">
           <CardHeader className="pb-2">
             <CardTitle className="text-sm font-medium text-gray-600 flex items-center gap-2">
@@ -243,7 +243,7 @@ export default function StatsDashboard() {
           <CardTitle>주요 지표</CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
             {[
               { label: '평균 세션 시간', value: '24분 30초', trend: '↑ 2분 증가' },
               { label: '재방문율', value: '68%', trend: '↑ 5% 증가' },

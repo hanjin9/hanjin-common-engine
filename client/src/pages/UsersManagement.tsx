@@ -172,7 +172,7 @@ export default function UsersManagement() {
         )}
 
         {/* 6개 네비게이션 카드 */}
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+        <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
           {NAV_CARDS.map(card => {
             const Icon = card.icon;
             const isActive = activeCard === card.mode;
@@ -196,7 +196,7 @@ export default function UsersManagement() {
         {/* ── 카드1: 전체 통계 ─────────────────────────────────────── */}
         {activeCard === 'stats' && (
           <div className="space-y-4">
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
               {[
                 { label:'전체 사용자', val:users.length, color:'text-blue-600', sub:'전체' },
                 { label:'오늘 가입',   val:todayCnt,     color:'text-green-600', sub:'신규' },
@@ -256,7 +256,7 @@ export default function UsersManagement() {
           <Card>
             <CardHeader><CardTitle className="text-sm">📁 프로젝트 선택</CardTitle></CardHeader>
             <CardContent>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 {PROJECTS.map(p => (
                   <div key={p.id} className="p-4 rounded-lg border border-gray-200 cursor-pointer hover:shadow-md hover:-translate-y-0.5 transition-all"
                     style={{ borderLeft:`4px solid ${p.color}` }}
@@ -289,7 +289,7 @@ export default function UsersManagement() {
               </div>
             </CardHeader>
             <CardContent>
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-4">
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-4">
                 {(() => { const p = PROJECTS.find(x=>x.id===selectedProject)!; return [
                   { label:'전체 사용자', val:p.users },
                   { label:'활성 사용자', val:p.active },
@@ -389,7 +389,7 @@ export default function UsersManagement() {
           <Card>
             <CardHeader><CardTitle className="text-sm">🤖 AI 피드백 세그먼트별</CardTitle></CardHeader>
             <CardContent>
-              <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+              <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
                 {AI_SEGS.map(s => (
                   <div key={s.value} className="p-3 rounded-lg border cursor-pointer hover:shadow-sm transition-all"
                     style={{ borderLeft:`3px solid ${s.color}`, background:s.color+'11' }}
@@ -415,7 +415,7 @@ export default function UsersManagement() {
             <Card>
               <CardHeader><CardTitle className="text-sm">🌏 직급별 체계 (프랜차이즈 관리자)</CardTitle></CardHeader>
               <CardContent>
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
                   {GEO_LEVELS.map(g => (
                     <div key={g.level} className="p-4 rounded-lg border cursor-pointer hover:shadow-md transition-all text-center"
                       style={{ borderTop:`3px solid ${g.color}`, background:g.color+'0d' }}

@@ -222,7 +222,7 @@ export default function MembershipBenefits() {
           </CardContent>
         </Card>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
           {/* 11단계 등급별 혜택 */}
           <Card>
             <CardHeader>

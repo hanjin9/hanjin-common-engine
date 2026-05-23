@@ -110,7 +110,7 @@ export default function SleepDetectionSettings() {
       </div>
 
       {/* ✅ 계절별 맞춤 발송 카드 */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
         {[
           { season: '🌸 봄 (3~5월)', msg: '환절기 숙면 팁: 환기 후 취침하세요', users: 1247, color: 'border-pink-200 bg-pink-50', active: true },
           { season: '☀️ 여름 (6~8월)', msg: '장마철: 제습기 가동 후 22°C 유지', users: 1247, color: 'border-yellow-200 bg-yellow-50', active: false },
@@ -138,7 +138,7 @@ ${s.users}명에게 즉시 발송 완료!`)}>
       {/* ✅ 수면 점수 기반 세그먼트 발송 */}
       <div className="bg-indigo-50 border border-indigo-200 rounded-xl p-4">
         <h3 className="font-semibold text-indigo-800 mb-3">📊 수면 점수 기반 자동 발송</h3>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
           {[
             { label: '수면 7시간 미달 3일 연속', count: 89, action: 'AI 피드백 2차 자동 트리거', color: 'bg-red-100 text-red-700 border-red-200' },
             { label: '수면 질 저하 (6점 미만)', count: 145, action: '수면 개선 미션 자동 배정', color: 'bg-yellow-100 text-yellow-700 border-yellow-200' },
@@ -158,7 +158,7 @@ ${s.users}명에게 즉시 발송 완료!`)}>
       </div>
 
       {/* 시스템 상태 */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-4 gap-4">
         <Card>
           <CardHeader className="pb-3">
             <CardTitle className="text-sm font-medium">연결된 기기</CardTitle>

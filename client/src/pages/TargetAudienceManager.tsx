@@ -104,7 +104,7 @@ export default function TargetAudienceManager() {
         </div>
 
         {/* ── KPI ── */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
           <Card><CardContent className="pt-5">
             <p className="text-sm text-gray-500">활성 세그먼트</p>
             <p className="text-2xl font-bold">3</p>

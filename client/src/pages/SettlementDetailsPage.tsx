@@ -53,12 +53,12 @@ export default function SettlementDetailsPage() {
         </div>
 
         {isLoading ? (
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
             {Array.from({length:4}).map((_,i)=><Skeleton key={i} className="h-24 rounded-lg"/>)}
           </div>
         ) : (
           <>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
               <Card><CardContent className="pt-5">
                 <p className="text-sm text-gray-500">총 매출</p>
                 <p className="text-2xl font-bold text-green-600">{fmtKrw(settlement?.totalRevenue)}</p>

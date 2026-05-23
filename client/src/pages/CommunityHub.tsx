@@ -329,7 +329,7 @@ export default function CommunityHub() {
           <AnimatePresence mode="wait">
             {activeTab === "badges" && (
               <motion.div key="badges" variants={tabContentVariants} initial="hidden" animate="visible" exit="exit">
-                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
                   {badges?.map((badge, i) => {
                     const earned = earnedBadgeIds.has(badge.id);
                     return (

@@ -146,7 +146,7 @@ export default function MissionDashboard() {
           </div>
 
           {/* 20개 슬롯 */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             {slots.map((slot) => (
               <Card key={slot.slotId}
                 className={`border transition-all ${slot.active ? 'border-green-300 bg-green-50/50' : 'border-gray-200'}`}>
@@ -245,7 +245,7 @@ export default function MissionDashboard() {
         </div>
 
         {/* ✅ KPI 카드 4개 개편 (4차 반영) */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
           {/* 카드1: 타임 루틴 */}
           <Card className="cursor-pointer hover:shadow-md hover:border-blue-300 transition-all"
             onClick={() => { setActiveFilter('all'); setSelectedStage(null); }}>
@@ -296,7 +296,7 @@ export default function MissionDashboard() {
         </div>
 
         {/* 19단계 마인드맵 타일 */}
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3">
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
           {filteredStages.map(stage => {
             const slots = stageSlots[stage.id] || [];
             const activeCount = slots.filter(s => s.active).length;

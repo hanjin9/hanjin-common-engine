@@ -76,7 +76,7 @@ export default function AiFeedbackDashboard() {
       </div>
 
       {/* 통계 카드 */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
         <Card>
           <CardHeader className="pb-3">
             <CardTitle className="text-sm font-medium">전체 피드백</CardTitle>
@@ -189,7 +189,7 @@ export default function AiFeedbackDashboard() {
 
         {/* 피드백 단계 탭 */}
         <TabsContent value="stages" className="space-y-4">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
             {/* 1차 격려 */}
             <Card 
               className={`cursor-pointer transition ${selectedFeedbackStage === 'encouragement' ? 'ring-2 ring-green-500' : ''}`}

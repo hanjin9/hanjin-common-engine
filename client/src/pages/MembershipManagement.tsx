@@ -243,7 +243,7 @@ export default function MembershipManagement() {
         <Card>
           <CardHeader><CardTitle className="text-sm">📋 공통 엔진 활용 가이드</CardTitle></CardHeader>
           <CardContent>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-xs">
               <div className="p-3 bg-blue-50 rounded-lg border border-blue-200">
                 <p className="font-semibold text-blue-700 mb-1">GLWA 프랜차이즈</p>
                 <p className="text-blue-600">11단계 전체 사용 (1~11단계)</p>

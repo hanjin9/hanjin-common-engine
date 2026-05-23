@@ -80,7 +80,7 @@ export default function WearableIntegration() {
       </div>
 
       {/* ✅ 관리자용 4개 카드 (보고서 4차 반영) */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
         {[
           { label: '기기 연동 회원', value: '342', sub: '전체 1,247명 중', pct: '27%', color: 'text-cyan-600', border: 'border-cyan-200', icon: '📱',
             detail: '전체 회원 중 기기를 하나라도 연동한 회원', members: ['김건강 (Google Fit)', '이활력 (Apple Health)', '박수련 (Galaxy Watch)'] },
@@ -193,7 +193,7 @@ ${btn.count}명에게 발송하시겠습니까?`);
       </div>
 
       {/* 요약 카드 */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
         <Card className="border-cyan-200">
           <CardContent className="p-4 flex items-center gap-3">
             <div className="p-2 rounded-full bg-red-100">
@@ -248,7 +248,7 @@ ${btn.count}명에게 발송하시겠습니까?`);
         </TabsList>
 
         <TabsContent value="devices" className="mt-4">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {connections?.length === 0 && (
               <div className="col-span-full text-center py-12 text-muted-foreground">
                 <Watch className="w-12 h-12 mx-auto mb-3 opacity-30" />

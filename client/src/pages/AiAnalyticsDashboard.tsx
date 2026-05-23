@@ -207,7 +207,7 @@ export default function AiAnalyticsDashboard() {
         </div>
 
         {/* ✅ AI 기기 연동 현황 카드 3개 (보고서 2차 반영) */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div className="grid grid-cols-3 gap-4">
 
           {/* 카드 1: AI Fit 기기 연동 회원 */}
           <Card
@@ -321,7 +321,7 @@ export default function AiAnalyticsDashboard() {
                 <CardDescription>최근 7일간의 성능 평가</CardDescription>
               </CardHeader>
               <CardContent>
-                <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
                   {[
                     { label: '정확도', value: aiMetrics.accuracy, unit: '%' },
                     { label: '정밀도', value: aiMetrics.precision, unit: '%' },
@@ -417,7 +417,7 @@ export default function AiAnalyticsDashboard() {
                 </CardHeader>
                 <CardContent>
                   {/* 일괄 액션 버튼 */}
-                  <div className="grid grid-cols-2 md:grid-cols-4 gap-2 mb-4">
+                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 mb-4">
                     {[
                       { icon: '💬', label: '메시지 발송', color: 'bg-blue-600', msg: '격려 메시지를' },
                       { icon: '🎉', label: '이벤트 등록', color: 'bg-purple-600', msg: '이벤트를' },
@@ -466,7 +466,7 @@ export default function AiAnalyticsDashboard() {
               </Card>
             ) : (
               // 세그먼트 선택 화면
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="grid grid-cols-2 gap-4">
                 {[
                   {
                     name: '상위 20%', emoji: '🏆', users: 249, engagement: 95, retention: 88, color: '#10b981', tag: 'VIP',

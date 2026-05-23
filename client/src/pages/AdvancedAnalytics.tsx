@@ -148,7 +148,7 @@ export default function AdvancedAnalytics() {
             </CardContent>
           </Card>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             {predictions?.map((pred) => {
               const info = PREDICTION_LABELS[pred.predictionType];
               const score = parseFloat(pred.score ?? "0");

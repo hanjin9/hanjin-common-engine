@@ -71,7 +71,7 @@ export default function MonitoringDashboard() {
       </div>
 
       {/* KPI 카드 4개 */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         <Card className="hover:shadow-lg hover:scale-105 transition-all cursor-pointer">
           <CardHeader className="pb-2">
             <CardTitle className="text-sm font-medium text-gray-600 flex items-center gap-2">
@@ -155,7 +155,7 @@ export default function MonitoringDashboard() {
       </Card>
 
       {/* 서버 상태 + 최근 알림 */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         {/* 서버 상태 */}
         <Card className="hover:shadow-md transition-shadow">
           <CardHeader>
@@ -229,7 +229,7 @@ export default function MonitoringDashboard() {
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="grid gap-3 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+          <div className="grid gap-3 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
             {[
               { name: 'API 서버', status: 'online' },
               { name: '데이터베이스', status: 'online' },

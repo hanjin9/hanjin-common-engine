@@ -90,7 +90,7 @@ export default function SchedulerDashboard() {
         </Card>
 
         {/* 크론 카드 2개 */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           {/* 일일 미션 발송 */}
           <Card className="bg-slate-800 border-slate-700">
             <CardHeader className="pb-3">
@@ -195,7 +195,7 @@ export default function SchedulerDashboard() {
         </div>
 
         {/* ✅ AI 피드백 자동 발송 크론 (보고서 3·4순위 반영) */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
 
           {/* AI 1차 피드백 자동 발송 */}
           <div className="bg-green-900/30 border border-green-700/40 rounded-xl p-5">
@@ -290,7 +290,7 @@ export default function SchedulerDashboard() {
         </div>
 
         {/* ✅ AI 피드백 자동 발송 스케줄 (보고서 3차 반영) */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4">
 
           {/* AI 피드백 1차 자동 발송 */}
           <div className="bg-green-950 border border-green-800 rounded-xl p-5">
