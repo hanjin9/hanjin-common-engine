@@ -21,17 +21,31 @@ import { toast } from "sonner";
 import {
   Calendar, Zap, Plus, Trash2, Send, Clock,
   Users, Trophy, Target, RefreshCw, CheckCircle2,
-  Bell, Star, Gift, AlertCircle, BarChart3
-} from "lucide-react";
+  Bell, Star, Gift, AlertCircle, BarChart3, UserPlus} from "lucide-react";
 
 // ─── 타겟 그룹 ────────────────────────────────────────────────────────────────
 const TARGET_OPTIONS = [
-  { value: "all", label: "전체 회원", icon: Users, color: "text-blue-500", desc: "모든 활성 회원" },
-  { value: "top_1pct", label: "상위 1%", icon: Trophy, color: "text-yellow-500", desc: "챔피언 등급 (1,000P)" },
-  { value: "top_5pct", label: "상위 5%", icon: Star, color: "text-orange-500", desc: "골드 등급 (300P)" },
-  { value: "top_10pct", label: "상위 10%", icon: Target, color: "text-green-500", desc: "실버 등급 (200P)" },
-  { value: "bottom_20pct", label: "하위 20%", icon: Gift, color: "text-purple-500", desc: "격려 대상 (특별 케어)" },
-  { value: "inactive", label: "미접속자", icon: AlertCircle, color: "text-red-500", desc: "30일 이상 미접속" },
+  // 전체·신규
+  { value: "all",           label: "전체 회원",        icon: Users,       color: "text-blue-500",   desc: "모든 활성 회원" },
+  { value: "new_7d",        label: "신규 (7일 이내)",  icon: UserPlus,    color: "text-green-500",  desc: "최근 7일 가입 신규 회원" },
+  // 11단계 멤버십
+  { value: "tier_1",        label: "1단계 🥉 브론즈",         icon: null, color: "text-amber-700",   desc: "브론즈 등급 회원" },
+  { value: "tier_2",        label: "2단계 🥈 실버",           icon: null, color: "text-slate-500",   desc: "실버 등급 회원" },
+  { value: "tier_3",        label: "3단계 🥇 골드",           icon: null, color: "text-yellow-500",  desc: "골드 등급 회원" },
+  { value: "tier_4",        label: "4단계 💚 에메랄드",       icon: null, color: "text-emerald-500", desc: "에메랄드 등급 회원" },
+  { value: "tier_5",        label: "5단계 🌊 그린에메랄드",   icon: null, color: "text-teal-500",    desc: "그린에메랄드 등급 회원" },
+  { value: "tier_6",        label: "6단계 💙 사파이어",       icon: null, color: "text-blue-600",    desc: "사파이어 등급 회원" },
+  { value: "tier_7",        label: "7단계 🔷 블루사파이어",   icon: null, color: "text-blue-700",    desc: "블루사파이어 등급 회원" },
+  { value: "tier_8",        label: "8단계 💎 다이아몬드",     icon: null, color: "text-indigo-500",  desc: "다이아몬드 등급 회원" },
+  { value: "tier_9",        label: "9단계 🌀 블루다이아몬드", icon: null, color: "text-cyan-500",    desc: "블루다이아몬드 등급 회원" },
+  { value: "tier_10",       label: "10단계 👑 플래티넘",      icon: null, color: "text-purple-500",  desc: "플래티넘 등급 회원" },
+  { value: "tier_11",       label: "11단계 ⚫ 블랙플래티넘",  icon: null, color: "text-gray-800",    desc: "블랙플래티넘 등급 회원" },
+  // 세그먼트
+  { value: "top_5pct",      label: "상위 5%",          icon: Star,        color: "text-orange-500", desc: "AI 점수 상위 5% (300P 추가)" },
+  { value: "top_20pct",     label: "상위 20%",         icon: Trophy,      color: "text-yellow-500", desc: "AI 점수 상위 20% (100P 추가)" },
+  { value: "bottom_20pct",  label: "하위 20%",         icon: Gift,        color: "text-purple-500", desc: "격려 대상 — 회복 미션 권장" },
+  { value: "bottom_10pct",  label: "하위 10%",         icon: AlertCircle, color: "text-red-500",    desc: "집중 케어 대상" },
+  { value: "inactive",      label: "30일 미접속",      icon: AlertCircle, color: "text-red-400",    desc: "이탈 위험 — 복귀 이벤트 권장" },
 ];
 
 // ─── 발송 유형 ────────────────────────────────────────────────────────────────
@@ -273,7 +287,7 @@ export default function EventDashboard() {
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-2">
             {TARGET_OPTIONS.map(({ value, label, icon: Icon, color, desc }) => (
               <div key={value} className="text-center p-2 rounded bg-muted">
-                <Icon className={`w-5 h-5 mx-auto mb-1 ${color}`} />
+                {Icon && <Icon className={`w-5 h-5 mx-auto mb-1 ${color}`} />}
                 <p className="text-xs font-medium">{label}</p>
                 <p className="text-xs text-muted-foreground">{desc}</p>
               </div>
