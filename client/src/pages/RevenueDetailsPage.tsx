@@ -125,6 +125,42 @@ export default function RevenueDetailsPage() {
           )}
         </div>
 
+        {/* ✅ 프로젝트별 분류 (7차 반영) */}
+        <Card>
+          <CardHeader><CardTitle className="text-sm flex items-center gap-2">
+            📁 프로젝트별 매출
+            <Badge variant="outline" className="text-xs">클릭 → 세부 내역</Badge>
+          </CardTitle></CardHeader>
+          <CardContent>
+            <div className="space-y-2">
+              {[
+                { name: '숨호흡 앱',   amount: 1200000, count: 89,  pct: 35 },
+                { name: 'GLWA',        amount: 1800000, count: 112, pct: 52 },
+                { name: '스포츠 협회', amount: 300000,  count: 28,  pct: 9  },
+                { name: '장부 관리',   amount: 150000,  count: 18,  pct: 4  },
+              ].map(proj => (
+                <div key={proj.name}
+                  className="flex items-center gap-3 p-3 rounded-lg border border-gray-200 hover:border-green-300 hover:bg-green-50 cursor-pointer transition-all"
+                  onClick={() => {}}>
+                  <div className="flex-1">
+                    <div className="flex justify-between items-center mb-1">
+                      <span className="text-sm font-semibold">{proj.name}</span>
+                      <span className="text-sm font-mono font-bold text-green-600">₩{proj.amount.toLocaleString()}</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <div className="flex-1 bg-gray-200 rounded-full h-1.5">
+                        <div className="h-1.5 rounded-full bg-green-500" style={{ width: `${proj.pct}%` }} />
+                      </div>
+                      <span className="text-xs text-gray-400">{proj.pct}% · {proj.count}건</span>
+                    </div>
+                  </div>
+                  <span className="text-xs text-green-500">세부 →</span>
+                </div>
+              ))}
+            </div>
+          </CardContent>
+        </Card>
+
         {/* 차트 */}
         {chartData.length > 0 && (
           <Card>

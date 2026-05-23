@@ -33,7 +33,7 @@ const menuItems = [
   { icon: Users, label: "사용자 관리", path: "/admin/users" },
   { icon: FolderKanban, label: "프로젝트 관리", path: "/admin/projects" },
   { icon: CreditCard, label: "멤버십 관리", path: "/membership" },
-  { icon: Gem, label: "멤버십 혜택", path: "/admin/membership/benefits" },
+  { icon: Gem, label: "이벤트 / 프로모션", path: "/admin/membership/benefits" },
   { icon: DollarSign, label: "결제 / 정산", path: "/admin/payment" },
   // AI & 분석
   { icon: Brain, label: "AI 분석 & 랭킹", path: "/admin/ai-analytics" },
@@ -43,11 +43,11 @@ const menuItems = [
   // 활동 & 미션
   { icon: Target, label: "미션 관리", path: "/admin/missions" },
   { icon: Calendar, label: "이벤트 관리", path: "/admin/events" },
-  { icon: Timer, label: "스케줄러 관리", path: "/admin/scheduler" },
-  { icon: Send, label: "타겟 발송", path: "/admin/target-audience" },
+  { icon: Send, label: "포인트 관리", path: "/admin/target-audience" },
+  { icon: Timer, label: "업무 관리 스케줄", path: "/admin/scheduler" },
   // 건강 & 데이터
   { icon: Watch, label: "웨어러블 연동", path: "/admin/wearable" },
-  { icon: Moon, label: "수면 자동 체크", path: "/sleep-settings" },
+  { icon: Moon, label: "수면 관리 자동화", path: "/sleep-settings" },
   { icon: Activity, label: "모니터링", path: "/admin/monitoring" },
   { icon: BarChart3, label: "통계", path: "/admin/stats" },
   // 커뮤니티 & 결제

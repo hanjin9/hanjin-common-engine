@@ -16,6 +16,7 @@ import SchedulerDashboard from './pages/SchedulerDashboard';
 import DashboardLayout from "./components/DashboardLayout";
 import UsersManagement from './pages/UsersManagement';
 import MembershipBenefits from './pages/MembershipBenefits';
+import MembershipManagement from './pages/MembershipManagement';
 import ProjectsManagement from './pages/ProjectsManagement';
 import MonitoringDashboard from './pages/MonitoringDashboard';
 import StatsDashboard from './pages/StatsDashboard';
@@ -217,6 +218,9 @@ function Router() {
 
       {/* 404 */}
       {/* ✅ 신규: 멤버십 결제 + 결제완료/취소 (3개 레포 이식) */}
+      <Route path={"/admin/membership/management"} component={() => (
+        <MembershipManagement />
+      )} />
       <Route path={"/admin/membership/benefits"} component={() => (
         <MembershipBenefits />
       )} />

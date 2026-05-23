@@ -244,37 +244,43 @@ export default function MissionDashboard() {
           </div>
         </div>
 
-        {/* KPI 카드 4개 */}
+        {/* ✅ KPI 카드 4개 개편 (4차 반영) */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-          <Card>
+          {/* 카드1: 타임 루틴 */}
+          <Card className="cursor-pointer hover:shadow-md hover:border-blue-300 transition-all"
+            onClick={() => { setActiveFilter('all'); setSelectedStage(null); }}>
             <CardContent className="pt-4">
-              <p className="text-xs text-gray-500">전체 단계</p>
-              <p className="text-2xl font-bold text-blue-600">19</p>
-              <p className="text-xs text-gray-400 mt-1">수련 10 + 챌린지 9</p>
+              <p className="text-xs text-gray-500">⏰ 타임 루틴</p>
+              <p className="text-2xl font-bold text-blue-600">8종</p>
+              <p className="text-xs text-blue-500 mt-1">기상~취침 시간대별 미션</p>
             </CardContent>
           </Card>
-          <Card>
+          {/* 카드2: 10단계 미션 */}
+          <Card className="cursor-pointer hover:shadow-md hover:border-green-300 transition-all"
+            onClick={() => { setActiveFilter('수련'); setSelectedStage(null); }}>
             <CardContent className="pt-4">
-              <p className="text-xs text-gray-500">활성 미션 수</p>
-              <p className="text-2xl font-bold text-green-600">
+              <p className="text-xs text-gray-500">🌬️ 10단계 미션</p>
+              <p className="text-2xl font-bold text-green-600">10단계</p>
+              <p className="text-xs text-green-500 mt-1">숨·쉼·잠·명상·스트레칭...</p>
+            </CardContent>
+          </Card>
+          {/* 카드3: 활성 미션 */}
+          <Card className="cursor-pointer hover:shadow-md hover:border-purple-300 transition-all">
+            <CardContent className="pt-4">
+              <p className="text-xs text-gray-500">✅ 활성 미션</p>
+              <p className="text-2xl font-bold text-purple-600">
                 {Object.values(stageSlots).flat().filter(s => s.active).length}
               </p>
-              <p className="text-xs text-gray-400 mt-1">/ 380개 슬롯 중</p>
+              <p className="text-xs text-purple-500 mt-1">오늘 활성화된 미션 목록</p>
             </CardContent>
           </Card>
+          {/* 카드4: 오늘 완료 + 포인트 합침 → 포인트 관리 연결 */}
           <Card className="cursor-pointer hover:shadow-md hover:border-orange-300 transition-all"
             onClick={() => setShowCompletions(true)}>
             <CardContent className="pt-4">
-              <p className="text-xs text-gray-500">오늘 완료</p>
-              <p className="text-2xl font-bold text-orange-600">{todayCompleted}</p>
-              <p className="text-xs text-orange-500 mt-1">👆 클릭 → 포인트 지급</p>
-            </CardContent>
-          </Card>
-          <Card>
-            <CardContent className="pt-4">
-              <p className="text-xs text-gray-500">오늘 지급 포인트</p>
-              <p className="text-2xl font-bold text-purple-600">12,400P</p>
-              <p className="text-xs text-gray-400 mt-1">자동 지급됨</p>
+              <p className="text-xs text-gray-500">오늘 완료 · 포인트</p>
+              <p className="text-2xl font-bold text-orange-600">{todayCompleted}명</p>
+              <p className="text-xs text-orange-500 mt-1">12,400P 자동 지급 👆</p>
             </CardContent>
           </Card>
         </div>
