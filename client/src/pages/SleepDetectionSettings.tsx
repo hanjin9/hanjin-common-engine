@@ -93,11 +93,11 @@ export default function SleepDetectionSettings() {
   ];
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-3">
       {/* ✅ 관리자 발송 화면으로 전환 (보고서 4차 반영) */}
       <div className="flex items-center justify-between flex-wrap gap-3">
         <div>
-          <h1 className="text-2xl font-bold tracking-tight flex items-center gap-2">
+          <h1 className="text-xl font-bold tracking-tight flex items-center gap-2">
             <Moon className="w-7 h-7 text-indigo-600" />
             수면 자동 체크 — 관리자 발송
           </h1>
@@ -158,39 +158,39 @@ ${s.users}명에게 즉시 발송 완료!`)}>
       </div>
 
       {/* 시스템 상태 */}
-      <div className="grid grid-cols-1 sm:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-4 gap-2">
         <Card>
-          <CardHeader className="pb-3">
+          <CardHeader className="pb-1">
             <CardTitle className="text-sm font-medium">연결된 기기</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{systemStatus.connectedDevices}</div>
+            <div className="text-xl font-bold">{systemStatus.connectedDevices}</div>
             <p className="text-xs text-muted-foreground mt-1">활성</p>
           </CardContent>
         </Card>
 
         <Card>
-          <CardHeader className="pb-3">
+          <CardHeader className="pb-1">
             <CardTitle className="text-sm font-medium">활성 사용자</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{systemStatus.activeUsers}</div>
+            <div className="text-xl font-bold">{systemStatus.activeUsers}</div>
             <p className="text-xs text-muted-foreground mt-1">감지 중</p>
           </CardContent>
         </Card>
 
         <Card>
-          <CardHeader className="pb-3">
+          <CardHeader className="pb-1">
             <CardTitle className="text-sm font-medium">데이터 포인트</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{systemStatus.dataPoints}</div>
+            <div className="text-xl font-bold">{systemStatus.dataPoints}</div>
             <p className="text-xs text-muted-foreground mt-1">누적</p>
           </CardContent>
         </Card>
 
         <Card>
-          <CardHeader className="pb-3">
+          <CardHeader className="pb-1">
             <CardTitle className="text-sm font-medium">마지막 업데이트</CardTitle>
           </CardHeader>
           <CardContent>
@@ -209,13 +209,13 @@ ${s.users}명에게 즉시 발송 완료!`)}>
         </TabsList>
 
         {/* 시스템 설정 탭 */}
-        <TabsContent value="system" className="space-y-4">
+        <TabsContent value="system" className="space-y-2">
           <Card>
             <CardHeader>
               <CardTitle>전체 시스템 설정</CardTitle>
               <CardDescription>수면 감지 시스템의 전체 설정</CardDescription>
             </CardHeader>
-            <CardContent className="space-y-6">
+            <CardContent className="space-y-3">
               {/* 시스템 활성화 */}
               <div className="flex items-center justify-between p-4 border rounded-lg">
                 <div>
@@ -287,8 +287,8 @@ ${s.users}명에게 즉시 발송 완료!`)}>
         </TabsContent>
 
         {/* 감지 규칙 탭 */}
-        <TabsContent value="rules" className="space-y-4">
-          <div className="space-y-4">
+        <TabsContent value="rules" className="space-y-2">
+          <div className="space-y-2">
             {detectionRules.map((rule) => (
               <Card key={rule.id}>
                 <CardHeader>
@@ -302,11 +302,11 @@ ${s.users}명에게 즉시 발송 완료!`)}>
                     <Badge variant="default">활성</Badge>
                   </div>
                 </CardHeader>
-                <CardContent className="space-y-4">
+                <CardContent className="space-y-2">
                   <div className="flex items-center justify-between p-3 bg-muted rounded-lg">
                     <div>
                       <p className="text-sm font-medium">해당 사용자</p>
-                      <p className="text-2xl font-bold">{rule.userCount}</p>
+                      <p className="text-xl font-bold">{rule.userCount}</p>
                     </div>
                     <Activity className="w-8 h-8 text-blue-600" />
                   </div>
@@ -321,8 +321,8 @@ ${s.users}명에게 즉시 발송 완료!`)}>
         </TabsContent>
 
         {/* 사용자 설정 탭 */}
-        <TabsContent value="users" className="space-y-4">
-          <div className="space-y-4">
+        <TabsContent value="users" className="space-y-2">
+          <div className="space-y-2">
             {userSettings.map((user) => (
               <Card key={user.id}>
                 <CardHeader>
@@ -340,8 +340,8 @@ ${s.users}명에게 즉시 발송 완료!`)}>
                     </Badge>
                   </div>
                 </CardHeader>
-                <CardContent className="space-y-4">
-                  <div className="grid grid-cols-3 gap-4">
+                <CardContent className="space-y-2">
+                  <div className="grid grid-cols-3 gap-2">
                     <div className="flex items-center justify-between p-3 border rounded-lg">
                       <div>
                         <p className="text-xs font-medium text-muted-foreground">감지</p>

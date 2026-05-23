@@ -30,14 +30,14 @@ export default function SettlementDetailsPage() {
 
   return (
     <DashboardLayout>
-      <div className="space-y-6 p-4 md:p-6">
+      <div className="space-y-3 p-3 md:p-4">
         <div className="flex items-center justify-between flex-wrap gap-3">
           <div className="flex items-center gap-3">
             <Button variant="ghost" size="sm" onClick={() => setLocation('/admin/payment')}>
               <ArrowLeft className="h-4 w-4 mr-1" />뒤로
             </Button>
             <div>
-              <h1 className="text-2xl font-bold flex items-center gap-2">
+              <h1 className="text-xl font-bold flex items-center gap-2">
                 <DollarSign className="h-6 w-6 text-blue-600" />정산 상세
               </h1>
               <p className="text-sm text-gray-500 mt-0.5">순매출 · 기간별 정산 현황</p>
@@ -53,27 +53,27 @@ export default function SettlementDetailsPage() {
         </div>
 
         {isLoading ? (
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
             {Array.from({length:4}).map((_,i)=><Skeleton key={i} className="h-24 rounded-lg"/>)}
           </div>
         ) : (
           <>
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
               <Card><CardContent className="pt-5">
                 <p className="text-sm text-gray-500">총 매출</p>
-                <p className="text-2xl font-bold text-green-600">{fmtKrw(settlement?.totalRevenue)}</p>
+                <p className="text-xl font-bold text-green-600">{fmtKrw(settlement?.totalRevenue)}</p>
               </CardContent></Card>
               <Card><CardContent className="pt-5">
                 <p className="text-sm text-gray-500">환불액</p>
-                <p className="text-2xl font-bold text-red-500">{fmtKrw(settlement?.totalRefund)}</p>
+                <p className="text-xl font-bold text-red-500">{fmtKrw(settlement?.totalRefund)}</p>
               </CardContent></Card>
               <Card><CardContent className="pt-5">
                 <p className="text-sm text-gray-500">순매출</p>
-                <p className="text-2xl font-bold text-blue-600">{fmtKrw(settlement?.netRevenue)}</p>
+                <p className="text-xl font-bold text-blue-600">{fmtKrw(settlement?.netRevenue)}</p>
               </CardContent></Card>
               <Card><CardContent className="pt-5">
                 <p className="text-sm text-gray-500">활성 구독</p>
-                <p className="text-2xl font-bold">{Number(settlement?.activeSubscriptions ?? 0).toLocaleString()}건</p>
+                <p className="text-xl font-bold">{Number(settlement?.activeSubscriptions ?? 0).toLocaleString()}건</p>
               </CardContent></Card>
             </div>
 

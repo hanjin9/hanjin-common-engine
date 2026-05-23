@@ -151,11 +151,11 @@ export default function UsersManagement() {
 
   return (
     <DashboardLayout>
-      <div className="p-4 md:p-6 space-y-5">
+      <div className="p-3 md:p-4 space-y-3">
         {/* 헤더 */}
         <div className="flex items-center justify-between flex-wrap gap-3">
           <div>
-            <h1 className="text-2xl font-bold flex items-center gap-2"><Users className="h-6 w-6 text-blue-600"/>사용자 관리</h1>
+            <h1 className="text-xl font-bold flex items-center gap-2"><Users className="h-6 w-6 text-blue-600"/>사용자 관리</h1>
             <p className="text-sm text-gray-500 mt-0.5">6가지 분류 기준 · 카드 선택 → 상세 명단</p>
           </div>
           <Button variant="outline" size="sm" className="gap-1" onClick={() => setShowCalendar(!showCalendar)}>
@@ -166,7 +166,7 @@ export default function UsersManagement() {
         {/* 캘린더 (토글) */}
         {showCalendar && (
           <Card>
-            <CardHeader className="pb-2"><CardTitle className="text-sm">📅 스케줄 캘린더</CardTitle></CardHeader>
+            <CardHeader className="pb-1"><CardTitle className="text-sm">📅 스케줄 캘린더</CardTitle></CardHeader>
             <CardContent><SharedCalendar events={calEvents} allowMultiSelect onDatesSelected={dates => toast.success(`${dates.length}개 날짜 선택: ${dates.join(', ')}`)} /></CardContent>
           </Card>
         )}
@@ -180,7 +180,7 @@ export default function UsersManagement() {
               <Card key={card.mode}
                 className={`cursor-pointer transition-all hover:shadow-md hover:-translate-y-0.5 ${isActive ? `${card.bg} border-2 ${card.border}` : 'hover:border-gray-300'}`}
                 onClick={() => { setActiveCard(card.mode); setSelectedProject(null); setSelectedIds(new Set()); }}>
-                <CardContent className="pt-4 pb-3">
+                <CardContent className="pt-2 pb-2">
                   <div className="flex items-center justify-between mb-2">
                     <span className={`text-xs font-semibold ${card.color}`}>{card.label}</span>
                     <Icon className={`h-4 w-4 ${card.color}`}/>
@@ -195,7 +195,7 @@ export default function UsersManagement() {
 
         {/* ── 카드1: 전체 통계 ─────────────────────────────────────── */}
         {activeCard === 'stats' && (
-          <div className="space-y-4">
+          <div className="space-y-2">
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
               {[
                 { label:'전체 사용자', val:users.length, color:'text-blue-600', sub:'전체' },
@@ -203,7 +203,7 @@ export default function UsersManagement() {
                 { label:'주간 활성',  val:weekCnt,      color:'text-purple-600', sub:'7일' },
                 { label:'월간 활성',  val:monthCnt,     color:'text-orange-600', sub:'30일' },
               ].map(s => (
-                <Card key={s.label}><CardContent className="pt-4">
+                <Card key={s.label}><CardContent className="pt-2">
                   <p className="text-xs text-gray-500">{s.label}</p>
                   <p className={`text-2xl font-bold ${s.color}`}>{s.val.toLocaleString()}</p>
                   <Badge variant="outline" className="text-xs mt-1">{s.sub}</Badge>
@@ -212,7 +212,7 @@ export default function UsersManagement() {
             </div>
             {/* 명단 */}
             <Card>
-              <CardHeader className="pb-3">
+              <CardHeader className="pb-1">
                 <div className="flex items-center justify-between flex-wrap gap-2">
                   <CardTitle className="text-sm">전체 회원 명단</CardTitle>
                   <div className="flex gap-2">
@@ -289,7 +289,7 @@ export default function UsersManagement() {
               </div>
             </CardHeader>
             <CardContent>
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-4">
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-2">
                 {(() => { const p = PROJECTS.find(x=>x.id===selectedProject)!; return [
                   { label:'전체 사용자', val:p.users },
                   { label:'활성 사용자', val:p.active },
@@ -348,7 +348,7 @@ export default function UsersManagement() {
 
         {/* ── 카드4: 미션별/단계별 ───────────────────────────────── */}
         {activeCard === 'mission' && (
-          <div className="grid md:grid-cols-2 gap-4">
+          <div className="grid md:grid-cols-2 gap-2">
             <Card>
               <CardHeader><CardTitle className="text-sm">✅ 미션 완료 현황</CardTitle></CardHeader>
               <CardContent className="space-y-2">
@@ -411,7 +411,7 @@ export default function UsersManagement() {
 
         {/* ── 카드6: 국가/직급별 관리자 ──────────────────────────── */}
         {activeCard === 'geo-admin' && (
-          <div className="space-y-4">
+          <div className="space-y-2">
             <Card>
               <CardHeader><CardTitle className="text-sm">🌏 직급별 체계 (프랜차이즈 관리자)</CardTitle></CardHeader>
               <CardContent>

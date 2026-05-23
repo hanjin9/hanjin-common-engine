@@ -73,13 +73,13 @@ export default function ProjectsManagement() {
   }
 
   return (
-    <div className="space-y-6 p-4 md:p-6">
+    <div className="space-y-3 p-3 md:p-4">
       <div>
-        <h1 className="text-3xl font-bold">프로젝트 관리</h1>
+        <h1 className="text-xl font-bold">프로젝트 관리</h1>
         <p className="text-gray-600 mt-2">전체 프로젝트 {projects?.length || 0}개</p>
       </div>
 
-      <div className="flex gap-4 flex-col md:flex-row">
+      <div className="flex gap-2 flex-col md:flex-row">
         <Input
           placeholder="프로젝트 검색 (이름, 설명)..."
           value={searchQuery}
@@ -101,14 +101,14 @@ export default function ProjectsManagement() {
           </CardContent>
         </Card>
       ) : (
-        <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="grid gap-2 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
           {filteredProjects.map((project: Project) => (
             <Card 
               key={project.id}
               className="hover:shadow-md transition-all hover:scale-102 cursor-pointer"
               onClick={() => handleOpenModal(project)}
             >
-              <CardHeader className="pb-3">
+              <CardHeader className="pb-1">
                 <div className="flex items-start justify-between">
                   <CardTitle className="text-lg">{project.name}</CardTitle>
                   <Badge variant={project.status === 'active' ? 'default' : 'secondary'}>

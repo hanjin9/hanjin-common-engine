@@ -67,7 +67,7 @@ export function UserRoleModal({
             {user?.name}({user?.email})의 역할을 변경합니다.
           </DialogDescription>
         </DialogHeader>
-        <div className="grid gap-4 py-4">
+        <div className="grid gap-2 py-4">
           <div className="grid gap-2">
             <Label htmlFor="role">새로운 역할</Label>
             <Select value={selectedRole} onValueChange={(value) => setSelectedRole(value as 'admin' | 'user')}>

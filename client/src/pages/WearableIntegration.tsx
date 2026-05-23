@@ -71,16 +71,16 @@ export default function WearableIntegration() {
   };
 
   return (
-    <div className="p-6 space-y-6">
+    <div className="p-3 md:p-4 space-y-3">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-cyan-700">웨어러블 연동</h1>
+          <h1 className="text-xl font-bold text-cyan-700">웨어러블 연동</h1>
           <p className="text-muted-foreground text-sm mt-1">스마트워치 및 피트니스 트래커 연동 관리</p>
         </div>
       </div>
 
       {/* ✅ 관리자용 4개 카드 (보고서 4차 반영) */}
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
         {[
           { label: '기기 연동 회원', value: '342', sub: '전체 1,247명 중', pct: '27%', color: 'text-cyan-600', border: 'border-cyan-200', icon: '📱',
             detail: '전체 회원 중 기기를 하나라도 연동한 회원', members: ['김건강 (Google Fit)', '이활력 (Apple Health)', '박수련 (Galaxy Watch)'] },
@@ -193,9 +193,9 @@ ${btn.count}명에게 발송하시겠습니까?`);
       </div>
 
       {/* 요약 카드 */}
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
         <Card className="border-cyan-200">
-          <CardContent className="p-4 flex items-center gap-3">
+          <CardContent className="p-2 flex items-center gap-3">
             <div className="p-2 rounded-full bg-red-100">
               <Heart className="w-5 h-5 text-red-500" />
             </div>
@@ -206,7 +206,7 @@ ${btn.count}명에게 발송하시겠습니까?`);
           </CardContent>
         </Card>
         <Card className="border-cyan-200">
-          <CardContent className="p-4 flex items-center gap-3">
+          <CardContent className="p-2 flex items-center gap-3">
             <div className="p-2 rounded-full bg-blue-100">
               <Activity className="w-5 h-5 text-blue-500" />
             </div>
@@ -217,7 +217,7 @@ ${btn.count}명에게 발송하시겠습니까?`);
           </CardContent>
         </Card>
         <Card className="border-cyan-200">
-          <CardContent className="p-4 flex items-center gap-3">
+          <CardContent className="p-2 flex items-center gap-3">
             <div className="p-2 rounded-full bg-orange-100">
               <Flame className="w-5 h-5 text-orange-500" />
             </div>
@@ -228,7 +228,7 @@ ${btn.count}명에게 발송하시겠습니까?`);
           </CardContent>
         </Card>
         <Card className="border-cyan-200">
-          <CardContent className="p-4 flex items-center gap-3">
+          <CardContent className="p-2 flex items-center gap-3">
             <div className="p-2 rounded-full bg-green-100">
               <Footprints className="w-5 h-5 text-green-500" />
             </div>
@@ -248,7 +248,7 @@ ${btn.count}명에게 발송하시겠습니까?`);
         </TabsList>
 
         <TabsContent value="devices" className="mt-4">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2">
             {connections?.length === 0 && (
               <div className="col-span-full text-center py-12 text-muted-foreground">
                 <Watch className="w-12 h-12 mx-auto mb-3 opacity-30" />
@@ -345,7 +345,7 @@ ${btn.count}명에게 발송하시겠습니까?`);
             )}
             {exerciseSessions?.map((session) => (
               <Card key={session.id}>
-                <CardContent className="p-4 flex items-center justify-between">
+                <CardContent className="p-2 flex items-center justify-between">
                   <div>
                     <p className="font-semibold capitalize">{session.activityType}</p>
                     <p className="text-sm text-muted-foreground">

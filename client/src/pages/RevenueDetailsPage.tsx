@@ -61,7 +61,7 @@ export default function RevenueDetailsPage() {
 
   return (
     <DashboardLayout>
-      <div className="space-y-6 p-4 md:p-6">
+      <div className="space-y-3 p-3 md:p-4">
         {/* 헤더 */}
         <div className="flex items-center justify-between flex-wrap gap-3">
           <div className="flex items-center gap-3">
@@ -69,7 +69,7 @@ export default function RevenueDetailsPage() {
               <ArrowLeft className="h-4 w-4 mr-1" />뒤로
             </Button>
             <div>
-              <h1 className="text-2xl font-bold flex items-center gap-2">
+              <h1 className="text-xl font-bold flex items-center gap-2">
                 <TrendingUp className="h-6 w-6 text-green-600" />총 매출 상세
               </h1>
               <p className="text-sm text-gray-500 mt-0.5">결제 성공 건수 · 실시간 DB (stripePayments)</p>
@@ -94,31 +94,31 @@ export default function RevenueDetailsPage() {
         </div>
 
         {/* KPI */}
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
           {isLoading ? Array.from({length:4}).map((_,i)=><Skeleton key={i} className="h-24 rounded-lg"/>) : (
             <>
               <Card>
                 <CardContent className="pt-5">
                   <p className="text-sm text-gray-500">총 매출</p>
-                  <p className="text-2xl font-bold text-green-600">{fmtKrw(summary?.totalAmount)}</p>
+                  <p className="text-xl font-bold text-green-600">{fmtKrw(summary?.totalAmount)}</p>
                 </CardContent>
               </Card>
               <Card>
                 <CardContent className="pt-5">
                   <p className="text-sm text-gray-500">성공 건수</p>
-                  <p className="text-2xl font-bold">{Number(summary?.succeededCount ?? 0).toLocaleString()}건</p>
+                  <p className="text-xl font-bold">{Number(summary?.succeededCount ?? 0).toLocaleString()}건</p>
                 </CardContent>
               </Card>
               <Card>
                 <CardContent className="pt-5">
                   <p className="text-sm text-gray-500">환불 차감</p>
-                  <p className="text-2xl font-bold text-red-500">{fmtKrw(summary?.refundAmount)}</p>
+                  <p className="text-xl font-bold text-red-500">{fmtKrw(summary?.refundAmount)}</p>
                 </CardContent>
               </Card>
               <Card>
                 <CardContent className="pt-5">
                   <p className="text-sm text-gray-500">순매출</p>
-                  <p className="text-2xl font-bold text-blue-600">{fmtKrw(summary?.netAmount)}</p>
+                  <p className="text-xl font-bold text-blue-600">{fmtKrw(summary?.netAmount)}</p>
                 </CardContent>
               </Card>
             </>

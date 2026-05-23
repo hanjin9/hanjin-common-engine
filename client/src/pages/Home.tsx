@@ -42,11 +42,11 @@ export default function Home() {
 
       {/* 메인 */}
       <main className="flex-1 flex flex-col items-center justify-center px-6 text-center gap-10">
-        <div className="flex flex-col items-center gap-4 max-w-xl">
+        <div className="flex flex-col items-center gap-2 max-w-xl">
           <div className="w-16 h-16 rounded-2xl bg-primary flex items-center justify-center mb-2">
             <Shield className="h-8 w-8 text-primary-foreground" />
           </div>
-          <h1 className="text-3xl font-bold tracking-tight">
+          <h1 className="text-xl font-bold tracking-tight">
             한진 공통 엔진
           </h1>
           <p className="text-muted-foreground text-base leading-relaxed">
@@ -63,7 +63,7 @@ export default function Home() {
         </div>
 
         {/* 기능 카드 3개 */}
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 w-full max-w-2xl">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 w-full max-w-2xl">
           <div className="border rounded-xl p-5 text-left flex flex-col gap-2">
             <BarChart3 className="h-5 w-5 text-primary" />
             <p className="font-semibold text-sm">통합 통계</p>

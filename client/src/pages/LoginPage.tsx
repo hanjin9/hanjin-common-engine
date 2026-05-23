@@ -38,7 +38,7 @@ export default function LoginPage() {
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center p-4">
       <Card className="w-full max-w-md">
         <CardHeader className="text-center">
-          <div className="flex justify-center mb-4">
+          <div className="flex justify-center mb-2">
             <div className="bg-blue-600 rounded-full p-3">
               <LogIn className="h-6 w-6 text-white" />
             </div>
@@ -46,7 +46,7 @@ export default function LoginPage() {
           <CardTitle className="text-2xl">한진 공통 엔진</CardTitle>
           <CardDescription>로그인하여 시작하세요</CardDescription>
         </CardHeader>
-        <CardContent className="space-y-6">
+        <CardContent className="space-y-3">
           {/* 소셜 로그인 - 추천 순서 */}
           <div className="space-y-2">
             <p className="text-xs font-semibold text-gray-600">소셜 로그인</p>

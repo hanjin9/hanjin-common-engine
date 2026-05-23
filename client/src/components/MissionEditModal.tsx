@@ -65,7 +65,7 @@ export function MissionEditModal({
             미션의 정보를 입력하고 저장하세요.
           </DialogDescription>
         </DialogHeader>
-        <div className="grid gap-4 py-4">
+        <div className="grid gap-2 py-4">
           <div className="grid gap-2">
             <Label htmlFor="title">미션 제목</Label>
             <Input

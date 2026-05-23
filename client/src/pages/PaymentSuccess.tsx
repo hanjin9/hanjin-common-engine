@@ -107,7 +107,7 @@ export default function PaymentSuccess() {
         <div className="container mx-auto px-4 max-w-lg">
           <Card className="bg-slate-900 border-slate-700/50">
             <CardHeader className="text-center pb-4">
-              <div className="flex justify-center mb-4">
+              <div className="flex justify-center mb-2">
                 <div className="w-16 h-16 rounded-full bg-slate-800 flex items-center justify-center">
                   <XCircle className="w-9 h-9 text-slate-400" />
                 </div>
@@ -145,7 +145,7 @@ export default function PaymentSuccess() {
         <div className="container mx-auto px-4 max-w-lg">
           <Card className="bg-slate-900 border-red-900/50">
             <CardHeader className="text-center pb-4">
-              <div className="flex justify-center mb-4">
+              <div className="flex justify-center mb-2">
                 <div className="w-16 h-16 rounded-full bg-red-900/30 flex items-center justify-center">
                   <AlertCircle className="w-9 h-9 text-red-400" />
                 </div>
@@ -188,19 +188,19 @@ export default function PaymentSuccess() {
         {/* 성공 헤더 */}
         <div className="text-center mb-8">
           <div className="relative inline-flex">
-            <div className="w-20 h-20 rounded-full bg-emerald-900/30 flex items-center justify-center mx-auto mb-4">
+            <div className="w-20 h-20 rounded-full bg-emerald-900/30 flex items-center justify-center mx-auto mb-2">
               <CheckCircle2 className="w-11 h-11 text-emerald-400" />
             </div>
             <span className="absolute -top-1 -right-1 text-2xl">🎉</span>
           </div>
-          <h1 className="text-3xl font-bold text-white mb-2">결제 완료!</h1>
+          <h1 className="text-xl font-bold text-white mb-2">결제 완료!</h1>
           <p className="text-slate-400">멤버십이 성공적으로 활성화되었습니다</p>
         </div>
 
         {/* 구독 정보 카드 */}
-        <Card className="bg-slate-900 border-emerald-900/50 mb-4">
-          <CardContent className="pt-5 pb-4">
-            <div className="flex items-center gap-2 mb-4">
+        <Card className="bg-slate-900 border-emerald-900/50 mb-2">
+          <CardContent className="pt-3 pb-2">
+            <div className="flex items-center gap-2 mb-2">
               <CheckCircle2 className="w-4 h-4 text-emerald-400" />
               <h3 className="font-semibold text-white text-sm">구독 정보</h3>
             </div>
@@ -240,8 +240,8 @@ export default function PaymentSuccess() {
         </Card>
 
         {/* 다음 단계 */}
-        <Card className="bg-slate-900 border-slate-700/50 mb-6">
-          <CardContent className="pt-5 pb-4">
+        <Card className="bg-slate-900 border-slate-700/50 mb-3">
+          <CardContent className="pt-3 pb-2">
             <h4 className="font-semibold text-white text-sm mb-3">다음 단계</h4>
             <ul className="space-y-2">
               {[
@@ -260,7 +260,7 @@ export default function PaymentSuccess() {
         </Card>
 
         {/* 이메일 안내 */}
-        <div className="bg-blue-950/40 border border-blue-800/30 rounded-lg p-4 mb-6">
+        <div className="bg-blue-950/40 border border-blue-800/30 rounded-lg p-4 mb-3">
           <p className="text-blue-300 text-sm">
             <strong>📧 확인 이메일:</strong> 결제 확인서와 멤버십 안내가 이메일로 발송되었습니다.
             스팸 폴더도 확인해주세요.

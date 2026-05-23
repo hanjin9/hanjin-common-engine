@@ -119,11 +119,11 @@ export default function ScheduledMissionManager() {
   ];
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-3">
       {/* 헤더 */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold tracking-tight">스케줄러 관리</h1>
+          <h1 className="text-xl font-bold tracking-tight">스케줄러 관리</h1>
           <p className="text-muted-foreground mt-2">미션 자동 발송 스케줄 관리</p>
         </div>
         <Button size="lg" className="gap-2">
@@ -133,52 +133,52 @@ export default function ScheduledMissionManager() {
       </div>
 
       {/* 통계 */}
-      <div className="grid grid-cols-1 sm:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-4 gap-2">
         <Card>
-          <CardHeader className="pb-3">
+          <CardHeader className="pb-1">
             <CardTitle className="text-sm font-medium flex items-center gap-2">
               <Calendar className="w-4 h-4" />
               활성 스케줄
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">3</div>
+            <div className="text-xl font-bold">3</div>
             <p className="text-xs text-muted-foreground mt-1">진행 중</p>
           </CardContent>
         </Card>
 
         <Card>
-          <CardHeader className="pb-3">
+          <CardHeader className="pb-1">
             <CardTitle className="text-sm font-medium flex items-center gap-2">
               <Clock className="w-4 h-4" />
               예정된 미션
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">4</div>
+            <div className="text-xl font-bold">4</div>
             <p className="text-xs text-muted-foreground mt-1">이번 주</p>
           </CardContent>
         </Card>
 
         <Card>
-          <CardHeader className="pb-3">
+          <CardHeader className="pb-1">
             <CardTitle className="text-sm font-medium flex items-center gap-2">
               <Users className="w-4 h-4" />
               총 참여자
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">1.5K</div>
+            <div className="text-xl font-bold">1.5K</div>
             <p className="text-xs text-muted-foreground mt-1">사용자</p>
           </CardContent>
         </Card>
 
         <Card>
-          <CardHeader className="pb-3">
+          <CardHeader className="pb-1">
             <CardTitle className="text-sm font-medium">평균 완료율</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">85%</div>
+            <div className="text-xl font-bold">85%</div>
             <p className="text-xs text-muted-foreground mt-1">성공</p>
           </CardContent>
         </Card>
@@ -193,8 +193,8 @@ export default function ScheduledMissionManager() {
         </TabsList>
 
         {/* 스케줄된 미션 탭 */}
-        <TabsContent value="scheduled" className="space-y-4">
-          <div className="space-y-4">
+        <TabsContent value="scheduled" className="space-y-2">
+          <div className="space-y-2">
             {scheduledMissions.map((mission) => (
               <Card key={mission.id}>
                 <CardHeader>
@@ -210,8 +210,8 @@ export default function ScheduledMissionManager() {
                     </div>
                   </div>
                 </CardHeader>
-                <CardContent className="space-y-4">
-                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+                <CardContent className="space-y-2">
+                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
                     <div>
                       <p className="text-xs font-medium text-muted-foreground">타겟</p>
                       <p className="text-sm font-semibold">{mission.targetAudience}</p>
@@ -254,14 +254,14 @@ export default function ScheduledMissionManager() {
         </TabsContent>
 
         {/* 주간 미션 탭 */}
-        <TabsContent value="weekly" className="space-y-4">
-          <div className="space-y-4">
+        <TabsContent value="weekly" className="space-y-2">
+          <div className="space-y-2">
             {weeklyMissions.map((week) => (
               <Card key={week.id}>
                 <CardHeader>
                   <h3 className="text-lg font-semibold">{week.week}</h3>
                 </CardHeader>
-                <CardContent className="space-y-4">
+                <CardContent className="space-y-2">
                   <div className="space-y-3">
                     {week.missions.map((mission, idx) => (
                       <div key={idx} className="flex items-center justify-between p-3 border rounded-lg">
@@ -297,8 +297,8 @@ export default function ScheduledMissionManager() {
         </TabsContent>
 
         {/* 발송 이력 탭 */}
-        <TabsContent value="history" className="space-y-4">
-          <div className="space-y-4">
+        <TabsContent value="history" className="space-y-2">
+          <div className="space-y-2">
             {sendHistory.map((history) => (
               <Card key={history.id}>
                 <CardHeader>
@@ -310,19 +310,19 @@ export default function ScheduledMissionManager() {
                     <Badge variant="default">완료</Badge>
                   </div>
                 </CardHeader>
-                <CardContent className="space-y-4">
-                  <div className="grid grid-cols-3 gap-4">
+                <CardContent className="space-y-2">
+                  <div className="grid grid-cols-3 gap-2">
                     <div>
                       <p className="text-xs font-medium text-muted-foreground">발송 대상</p>
-                      <p className="text-2xl font-bold">{history.targetCount}</p>
+                      <p className="text-xl font-bold">{history.targetCount}</p>
                     </div>
                     <div>
                       <p className="text-xs font-medium text-muted-foreground">발송 완료</p>
-                      <p className="text-2xl font-bold text-blue-600">{history.sentCount}</p>
+                      <p className="text-xl font-bold text-blue-600">{history.sentCount}</p>
                     </div>
                     <div>
                       <p className="text-xs font-medium text-muted-foreground">완료</p>
-                      <p className="text-2xl font-bold text-green-600">{history.completedCount}</p>
+                      <p className="text-xl font-bold text-green-600">{history.completedCount}</p>
                     </div>
                   </div>
                   <div>

@@ -57,38 +57,38 @@ export default function AdvancedAnalytics() {
   const now = new Date();
 
   return (
-    <div className="p-6 space-y-6">
+    <div className="p-3 md:p-4 space-y-3">
       <div>
-        <h1 className="text-2xl font-bold text-amber-700">고급 분석 & 리포트</h1>
+        <h1 className="text-xl font-bold text-amber-700">고급 분석 & 리포트</h1>
         <p className="text-muted-foreground text-sm mt-1">AI 예측 분석, 월간 리포트, A/B 테스트 관리</p>
       </div>
 
       {/* 요약 카드 */}
-      <div className="grid grid-cols-3 gap-4">
+      <div className="grid grid-cols-3 gap-2">
         <Card className="bg-amber-50 border-0">
-          <CardContent className="p-4 flex items-center gap-3">
+          <CardContent className="p-2 flex items-center gap-3">
             <Brain className="w-8 h-8 text-amber-500" />
             <div>
               <p className="text-xs text-muted-foreground">총 예측 수행</p>
-              <p className="text-2xl font-bold">{summary?.totalPredictions ?? 0}</p>
+              <p className="text-xl font-bold">{summary?.totalPredictions ?? 0}</p>
             </div>
           </CardContent>
         </Card>
         <Card className="bg-blue-50 border-0">
-          <CardContent className="p-4 flex items-center gap-3">
+          <CardContent className="p-2 flex items-center gap-3">
             <FlaskConical className="w-8 h-8 text-blue-500" />
             <div>
               <p className="text-xs text-muted-foreground">진행 중 A/B 테스트</p>
-              <p className="text-2xl font-bold">{summary?.activeExperiments ?? 0}</p>
+              <p className="text-xl font-bold">{summary?.activeExperiments ?? 0}</p>
             </div>
           </CardContent>
         </Card>
         <Card className="bg-green-50 border-0">
-          <CardContent className="p-4 flex items-center gap-3">
+          <CardContent className="p-2 flex items-center gap-3">
             <FileText className="w-8 h-8 text-green-500" />
             <div>
               <p className="text-xs text-muted-foreground">총 사용자</p>
-              <p className="text-2xl font-bold">{summary?.totalUsers ?? 0}</p>
+              <p className="text-xl font-bold">{summary?.totalUsers ?? 0}</p>
             </div>
           </CardContent>
         </Card>
@@ -148,7 +148,7 @@ export default function AdvancedAnalytics() {
             </CardContent>
           </Card>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
             {predictions?.map((pred) => {
               const info = PREDICTION_LABELS[pred.predictionType];
               const score = parseFloat(pred.score ?? "0");
@@ -162,7 +162,7 @@ export default function AdvancedAnalytics() {
                         신뢰도 {((parseFloat(pred.confidence ?? "0")) * 100).toFixed(0)}%
                       </Badge>
                     </div>
-                    <div className="text-3xl font-bold mb-2 text-amber-600">
+                    <div className="text-xl font-bold mb-2 text-amber-600">
                       {(score * 100).toFixed(1)}%
                     </div>
                     <div className="w-full bg-gray-200 rounded-full h-2 mb-3">
@@ -294,7 +294,7 @@ export default function AdvancedAnalytics() {
                     )}
                   </div>
                 </div>
-                <div className="flex gap-4 text-sm text-muted-foreground">
+                <div className="flex gap-2 text-sm text-muted-foreground">
                   <span>유형: {exp.experimentType}</span>
                   <span>트래픽 분배: {exp.trafficSplit}%</span>
                   {exp.winnerVariant && <span className="text-green-600 font-medium">승자: {exp.winnerVariant}</span>}

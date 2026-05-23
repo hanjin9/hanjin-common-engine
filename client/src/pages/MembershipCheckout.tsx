@@ -223,7 +223,7 @@ export default function MembershipCheckout() {
 
         {/* ── 헤더 ─────────────────────────────────────────── */}
         <div className="text-center mb-10">
-          <div className="inline-flex items-center gap-2 bg-yellow-500/10 border border-yellow-500/30 px-4 py-1.5 rounded-full text-yellow-400 text-sm font-medium mb-4">
+          <div className="inline-flex items-center gap-2 bg-yellow-500/10 border border-yellow-500/30 px-4 py-1.5 rounded-full text-yellow-400 text-sm font-medium mb-2">
             <Crown className="w-4 h-4" /> 한진 공통 엔진 · 11단계 멤버십 시스템
           </div>
           <h1 className="text-4xl md:text-5xl font-bold text-white mb-3">
@@ -235,7 +235,7 @@ export default function MembershipCheckout() {
         </div>
 
         {/* ── 프로젝트 + 결제 방식 선택 ─────────────────────── */}
-        <div className="flex flex-wrap gap-4 justify-center mb-8">
+        <div className="flex flex-wrap gap-2 justify-center mb-8">
           <div className="flex items-center gap-2">
             <span className="text-slate-400 text-sm">프로젝트:</span>
             <Select value={selectedProject} onValueChange={setSelectedProject}>
@@ -266,7 +266,7 @@ export default function MembershipCheckout() {
         </div>
 
         {/* ── 11단계 티어 그리드 ─────────────────────────────── */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 mb-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2 mb-8">
           {MEMBERSHIP_TIERS.map((tier) => {
             const isSelected = selectedTier === tier.key;
             const isProcessing = processingTier === tier.key;
@@ -290,7 +290,7 @@ export default function MembershipCheckout() {
                 {/* 그라디언트 상단 바 */}
                 <div className={`h-1.5 w-full bg-gradient-to-r ${tier.color}`} />
 
-                <CardHeader className="pb-3">
+                <CardHeader className="pb-1">
                   <div className="flex items-center gap-2 mb-1">
                     <span className="text-2xl">{tier.icon}</span>
                     <div>
@@ -299,7 +299,7 @@ export default function MembershipCheckout() {
                     </div>
                   </div>
                   <div className="flex items-baseline gap-1 mt-2">
-                    <span className="text-2xl font-bold text-white">
+                    <span className="text-xl font-bold text-white">
                       ₩{tier.amountKrw.toLocaleString()}
                     </span>
                     <span className="text-slate-400 text-sm">/{tier.period}</span>
@@ -343,8 +343,8 @@ export default function MembershipCheckout() {
         {selectedTierData && (
           <div className="max-w-2xl mx-auto mb-8">
             <Card className="bg-slate-800/60 border-yellow-500/30">
-              <CardContent className="pt-5 pb-4">
-                <div className="flex items-center justify-between flex-wrap gap-4">
+              <CardContent className="pt-3 pb-2">
+                <div className="flex items-center justify-between flex-wrap gap-2">
                   <div className="flex items-center gap-3">
                     <span className="text-3xl">{selectedTierData.icon}</span>
                     <div>
@@ -356,7 +356,7 @@ export default function MembershipCheckout() {
                     </div>
                   </div>
                   <div className="flex items-center gap-3">
-                    <span className="text-2xl font-bold text-yellow-400">
+                    <span className="text-xl font-bold text-yellow-400">
                       ₩{selectedTierData.amountKrw.toLocaleString()}
                     </span>
                     <Button
@@ -381,13 +381,13 @@ export default function MembershipCheckout() {
         {/* ── 보안 안내 (jangbu 레포 이식) ────────────────────── */}
         <div className="max-w-3xl mx-auto">
           <Card className="bg-slate-800/40 border-slate-700/50">
-            <CardContent className="pt-5 pb-4">
-              <div className="flex items-center gap-2 mb-4">
+            <CardContent className="pt-3 pb-2">
+              <div className="flex items-center gap-2 mb-2">
                 <Shield className="w-5 h-5 text-emerald-400" />
                 <span className="text-white font-semibold text-sm">안전한 결제 보장</span>
                 <span className="text-slate-500 text-xs">Stripe 보안 결제 · PCI DSS 준수</span>
               </div>
-              <div className="grid grid-cols-3 gap-4">
+              <div className="grid grid-cols-3 gap-2">
                 {[
                   { icon: Lock, title: "256-bit SSL", desc: "모든 거래 암호화" },
                   { icon: Shield, title: "PCI DSS 준수", desc: "국제 보안 기준" },
@@ -414,7 +414,7 @@ export default function MembershipCheckout() {
             { q: "환불 정책은 어떻게 되나요?", a: "결제 후 7일 이내 미이용 시 전액 환불 가능합니다. 이후에는 잔여 기간에 대해 비례 환불됩니다." },
           ].map((faq, i) => (
             <Card key={i} className="bg-slate-800/40 border-slate-700/40">
-              <CardContent className="pt-4 pb-3">
+              <CardContent className="pt-2 pb-2">
                 <p className="text-white text-sm font-semibold mb-1">{faq.q}</p>
                 <p className="text-slate-400 text-xs leading-relaxed">{faq.a}</p>
               </CardContent>

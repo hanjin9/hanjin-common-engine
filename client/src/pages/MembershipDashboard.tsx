@@ -468,7 +468,7 @@ function ProjectMembershipPanel({
   };
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-2">
       {/* 뷰 전환 + 시드 버튼 */}
       <div className="flex items-center justify-between gap-2">
         <div className="flex gap-1">
@@ -546,7 +546,7 @@ export default function MembershipDashboard() {
 
   return (
     <DashboardLayout>
-      <div className="p-6 space-y-5">
+      <div className="p-3 md:p-4 space-y-3">
         {/* 헤더 */}
         <div className="flex items-center gap-3">
           <Crown className="w-5 h-5 text-amber-400" />

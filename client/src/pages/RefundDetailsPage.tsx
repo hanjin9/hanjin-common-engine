@@ -48,14 +48,14 @@ export default function RefundDetailsPage() {
 
   return (
     <DashboardLayout>
-      <div className="space-y-6 p-4 md:p-6">
+      <div className="space-y-3 p-3 md:p-4">
         <div className="flex items-center justify-between flex-wrap gap-3">
           <div className="flex items-center gap-3">
             <Button variant="ghost" size="sm" onClick={() => setLocation('/admin/payment')}>
               <ArrowLeft className="h-4 w-4 mr-1" />뒤로
             </Button>
             <div>
-              <h1 className="text-2xl font-bold flex items-center gap-2">
+              <h1 className="text-xl font-bold flex items-center gap-2">
                 <RotateCcw className="h-6 w-6 text-red-500" />환불 상세
               </h1>
               <p className="text-sm text-gray-500 mt-0.5">환불 내역 조회 · 환불 처리</p>
@@ -70,14 +70,14 @@ export default function RefundDetailsPage() {
           </div>
         </div>
 
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-2 gap-2">
           <Card><CardContent className="pt-5">
             <p className="text-sm text-gray-500">환불 건수</p>
-            <p className="text-2xl font-bold text-red-500">{total.toLocaleString()}건</p>
+            <p className="text-xl font-bold text-red-500">{total.toLocaleString()}건</p>
           </CardContent></Card>
           <Card><CardContent className="pt-5">
             <p className="text-sm text-gray-500">총 환불액</p>
-            <p className="text-2xl font-bold text-red-500">{fmtKrw(refundList?.summary?.refundAmount)}</p>
+            <p className="text-xl font-bold text-red-500">{fmtKrw(refundList?.summary?.refundAmount)}</p>
           </CardContent></Card>
         </div>
 

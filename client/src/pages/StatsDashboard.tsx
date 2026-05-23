@@ -59,11 +59,11 @@ export default function StatsDashboard() {
   }, [revenueChartData, stats]);
 
   return (
-    <div className="space-y-6 p-4 md:p-6">
+    <div className="space-y-3 p-3 md:p-4">
       {/* 헤더 */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold">통계 분석</h1>
+          <h1 className="text-xl font-bold">통계 분석</h1>
           <p className="text-gray-600 mt-2">사용자 · 매출 · 멤버십 분석</p>
         </div>
         <Button 
@@ -78,58 +78,58 @@ export default function StatsDashboard() {
       </div>
 
       {/* KPI 카드 4개 */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2">
         <Card className="hover:shadow-lg hover:scale-105 transition-all cursor-pointer">
-          <CardHeader className="pb-2">
+          <CardHeader className="pb-1">
             <CardTitle className="text-sm font-medium text-gray-600 flex items-center gap-2">
               <Users className="h-4 w-4 text-blue-500" />
               총 회원
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-blue-600">{stats?.totalMembers || 0}</div>
+            <div className="text-xl font-bold text-blue-600">{stats?.totalMembers || 0}</div>
             <p className="text-xs text-gray-500 mt-1">누적 가입자</p>
             <Badge className="mt-2 bg-blue-100 text-blue-700">↑ 12% 증가</Badge>
           </CardContent>
         </Card>
 
         <Card className="hover:shadow-lg hover:scale-105 transition-all cursor-pointer">
-          <CardHeader className="pb-2">
+          <CardHeader className="pb-1">
             <CardTitle className="text-sm font-medium text-gray-600 flex items-center gap-2">
               <DollarSign className="h-4 w-4 text-green-500" />
               월 매출
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-green-600">₩{(stats?.monthlyRevenue || 0).toLocaleString()}</div>
+            <div className="text-xl font-bold text-green-600">₩{(stats?.monthlyRevenue || 0).toLocaleString()}</div>
             <p className="text-xs text-gray-500 mt-1">이번 달 매출</p>
             <Badge className="mt-2 bg-green-100 text-green-700">↑ 8% 증가</Badge>
           </CardContent>
         </Card>
 
         <Card className="hover:shadow-lg hover:scale-105 transition-all cursor-pointer">
-          <CardHeader className="pb-2">
+          <CardHeader className="pb-1">
             <CardTitle className="text-sm font-medium text-gray-600 flex items-center gap-2">
               <TrendingUp className="h-4 w-4 text-purple-500" />
               활성률
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-purple-600">{stats?.activeRate || 0}%</div>
+            <div className="text-xl font-bold text-purple-600">{stats?.activeRate || 0}%</div>
             <p className="text-xs text-gray-500 mt-1">지난 30일</p>
             <Badge className="mt-2 bg-purple-100 text-purple-700">→ 안정적</Badge>
           </CardContent>
         </Card>
 
         <Card className="hover:shadow-lg hover:scale-105 transition-all cursor-pointer">
-          <CardHeader className="pb-2">
+          <CardHeader className="pb-1">
             <CardTitle className="text-sm font-medium text-gray-600 flex items-center gap-2">
               <BarChart3 className="h-4 w-4 text-orange-500" />
               평균 점수
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-orange-600">{stats?.avgScore || 0}</div>
+            <div className="text-xl font-bold text-orange-600">{stats?.avgScore || 0}</div>
             <p className="text-xs text-gray-500 mt-1">웰니스 점수</p>
             <Badge className="mt-2 bg-orange-100 text-orange-700">⭐ 우수</Badge>
           </CardContent>
@@ -137,7 +137,7 @@ export default function StatsDashboard() {
       </div>
 
       {/* 멤버십 분포 + 월별 매출 */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-2">
         <Card className="hover:shadow-md transition-shadow">
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
@@ -243,7 +243,7 @@ export default function StatsDashboard() {
           <CardTitle>주요 지표</CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
             {[
               { label: '평균 세션 시간', value: '24분 30초', trend: '↑ 2분 증가' },
               { label: '재방문율', value: '68%', trend: '↑ 5% 증가' },
@@ -255,7 +255,7 @@ export default function StatsDashboard() {
               >
                 <p className="text-sm text-muted-foreground mb-1">{metric.label}</p>
                 <div className="flex items-center justify-between">
-                  <p className="text-2xl font-bold">{metric.value}</p>
+                  <p className="text-xl font-bold">{metric.value}</p>
                   <Badge variant="outline" className="text-xs">{metric.trend}</Badge>
                 </div>
               </div>

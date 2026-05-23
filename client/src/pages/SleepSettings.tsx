@@ -37,7 +37,7 @@ export default function SleepSettings() {
 
   if (!settings) {
     return (
-      <div className="flex flex-col items-center justify-center h-64 gap-4">
+      <div className="flex flex-col items-center justify-center h-64 gap-2">
         <AlertCircle className="h-10 w-10 text-destructive" />
         <p className="text-sm text-muted-foreground">수면 설정을 불러오지 못했습니다.</p>
         <Button variant="outline" onClick={() => refetch()}>다시 시도</Button>
@@ -78,12 +78,12 @@ export default function SleepSettings() {
   };
 
   return (
-    <div className="max-w-2xl mx-auto p-6 space-y-6">
+    <div className="max-w-2xl mx-auto p-3 md:p-4 space-y-3">
       {/* 헤더 */}
       <div className="flex items-center gap-3">
         <Moon className="h-7 w-7 text-indigo-500" />
         <div>
-          <h1 className="text-2xl font-bold">수면 자동 체크</h1>
+          <h1 className="text-xl font-bold">수면 자동 체크</h1>
           <p className="text-sm text-muted-foreground">수면 시간을 자동으로 감지하고 기록합니다</p>
         </div>
         <div className="ml-auto">
@@ -101,7 +101,7 @@ export default function SleepSettings() {
 
       {/* 메인 ON/OFF 카드 */}
       <Card className={isActive ? "border-green-200 bg-green-50/30" : "border-gray-200"}>
-        <CardHeader className="pb-3">
+        <CardHeader className="pb-1">
           <div className="flex items-center justify-between">
             <div>
               <CardTitle className="text-base">수면 자동 감지</CardTitle>
@@ -120,7 +120,7 @@ export default function SleepSettings() {
 
       {/* 옵트아웃 카드 */}
       <Card className={settings.optedOut ? "border-orange-200 bg-orange-50/30" : ""}>
-        <CardHeader className="pb-3">
+        <CardHeader className="pb-1">
           <div className="flex items-center justify-between">
             <div>
               <CardTitle className="text-base flex items-center gap-2">
@@ -163,7 +163,7 @@ export default function SleepSettings() {
             이 시간대에 앱이 수면 여부를 감지합니다
           </CardDescription>
         </CardHeader>
-        <CardContent className="space-y-6">
+        <CardContent className="space-y-3">
           {/* 수면 시작 시간 */}
           <div className="space-y-3">
             <div className="flex justify-between items-center">
@@ -242,7 +242,7 @@ export default function SleepSettings() {
 
       {/* 알림 설정 */}
       <Card>
-        <CardHeader className="pb-3">
+        <CardHeader className="pb-1">
           <div className="flex items-center justify-between">
             <div>
               <CardTitle className="text-base flex items-center gap-2">
@@ -263,7 +263,7 @@ export default function SleepSettings() {
 
       {/* 포인트 안내 */}
       <Card className="bg-indigo-50/50 border-indigo-100">
-        <CardContent className="pt-4">
+        <CardContent className="pt-2">
           <div className="flex gap-2">
             <Info className="h-4 w-4 text-indigo-500 mt-0.5 shrink-0" />
             <div className="text-sm text-indigo-700 space-y-1">

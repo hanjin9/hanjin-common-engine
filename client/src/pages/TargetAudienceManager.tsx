@@ -84,12 +84,12 @@ export default function TargetAudienceManager() {
 
   return (
     <DashboardLayout>
-      <div className="space-y-6 p-4 md:p-6">
+      <div className="space-y-3 p-3 md:p-4">
 
         {/* ── 헤더 ── */}
         <div className="flex items-center justify-between flex-wrap gap-3">
           <div>
-            <h1 className="text-2xl font-bold flex items-center gap-2">
+            <h1 className="text-xl font-bold flex items-center gap-2">
               <Filter className="h-6 w-6 text-blue-600" />타겟 발송 관리
             </h1>
             <p className="text-sm text-gray-500 mt-0.5">세그먼트별 맞춤 발송 · 새 캠페인 생성</p>
@@ -104,20 +104,20 @@ export default function TargetAudienceManager() {
         </div>
 
         {/* ── KPI ── */}
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
           <Card><CardContent className="pt-5">
             <p className="text-sm text-gray-500">활성 세그먼트</p>
-            <p className="text-2xl font-bold">3</p>
+            <p className="text-xl font-bold">3</p>
             <p className="text-xs text-gray-400 mt-1">관리 중</p>
           </CardContent></Card>
           <Card><CardContent className="pt-5">
             <p className="text-sm text-gray-500">총 타겟 인원</p>
-            <p className="text-2xl font-bold">900명</p>
+            <p className="text-xl font-bold">900명</p>
             <p className="text-xs text-gray-400 mt-1">전체 세그먼트</p>
           </CardContent></Card>
           <Card><CardContent className="pt-5">
             <p className="text-sm text-gray-500">평균 발송 성공률</p>
-            <p className="text-2xl font-bold text-green-600">95.1%</p>
+            <p className="text-xl font-bold text-green-600">95.1%</p>
             <p className="text-xs text-gray-400 mt-1">최근 30일</p>
           </CardContent></Card>
         </div>
@@ -285,7 +285,7 @@ export default function TargetAudienceManager() {
               className={`cursor-pointer transition ${selectedSegment === s.id ? 'ring-2 ring-blue-500' : ''}`}
               onClick={() => setSelectedSegment(selectedSegment === s.id ? null : s.id)}
             >
-              <CardContent className="pt-4">
+              <CardContent className="pt-2">
                 <div className="flex items-start justify-between gap-3">
                   <div className="flex-1">
                     <div className="flex items-center gap-2 mb-1">
@@ -296,7 +296,7 @@ export default function TargetAudienceManager() {
                     </div>
                     <p className="text-sm text-gray-500">{s.description}</p>
                     <p className="text-xs font-mono bg-gray-100 px-2 py-1 rounded mt-2 inline-block">{s.criteria}</p>
-                    <div className="flex items-center gap-4 mt-2 text-sm">
+                    <div className="flex items-center gap-2 mt-2 text-sm">
                       <span className="font-bold">{s.memberCount.toLocaleString()}명</span>
                       <span className="text-gray-400">생성: {s.createdAt}</span>
                     </div>
@@ -326,14 +326,14 @@ export default function TargetAudienceManager() {
           <h2 className="text-base font-semibold">발송 이력</h2>
           {sendHistory.map(h => (
             <Card key={h.id}>
-              <CardContent className="pt-4">
+              <CardContent className="pt-2">
                 <div className="flex items-center gap-2 mb-2">
                   <span className="font-semibold">{h.segmentName}</span>
                   <Badge variant="secondary" className="text-xs">{h.messageTitle}</Badge>
                   <Badge variant="default" className="text-xs ml-auto">완료</Badge>
                 </div>
                 <p className="text-xs text-gray-400 mb-3">{h.sentAt}</p>
-                <div className="grid grid-cols-3 gap-4 text-center">
+                <div className="grid grid-cols-3 gap-2 text-center">
                   <div><p className="text-xs text-gray-500">발송</p><p className="text-xl font-bold">{h.sentCount}</p></div>
                   <div><p className="text-xs text-gray-500">성공</p><p className="text-xl font-bold text-green-600">{h.successCount}</p></div>
                   <div><p className="text-xs text-gray-500">실패</p><p className="text-xl font-bold text-red-500">{h.failureCount}</p></div>

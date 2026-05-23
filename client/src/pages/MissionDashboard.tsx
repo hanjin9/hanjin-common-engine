@@ -123,8 +123,8 @@ export default function MissionDashboard() {
       <DashboardLayout>
         <div className="p-4 md:p-6 space-y-4">
           {/* 헤더 */}
-          <div className="flex items-center justify-between flex-wrap gap-3">
-            <div className="flex items-center gap-3">
+          <div className="flex items-center justify-between flex-wrap gap-2">
+            <div className="flex items-center gap-2">
               <Button variant="ghost" size="sm" onClick={() => setSelectedStage(null)}>
                 <ChevronLeft className="h-4 w-4 mr-1" />목록으로
               </Button>
@@ -146,11 +146,11 @@ export default function MissionDashboard() {
           </div>
 
           {/* 20개 슬롯 */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
             {slots.map((slot) => (
               <Card key={slot.slotId}
                 className={`border transition-all ${slot.active ? 'border-green-300 bg-green-50/50' : 'border-gray-200'}`}>
-                <CardContent className="pt-3 pb-3">
+                <CardContent className="pt-2 pb-2">
                   {editingSlot === slot.slotId ? (
                     // 편집 모드
                     <div className="space-y-2">
@@ -228,11 +228,11 @@ export default function MissionDashboard() {
 
   return (
     <DashboardLayout>
-      <div className="p-4 md:p-6 space-y-5">
+      <div className="p-3 md:p-4 space-y-3">
         {/* 헤더 */}
-        <div className="flex items-center justify-between flex-wrap gap-3">
+        <div className="flex items-center justify-between flex-wrap gap-2">
           <div>
-            <h1 className="text-2xl font-bold flex items-center gap-2">
+            <h1 className="text-xl font-bold flex items-center gap-2">
               <Target className="h-6 w-6 text-blue-600" />미션 관리
             </h1>
             <p className="text-sm text-gray-500">19단계 수련 체계 · 각 단계 20개 슬롯</p>
@@ -245,30 +245,30 @@ export default function MissionDashboard() {
         </div>
 
         {/* ✅ KPI 카드 4개 개편 (4차 반영) */}
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
           {/* 카드1: 타임 루틴 */}
           <Card className="cursor-pointer hover:shadow-md hover:border-blue-300 transition-all"
             onClick={() => { setActiveFilter('all'); setSelectedStage(null); }}>
-            <CardContent className="pt-4">
+            <CardContent className="pt-2">
               <p className="text-xs text-gray-500">⏰ 타임 루틴</p>
-              <p className="text-2xl font-bold text-blue-600">8종</p>
+              <p className="text-xl font-bold text-blue-600">8종</p>
               <p className="text-xs text-blue-500 mt-1">기상~취침 시간대별 미션</p>
             </CardContent>
           </Card>
           {/* 카드2: 10단계 미션 */}
           <Card className="cursor-pointer hover:shadow-md hover:border-green-300 transition-all"
             onClick={() => { setActiveFilter('수련'); setSelectedStage(null); }}>
-            <CardContent className="pt-4">
+            <CardContent className="pt-2">
               <p className="text-xs text-gray-500">🌬️ 10단계 미션</p>
-              <p className="text-2xl font-bold text-green-600">10단계</p>
+              <p className="text-xl font-bold text-green-600">10단계</p>
               <p className="text-xs text-green-500 mt-1">숨·쉼·잠·명상·스트레칭...</p>
             </CardContent>
           </Card>
           {/* 카드3: 활성 미션 */}
           <Card className="cursor-pointer hover:shadow-md hover:border-purple-300 transition-all">
-            <CardContent className="pt-4">
+            <CardContent className="pt-2">
               <p className="text-xs text-gray-500">✅ 활성 미션</p>
-              <p className="text-2xl font-bold text-purple-600">
+              <p className="text-xl font-bold text-purple-600">
                 {Object.values(stageSlots).flat().filter(s => s.active).length}
               </p>
               <p className="text-xs text-purple-500 mt-1">오늘 활성화된 미션 목록</p>
@@ -277,9 +277,9 @@ export default function MissionDashboard() {
           {/* 카드4: 오늘 완료 + 포인트 합침 → 포인트 관리 연결 */}
           <Card className="cursor-pointer hover:shadow-md hover:border-orange-300 transition-all"
             onClick={() => setShowCompletions(true)}>
-            <CardContent className="pt-4">
+            <CardContent className="pt-2">
               <p className="text-xs text-gray-500">오늘 완료 · 포인트</p>
-              <p className="text-2xl font-bold text-orange-600">{todayCompleted}명</p>
+              <p className="text-xl font-bold text-orange-600">{todayCompleted}명</p>
               <p className="text-xs text-orange-500 mt-1">12,400P 자동 지급 👆</p>
             </CardContent>
           </Card>
@@ -296,7 +296,7 @@ export default function MissionDashboard() {
         </div>
 
         {/* 19단계 마인드맵 타일 */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2">
           {filteredStages.map(stage => {
             const slots = stageSlots[stage.id] || [];
             const activeCount = slots.filter(s => s.active).length;
@@ -305,7 +305,7 @@ export default function MissionDashboard() {
                 className="cursor-pointer hover:shadow-lg transition-all hover:-translate-y-0.5"
                 style={{ borderTop: `3px solid ${stage.color}`, background: stage.bgColor }}
                 onClick={() => setSelectedStage(stage.id)}>
-                <CardContent className="pt-3 pb-3">
+                <CardContent className="pt-2 pb-2">
                   <div className="flex items-start justify-between mb-1">
                     <span className="text-2xl">{stage.emoji}</span>
                     <Badge variant="outline" className="text-xs" style={{ borderColor: stage.color, color: stage.color }}>
@@ -314,7 +314,7 @@ export default function MissionDashboard() {
                   </div>
                   <h3 className="text-sm font-semibold text-gray-800 mt-1">{stage.name}</h3>
                   <p className="text-xs text-gray-500 mt-0.5">{stage.points.toLocaleString()}P</p>
-                  <div className="mt-2 flex items-center justify-between">
+                  <div className="mt-1 flex items-center justify-between">
                     <div className="w-full bg-gray-200 rounded-full h-1.5 mr-2">
                       <div className="h-1.5 rounded-full transition-all"
                         style={{ width: `${(activeCount / 20) * 100}%`, background: stage.color }} />
@@ -340,7 +340,7 @@ export default function MissionDashboard() {
                 <CardDescription>완료 즉시 포인트 자동 지급 + 격려 문자 발송</CardDescription>
               </CardHeader>
               <CardContent>
-                <div className="space-y-2 mb-4">
+                <div className="space-y-2 mb-2">
                   {COMPLETIONS.map((c, i) => (
                     <div key={i} className="flex items-center justify-between p-2 bg-gray-50 rounded-lg">
                       <div>

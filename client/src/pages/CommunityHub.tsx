@@ -85,7 +85,7 @@ export default function CommunityHub() {
   const earnedBadgeIds = new Set(userBadges?.map((ub) => ub.badge.id) ?? []);
 
   return (
-    <div className="p-4 sm:p-6 space-y-5">
+    <div className="p-4 sm:p-3 md:p-4 space-y-3">
       {/* 헤더 */}
       <motion.div
         className="flex items-center justify-between"
@@ -94,7 +94,7 @@ export default function CommunityHub() {
         transition={{ duration: 0.3, ease: "easeOut" }}
       >
         <div>
-          <h1 className="text-2xl font-bold text-emerald-700">커뮤니티 허브</h1>
+          <h1 className="text-xl font-bold text-emerald-700">커뮤니티 허브</h1>
           <p className="text-muted-foreground text-sm mt-1">함께 성장하는 건강 커뮤니티</p>
         </div>
         <Dialog open={postOpen} onOpenChange={setPostOpen}>
@@ -174,7 +174,7 @@ export default function CommunityHub() {
                     <p>게시글이 없습니다.</p>
                   </motion.div>
                 )}
-                <motion.div className="space-y-4" variants={containerVariants} initial="hidden" animate="visible">
+                <motion.div className="space-y-2" variants={containerVariants} initial="hidden" animate="visible">
                   {posts?.map((post) => (
                     <motion.div key={post.id} variants={cardVariants} layout>
                       <Card className="overflow-hidden active:scale-[0.99] transition-transform">
@@ -188,7 +188,7 @@ export default function CommunityHub() {
                             </span>
                           </div>
                           <p className="text-sm leading-relaxed">{post.content}</p>
-                          <div className="flex items-center gap-4 mt-3">
+                          <div className="flex items-center gap-2 mt-3">
                             <motion.button
                               className="flex items-center gap-1 text-sm text-muted-foreground hover:text-red-500 transition-colors"
                               whileTap={{ scale: 1.3 }}
@@ -224,7 +224,7 @@ export default function CommunityHub() {
                     <p>진행 중인 챌린지가 없습니다.</p>
                   </motion.div>
                 )}
-                <motion.div className="space-y-4" variants={containerVariants} initial="hidden" animate="visible">
+                <motion.div className="space-y-2" variants={containerVariants} initial="hidden" animate="visible">
                   {challenges?.map((challenge) => (
                     <motion.div key={challenge.id} variants={cardVariants}>
                       <Card className="active:scale-[0.99] transition-transform">
@@ -238,7 +238,7 @@ export default function CommunityHub() {
                           {challenge.description && (
                             <p className="text-sm text-muted-foreground mb-3">{challenge.description}</p>
                           )}
-                          <div className="flex items-center gap-4 text-sm text-muted-foreground mb-3">
+                          <div className="flex items-center gap-2 text-sm text-muted-foreground mb-3">
                             <span className="flex items-center gap-1"><Users className="w-4 h-4" /> 최대 {challenge.maxTeamSize}명</span>
                             <span className="flex items-center gap-1"><Trophy className="w-4 h-4" /> {challenge.rewardPoints} 포인트</span>
                           </div>
@@ -329,7 +329,7 @@ export default function CommunityHub() {
           <AnimatePresence mode="wait">
             {activeTab === "badges" && (
               <motion.div key="badges" variants={tabContentVariants} initial="hidden" animate="visible" exit="exit">
-                <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
+                <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2">
                   {badges?.map((badge, i) => {
                     const earned = earnedBadgeIds.has(badge.id);
                     return (

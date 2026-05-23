@@ -88,11 +88,11 @@ export default function PaymentDashboard() {
   const loading = stlLoading || pmtLoading;
 
   return (
-    <div className="space-y-6 p-4 md:p-6">
+    <div className="space-y-3 p-3 md:p-4">
       {/* 헤더 */}
       <div className="flex items-center justify-between flex-wrap gap-3">
         <div>
-          <h1 className="text-3xl font-bold flex items-center gap-2">
+          <h1 className="text-xl font-bold flex items-center gap-2">
             <CreditCard className="h-8 w-8" />결제 관리
           </h1>
           <p className="text-gray-600 mt-1 text-sm">Stripe 실시간 · stripePayments 테이블 직접 조회</p>
@@ -124,20 +124,20 @@ export default function PaymentDashboard() {
       </div>
 
       {/* KPI 카드 — 실제 DB */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2">
         {loading ? (
           Array.from({ length: 4 }).map((_, i) => <Skeleton key={i} className="h-28 w-full rounded-lg" />)
         ) : (
           <>
             <Card className="hover:shadow-lg hover:scale-105 transition-all cursor-pointer"
               onClick={() => setLocation('/admin/payment/revenue')}>
-              <CardHeader className="pb-2">
+              <CardHeader className="pb-1">
                 <CardTitle className="text-sm font-medium text-gray-600 flex items-center gap-2">
                   <DollarSign className="h-4 w-4 text-green-500" />이달 매출
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="text-2xl font-bold text-green-600">{fmtKrw(Number(settlement?.totalRevenue))}</div>
+                <div className="text-xl font-bold text-green-600">{fmtKrw(Number(settlement?.totalRevenue))}</div>
                 <p className="text-xs text-gray-500 mt-1">{totalPayments}건 결제</p>
                 <Badge className="mt-2 bg-green-100 text-green-700">실시간 DB</Badge>
               </CardContent>
@@ -145,13 +145,13 @@ export default function PaymentDashboard() {
 
             <Card className="hover:shadow-lg hover:scale-105 transition-all cursor-pointer"
               onClick={() => setLocation('/admin/payment/refund')}>
-              <CardHeader className="pb-2">
+              <CardHeader className="pb-1">
                 <CardTitle className="text-sm font-medium text-gray-600 flex items-center gap-2">
                   <RotateCcw className="h-4 w-4 text-purple-500" />환불
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="text-2xl font-bold text-purple-600">{fmtKrw(Number(settlement?.totalRefund ?? 0))}</div>
+                <div className="text-xl font-bold text-purple-600">{fmtKrw(Number(settlement?.totalRefund ?? 0))}</div>
                 <p className="text-xs text-gray-500 mt-1">환불 금액</p>
                 <Badge className="mt-2 bg-purple-100 text-purple-700">실시간 DB</Badge>
               </CardContent>
@@ -159,13 +159,13 @@ export default function PaymentDashboard() {
 
             <Card className="hover:shadow-lg hover:scale-105 transition-all cursor-pointer"
               onClick={() => setLocation('/admin/payment/settlement')}>
-              <CardHeader className="pb-2">
+              <CardHeader className="pb-1">
                 <CardTitle className="text-sm font-medium text-gray-600 flex items-center gap-2">
                   <TrendingUp className="h-4 w-4 text-blue-500" />순매출
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="text-2xl font-bold text-blue-600">
+                <div className="text-xl font-bold text-blue-600">
                   {fmtKrw(Number(settlement?.totalRevenue ?? 0) - Number(settlement?.totalRefund ?? 0))}
                 </div>
                 <p className="text-xs text-gray-500 mt-1">매출 - 환불</p>
@@ -175,13 +175,13 @@ export default function PaymentDashboard() {
 
             <Card className="hover:shadow-lg hover:scale-105 transition-all cursor-pointer"
               onClick={() => setLocation('/admin/payment/transaction')}>
-              <CardHeader className="pb-2">
+              <CardHeader className="pb-1">
                 <CardTitle className="text-sm font-medium text-gray-600 flex items-center gap-2">
                   <Receipt className="h-4 w-4 text-orange-500" />전체 건수
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="text-2xl font-bold text-orange-600">{totalPayments.toLocaleString()}</div>
+                <div className="text-xl font-bold text-orange-600">{totalPayments.toLocaleString()}</div>
                 <p className="text-xs text-gray-500 mt-1">결제 트랜잭션</p>
                 <Badge className="mt-2 bg-orange-100 text-orange-700">실시간 DB</Badge>
               </CardContent>

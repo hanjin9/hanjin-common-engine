@@ -190,7 +190,7 @@ export default function AiAnalyticsDashboard() {
         {/* 헤더 */}
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-3xl font-bold flex items-center gap-2">
+            <h1 className="text-xl font-bold flex items-center gap-2">
               <Brain className="h-8 w-8 text-blue-600" />
               AI 분석 대시보드
             </h1>
@@ -207,7 +207,7 @@ export default function AiAnalyticsDashboard() {
         </div>
 
         {/* ✅ AI 기기 연동 현황 카드 3개 (보고서 2차 반영) */}
-        <div className="grid grid-cols-3 gap-4">
+        <div className="grid grid-cols-3 gap-2">
 
           {/* 카드 1: AI Fit 기기 연동 회원 */}
           <Card
@@ -216,20 +216,20 @@ export default function AiAnalyticsDashboard() {
               alert("AI Fit 기기 연동 회원 리스트\n\n실제 환경에서는:\n- Google Fit 연동자\n- Apple Health 연동자\n- Watch 연동자\n전체 목록이 표시됩니다.");
             }}
           >
-            <CardHeader className="pb-2">
+            <CardHeader className="pb-1">
               <CardTitle className="text-sm font-medium flex items-center justify-between">
                 <span>🏃 AI Fit 기기 연동</span>
                 <Watch className="h-4 w-4 text-blue-500" />
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="text-3xl font-bold text-blue-600">
+              <div className="text-xl font-bold text-blue-600">
                 {aiMetrics.totalMembers > 0
                   ? `${Math.round((aiMetrics.deviceConnected / aiMetrics.totalMembers) * 100)}%`
                   : "—"}
               </div>
               <Progress value={aiMetrics.totalMembers > 0 ? (aiMetrics.deviceConnected / aiMetrics.totalMembers) * 100 : 0} className="mt-2" />
-              <p className="text-xs text-gray-500 mt-2">
+              <p className="text-xs text-gray-500 mt-1">
                 전체 {aiMetrics.totalMembers.toLocaleString()}명 중 {aiMetrics.deviceConnected.toLocaleString()}명 연동
               </p>
               <p className="text-xs text-blue-500 mt-1">👆 클릭 시 회원 리스트</p>
@@ -243,20 +243,20 @@ export default function AiAnalyticsDashboard() {
               alert("소리·호흡 AI 사용 회원 리스트\n\n실제 환경에서는:\n- 마이크 기반 호흡 분석 사용자\n- 스트레스 감지 기능 사용자\n- 생체리듬 측정 사용자\n목록이 표시됩니다.");
             }}
           >
-            <CardHeader className="pb-2">
+            <CardHeader className="pb-1">
               <CardTitle className="text-sm font-medium flex items-center justify-between">
                 <span>🎙️ 소리·호흡 AI</span>
                 <Activity className="h-4 w-4 text-green-500" />
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="text-3xl font-bold text-green-600">
+              <div className="text-xl font-bold text-green-600">
                 {aiMetrics.totalMembers > 0
                   ? `${Math.round((aiMetrics.voiceAiUsers / aiMetrics.totalMembers) * 100)}%`
                   : "—"}
               </div>
               <Progress value={aiMetrics.totalMembers > 0 ? (aiMetrics.voiceAiUsers / aiMetrics.totalMembers) * 100 : 0} className="mt-2" />
-              <p className="text-xs text-gray-500 mt-2">
+              <p className="text-xs text-gray-500 mt-1">
                 전체 {aiMetrics.totalMembers.toLocaleString()}명 중 {aiMetrics.voiceAiUsers.toLocaleString()}명 사용
               </p>
               <p className="text-xs text-green-500 mt-1">👆 클릭 시 회원 리스트</p>
@@ -270,20 +270,20 @@ export default function AiAnalyticsDashboard() {
               alert("카메라 AI 사용 회원 리스트\n\n실제 환경에서는:\n- 식사 인식 사용자\n- 자세 교정 사용자\n- 사진 기반 정신건강 분석 사용자\n목록이 표시됩니다.");
             }}
           >
-            <CardHeader className="pb-2">
+            <CardHeader className="pb-1">
               <CardTitle className="text-sm font-medium flex items-center justify-between">
                 <span>📸 카메라 AI</span>
                 <Zap className="h-4 w-4 text-purple-500" />
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="text-3xl font-bold text-purple-600">
+              <div className="text-xl font-bold text-purple-600">
                 {aiMetrics.totalMembers > 0
                   ? `${Math.round((aiMetrics.cameraAiUsers / aiMetrics.totalMembers) * 100)}%`
                   : "—"}
               </div>
               <Progress value={aiMetrics.totalMembers > 0 ? (aiMetrics.cameraAiUsers / aiMetrics.totalMembers) * 100 : 0} className="mt-2" />
-              <p className="text-xs text-gray-500 mt-2">
+              <p className="text-xs text-gray-500 mt-1">
                 전체 {aiMetrics.totalMembers.toLocaleString()}명 중 {aiMetrics.cameraAiUsers.toLocaleString()}명 사용
               </p>
               <p className="text-xs text-purple-500 mt-1">👆 클릭 시 회원 리스트</p>
@@ -314,14 +314,14 @@ export default function AiAnalyticsDashboard() {
           </TabsList>
 
           {/* 탭1: 성능 지표 */}
-          <TabsContent value="metrics" className="space-y-4">
+          <TabsContent value="metrics" className="space-y-2">
             <Card>
               <CardHeader>
                 <CardTitle>AI 모델 성능 지표</CardTitle>
                 <CardDescription>최근 7일간의 성능 평가</CardDescription>
               </CardHeader>
               <CardContent>
-                <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
+                <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
                   {[
                     { label: '정확도', value: aiMetrics.accuracy, unit: '%' },
                     { label: '정밀도', value: aiMetrics.precision, unit: '%' },
@@ -343,7 +343,7 @@ export default function AiAnalyticsDashboard() {
           </TabsContent>
 
           {/* 탭2: 예측 분석 */}
-          <TabsContent value="prediction" className="space-y-4">
+          <TabsContent value="prediction" className="space-y-2">
             <Card>
               <CardHeader>
                 <CardTitle>5일 예측 분석</CardTitle>
@@ -400,7 +400,7 @@ export default function AiAnalyticsDashboard() {
           </TabsContent>
 
           {/* ✅ 탭3: 세그멘테이션 → 클릭 시 리스트 + 일괄 액션 (보고서 2차 반영) */}
-          <TabsContent value="segment" className="space-y-4">
+          <TabsContent value="segment" className="space-y-2">
             {segmentSelected ? (
               // 선택된 세그먼트 리스트 화면
               <Card>
@@ -417,7 +417,7 @@ export default function AiAnalyticsDashboard() {
                 </CardHeader>
                 <CardContent>
                   {/* 일괄 액션 버튼 */}
-                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 mb-4">
+                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 mb-2">
                     {[
                       { icon: '💬', label: '메시지 발송', color: 'bg-blue-600', msg: '격려 메시지를' },
                       { icon: '🎉', label: '이벤트 등록', color: 'bg-purple-600', msg: '이벤트를' },
@@ -466,7 +466,7 @@ export default function AiAnalyticsDashboard() {
               </Card>
             ) : (
               // 세그먼트 선택 화면
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-2 gap-2">
                 {[
                   {
                     name: '상위 20%', emoji: '🏆', users: 249, engagement: 95, retention: 88, color: '#10b981', tag: 'VIP',
@@ -515,7 +515,7 @@ export default function AiAnalyticsDashboard() {
                     className="cursor-pointer hover:shadow-lg transition-all hover:-translate-y-0.5 border-l-4"
                     style={{ borderLeftColor: seg.color }}
                     onClick={() => setSegmentSelected(seg)}>
-                    <CardContent className="pt-4 pb-4">
+                    <CardContent className="pt-2 pb-2">
                       <div className="flex items-start justify-between mb-2">
                         <div className="flex items-center gap-2">
                           <span className="text-2xl">{seg.emoji}</span>
@@ -540,7 +540,7 @@ export default function AiAnalyticsDashboard() {
                           <p className="text-xs font-semibold mt-0.5">{seg.retention}%</p>
                         </div>
                       </div>
-                      <p className="text-xs mt-2" style={{ color: seg.color }}>👆 클릭 → 명단 + 일괄 발송</p>
+                      <p className="text-xs mt-1" style={{ color: seg.color }}>👆 클릭 → 명단 + 일괄 발송</p>
                     </CardContent>
                   </Card>
                 ))}
@@ -549,7 +549,7 @@ export default function AiAnalyticsDashboard() {
           </TabsContent>
 
           {/* 탭4: 주요 인사이트 */}
-          <TabsContent value="insights" className="space-y-4">
+          <TabsContent value="insights" className="space-y-2">
             {insights.map((insight, idx) => (
               <Card key={idx} className={`border-l-4 ${getImpactColor(insight.impact)}`}>
                 <CardHeader>

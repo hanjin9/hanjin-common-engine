@@ -76,7 +76,7 @@ export function ProjectSettingsModal({
             프로젝트의 정보를 수정합니다.
           </DialogDescription>
         </DialogHeader>
-        <div className="grid gap-4 py-4">
+        <div className="grid gap-2 py-4">
           <div className="grid gap-2">
             <Label htmlFor="name">프로젝트 선택</Label>
             {isLoadingProjects ? (

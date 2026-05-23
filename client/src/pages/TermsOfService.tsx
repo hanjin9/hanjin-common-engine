@@ -67,7 +67,7 @@ export default function TermsOfService() {
   ];
 
   return (
-    <div className="max-w-3xl mx-auto p-4 sm:p-6 space-y-5">
+    <div className="max-w-3xl mx-auto p-4 sm:p-3 md:p-4 space-y-3">
       {/* 헤더 */}
       <motion.div
         className="text-center"
@@ -75,7 +75,7 @@ export default function TermsOfService() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.28 }}
       >
-        <h1 className="text-2xl font-bold text-emerald-700">GLWA 서비스 약관</h1>
+        <h1 className="text-xl font-bold text-emerald-700">GLWA 서비스 약관</h1>
         <p className="text-muted-foreground text-sm mt-1">최종 업데이트: 2026년 5월 22일</p>
 
         {/* 진행 상태 표시 */}

@@ -36,10 +36,10 @@ export default function SettingsPage() {
   };
 
   return (
-    <div className="space-y-6 p-4 md:p-6">
+    <div className="space-y-3 p-3 md:p-4">
       {/* 헤더 */}
       <div>
-        <h1 className="text-3xl font-bold flex items-center gap-2">
+        <h1 className="text-xl font-bold flex items-center gap-2">
           <Settings className="h-8 w-8" />
           시스템 설정
         </h1>
@@ -55,7 +55,7 @@ export default function SettingsPage() {
           </CardTitle>
           <CardDescription>앱의 기본 정보를 설정합니다</CardDescription>
         </CardHeader>
-        <CardContent className="space-y-4">
+        <CardContent className="space-y-2">
           <div className="space-y-2">
             <label className="block text-sm font-medium">앱 이름</label>
             <Input
@@ -89,7 +89,7 @@ export default function SettingsPage() {
           </CardTitle>
           <CardDescription>시스템 운영 옵션을 설정합니다</CardDescription>
         </CardHeader>
-        <CardContent className="space-y-4">
+        <CardContent className="space-y-2">
           <div className="flex items-center justify-between p-3 border rounded-lg hover:shadow-md transition-all hover:scale-102">
             <div>
               <p className="font-medium">유지보수 모드</p>
@@ -129,7 +129,7 @@ export default function SettingsPage() {
           </CardTitle>
           <CardDescription>알림 수신 방식을 설정합니다</CardDescription>
         </CardHeader>
-        <CardContent className="space-y-4">
+        <CardContent className="space-y-2">
           <div className="flex items-center justify-between p-3 border rounded-lg hover:shadow-md transition-all hover:scale-102">
             <div>
               <p className="font-medium">이메일 알림</p>
@@ -202,7 +202,7 @@ export default function SettingsPage() {
       </Card>
 
       {/* 저장 버튼 */}
-      <div className="flex gap-4 sticky bottom-4">
+      <div className="flex gap-2 sticky bottom-4">
         <Button 
           onClick={handleSave} 
           disabled={isSaving}

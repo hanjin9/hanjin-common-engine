@@ -52,11 +52,11 @@ export default function MonitoringDashboard() {
   };
 
   return (
-    <div className="space-y-6 p-4 md:p-6">
+    <div className="space-y-3 p-3 md:p-4">
       {/* 헤더 */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold">시스템 모니터링</h1>
+          <h1 className="text-xl font-bold">시스템 모니터링</h1>
           <p className="text-gray-600 mt-2">실시간 시스템 상태 모니터링</p>
         </div>
         <Button 
@@ -71,37 +71,37 @@ export default function MonitoringDashboard() {
       </div>
 
       {/* KPI 카드 4개 */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2">
         <Card className="hover:shadow-lg hover:scale-105 transition-all cursor-pointer">
-          <CardHeader className="pb-2">
+          <CardHeader className="pb-1">
             <CardTitle className="text-sm font-medium text-gray-600 flex items-center gap-2">
               <Users className="h-4 w-4 text-blue-500" />
               활성 사용자
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-blue-600">{stats?.activeUsers || 0}</div>
+            <div className="text-xl font-bold text-blue-600">{stats?.activeUsers || 0}</div>
             <p className="text-xs text-gray-500 mt-1">실시간 접속자</p>
             <Badge className="mt-2 bg-blue-100 text-blue-700">↑ 12% 증가</Badge>
           </CardContent>
         </Card>
 
         <Card className="hover:shadow-lg hover:scale-105 transition-all cursor-pointer">
-          <CardHeader className="pb-2">
+          <CardHeader className="pb-1">
             <CardTitle className="text-sm font-medium text-gray-600 flex items-center gap-2">
               <TrendingUp className="h-4 w-4 text-purple-500" />
               총 요청
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-purple-600">{stats?.totalRequests || 0}</div>
+            <div className="text-xl font-bold text-purple-600">{stats?.totalRequests || 0}</div>
             <p className="text-xs text-gray-500 mt-1">오늘 총 요청 수</p>
             <Badge className="mt-2 bg-purple-100 text-purple-700">↑ 8% 증가</Badge>
           </CardContent>
         </Card>
 
         <Card className="hover:shadow-lg hover:scale-105 transition-all cursor-pointer">
-          <CardHeader className="pb-2">
+          <CardHeader className="pb-1">
             <CardTitle className="text-sm font-medium text-gray-600 flex items-center gap-2">
               <AlertTriangle className="h-4 w-4 text-orange-500" />
               에러율
@@ -117,14 +117,14 @@ export default function MonitoringDashboard() {
         </Card>
 
         <Card className="hover:shadow-lg hover:scale-105 transition-all cursor-pointer">
-          <CardHeader className="pb-2">
+          <CardHeader className="pb-1">
             <CardTitle className="text-sm font-medium text-gray-600 flex items-center gap-2">
               <Activity className="h-4 w-4 text-green-500" />
               응답시간
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-green-600">{stats?.avgResponseTime || 0}ms</div>
+            <div className="text-xl font-bold text-green-600">{stats?.avgResponseTime || 0}ms</div>
             <p className="text-xs text-gray-500 mt-1">평균 응답시간</p>
             <Badge className="mt-2 bg-green-100 text-green-700">✓ 정상</Badge>
           </CardContent>
@@ -155,7 +155,7 @@ export default function MonitoringDashboard() {
       </Card>
 
       {/* 서버 상태 + 최근 알림 */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
         {/* 서버 상태 */}
         <Card className="hover:shadow-md transition-shadow">
           <CardHeader>

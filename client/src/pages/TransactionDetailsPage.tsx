@@ -60,14 +60,14 @@ export default function TransactionDetailsPage() {
 
   return (
     <DashboardLayout>
-      <div className="space-y-6 p-4 md:p-6">
+      <div className="space-y-3 p-3 md:p-4">
         <div className="flex items-center justify-between flex-wrap gap-3">
           <div className="flex items-center gap-3">
             <Button variant="ghost" size="sm" onClick={() => setLocation('/admin/payment')}>
               <ArrowLeft className="h-4 w-4 mr-1" />뒤로
             </Button>
             <div>
-              <h1 className="text-2xl font-bold flex items-center gap-2">
+              <h1 className="text-xl font-bold flex items-center gap-2">
                 <Receipt className="h-6 w-6 text-orange-500" />전체 거래 내역
               </h1>
               <p className="text-sm text-gray-500 mt-0.5">모든 결제 트랜잭션 · 실시간 DB</p>

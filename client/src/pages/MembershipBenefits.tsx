@@ -159,11 +159,11 @@ export default function MembershipBenefits() {
 
   return (
     <DashboardLayout>
-      <div className="p-4 md:p-6 space-y-5">
+      <div className="p-3 md:p-4 space-y-3">
         {/* 헤더 */}
         <div className="flex items-center justify-between flex-wrap gap-3">
           <div>
-            <h1 className="text-2xl font-bold flex items-center gap-2">
+            <h1 className="text-xl font-bold flex items-center gap-2">
               <Gift className="h-6 w-6 text-pink-500" />이벤트 / 멤버십 혜택
             </h1>
             <p className="text-sm text-gray-500 mt-0.5">오프라인 이벤트 · 등급별 혜택 · 프로모션 관리</p>

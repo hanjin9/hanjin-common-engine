@@ -62,11 +62,11 @@ export default function AiFeedbackDashboard() {
   ];
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-3">
       {/* 헤더 */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold tracking-tight">AI 피드백 관리</h1>
+          <h1 className="text-xl font-bold tracking-tight">AI 피드백 관리</h1>
           <p className="text-muted-foreground mt-2">3단계 자동화 피드백 시스템</p>
         </div>
         <Button size="lg" className="gap-2">
@@ -76,53 +76,53 @@ export default function AiFeedbackDashboard() {
       </div>
 
       {/* 통계 카드 */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-2">
         <Card>
-          <CardHeader className="pb-3">
+          <CardHeader className="pb-1">
             <CardTitle className="text-sm font-medium">전체 피드백</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{feedbackStats.total}</div>
+            <div className="text-xl font-bold">{feedbackStats.total}</div>
             <p className="text-xs text-muted-foreground mt-1">누적 생성</p>
           </CardContent>
         </Card>
 
         <Card>
-          <CardHeader className="pb-3">
+          <CardHeader className="pb-1">
             <CardTitle className="text-sm font-medium">1차: 격려</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-green-600">{feedbackStats.encouragement}</div>
+            <div className="text-xl font-bold text-green-600">{feedbackStats.encouragement}</div>
             <p className="text-xs text-muted-foreground mt-1">무료, 즉시</p>
           </CardContent>
         </Card>
 
         <Card>
-          <CardHeader className="pb-3">
+          <CardHeader className="pb-1">
             <CardTitle className="text-sm font-medium">2차: 경고</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-yellow-600">{feedbackStats.warning}</div>
+            <div className="text-xl font-bold text-yellow-600">{feedbackStats.warning}</div>
             <p className="text-xs text-muted-foreground mt-1">무료, 조건부</p>
           </CardContent>
         </Card>
 
         <Card>
-          <CardHeader className="pb-3">
+          <CardHeader className="pb-1">
             <CardTitle className="text-sm font-medium">3차: 프리미엄</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-purple-600">{feedbackStats.premium}</div>
+            <div className="text-xl font-bold text-purple-600">{feedbackStats.premium}</div>
             <p className="text-xs text-muted-foreground mt-1">유료, 전문가</p>
           </CardContent>
         </Card>
 
         <Card>
-          <CardHeader className="pb-3">
+          <CardHeader className="pb-1">
             <CardTitle className="text-sm font-medium">발송 상태</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{feedbackStats.sent}</div>
+            <div className="text-xl font-bold">{feedbackStats.sent}</div>
             <p className="text-xs text-muted-foreground mt-1">발송 완료</p>
           </CardContent>
         </Card>
@@ -138,13 +138,13 @@ export default function AiFeedbackDashboard() {
         </TabsList>
 
         {/* 개요 탭 */}
-        <TabsContent value="overview" className="space-y-4">
+        <TabsContent value="overview" className="space-y-2">
           <Card>
             <CardHeader>
               <CardTitle>피드백 시스템 개요</CardTitle>
               <CardDescription>3단계 자동화 피드백 프로세스</CardDescription>
             </CardHeader>
-            <CardContent className="space-y-6">
+            <CardContent className="space-y-3">
               {/* 1차 피드백 */}
               <div className="border-l-4 border-green-500 pl-4 py-2">
                 <div className="flex items-center gap-2 mb-2">
@@ -188,8 +188,8 @@ export default function AiFeedbackDashboard() {
         </TabsContent>
 
         {/* 피드백 단계 탭 */}
-        <TabsContent value="stages" className="space-y-4">
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        <TabsContent value="stages" className="space-y-2">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
             {/* 1차 격려 */}
             <Card 
               className={`cursor-pointer transition ${selectedFeedbackStage === 'encouragement' ? 'ring-2 ring-green-500' : ''}`}
@@ -277,14 +277,14 @@ export default function AiFeedbackDashboard() {
         </TabsContent>
 
         {/* 템플릿 관리 탭 */}
-        <TabsContent value="templates" className="space-y-4">
+        <TabsContent value="templates" className="space-y-2">
           <Card>
             <CardHeader>
               <CardTitle>피드백 템플릿 관리</CardTitle>
               <CardDescription>각 단계별 피드백 템플릿을 관리합니다</CardDescription>
             </CardHeader>
             <CardContent>
-              <div className="flex gap-2 mb-4">
+              <div className="flex gap-2 mb-2">
                 <Button variant="outline">템플릿 추가</Button>
                 <Button variant="outline">템플릿 가져오기</Button>
               </div>
@@ -298,7 +298,7 @@ export default function AiFeedbackDashboard() {
         </TabsContent>
 
         {/* 발송 이력 탭 */}
-        <TabsContent value="history" className="space-y-4">
+        <TabsContent value="history" className="space-y-2">
           <Card>
             <CardHeader>
               <CardTitle>최근 발송 이력</CardTitle>

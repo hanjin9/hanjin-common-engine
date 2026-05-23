@@ -64,11 +64,11 @@ export default function SchedulerDashboard() {
 
   return (
     <DashboardLayout>
-      <div className="p-6 space-y-6 max-w-5xl mx-auto">
+      <div className="p-3 md:p-4 space-y-3 max-w-5xl mx-auto">
         {/* 헤더 */}
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-2xl font-bold text-white flex items-center gap-2">
+            <h1 className="text-xl font-bold text-white flex items-center gap-2">
               <Timer className="w-6 h-6 text-amber-400" />
               업무 스케줄 관리
             </h1>
@@ -90,10 +90,10 @@ export default function SchedulerDashboard() {
         </Card>
 
         {/* 크론 카드 2개 */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
           {/* 일일 미션 발송 */}
           <Card className="bg-slate-800 border-slate-700">
-            <CardHeader className="pb-3">
+            <CardHeader className="pb-1">
               <CardTitle className="text-base text-white flex items-center gap-2">
                 <Zap className="w-4 h-4 text-amber-400" />
                 일일 미션 자동 발송
@@ -144,7 +144,7 @@ export default function SchedulerDashboard() {
 
           {/* 주간 리포트 */}
           <Card className="bg-slate-800 border-slate-700">
-            <CardHeader className="pb-3">
+            <CardHeader className="pb-1">
               <CardTitle className="text-base text-white flex items-center gap-2">
                 <Calendar className="w-4 h-4 text-blue-400" />
                 주간 미션 리포트
@@ -195,7 +195,7 @@ export default function SchedulerDashboard() {
         </div>
 
         {/* ✅ AI 피드백 자동 발송 크론 (보고서 3·4순위 반영) */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
 
           {/* AI 1차 피드백 자동 발송 */}
           <div className="bg-green-900/30 border border-green-700/40 rounded-xl p-5">
@@ -290,7 +290,7 @@ export default function SchedulerDashboard() {
         </div>
 
         {/* ✅ AI 피드백 자동 발송 스케줄 (보고서 3차 반영) */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 mt-4">
 
           {/* AI 피드백 1차 자동 발송 */}
           <div className="bg-green-950 border border-green-800 rounded-xl p-5">
@@ -380,7 +380,7 @@ export default function SchedulerDashboard() {
 
         {/* 등록된 크론 전체 목록 */}
         <Card className="bg-slate-800 border-slate-700">
-          <CardHeader className="pb-3">
+          <CardHeader className="pb-1">
             <CardTitle className="text-base text-white flex items-center gap-2">
               <Clock className="w-4 h-4 text-slate-400" />
               등록된 크론 전체 목록

@@ -78,10 +78,10 @@ export default function MembershipManagement() {
 
   return (
     <DashboardLayout>
-      <div className="p-4 md:p-6 space-y-5">
+      <div className="p-3 md:p-4 space-y-3">
         <div className="flex items-center justify-between flex-wrap gap-3">
           <div>
-            <h1 className="text-2xl font-bold">멤버십 관리</h1>
+            <h1 className="text-xl font-bold">멤버십 관리</h1>
             <p className="text-sm text-gray-500 mt-0.5">11단계 VIP 멤버십 체계 · 정책·조건·혜택·회비 편집</p>
           </div>
           <Badge className="bg-blue-100 text-blue-700 text-xs">공통 엔진 — 프로젝트별 단계 선택 적용</Badge>
@@ -191,7 +191,7 @@ export default function MembershipManagement() {
                     ) : (
                       // 보기 모드
                       <div className="space-y-3">
-                        <div className="grid grid-cols-2 gap-4 text-xs">
+                        <div className="grid grid-cols-2 gap-2 text-xs">
                           <div>
                             <p className="font-semibold text-gray-600 mb-1">📋 자격 조건</p>
                             <p className="text-gray-700">{tier.condition}</p>
@@ -243,7 +243,7 @@ export default function MembershipManagement() {
         <Card>
           <CardHeader><CardTitle className="text-sm">📋 공통 엔진 활용 가이드</CardTitle></CardHeader>
           <CardContent>
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-xs">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 text-xs">
               <div className="p-3 bg-blue-50 rounded-lg border border-blue-200">
                 <p className="font-semibold text-blue-700 mb-1">GLWA 프랜차이즈</p>
                 <p className="text-blue-600">11단계 전체 사용 (1~11단계)</p>

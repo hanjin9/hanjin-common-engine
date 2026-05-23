@@ -175,3 +175,26 @@
     }
   }
 }
+/* ━━ 모바일 카드 높이 최적화 (관리자 30% 압축) ━━━━━━━━━━━━━━━━━━ */
+@media (max-width: 768px) {
+  .card, [data-slot="card"] {
+    margin-bottom: 6px !important;
+  }
+  [data-slot="card-content"] {
+    padding-top: 8px !important;
+    padding-bottom: 8px !important;
+  }
+  [data-slot="card-header"] {
+    padding-top: 8px !important;
+    padding-bottom: 4px !important;
+  }
+  h1.text-xl { font-size: 1.1rem !important; }
+  h1.text-2xl { font-size: 1.2rem !important; }
+  .space-y-5 > * + * { margin-top: 0.5rem !important; }
+  .space-y-4 > * + * { margin-top: 0.5rem !important; }
+  .gap-4 { gap: 0.5rem !important; }
+  .p-4 { padding: 0.6rem !important; }
+  .p-6 { padding: 0.75rem !important; }
+  .py-12 { padding-top: 1.5rem !important; padding-bottom: 1.5rem !important; }
+  .py-8 { padding-top: 1rem !important; padding-bottom: 1rem !important; }
+}

@@ -67,9 +67,9 @@ export default function AiEngineDashboard() {
 
   return (
     <DashboardLayout>
-      <div className="p-4 md:p-6 space-y-5">
+      <div className="p-3 md:p-4 space-y-3">
         <div>
-          <h1 className="text-2xl font-bold">🤖 AI 엔진 통합 관리</h1>
+          <h1 className="text-xl font-bold">🤖 AI 엔진 통합 관리</h1>
           <p className="text-sm text-gray-500 mt-0.5">
             3개 엔진 완전 통합 · 프로젝트별 ON/OFF · 완전 자동화 건강 1:1 코칭 플랫폼
           </p>
@@ -77,7 +77,7 @@ export default function AiEngineDashboard() {
 
         {/* 파이프라인 흐름도 */}
         <Card style={{ background: 'linear-gradient(135deg, #f0fdf4, #eff6ff)' }}>
-          <CardContent className="pt-4 pb-4">
+          <CardContent className="pt-2 pb-2">
             <p className="text-xs font-semibold text-gray-500 mb-3">⚡ 자동화 파이프라인</p>
             <div className="flex items-center gap-2 flex-wrap text-xs">
               {[
@@ -100,12 +100,12 @@ export default function AiEngineDashboard() {
         </Card>
 
         {/* 엔진 완성도 현황 */}
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
           {(['anomalyDetection','realtimeCoaching','healthAnalysis'] as const).map(key => {
             const m = ENGINE_META[key];
             return (
               <Card key={key} style={{ borderLeft: `4px solid ${m.color}` }}>
-                <CardContent className="pt-4 pb-4">
+                <CardContent className="pt-2 pb-2">
                   <div className="flex items-center justify-between mb-2">
                     <span className="text-sm font-semibold">{m.label}</span>
                     <Badge style={{ background: m.bg, color: m.color }}>{m.completion}%</Badge>
@@ -168,7 +168,7 @@ export default function AiEngineDashboard() {
         <Card>
           <CardHeader><CardTitle className="text-sm">🧪 통합 코칭 테스트</CardTitle></CardHeader>
           <CardContent>
-            <div className="flex gap-3 flex-wrap mb-4">
+            <div className="flex gap-3 flex-wrap mb-2">
               <div>
                 <label className="text-xs text-gray-500 block mb-1">프로젝트</label>
                 <select value={testProject} onChange={e => setTestProject(e.target.value)}

@@ -240,11 +240,11 @@ export default function EventDashboard() {
     : events.filter((e: any) => e.sendStatus === activeTab);
 
   return (
-    <div className="p-6 space-y-6">
+    <div className="p-3 md:p-4 space-y-3">
       {/* 헤더 */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold flex items-center gap-2">
+          <h1 className="text-xl font-bold flex items-center gap-2">
             <Calendar className="w-6 h-6 text-blue-500" />
             이벤트 관리
           </h1>
@@ -283,7 +283,7 @@ export default function EventDashboard() {
 
       {/* 타겟 그룹 안내 */}
       <Card className="border-blue-200 dark:border-blue-800">
-        <CardHeader className="pb-2">
+        <CardHeader className="pb-1">
           <CardTitle className="text-sm flex items-center gap-2">
             <Users className="w-4 h-4 text-blue-500" />
             % 기반 타겟 발송 가이드
@@ -312,7 +312,7 @@ export default function EventDashboard() {
         </CardHeader>
         <CardContent>
           <Tabs value={activeTab} onValueChange={setActiveTab}>
-            <TabsList className="mb-4">
+            <TabsList className="mb-2">
               <TabsTrigger value="all">전체 ({events.length})</TabsTrigger>
               <TabsTrigger value="draft">초안</TabsTrigger>
               <TabsTrigger value="scheduled">예약됨</TabsTrigger>
@@ -352,7 +352,7 @@ export default function EventDashboard() {
                             )}
                           </div>
                           <p className="text-sm text-muted-foreground mt-1 line-clamp-2">{event.content}</p>
-                          <div className="flex items-center gap-4 mt-2 text-xs text-muted-foreground">
+                          <div className="flex items-center gap-2 mt-2 text-xs text-muted-foreground">
                             {event.scheduledAt && (
                               <span className="flex items-center gap-1">
                                 <Clock className="w-3 h-3" />
