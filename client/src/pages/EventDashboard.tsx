@@ -429,7 +429,7 @@ export default function EventDashboard() {
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+          <div className="grid grid-cols-2 gap-2">
             {[
               { label: "전체 공지", target: "all", icon: Bell, color: "bg-blue-500" },
               { label: "TOP 10% 축하", target: "top_10pct", icon: Trophy, color: "bg-yellow-500" },

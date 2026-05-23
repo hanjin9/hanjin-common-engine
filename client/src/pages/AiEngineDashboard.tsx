@@ -69,8 +69,8 @@ export default function AiEngineDashboard() {
     <DashboardLayout>
       <div className="p-3 md:p-4 space-y-3">
         <div>
-          <h1 className="text-xl font-bold">🤖 AI 엔진 통합 관리</h1>
-          <p className="text-sm text-gray-500 mt-0.5">
+          <h1 className="text-base font-bold truncate">🤖 AI 엔진 통합 관리</h1>
+          <p className="text-xs text-gray-400 mt-0.5 leading-snug">
             3개 엔진 완전 통합 · 프로젝트별 ON/OFF · 완전 자동화 건강 1:1 코칭 플랫폼
           </p>
         </div>

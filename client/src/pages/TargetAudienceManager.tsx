@@ -92,7 +92,7 @@ export default function TargetAudienceManager() {
             <h1 className="text-xl font-bold flex items-center gap-2">
               <Filter className="h-6 w-6 text-blue-600" />타겟 발송 관리
             </h1>
-            <p className="text-sm text-gray-500 mt-0.5">세그먼트별 맞춤 발송 · 새 캠페인 생성</p>
+            <p className="text-xs text-gray-400 mt-0.5 leading-snug">세그먼트별 맞춤 발송 · 새 캠페인 생성</p>
           </div>
           <Button
             size="lg"
@@ -107,12 +107,12 @@ export default function TargetAudienceManager() {
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
           <Card><CardContent className="pt-5">
             <p className="text-sm text-gray-500">활성 세그먼트</p>
-            <p className="text-xl font-bold">3</p>
+            <p className="text-base font-bold truncate">3</p>
             <p className="text-xs text-gray-400 mt-1">관리 중</p>
           </CardContent></Card>
           <Card><CardContent className="pt-5">
             <p className="text-sm text-gray-500">총 타겟 인원</p>
-            <p className="text-xl font-bold">900명</p>
+            <p className="text-base font-bold truncate">900명</p>
             <p className="text-xs text-gray-400 mt-1">전체 세그먼트</p>
           </CardContent></Card>
           <Card><CardContent className="pt-5">
@@ -334,7 +334,7 @@ export default function TargetAudienceManager() {
                 </div>
                 <p className="text-xs text-gray-400 mb-3">{h.sentAt}</p>
                 <div className="grid grid-cols-3 gap-2 text-center">
-                  <div><p className="text-xs text-gray-500">발송</p><p className="text-xl font-bold">{h.sentCount}</p></div>
+                  <div><p className="text-xs text-gray-500">발송</p><p className="text-base font-bold truncate">{h.sentCount}</p></div>
                   <div><p className="text-xs text-gray-500">성공</p><p className="text-xl font-bold text-green-600">{h.successCount}</p></div>
                   <div><p className="text-xs text-gray-500">실패</p><p className="text-xl font-bold text-red-500">{h.failureCount}</p></div>
                 </div>

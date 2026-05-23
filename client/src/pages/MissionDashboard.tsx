@@ -232,12 +232,12 @@ export default function MissionDashboard() {
         {/* 헤더 */}
         <div className="flex items-center justify-between flex-wrap gap-2">
           <div>
-            <h1 className="text-xl font-bold flex items-center gap-2">
-              <Target className="h-6 w-6 text-blue-600" />미션 관리
+            <h1 className="text-sm font-bold flex items-center gap-1">
+              <Target className="h-4 w-4 text-blue-600" />미션 관리
             </h1>
-            <p className="text-sm text-gray-500">19단계 수련 체계 · 각 단계 20개 슬롯</p>
+            <p className="text-xs text-gray-500">19단계 · 각 20슬롯</p>
           </div>
-          <div className="flex gap-2">
+          <div className="flex gap-1 flex-wrap">
             <Button variant="outline" size="sm" onClick={handleRefresh} disabled={isRefreshing}>
               <RefreshCw className={`h-4 w-4 ${isRefreshing ? 'animate-spin' : ''}`} />
             </Button>
@@ -245,14 +245,14 @@ export default function MissionDashboard() {
         </div>
 
         {/* ✅ KPI 카드 4개 개편 (4차 반영) */}
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+        <div className="grid grid-cols-2 gap-2">
           {/* 카드1: 타임 루틴 */}
           <Card className="cursor-pointer hover:shadow-md hover:border-blue-300 transition-all"
             onClick={() => { setActiveFilter('all'); setSelectedStage(null); }}>
             <CardContent className="pt-2">
               <p className="text-xs text-gray-500">⏰ 타임 루틴</p>
               <p className="text-xl font-bold text-blue-600">8종</p>
-              <p className="text-xs text-blue-500 mt-1">기상~취침 시간대별 미션</p>
+              <p className="text-xs text-blue-500 mt-1">기상~취침 루틴</p>
             </CardContent>
           </Card>
           {/* 카드2: 10단계 미션 */}
@@ -261,7 +261,7 @@ export default function MissionDashboard() {
             <CardContent className="pt-2">
               <p className="text-xs text-gray-500">🌬️ 10단계 미션</p>
               <p className="text-xl font-bold text-green-600">10단계</p>
-              <p className="text-xs text-green-500 mt-1">숨·쉼·잠·명상·스트레칭...</p>
+              <p className="text-xs text-green-500 mt-1">숨·쉼·잠·명상...</p>
             </CardContent>
           </Card>
           {/* 카드3: 활성 미션 */}
@@ -271,7 +271,7 @@ export default function MissionDashboard() {
               <p className="text-xl font-bold text-purple-600">
                 {Object.values(stageSlots).flat().filter(s => s.active).length}
               </p>
-              <p className="text-xs text-purple-500 mt-1">오늘 활성화된 미션 목록</p>
+              <p className="text-xs text-purple-500 mt-1">오늘 활성 미션</p>
             </CardContent>
           </Card>
           {/* 카드4: 오늘 완료 + 포인트 합침 → 포인트 관리 연결 */}
@@ -280,13 +280,13 @@ export default function MissionDashboard() {
             <CardContent className="pt-2">
               <p className="text-xs text-gray-500">오늘 완료 · 포인트</p>
               <p className="text-xl font-bold text-orange-600">{todayCompleted}명</p>
-              <p className="text-xs text-orange-500 mt-1">12,400P 자동 지급 👆</p>
+              <p className="text-xs text-orange-500 mt-1">12,400P 지급 👆</p>
             </CardContent>
           </Card>
         </div>
 
         {/* 카테고리 필터 */}
-        <div className="flex gap-2">
+        <div className="flex gap-1 flex-wrap">
           {(['all', '수련', '챌린지'] as const).map(f => (
             <Button key={f} variant={activeFilter === f ? 'default' : 'outline'} size="sm"
               onClick={() => setActiveFilter(f)}>
@@ -355,7 +355,7 @@ export default function MissionDashboard() {
                 <div className="bg-green-50 border border-green-200 rounded-lg p-3 mb-4 text-sm text-green-700">
                   ✅ 총 {todayPoints}P 자동 지급 예정 · 격려 문자 자동 발송 연동
                 </div>
-                <div className="flex gap-2">
+                <div className="flex gap-1 flex-wrap">
                   <Button variant="outline" className="flex-1" onClick={() => setShowCompletions(false)}>닫기</Button>
                   <Button className="flex-1 bg-green-600 hover:bg-green-700" onClick={handleGivePoints}>
                     <Zap className="h-4 w-4 mr-1" />포인트 지급 + 문자 발송

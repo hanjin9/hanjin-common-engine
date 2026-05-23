@@ -80,7 +80,7 @@ export default function WearableIntegration() {
       </div>
 
       {/* ✅ 관리자용 4개 카드 (보고서 4차 반영) */}
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+      <div className="grid grid-cols-2 gap-2">
         {[
           { label: '기기 연동 회원', value: '342', sub: '전체 1,247명 중', pct: '27%', color: 'text-cyan-600', border: 'border-cyan-200', icon: '📱',
             detail: '전체 회원 중 기기를 하나라도 연동한 회원', members: ['김건강 (Google Fit)', '이활력 (Apple Health)', '박수련 (Galaxy Watch)'] },
@@ -193,7 +193,7 @@ ${btn.count}명에게 발송하시겠습니까?`);
       </div>
 
       {/* 요약 카드 */}
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+      <div className="grid grid-cols-2 gap-2">
         <Card className="border-cyan-200">
           <CardContent className="p-2 flex items-center gap-3">
             <div className="p-2 rounded-full bg-red-100">
@@ -201,7 +201,7 @@ ${btn.count}명에게 발송하시겠습니까?`);
             </div>
             <div>
               <p className="text-xs text-muted-foreground">최신 심박수</p>
-              <p className="text-xl font-bold">{bioSummary?.latestBio?.heartRate ?? "--"} <span className="text-sm font-normal">bpm</span></p>
+              <p className="text-base font-bold truncate">{bioSummary?.latestBio?.heartRate ?? "--"} <span className="text-sm font-normal">bpm</span></p>
             </div>
           </CardContent>
         </Card>
@@ -212,7 +212,7 @@ ${btn.count}명에게 발송하시겠습니까?`);
             </div>
             <div>
               <p className="text-xs text-muted-foreground">혈중 산소</p>
-              <p className="text-xl font-bold">{bioSummary?.latestBio?.bloodOxygen ?? "--"}<span className="text-sm font-normal">%</span></p>
+              <p className="text-base font-bold truncate">{bioSummary?.latestBio?.bloodOxygen ?? "--"}<span className="text-sm font-normal">%</span></p>
             </div>
           </CardContent>
         </Card>
@@ -223,7 +223,7 @@ ${btn.count}명에게 발송하시겠습니까?`);
             </div>
             <div>
               <p className="text-xs text-muted-foreground">오늘 소모 칼로리</p>
-              <p className="text-xl font-bold">{bioSummary?.todayCalories ?? 0} <span className="text-sm font-normal">kcal</span></p>
+              <p className="text-base font-bold truncate">{bioSummary?.todayCalories ?? 0} <span className="text-sm font-normal">kcal</span></p>
             </div>
           </CardContent>
         </Card>
@@ -234,7 +234,7 @@ ${btn.count}명에게 발송하시겠습니까?`);
             </div>
             <div>
               <p className="text-xs text-muted-foreground">오늘 걸음 수</p>
-              <p className="text-xl font-bold">{(bioSummary?.todaySteps ?? 0).toLocaleString()}</p>
+              <p className="text-base font-bold truncate">{(bioSummary?.todaySteps ?? 0).toLocaleString()}</p>
             </div>
           </CardContent>
         </Card>

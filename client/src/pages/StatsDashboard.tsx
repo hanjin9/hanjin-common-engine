@@ -63,7 +63,7 @@ export default function StatsDashboard() {
       {/* 헤더 */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-xl font-bold">통계 분석</h1>
+          <h1 className="text-base font-bold truncate">통계 분석</h1>
           <p className="text-gray-600 mt-2">사용자 · 매출 · 멤버십 분석</p>
         </div>
         <Button 
@@ -255,7 +255,7 @@ export default function StatsDashboard() {
               >
                 <p className="text-sm text-muted-foreground mb-1">{metric.label}</p>
                 <div className="flex items-center justify-between">
-                  <p className="text-xl font-bold">{metric.value}</p>
+                  <p className="text-base font-bold truncate">{metric.value}</p>
                   <Badge variant="outline" className="text-xs">{metric.trend}</Badge>
                 </div>
               </div>

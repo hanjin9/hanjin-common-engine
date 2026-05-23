@@ -190,7 +190,7 @@ export default function AiAnalyticsDashboard() {
         {/* 헤더 */}
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-xl font-bold flex items-center gap-2">
+            <h1 className="text-sm font-bold flex items-center gap-1.5">
               <Brain className="h-8 w-8 text-blue-600" />
               AI 분석 대시보드
             </h1>
@@ -218,7 +218,7 @@ export default function AiAnalyticsDashboard() {
           >
             <CardHeader className="pb-1">
               <CardTitle className="text-sm font-medium flex items-center justify-between">
-                <span>🏃 AI Fit 기기 연동</span>
+                <span>🏃 AI Fit</span>
                 <Watch className="h-4 w-4 text-blue-500" />
               </CardTitle>
             </CardHeader>
@@ -245,7 +245,7 @@ export default function AiAnalyticsDashboard() {
           >
             <CardHeader className="pb-1">
               <CardTitle className="text-sm font-medium flex items-center justify-between">
-                <span>🎙️ 소리·호흡 AI</span>
+                <span>🎙️ 소리·호흡</span>
                 <Activity className="h-4 w-4 text-green-500" />
               </CardTitle>
             </CardHeader>
@@ -272,7 +272,7 @@ export default function AiAnalyticsDashboard() {
           >
             <CardHeader className="pb-1">
               <CardTitle className="text-sm font-medium flex items-center justify-between">
-                <span>📸 카메라 AI</span>
+                <span>📸 카메라</span>
                 <Zap className="h-4 w-4 text-purple-500" />
               </CardTitle>
             </CardHeader>
@@ -417,7 +417,7 @@ export default function AiAnalyticsDashboard() {
                 </CardHeader>
                 <CardContent>
                   {/* 일괄 액션 버튼 */}
-                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 mb-2">
+                  <div className="grid grid-cols-2 gap-2 mb-2">
                     {[
                       { icon: '💬', label: '메시지 발송', color: 'bg-blue-600', msg: '격려 메시지를' },
                       { icon: '🎉', label: '이벤트 등록', color: 'bg-purple-600', msg: '이벤트를' },
@@ -521,7 +521,7 @@ export default function AiAnalyticsDashboard() {
                           <span className="text-2xl">{seg.emoji}</span>
                           <div>
                             <h3 className="font-semibold text-sm">{seg.name}</h3>
-                            <p className="text-xs text-gray-500">{seg.desc}</p>
+                            <p className="text-xs text-gray-400 leading-tight">{seg.desc}</p>
                           </div>
                         </div>
                         <Badge className="text-lg font-bold px-3" style={{ background: seg.color + '22', color: seg.color }}>

@@ -70,7 +70,7 @@ export default function TransactionDetailsPage() {
               <h1 className="text-xl font-bold flex items-center gap-2">
                 <Receipt className="h-6 w-6 text-orange-500" />전체 거래 내역
               </h1>
-              <p className="text-sm text-gray-500 mt-0.5">모든 결제 트랜잭션 · 실시간 DB</p>
+              <p className="text-xs text-gray-400 mt-0.5 leading-snug">모든 결제 트랜잭션 · 실시간 DB</p>
             </div>
           </div>
           <div className="flex gap-2 flex-wrap">

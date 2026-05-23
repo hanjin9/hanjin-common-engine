@@ -519,7 +519,7 @@ export default function FeedbackTemplateManager() {
           <h1 className="text-2xl font-bold flex items-center gap-2">
             📋 피드백 템플릿 관리
           </h1>
-          <p className="text-sm text-gray-500 mt-0.5">
+          <p className="text-xs text-gray-400 mt-0.5 leading-snug">
             6개 카테고리 × 9개 티어 × 5개 언어 · AI 조합 생성 · 관리자 선정 · 자동 발송
           </p>
         </div>

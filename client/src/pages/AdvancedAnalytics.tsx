@@ -70,7 +70,7 @@ export default function AdvancedAnalytics() {
             <Brain className="w-8 h-8 text-amber-500" />
             <div>
               <p className="text-xs text-muted-foreground">총 예측 수행</p>
-              <p className="text-xl font-bold">{summary?.totalPredictions ?? 0}</p>
+              <p className="text-base font-bold truncate">{summary?.totalPredictions ?? 0}</p>
             </div>
           </CardContent>
         </Card>
@@ -79,7 +79,7 @@ export default function AdvancedAnalytics() {
             <FlaskConical className="w-8 h-8 text-blue-500" />
             <div>
               <p className="text-xs text-muted-foreground">진행 중 A/B 테스트</p>
-              <p className="text-xl font-bold">{summary?.activeExperiments ?? 0}</p>
+              <p className="text-base font-bold truncate">{summary?.activeExperiments ?? 0}</p>
             </div>
           </CardContent>
         </Card>
@@ -88,7 +88,7 @@ export default function AdvancedAnalytics() {
             <FileText className="w-8 h-8 text-green-500" />
             <div>
               <p className="text-xs text-muted-foreground">총 사용자</p>
-              <p className="text-xl font-bold">{summary?.totalUsers ?? 0}</p>
+              <p className="text-base font-bold truncate">{summary?.totalUsers ?? 0}</p>
             </div>
           </CardContent>
         </Card>

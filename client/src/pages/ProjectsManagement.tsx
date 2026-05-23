@@ -75,7 +75,7 @@ export default function ProjectsManagement() {
   return (
     <div className="space-y-3 p-3 md:p-4">
       <div>
-        <h1 className="text-xl font-bold">프로젝트 관리</h1>
+        <h1 className="text-base font-bold truncate">프로젝트 관리</h1>
         <p className="text-gray-600 mt-2">전체 프로젝트 {projects?.length || 0}개</p>
       </div>
 

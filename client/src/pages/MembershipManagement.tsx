@@ -81,8 +81,8 @@ export default function MembershipManagement() {
       <div className="p-3 md:p-4 space-y-3">
         <div className="flex items-center justify-between flex-wrap gap-3">
           <div>
-            <h1 className="text-xl font-bold">멤버십 관리</h1>
-            <p className="text-sm text-gray-500 mt-0.5">11단계 VIP 멤버십 체계 · 정책·조건·혜택·회비 편집</p>
+            <h1 className="text-base font-bold truncate">멤버십 관리</h1>
+            <p className="text-xs text-gray-400 mt-0.5 leading-snug">11단계 VIP 멤버십 체계 · 정책·조건·혜택·회비 편집</p>
           </div>
           <Badge className="bg-blue-100 text-blue-700 text-xs">공통 엔진 — 프로젝트별 단계 선택 적용</Badge>
         </div>
@@ -165,7 +165,7 @@ export default function MembershipManagement() {
                               className="text-xs" />
                           </div>
                         </div>
-                        <div className="grid grid-cols-4 gap-3">
+                        <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
                           {[
                             { k: 'joinFee', label: '가입비 (₩)' },
                             { k: 'deposit',  label: '보증금 (₩)' },
@@ -202,7 +202,7 @@ export default function MembershipManagement() {
                             <p className="text-gray-700">{tier.benefits}</p>
                           </div>
                         </div>
-                        <div className="grid grid-cols-4 gap-3 text-xs">
+                        <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs">
                           <div className="bg-white rounded-lg p-2.5 border border-gray-200">
                             <p className="text-gray-400">가입비</p>
                             <p className="font-bold text-gray-800">{fmtKrw(tier.joinFee)}</p>

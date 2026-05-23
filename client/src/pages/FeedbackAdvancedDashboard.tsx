@@ -85,7 +85,7 @@ export default function FeedbackAdvancedDashboard() {
               {item.icon}
               <div>
                 <p className="text-xs text-muted-foreground">{item.label}</p>
-                <p className="text-xl font-bold">{statMap[item.key] ?? 0}</p>
+                <p className="text-base font-bold truncate">{statMap[item.key] ?? 0}</p>
               </div>
             </CardContent>
           </Card>

@@ -83,7 +83,7 @@ export default function SleepSettings() {
       <div className="flex items-center gap-3">
         <Moon className="h-7 w-7 text-indigo-500" />
         <div>
-          <h1 className="text-xl font-bold">수면 자동 체크</h1>
+          <h1 className="text-base font-bold truncate">수면 자동 체크</h1>
           <p className="text-sm text-muted-foreground">수면 시간을 자동으로 감지하고 기록합니다</p>
         </div>
         <div className="ml-auto">

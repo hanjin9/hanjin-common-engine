@@ -82,7 +82,7 @@ export default function AiFeedbackDashboard() {
             <CardTitle className="text-sm font-medium">전체 피드백</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-xl font-bold">{feedbackStats.total}</div>
+            <div className="text-base font-bold truncate">{feedbackStats.total}</div>
             <p className="text-xs text-muted-foreground mt-1">누적 생성</p>
           </CardContent>
         </Card>
@@ -122,7 +122,7 @@ export default function AiFeedbackDashboard() {
             <CardTitle className="text-sm font-medium">발송 상태</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-xl font-bold">{feedbackStats.sent}</div>
+            <div className="text-base font-bold truncate">{feedbackStats.sent}</div>
             <p className="text-xs text-muted-foreground mt-1">발송 완료</p>
           </CardContent>
         </Card>

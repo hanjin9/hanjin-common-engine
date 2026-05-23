@@ -166,7 +166,7 @@ export default function MembershipBenefits() {
             <h1 className="text-xl font-bold flex items-center gap-2">
               <Gift className="h-6 w-6 text-pink-500" />이벤트 / 멤버십 혜택
             </h1>
-            <p className="text-sm text-gray-500 mt-0.5">오프라인 이벤트 · 등급별 혜택 · 프로모션 관리</p>
+            <p className="text-xs text-gray-400 mt-0.5 leading-snug">오프라인 이벤트 · 등급별 혜택 · 프로모션 관리</p>
           </div>
           <div className="flex gap-2">
             <Button variant="outline" size="sm" onClick={() => setEditMode(!editMode)}>

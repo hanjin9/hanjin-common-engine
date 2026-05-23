@@ -40,7 +40,7 @@ export default function SettlementDetailsPage() {
               <h1 className="text-xl font-bold flex items-center gap-2">
                 <DollarSign className="h-6 w-6 text-blue-600" />정산 상세
               </h1>
-              <p className="text-sm text-gray-500 mt-0.5">순매출 · 기간별 정산 현황</p>
+              <p className="text-xs text-gray-400 mt-0.5 leading-snug">순매출 · 기간별 정산 현황</p>
             </div>
           </div>
           <div className="flex gap-2 flex-wrap">
@@ -53,12 +53,12 @@ export default function SettlementDetailsPage() {
         </div>
 
         {isLoading ? (
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+          <div className="grid grid-cols-2 gap-2">
             {Array.from({length:4}).map((_,i)=><Skeleton key={i} className="h-24 rounded-lg"/>)}
           </div>
         ) : (
           <>
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+            <div className="grid grid-cols-2 gap-2">
               <Card><CardContent className="pt-5">
                 <p className="text-sm text-gray-500">총 매출</p>
                 <p className="text-xl font-bold text-green-600">{fmtKrw(settlement?.totalRevenue)}</p>
@@ -73,7 +73,7 @@ export default function SettlementDetailsPage() {
               </CardContent></Card>
               <Card><CardContent className="pt-5">
                 <p className="text-sm text-gray-500">활성 구독</p>
-                <p className="text-xl font-bold">{Number(settlement?.activeSubscriptions ?? 0).toLocaleString()}건</p>
+                <p className="text-base font-bold truncate">{Number(settlement?.activeSubscriptions ?? 0).toLocaleString()}건</p>
               </CardContent></Card>
             </div>
 

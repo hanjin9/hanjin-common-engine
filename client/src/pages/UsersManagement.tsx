@@ -156,7 +156,7 @@ export default function UsersManagement() {
         <div className="flex items-center justify-between flex-wrap gap-3">
           <div>
             <h1 className="text-xl font-bold flex items-center gap-2"><Users className="h-6 w-6 text-blue-600"/>사용자 관리</h1>
-            <p className="text-sm text-gray-500 mt-0.5">6가지 분류 기준 · 카드 선택 → 상세 명단</p>
+            <p className="text-xs text-gray-400 mt-0.5 leading-snug">6가지 분류 기준 · 카드 선택 → 상세 명단</p>
           </div>
           <Button variant="outline" size="sm" className="gap-1" onClick={() => setShowCalendar(!showCalendar)}>
             <Calendar className="h-4 w-4"/>{showCalendar ? '캘린더 닫기' : '📅 캘린더'}
@@ -196,7 +196,7 @@ export default function UsersManagement() {
         {/* ── 카드1: 전체 통계 ─────────────────────────────────────── */}
         {activeCard === 'stats' && (
           <div className="space-y-2">
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+            <div className="grid grid-cols-2 gap-2">
               {[
                 { label:'전체 사용자', val:users.length, color:'text-blue-600', sub:'전체' },
                 { label:'오늘 가입',   val:todayCnt,     color:'text-green-600', sub:'신규' },
@@ -289,7 +289,7 @@ export default function UsersManagement() {
               </div>
             </CardHeader>
             <CardContent>
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-2">
+              <div className="grid grid-cols-2 gap-2 mb-2">
                 {(() => { const p = PROJECTS.find(x=>x.id===selectedProject)!; return [
                   { label:'전체 사용자', val:p.users },
                   { label:'활성 사용자', val:p.active },
@@ -415,7 +415,7 @@ export default function UsersManagement() {
             <Card>
               <CardHeader><CardTitle className="text-sm">🌏 직급별 체계 (프랜차이즈 관리자)</CardTitle></CardHeader>
               <CardContent>
-                <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                <div className="grid grid-cols-2 gap-2">
                   {GEO_LEVELS.map(g => (
                     <div key={g.level} className="p-4 rounded-lg border cursor-pointer hover:shadow-md transition-all text-center"
                       style={{ borderTop:`3px solid ${g.color}`, background:g.color+'0d' }}

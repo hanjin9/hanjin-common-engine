@@ -58,7 +58,7 @@ export default function RefundDetailsPage() {
               <h1 className="text-xl font-bold flex items-center gap-2">
                 <RotateCcw className="h-6 w-6 text-red-500" />환불 상세
               </h1>
-              <p className="text-sm text-gray-500 mt-0.5">환불 내역 조회 · 환불 처리</p>
+              <p className="text-xs text-gray-400 mt-0.5 leading-snug">환불 내역 조회 · 환불 처리</p>
             </div>
           </div>
           <div className="flex gap-2 flex-wrap">

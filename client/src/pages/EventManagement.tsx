@@ -108,7 +108,7 @@ export default function EventManagement() {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-xl font-bold">1</div>
+            <div className="text-base font-bold truncate">1</div>
             <p className="text-xs text-muted-foreground mt-1">진행 중</p>
           </CardContent>
         </Card>
@@ -121,7 +121,7 @@ export default function EventManagement() {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-xl font-bold">1.5K</div>
+            <div className="text-base font-bold truncate">1.5K</div>
             <p className="text-xs text-muted-foreground mt-1">총 사용자</p>
           </CardContent>
         </Card>
@@ -134,7 +134,7 @@ export default function EventManagement() {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-xl font-bold">1.25K</div>
+            <div className="text-base font-bold truncate">1.25K</div>
             <p className="text-xs text-muted-foreground mt-1">성공률 83%</p>
           </CardContent>
         </Card>
@@ -147,7 +147,7 @@ export default function EventManagement() {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-xl font-bold">2</div>
+            <div className="text-base font-bold truncate">2</div>
             <p className="text-xs text-muted-foreground mt-1">활성</p>
           </CardContent>
         </Card>
@@ -188,7 +188,7 @@ export default function EventManagement() {
                   </div>
                 </CardHeader>
                 <CardContent className="space-y-2">
-                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+                  <div className="grid grid-cols-2 gap-2">
                     <div>
                       <p className="text-xs font-medium text-muted-foreground">타겟 대상</p>
                       <p className="text-sm font-semibold">{campaign.targetAudience}</p>

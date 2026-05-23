@@ -56,7 +56,7 @@ export default function MonitoringDashboard() {
       {/* 헤더 */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-xl font-bold">시스템 모니터링</h1>
+          <h1 className="text-base font-bold truncate">시스템 모니터링</h1>
           <p className="text-gray-600 mt-2">실시간 시스템 상태 모니터링</p>
         </div>
         <Button 

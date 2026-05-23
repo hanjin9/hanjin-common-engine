@@ -110,7 +110,7 @@ export default function SleepDetectionSettings() {
       </div>
 
       {/* ✅ 계절별 맞춤 발송 카드 */}
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+      <div className="grid grid-cols-2 gap-2">
         {[
           { season: '🌸 봄 (3~5월)', msg: '환절기 숙면 팁: 환기 후 취침하세요', users: 1247, color: 'border-pink-200 bg-pink-50', active: true },
           { season: '☀️ 여름 (6~8월)', msg: '장마철: 제습기 가동 후 22°C 유지', users: 1247, color: 'border-yellow-200 bg-yellow-50', active: false },
@@ -164,7 +164,7 @@ ${s.users}명에게 즉시 발송 완료!`)}>
             <CardTitle className="text-sm font-medium">연결된 기기</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-xl font-bold">{systemStatus.connectedDevices}</div>
+            <div className="text-base font-bold truncate">{systemStatus.connectedDevices}</div>
             <p className="text-xs text-muted-foreground mt-1">활성</p>
           </CardContent>
         </Card>
@@ -174,7 +174,7 @@ ${s.users}명에게 즉시 발송 완료!`)}>
             <CardTitle className="text-sm font-medium">활성 사용자</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-xl font-bold">{systemStatus.activeUsers}</div>
+            <div className="text-base font-bold truncate">{systemStatus.activeUsers}</div>
             <p className="text-xs text-muted-foreground mt-1">감지 중</p>
           </CardContent>
         </Card>
@@ -184,7 +184,7 @@ ${s.users}명에게 즉시 발송 완료!`)}>
             <CardTitle className="text-sm font-medium">데이터 포인트</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-xl font-bold">{systemStatus.dataPoints}</div>
+            <div className="text-base font-bold truncate">{systemStatus.dataPoints}</div>
             <p className="text-xs text-muted-foreground mt-1">누적</p>
           </CardContent>
         </Card>
@@ -306,7 +306,7 @@ ${s.users}명에게 즉시 발송 완료!`)}>
                   <div className="flex items-center justify-between p-3 bg-muted rounded-lg">
                     <div>
                       <p className="text-sm font-medium">해당 사용자</p>
-                      <p className="text-xl font-bold">{rule.userCount}</p>
+                      <p className="text-base font-bold truncate">{rule.userCount}</p>
                     </div>
                     <Activity className="w-8 h-8 text-blue-600" />
                   </div>

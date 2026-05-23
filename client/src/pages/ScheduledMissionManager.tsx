@@ -142,7 +142,7 @@ export default function ScheduledMissionManager() {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-xl font-bold">3</div>
+            <div className="text-base font-bold truncate">3</div>
             <p className="text-xs text-muted-foreground mt-1">진행 중</p>
           </CardContent>
         </Card>
@@ -155,7 +155,7 @@ export default function ScheduledMissionManager() {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-xl font-bold">4</div>
+            <div className="text-base font-bold truncate">4</div>
             <p className="text-xs text-muted-foreground mt-1">이번 주</p>
           </CardContent>
         </Card>
@@ -168,7 +168,7 @@ export default function ScheduledMissionManager() {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-xl font-bold">1.5K</div>
+            <div className="text-base font-bold truncate">1.5K</div>
             <p className="text-xs text-muted-foreground mt-1">사용자</p>
           </CardContent>
         </Card>
@@ -178,7 +178,7 @@ export default function ScheduledMissionManager() {
             <CardTitle className="text-sm font-medium">평균 완료율</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-xl font-bold">85%</div>
+            <div className="text-base font-bold truncate">85%</div>
             <p className="text-xs text-muted-foreground mt-1">성공</p>
           </CardContent>
         </Card>
@@ -211,7 +211,7 @@ export default function ScheduledMissionManager() {
                   </div>
                 </CardHeader>
                 <CardContent className="space-y-2">
-                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+                  <div className="grid grid-cols-2 gap-2">
                     <div>
                       <p className="text-xs font-medium text-muted-foreground">타겟</p>
                       <p className="text-sm font-semibold">{mission.targetAudience}</p>
@@ -314,7 +314,7 @@ export default function ScheduledMissionManager() {
                   <div className="grid grid-cols-3 gap-2">
                     <div>
                       <p className="text-xs font-medium text-muted-foreground">발송 대상</p>
-                      <p className="text-xl font-bold">{history.targetCount}</p>
+                      <p className="text-base font-bold truncate">{history.targetCount}</p>
                     </div>
                     <div>
                       <p className="text-xs font-medium text-muted-foreground">발송 완료</p>

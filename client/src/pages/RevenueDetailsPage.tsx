@@ -72,7 +72,7 @@ export default function RevenueDetailsPage() {
               <h1 className="text-xl font-bold flex items-center gap-2">
                 <TrendingUp className="h-6 w-6 text-green-600" />총 매출 상세
               </h1>
-              <p className="text-sm text-gray-500 mt-0.5">결제 성공 건수 · 실시간 DB (stripePayments)</p>
+              <p className="text-xs text-gray-400 mt-0.5 leading-snug">결제 성공 건수 · 실시간 DB (stripePayments)</p>
             </div>
           </div>
           <div className="flex gap-2 flex-wrap">
@@ -94,7 +94,7 @@ export default function RevenueDetailsPage() {
         </div>
 
         {/* KPI */}
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+        <div className="grid grid-cols-2 gap-2">
           {isLoading ? Array.from({length:4}).map((_,i)=><Skeleton key={i} className="h-24 rounded-lg"/>) : (
             <>
               <Card>
@@ -106,7 +106,7 @@ export default function RevenueDetailsPage() {
               <Card>
                 <CardContent className="pt-5">
                   <p className="text-sm text-gray-500">성공 건수</p>
-                  <p className="text-xl font-bold">{Number(summary?.succeededCount ?? 0).toLocaleString()}건</p>
+                  <p className="text-base font-bold truncate">{Number(summary?.succeededCount ?? 0).toLocaleString()}건</p>
                 </CardContent>
               </Card>
               <Card>
