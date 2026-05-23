@@ -46,7 +46,7 @@ const menuItems = [
   { icon: Send, label: "포인트 관리", path: "/admin/target-audience" },
   { icon: Timer, label: "업무 관리 스케줄", path: "/admin/scheduler" },
   // 건강 & 데이터
-  { icon: Watch, label: "웨어러블 연동", path: "/admin/wearable" },
+  { icon: Watch, label: "디바이스 연동", path: "/admin/wearable" },
   { icon: Moon, label: "수면 관리 자동화", path: "/sleep-settings" },
   { icon: Activity, label: "모니터링", path: "/admin/monitoring" },
   { icon: BarChart3, label: "통계", path: "/admin/stats" },

@@ -74,7 +74,7 @@ export default function WearableIntegration() {
     <div className="p-2 md:p-3 space-y-1.5">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-xl font-bold text-cyan-700">웨어러블 연동</h1>
+          <h1 className="text-xl font-bold text-cyan-700">기기 &amp; 웨어러블 연동</h1>
           <p className="text-muted-foreground text-sm mt-1">스마트워치 및 피트니스 트래커 연동 관리</p>
         </div>
       </div>
@@ -153,7 +153,7 @@ ${btn.count}명에게 발송하시겠습니까?`);
           </DialogTrigger>
           <DialogContent>
             <DialogHeader>
-              <DialogTitle>웨어러블 기기 연동</DialogTitle>
+              <DialogTitle>기기 &amp; 웨어러블 연동</DialogTitle>
             </DialogHeader>
             <div className="space-y-4 mt-4">
               <div>
