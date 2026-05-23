@@ -20,13 +20,13 @@ export interface CalendarEvent {
   targetTier?: string;
 }
 
-const TYPE_STYLE: Record<CalendarEventType, { color: string; bg: string; label: string; dot: string }> = {
-  event:     { color: '#2563eb', bg: '#eff6ff', label: '이벤트',   dot: '🔵' },
-  mission:   { color: '#16a34a', bg: '#f0fdf4', label: '미션',     dot: '🟢' },
-  promo:     { color: '#ea580c', bg: '#fff7ed', label: '프로모션', dot: '🟠' },
-  notice:    { color: '#dc2626', bg: '#fef2f2', label: '공지',     dot: '🔴' },
-  challenge: { color: '#7c3aed', bg: '#f5f3ff', label: '챌린지',  dot: '🟣' },
-  schedule:  { color: '#0891b2', bg: '#ecfeff', label: '스케줄',  dot: '🔷' },
+const TYPE_STYLE: Record<CalendarEventType, { color: string; bg: string; label: string; dot: string; emoji: string }> = {
+  event:     { color: '#2563eb', bg: '#eff6ff', label: '이벤트',   dot: '🔵', emoji: '🎉' },
+  mission:   { color: '#16a34a', bg: '#f0fdf4', label: '미션',     dot: '🟢', emoji: '🎯' },
+  promo:     { color: '#ea580c', bg: '#fff7ed', label: '프로모션', dot: '🟠', emoji: '🎁' },
+  notice:    { color: '#dc2626', bg: '#fef2f2', label: '공지',     dot: '🔴', emoji: '📢' },
+  challenge: { color: '#7c3aed', bg: '#f5f3ff', label: '챌린지',  dot: '🟣', emoji: '🏆' },
+  schedule:  { color: '#0891b2', bg: '#ecfeff', label: '스케줄',  dot: '🔷', emoji: '📅' },
 };
 
 const DAYS = ['일', '월', '화', '수', '목', '금', '토'];
@@ -102,8 +102,8 @@ export default function SharedCalendar({
     }
   };
 
-  const cellSize = compact ? 28 : 36;
-  const fontSize = compact ? 11 : 12;
+  const cellSize = compact ? 36 : 72;
+  const fontSize = compact ? 12 : 17;
 
   return (
     <div style={{ userSelect: 'none' }}>
@@ -113,7 +113,7 @@ export default function SharedCalendar({
           <button onClick={prevMonth} style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 3 }}>
             <ChevronLeft size={14} />
           </button>
-          <span style={{ fontSize: 13, fontWeight: 700 }}>
+          <span style={{ fontSize: 18, fontWeight: 700 }}>
             {viewYear}년 {viewMonth + 1}월
           </span>
           <button onClick={nextMonth} style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 3 }}>
@@ -138,7 +138,7 @@ export default function SharedCalendar({
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(7, 1fr)', marginBottom: 2 }}>
         {DAYS.map((d, i) => (
           <div key={d} style={{
-            textAlign: 'center', fontSize: 10, fontWeight: 600, padding: '3px 0',
+            textAlign: 'center', fontSize: 13, fontWeight: 700, padding: '5px 0',
             color: i === 0 ? '#ef4444' : i === 6 ? '#3b82f6' : '#6b7280',
           }}>{d}</div>
         ))}
@@ -178,21 +178,23 @@ export default function SharedCalendar({
                   : dayOfWeek % 7 === 6 ? '#3b82f6' : '#374151',
                 marginBottom: 1,
               }}>{dayNum}</div>
-              {/* 이벤트 점 표시 */}
-              <div style={{ display: 'flex', justifyContent: 'center', gap: 1, flexWrap: 'wrap' }}>
-                {evs.slice(0, compact ? 2 : 3).map((ev, ei) => (
-                  <div key={ei}
+              {/* 이모티콘 표시 (점 → 이모티콘) */}
+              <div style={{ display: 'flex', justifyContent: 'center', gap: 1, flexWrap: 'wrap', minHeight: compact ? 12 : 18 }}>
+                {evs.slice(0, compact ? 2 : 4).map((ev, ei) => (
+                  <span key={ei}
                     title={ev.title}
                     onClick={e => { e.stopPropagation(); onEventClick?.(ev); }}
                     style={{
-                      width: compact ? 4 : 5, height: compact ? 4 : 5,
-                      borderRadius: '50%',
-                      background: TYPE_STYLE[ev.type].color,
+                      fontSize: compact ? 10 : 16,
                       cursor: 'pointer',
-                    }} />
+                      lineHeight: 1,
+                      display: 'block',
+                    }}>
+                    {TYPE_STYLE[ev.type].emoji}
+                  </span>
                 ))}
-                {evs.length > 3 && !compact && (
-                  <span style={{ fontSize: 8, color: '#9ca3af' }}>+{evs.length - 3}</span>
+                {evs.length > 4 && !compact && (
+                  <span style={{ fontSize: 8, color: '#9ca3af' }}>+{evs.length - 4}</span>
                 )}
               </div>
             </div>
@@ -204,7 +206,7 @@ export default function SharedCalendar({
       {!compact && (
         <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', marginTop: 8, paddingTop: 8, borderTop: '1px solid #f3f4f6' }}>
           {Object.entries(TYPE_STYLE).map(([type, style]) => (
-            <div key={type} style={{ display: 'flex', alignItems: 'center', gap: 3, fontSize: 10, color: '#6b7280' }}>
+            <div key={type} style={{ display: 'flex', alignItems: 'center', gap: 3, fontSize: 11, color: '#4b5563' }}>
               <div style={{ width: 6, height: 6, borderRadius: '50%', background: style.color }} />
               {style.label}
             </div>

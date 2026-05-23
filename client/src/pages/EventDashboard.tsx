@@ -239,27 +239,59 @@ export default function EventDashboard() {
   const filteredEvents = activeTab === "all" ? events
     : events.filter((e: any) => e.sendStatus === activeTab);
 
+  // 날짜 클릭 → 해당 날짜로 이벤트 생성
+  const handleDateClick = (date: string) => {
+    setEditEvent(null);
+    // 선택한 날짜로 폼 초기화
+    setShowCreate(true);
+    // scheduledAt 기본값으로 해당 날짜 설정 (EventDialog에서 처리)
+    sessionStorage.setItem('eventDefaultDate', date);
+  };
+
   return (
-    <div className="p-2 md:p-3 space-y-1.5">
+    <div className="p-2 md:p-3 space-y-2">
       {/* 헤더 */}
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between flex-wrap gap-1.5">
         <div>
-          <h1 className="text-xl font-bold flex items-center gap-1.5">
-            <Calendar className="w-6 h-6 text-blue-500" />
+          <h1 className="text-base font-bold flex items-center gap-1.5">
+            <Calendar className="w-5 h-5 text-blue-500" />
             이벤트 관리
           </h1>
-          <p className="text-muted-foreground text-sm mt-1">
-            스케줄 이벤트 · 즉석 발송 · % 기반 타겟 · 미션 연동
+          <p className="text-xs text-muted-foreground">
+            날짜 클릭 → 이벤트 생성/수정 · 이모티콘으로 종류 확인
           </p>
         </div>
-        <Button onClick={() => setShowCreate(true)} className="gap-2">
+        <Button onClick={() => setShowCreate(true)} size="sm" className="gap-1.5 bg-blue-600 hover:bg-blue-700 text-white">
           <Plus className="w-4 h-4" />
-          새 이벤트
-        </Button>
-        <Button variant="outline" size="sm" className="gap-1" onClick={() => setShowCalendar(!showCalendar)}>
-          📅 {showCalendar ? "캘린더 닫기" : "캘린더 보기"}
+          새 이벤트 생성
         </Button>
       </div>
+
+      {/* ★ 캘린더 최상단 — 2배 크기 + 이모티콘 */}
+      <Card className="border-blue-100 shadow-sm">
+        <div className="px-2 pt-2">
+          <div className="flex items-center justify-between mb-1">
+            <p className="text-xs font-semibold text-gray-600">📅 이벤트 캘린더 — 날짜 클릭하여 생성/수정</p>
+            <div className="flex gap-3 text-xs text-gray-500">
+              {[
+                { emoji: '🎉', label: '이벤트' }, { emoji: '🎯', label: '미션' },
+                { emoji: '🎁', label: '프로모션' }, { emoji: '📢', label: '공지' }, { emoji: '🏆', label: '챌린지' },
+              ].map(({ emoji, label }) => (
+                <span key={label} className="flex items-center gap-0.5">{emoji} {label}</span>
+              ))}
+            </div>
+          </div>
+        </div>
+        <SharedCalendar
+          events={calEvents}
+          onDateClick={handleDateClick}
+          onEventClick={(ev) => {
+            setEditEvent(ev);
+            setShowCreate(true);
+          }}
+          compact={false}
+        />
+      </Card>
 
       {/* 통계 카드 */}
       <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-1.5">
