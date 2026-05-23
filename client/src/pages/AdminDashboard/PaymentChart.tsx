@@ -72,11 +72,11 @@ export default function PaymentChart() {
   const loading = chartLoading || pmtLoading;
 
   return (
-    <div className="space-y-8">
-      <div className="border-b border-gray-200 pb-6 flex items-start justify-between flex-wrap gap-4">
+    <div className="space-y-3">
+      <div className="border-b border-gray-200 pb-2 flex items-start justify-between flex-wrap gap-4">
         <div>
-          <h1 className="text-5xl font-bold text-black mb-2">결제 및 구독 현황</h1>
-          <p className="text-gray-600 text-lg">Stripe · 실시간 DB 연동 · stripePayments 테이블</p>
+          <h1 className="text-base font-bold text-black mb-0.5">결제 및 구독 현황</h1>
+          <p className="text-gray-600 text-xs">Stripe · 실시간 DB 연동 · stripePayments 테이블</p>
         </div>
         <div className="flex gap-2">
           <Button
@@ -107,14 +107,14 @@ export default function PaymentChart() {
         ].map(s => (
           <Card key={s.label} className="p-4 border-gray-200 text-center">
             <p className="text-xs text-gray-500 uppercase tracking-wide mb-1">{s.label}</p>
-            <p className={`text-2xl font-bold ${s.color}`}>{s.value}</p>
+            <p className={`text-base font-bold ${s.color}`}>{s.value}</p>
           </Card>
         ))}
       </div>
 
       {/* 매출 추이 차트 */}
       <Card className="p-8 border-gray-200">
-        <h2 className="text-2xl font-bold text-black mb-6">일별 매출 추이 (실시간)</h2>
+        <h2 className="text-base font-semibold text-black mb-2">일별 매출 추이 (실시간)</h2>
         {loading ? (
           <Skeleton className="h-64 w-full" />
         ) : chartData.length === 0 ? (
@@ -140,14 +140,14 @@ export default function PaymentChart() {
       </Card>
 
       {/* 상태 분포 */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-2">
         <Card className="p-8 border-gray-200">
-          <h2 className="text-2xl font-bold text-black mb-6">결제 상태 분포 (실시간)</h2>
+          <h2 className="text-base font-semibold text-black mb-2">결제 상태 분포 (실시간)</h2>
           {loading ? <Skeleton className="h-48 w-full" /> : statusDist.length === 0 ? (
             <div className="h-48 flex items-center justify-center text-gray-400 text-sm">결제 데이터 없음</div>
           ) : (
             <>
-              <ResponsiveContainer width="100%" height={200}>
+              <ResponsiveContainer width="100%" height={120}>
                 <PieChart>
                   <Pie data={statusDist} cx="50%" cy="50%" outerRadius={75} dataKey="value"
                     label={({ name, value }) => `${name}: ${value}`} labelLine={false}>
@@ -173,7 +173,7 @@ export default function PaymentChart() {
 
         {/* 최근 결제 내역 */}
         <Card className="p-8 border-gray-200">
-          <h2 className="text-2xl font-bold text-black mb-6">최근 결제 내역 (실시간)</h2>
+          <h2 className="text-base font-semibold text-black mb-2">최근 결제 내역 (실시간)</h2>
           {loading ? (
             <div className="space-y-3">{[1,2,3,4,5].map(i => <Skeleton key={i} className="h-10 w-full" />)}</div>
           ) : payments.length === 0 ? (

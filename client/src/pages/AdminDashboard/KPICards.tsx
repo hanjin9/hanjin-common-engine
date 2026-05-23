@@ -14,20 +14,20 @@ function KPICard({
   icon: React.ElementType; iconColor: string; loading?: boolean;
 }) {
   return (
-    <Card className="p-6 border-gray-200">
+    <Card className="p-3 border-gray-200">
       <div className="flex items-start justify-between">
         <div className="flex-1">
-          <p className="text-gray-600 text-sm font-medium mb-2 uppercase tracking-wide">{title}</p>
+          <p className="text-gray-600 text-xs font-medium mb-1 uppercase tracking-wide">{title}</p>
           {loading ? (
-            <><Skeleton className="h-9 w-28 mb-2" /><Skeleton className="h-4 w-20" /></>
+            <><Skeleton className="h-6 w-20 mb-1" /><Skeleton className="h-3 w-16" /></>
           ) : (
             <>
-              <p className="text-4xl font-bold text-black mb-1">{value}</p>
+              <p className="text-xl font-bold text-black mb-0.5">{value}</p>
               {sub && <p className="text-sm font-semibold text-green-600">{sub}</p>}
             </>
           )}
         </div>
-        <div className={`${iconColor} p-3 rounded-lg`}>
+        <div className={`${iconColor} p-2 rounded-lg`}>
           <Icon size={24} />
         </div>
       </div>
@@ -98,13 +98,13 @@ export default function KPICards() {
   ];
 
   return (
-    <div className="space-y-8">
-      <div className="border-b border-gray-200 pb-6">
-        <h1 className="text-5xl font-bold text-black mb-2">핵심 지표 (KPI)</h1>
-        <p className="text-gray-600 text-lg">실시간 DB 데이터 기반 — 새로고침 시 즉시 반영</p>
+    <div className="space-y-3">
+      <div className="border-b border-gray-200 pb-2">
+        <h1 className="text-base font-bold text-black mb-0.5">핵심 지표 (KPI)</h1>
+        <p className="text-gray-600 text-xs">실시간 DB 데이터 기반 — 새로고침 시 즉시 반영</p>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-2 gap-2">
         {kpis.map(k => (
           <KPICard key={k.title} {...k} loading={loading} />
         ))}
@@ -112,11 +112,11 @@ export default function KPICards() {
 
       {/* 멤버십 분포 — DB에서 실시간 */}
       {analytics?.membershipDistribution && analytics.membershipDistribution.length > 0 && (
-        <div className="border-t border-gray-200 pt-8">
-          <h2 className="text-2xl font-bold text-black mb-6">11단계 멤버십 분포 (실시간)</h2>
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            <Card className="p-6 border-gray-200">
-              <h3 className="text-lg font-bold text-black mb-4">단계별 회원 수</h3>
+        <div className="border-t border-gray-200 pt-3">
+          <h2 className="text-sm font-bold text-black mb-2">11단계 멤버십 분포 (실시간)</h2>
+          <div className="grid grid-cols-1 gap-3">
+            <Card className="p-3 border-gray-200">
+              <h3 className="text-sm font-bold text-black mb-2">단계별 회원 수</h3>
               <div className="space-y-2">
                 {analytics.membershipDistribution.map((tier: any) => (
                   <div key={tier.tier} className="flex items-center gap-3 pb-2 border-b border-gray-100 last:border-0">
@@ -136,8 +136,8 @@ export default function KPICards() {
                 ))}
               </div>
             </Card>
-            <Card className="p-6 border-gray-200">
-              <h3 className="text-lg font-bold text-black mb-4">전체 통계 요약</h3>
+            <Card className="p-3 border-gray-200">
+              <h3 className="text-sm font-bold text-black mb-2">전체 통계 요약</h3>
               <div className="space-y-4">
                 {[
                   { label: '전체 멤버', value: analytics.totalMembers?.toLocaleString() ?? '0' },

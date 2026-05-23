@@ -250,7 +250,7 @@ ${btn.count}명에게 발송하시겠습니까?`);
         <TabsContent value="devices" className="mt-4">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2">
             {connections?.length === 0 && (
-              <div className="col-span-full text-center py-12 text-muted-foreground">
+              <div className="col-span-full text-center py-3 text-muted-foreground">
                 <Watch className="w-12 h-12 mx-auto mb-3 opacity-30" />
                 <p>연동된 기기가 없습니다.</p>
                 <p className="text-sm">기기를 추가하여 건강 데이터를 동기화하세요.</p>
@@ -301,7 +301,7 @@ ${btn.count}명에게 발송하시겠습니까?`);
             </CardHeader>
             <CardContent>
               {bioData?.length === 0 ? (
-                <div className="text-center py-8 text-muted-foreground">
+                <div className="text-center py-3 text-muted-foreground">
                   <Activity className="w-10 h-10 mx-auto mb-2 opacity-30" />
                   <p>바이오 데이터가 없습니다.</p>
                 </div>
@@ -338,7 +338,7 @@ ${btn.count}명에게 발송하시겠습니까?`);
         <TabsContent value="exercise" className="mt-4">
           <div className="space-y-3">
             {exerciseSessions?.length === 0 && (
-              <div className="text-center py-12 text-muted-foreground">
+              <div className="text-center py-3 text-muted-foreground">
                 <Zap className="w-10 h-10 mx-auto mb-2 opacity-30" />
                 <p>운동 세션이 없습니다.</p>
               </div>

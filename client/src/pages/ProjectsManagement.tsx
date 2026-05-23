@@ -94,7 +94,7 @@ export default function ProjectsManagement() {
       {filteredProjects.length === 0 ? (
         <Card className="border-dashed">
           <CardContent className="flex flex-col items-center justify-center py-12">
-            <Folder className="h-12 w-12 text-muted-foreground mb-4 opacity-50" />
+            <Folder className="h-6 w-6 text-muted-foreground mb-1 opacity-50" />
             <p className="text-muted-foreground text-center">
               {searchQuery ? '검색 결과가 없습니다' : '프로젝트가 없습니다'}
             </p>

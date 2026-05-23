@@ -159,7 +159,7 @@ export default function FeedbackAdvancedDashboard() {
               <tbody>
                 {feedbackQueue?.length === 0 && (
                   <tr>
-                    <td colSpan={7} className="text-center py-8 text-muted-foreground">
+                    <td colSpan={7} className="text-center py-3 text-muted-foreground">
                       피드백이 없습니다.
                     </td>
                   </tr>

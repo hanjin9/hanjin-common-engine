@@ -321,7 +321,7 @@ export default function EventDashboard() {
 
             <TabsContent value={activeTab}>
               {filteredEvents.length === 0 ? (
-                <div className="text-center py-12 text-muted-foreground">
+                <div className="text-center py-3 text-muted-foreground">
                   <Calendar className="w-10 h-10 mx-auto mb-3 opacity-30" />
                   <p>이벤트가 없습니다</p>
                   <Button variant="outline" className="mt-3" onClick={() => setShowCreate(true)}>

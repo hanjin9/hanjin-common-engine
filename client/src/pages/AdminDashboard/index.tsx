@@ -16,9 +16,9 @@ export default function AdminDashboard() {
   return (
     <div className="min-h-screen bg-white">
       {/* 헤더 */}
-      <header className="border-b border-gray-200 px-8 py-6">
-        <div className="max-w-7xl mx-auto">
-          <h1 className="text-4xl font-bold text-black mb-2">
+      <header className="border-b border-gray-200 px-4 py-3">
+        <div className="w-full mx-auto">
+          <h1 className="text-lg font-bold text-black mb-1">
             한진 공통 엔진
           </h1>
           <p className="text-gray-600">
@@ -28,15 +28,15 @@ export default function AdminDashboard() {
       </header>
 
       {/* 메인 콘텐츠 */}
-      <main className="px-8 py-8">
-        <div className="max-w-7xl mx-auto">
+      <main className="px-3 py-3">
+        <div className="w-full mx-auto">
           {/* 탭 네비게이션 */}
           <Tabs
             value={activeTab}
             onValueChange={setActiveTab}
             className="w-full"
           >
-            <TabsList className="grid w-full grid-cols-4 mb-8 border-b border-gray-200 bg-transparent">
+            <TabsList className="grid w-full grid-cols-4 mb-3 border-b border-gray-200 bg-transparent">
               <TabsTrigger
                 value="overview"
                 className="data-[state=active]:border-b-2 data-[state=active]:border-red-500 data-[state=active]:text-black rounded-none bg-transparent text-gray-600 font-semibold uppercase text-sm tracking-wide"
@@ -64,22 +64,22 @@ export default function AdminDashboard() {
             </TabsList>
 
             {/* 개요 탭 */}
-            <TabsContent value="overview" className="space-y-8">
+            <TabsContent value="overview" className="space-y-3">
               <KPICards />
             </TabsContent>
 
             {/* 프로젝트 탭 */}
-            <TabsContent value="projects" className="space-y-8">
+            <TabsContent value="projects" className="space-y-3">
               <ProjectsPanel />
             </TabsContent>
 
             {/* 사용자 탭 */}
-            <TabsContent value="users" className="space-y-8">
+            <TabsContent value="users" className="space-y-3">
               <UsersPanel />
             </TabsContent>
 
             {/* 결제 탭 */}
-            <TabsContent value="payments" className="space-y-8">
+            <TabsContent value="payments" className="space-y-3">
               <PaymentChart />
             </TabsContent>
           </Tabs>
@@ -87,8 +87,8 @@ export default function AdminDashboard() {
       </main>
 
       {/* 푸터 */}
-      <footer className="border-t border-gray-200 px-8 py-6 mt-12">
-        <div className="max-w-7xl mx-auto">
+      <footer className="border-t border-gray-200 px-4 py-3 mt-12">
+        <div className="w-full mx-auto">
           <div className="flex items-center justify-between text-sm text-gray-600">
             <p>© 2026 한진 공통 엔진. 모든 권리 보유.</p>
             <div className="flex gap-6">

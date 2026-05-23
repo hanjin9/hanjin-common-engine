@@ -623,7 +623,7 @@ export default function FeedbackTemplateManager() {
         {/* 템플릿 목록 */}
         {templates.length === 0 ? (
           <Card>
-            <CardContent className="py-12 text-center">
+            <CardContent className="py-3 text-center">
               <p className="text-gray-400 mb-4">이 조합의 템플릿이 없습니다</p>
               <Button size="sm" className="gap-1.5" onClick={handleGenerate} disabled={isGenerating}>
                 <Zap className="h-4 w-4" />AI로 자동 생성하기

@@ -169,7 +169,7 @@ export default function CommunityHub() {
             {activeTab === "feed" && (
               <motion.div key="feed" variants={tabContentVariants} initial="hidden" animate="visible" exit="exit">
                 {posts?.length === 0 && (
-                  <motion.div className="text-center py-12 text-muted-foreground" initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
+                  <motion.div className="text-center py-3 text-muted-foreground" initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
                     <MessageCircle className="w-12 h-12 mx-auto mb-3 opacity-30" />
                     <p>게시글이 없습니다.</p>
                   </motion.div>
@@ -219,7 +219,7 @@ export default function CommunityHub() {
             {activeTab === "challenges" && (
               <motion.div key="challenges" variants={tabContentVariants} initial="hidden" animate="visible" exit="exit">
                 {challenges?.length === 0 && (
-                  <motion.div className="text-center py-12 text-muted-foreground" initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
+                  <motion.div className="text-center py-3 text-muted-foreground" initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
                     <Target className="w-12 h-12 mx-auto mb-3 opacity-30" />
                     <p>진행 중인 챌린지가 없습니다.</p>
                   </motion.div>

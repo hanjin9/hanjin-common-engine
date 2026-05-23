@@ -205,7 +205,7 @@ export default function AdvancedAnalytics() {
               </div>
             </CardHeader>
             <CardContent>
-              <div className="text-center py-8 text-muted-foreground">
+              <div className="text-center py-3 text-muted-foreground">
                 <FileText className="w-12 h-12 mx-auto mb-3 opacity-30" />
                 <p>사용자 ID를 입력하고 리포트를 생성하세요.</p>
                 <div className="mt-4">

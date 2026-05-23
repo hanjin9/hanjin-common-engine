@@ -238,7 +238,7 @@ export default function PaymentAdvanced() {
               </thead>
               <tbody>
                 {settlements?.length === 0 && (
-                  <tr><td colSpan={7} className="text-center py-8 text-muted-foreground">정산 내역이 없습니다.</td></tr>
+                  <tr><td colSpan={7} className="text-center py-3 text-muted-foreground">정산 내역이 없습니다.</td></tr>
                 )}
                 {settlements?.map((s) => (
                   <tr key={s.id} className="border-b hover:bg-muted/30">
