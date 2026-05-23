@@ -1,3 +1,4 @@
+import SharedCalendar, { useSampleCalendarEvents } from '@/components/SharedCalendar';
 /**
  * EventDashboard.tsx — 이벤트 관리 페이지
  * - 스케줄 이벤트 (캘린더 연동)
@@ -216,6 +217,8 @@ function EventDialog({
 export default function EventDashboard() {
   const [activeTab, setActiveTab] = useState("all");
   const [showCreate, setShowCreate] = useState(false);
+  const [showCalendar, setShowCalendar] = useState(true);
+  const calEvents = useSampleCalendarEvents();
   const [editEvent, setEditEvent] = useState<any>(null);
 
   const { data: eventData, refetch } = trpc.event.list.useQuery({
@@ -252,6 +255,9 @@ export default function EventDashboard() {
         <Button onClick={() => setShowCreate(true)} className="gap-2">
           <Plus className="w-4 h-4" />
           새 이벤트
+        </Button>
+        <Button variant="outline" size="sm" className="gap-1" onClick={() => setShowCalendar(!showCalendar)}>
+          📅 {showCalendar ? "캘린더 닫기" : "캘린더 보기"}
         </Button>
       </div>
 
